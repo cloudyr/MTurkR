@@ -1,0 +1,63 @@
+### CHANGES TO MTurkR 0.4 ###
+
+## BUG FIXES ##
+* Fixed bug in GenerateHTMLQuestion() related to XML encoding. (h/t Alex Neustädter)
+* In `request`, corrected `shell.exec` to `browseURL` to be platform-independent
+
+
+### CHANGES TO MTurkR 0.3.5 ###
+
+## SIGNIFICANT USER-VISIBLE CHANGES ##
+* CreateHIT() now provides an option to validate the 'question' parameter for HTMLQuestion, ExternalQuestion, and QuestionForm HIT structures.
+* CreateQualificationType() now provides options to validate the 'test' and/or 'answerkey' parameters for QuestionForm and AnswerKey structures, respectively.
+* GenerateAnswerKey() was modified to accept slightly different inputs for the 'questions' parameter. A new function, AnswerKeyTemplate(), produces a user-modifiable template (as a list) for that parameter based on a QuestionForm data structure for which an AnswerKey is desired.
+* When internal functions (described in the documentation of XMLToDataFrame) that normally return named lists have nothing to translate to a dataframe, they now return named lists with NULL values rather than simply a single NULL.
+
+## BUG FIXES ##
+* Fixed bug in GetAssignments() that prevented the return of assignments for an entire HITType or for multiple HITs. Specifically, previous version was retrieving assignments via the API but not returning them to the user. (h/t Robert Vesco)
+
+
+### CHANGES TO MTurkR 0.3 ###
+
+## SIGNIFICANT USER-VISIBLE CHANGES ##
+* To improve speed and reduce the number of API calls, HITsToDataFrame(), which is called by SearchHITs(), GetHIT(), etc., now uses the convenience function ListQualificationTypes() to return the name of QualificationRequirements when applicable.
+* Expanded the functionality of ContactWorkers() to allow a 'batch' mode, wherein workers are contacted with generic (i.e., not customized) email messages and subject lines in batches of 100.
+* Text sent to console when print=TRUE modifed slightly, so that iteration numbers are printed for each iteration (to monitor progress of mutli-item requests).
+* ResponseGroups updated to current API specifications for CreateHIT(), GetAssignments(), GetHIT(), GetStatistic(), GetWorkerStatistic(), and SearchHITs(). These now include an optional "Request" ResponseGroup to simply return information about the API call without executing that call.
+* AssignmentsToDataFrame() now returns a "RequesterFeedback" variable, providing access to feedback supplied to workers when GetAssignments() is called with the "AssignmentFeedback" ResponseGroup.
+* Updates were made to GenerateAnswerKey() (see documentation) and a new function AnswerKeyToDataFrame() was released.
+* QuestionFormToDataFrame() created. See documentation for details.
+
+## BUG FIXES ##
+* MTurk API operation 'ChangeHITTypeofHIT' typo was fixed to 'ChangeHITTypeOfHIT'.
+* A small change was made to BlockWorkers() to allow a single reason to be used for multiple workers, as originally intended.
+* Fixed bug in GetAssignments() to allow retrieval of assignments by status, as originally intended.
+* Fixed bug in AssignmentsToDataFrame() to correctly store 'ApprovalTime' or 'RejectionTime' in 'ApprovalRejectionTime'
+* Bug fixes to CreateQualificationType() related to parsing of XML in 'test' and 'answerkey' parameters.
+* Modified credentials() to pass CRAN checks.
+
+## DOCUMENTATION ##
+* Documentation for CreateQualificationType() notes web browser-dependent constraints on URL length that may produce unintended behavior when 'browser=TRUE' and a 'test' parameter is specified.
+* Added documentation for AnswerKeyToDataFrame()
+* Various copyedits.
+
+
+
+### CHANGES TO MTurkR 0.2 ###
+
+## SIGNIFICANT USER-VISIBLE CHANGES ##
+* A completely new GUI interface for managing MTurkR, which now suggests library(tcltk), has been added. The previous, text-based wizard remains available by calling mturkr.wizard("simple").
+* Support for ReviewPolicies has been added, both creating them using GenerateReviewPolicy() and retrieving their results using GetReviewResultsForHIT().
+* Support for AnswerKey data structures has been added, for use in CreateQualificationType().
+* Added simple checks for 'sortproperty', 'sortdirection', 'pagesize', and 'pagenumber' parameters in relevant functions.
+* Expanded support for QuestionForm data structures is currently under development and should be available in the next release.
+
+## BUG FIXES ##
+* A number of bug fixes have been corrected throughout the package. Most were minor and related to output, but some like the 'return.all' parameter in GetAssignments(), were producing unintended behavior.
+* Various mislabelled function parameters (used within functions) have been corrected (some were creating notes on R CMD check).
+* request() was modified to remove problematic whitespace characters when writing log entries (which made reading the log file into R problematic).
+
+## DOCUMENTATION ##
+* Fixed a number of minor errors in documentation.
+* Expanded documentation for functions associated with AnswerKey and ReviewPolicy data structures.
+* Expanded documentation for 'sortproperty' and 'sortdirection' parameters in relevant functions.
