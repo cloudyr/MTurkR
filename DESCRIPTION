@@ -1,6 +1,6 @@
 Package: MTurkR
 Version: 0.3.5
-Date: 2013-03-15
+Date: 2013-06-10
 Title: Access to Amazon Mechanical Turk Requester API via R
 Author: Thomas J. Leeper
 Maintainer: Thomas J. Leeper <thosjleeper@gmail.com>
