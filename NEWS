@@ -2,7 +2,8 @@
 
 ## BUG FIXES ##
 * Fixed bug in GenerateHTMLQuestion() related to XML encoding. (h/t Alex Neustädter)
-* In `request`, corrected `shell.exec` to `browseURL` to be platform-independent
+* In `request` and several convenience functions, corrected `shell.exec` to `browseURL` to be platform-independent.
+* Added filters to `request` to handle a variety of problematic characters (that might emerge from FreeText responses in assignments). (h/t and contributions from Solomon Messing)
 
 
 ### CHANGES TO MTurkR 0.3.5 ###

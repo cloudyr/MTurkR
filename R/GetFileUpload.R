@@ -39,7 +39,7 @@ function (assignment, questionIdentifier, download = FALSE, file.ext = NULL,
                   cat("FileUploadURL for Assignment ", assignment[i], 
                     " Retrieved: ", url, "\n", sep = "")
                 if (open.file.in.browser == TRUE) 
-                  shell.exec(url)
+                  browseURL(url)
                 if (download.file == TRUE) {
                   if (is.null(file.ext)) 
                     file.ext = ""

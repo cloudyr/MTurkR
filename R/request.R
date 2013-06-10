@@ -24,6 +24,31 @@ function (keyid, operation, signature, timestamp, GETparameters,
                 ssl.verifypeer = TRUE, ssl.verifyhost = TRUE, 
                 cainfo = system.file("CurlSSL", "cacert.pem", 
                   package = "RCurl"))
+			
+			# Additional filters, added by Solomon Messing 6/9/2013:
+			clean <- function(x, pattern, replacement){
+				res <- gsub( iconv(pattern, "", "ASCII", "byte"), replacement, x, fixed=T)
+				return(res)
+			}
+			response <- clean(response, "\342\200\235", "'")
+			response <- clean(response, "\342\200\234", "'")
+			response <- clean(response, "\342\200\176" , "'")
+			response <- clean(response, "\342\200\177" , "'")
+			response <- clean(response, "\342\200\230" , "'")
+			response <- clean(response, "\342\200\231" , "'")
+			response <- clean(response, "\342\200\232" , ',')
+			response <- clean(response, "\342\200\233" , "'")
+			response <- clean(response, "\342\200\234" , '"')
+			response <- clean(response, "\342\200\235" , '"')
+			response <- clean(response, "\342\200\224" , '--')
+			response <- clean(response, "\342\200\225" , '--')
+			response <- clean(response, "\342\200\042" , '--')
+			response <- clean(response, "\342\200\246" , '...')
+			response <- clean(response, "\342\200\041" , '-')
+			response <- clean(response, "\342\200\174" , '-')
+			response <- clean(response, "\342\200\220" , '-')
+			response <- clean(response, "\342\200\223" , '-')
+			
             request.id <- strsplit(strsplit(response, "<RequestId>")[[1]][2], 
                 "</RequestId>")[[1]][1]
             valid.test <- strsplit(strsplit(response, "<Request><IsValid>")[[1]][2], 
