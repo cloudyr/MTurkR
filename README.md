@@ -13,3 +13,5 @@ Read more about the package:
     library(devtools)
     install_github(repo="MTurkR", username = "leeper")
 
+## Examples
+* Create and manage qualifications: http://www.thomasleeper.com/MTurkR/qualification_test_example.r, associated xml files: http://www.thomasleeper.com/MTurkR/questionform_example.xml and http://www.thomasleeper.com/MTurkR/answerkey_example.xml. 
