@@ -39,9 +39,9 @@ function (pagenumber = NULL, pagesize = NULL, keypair = credentials(),
             Workers <- WorkerBlockToDataFrame(xml = request$xml)
             if (print == TRUE) {
                 if (!is.null(Workers) && dim(Workers)[1] > 0) 
-                  cat(dim(Workers)[1], " Blocked Workers Retrieved\n", 
-                    sep = "")
-                else cat("No Blocked Workers Retrieved\n", sep = "")
+					message(dim(Workers)[1], " Blocked Workers Retrieved")
+                else
+					message("No Blocked Workers Retrieved")
             }
             invisible(Workers)
         }

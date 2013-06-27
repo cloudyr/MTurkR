@@ -39,8 +39,7 @@ function (assignment = NULL, hit = NULL, hit.type = NULL, return.all = TRUE,
             request$total.bonuses <- strsplit(strsplit(request$xml, 
                 "<NumResults>")[[1]][2], "</NumResults>")[[1]][1]
             if (print == TRUE) {
-                cat(request$total.bonuses, " Bonuses Retrieved\n", 
-                  sep = "")
+                message(request$total.bonuses, " Bonuses Retrieved")
             }
             if (return.bonus.dataframe == TRUE) {
                 Bonuses <- BonusPaymentsToDataFrame(xml = request$xml)
@@ -51,7 +50,7 @@ function (assignment = NULL, hit = NULL, hit.type = NULL, return.all = TRUE,
             }
         }
         else if (request$valid == FALSE) {
-            cat("Invalid Request\n")
+            warning("Invalid Request")
         }
     }
     else if (!is.null(hit.type)) {
@@ -84,17 +83,17 @@ function (assignment = NULL, hit = NULL, hit.type = NULL, return.all = TRUE,
             }
             else {
                 if (print == TRUE) 
-                  cat("Invalid Request for HIT ", z$HITId[i], sep = "")
+                  warning("Invalid Request for HIT ", z$HITId[i])
             }
         }
         if (return.bonus.dataframe == TRUE) {
             if (print == TRUE) 
-                cat(sum(z$Number), " Bonuses Retrieved\n", sep = "")
+                message(sum(z$Number), " Bonuses Retrieved")
             invisible(z)
         }
         else {
             if (print == TRUE) 
-                cat(sum(z$Number), " Bonuses Retrieved\n", sep = "")
+                message(sum(z$Number), " Bonuses Retrieved")
         }
     }
 }

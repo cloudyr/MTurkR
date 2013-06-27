@@ -89,14 +89,13 @@ function (name, description, status, keywords = NULL, retry.delay = NULL,
         if (request$valid == TRUE) {
             QualificationType <- QualificationTypesToDataFrame(xml = request$xml)
             if (print == TRUE) {
-                cat("QualificationType Created: ", QualificationType$QualificationTypeId[1], 
-                  "\n", sep = "")
+                message("QualificationType Created: ", QualificationType$QualificationTypeId[1])
             }
             invisible(QualificationType)
         }
         else if (request$valid == FALSE) {
             if (print == TRUE) 
-                cat("Invalid request\n")
+                warning("Invalid request")
             invisible(NULL)
         }
     }

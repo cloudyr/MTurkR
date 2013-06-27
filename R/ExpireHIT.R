@@ -40,12 +40,10 @@ function (hit = NULL, hit.type = NULL, keypair = credentials(),
             HITs[i, ] = c(hitlist[i], request$valid)
             if (request$valid == TRUE) {
                 if (print == TRUE) 
-                  cat(i, ": HIT ", hitlist[i], " Expired\n", 
-                    sep = "")
+                  message(i, ": HIT ", hitlist[i], " Expired")
             }
             else if (request$valid == FALSE & print == TRUE) 
-                cat(i, ": Invalid Request for HIT ", hitlist[i], 
-                  "\n", sep = "")
+                warning(i, ": Invalid Request for HIT ", hitlist[i])
         }
     }
     return(HITs)

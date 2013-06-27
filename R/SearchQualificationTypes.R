@@ -78,13 +78,12 @@ function (query = NULL, only.mine = TRUE, only.requestable = FALSE,
     }
     request$batch.total <- NULL
     if (request$valid[1] == TRUE & print == TRUE) {
-        cat(dim(request$quals)[1], " of ", request$total, " QualificationTypes Retrieved\n", 
-            sep = "")
-        cat(request$quals$QualificationTypeId, "\n")
+        message(dim(request$quals)[1], " of ", request$total, " QualificationTypes Retrieved")
+        message(request$quals$QualificationTypeId)
         invisible(request$quals)
     }
     else if (request$valid == FALSE & print == TRUE) {
-        cat("Invalid Request\n")
+        warning("Invalid Request")
         return(request$quals)
     }
     else invisible(request$quals)

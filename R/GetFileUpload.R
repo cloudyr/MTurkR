@@ -36,8 +36,8 @@ function (assignment, questionIdentifier, download = FALSE, file.ext = NULL,
                   "</FileUploadURL>")[[1]][1]
                 FileUploadURL[i, ] <- c(assignment[i], url, request$valid)
                 if (print == TRUE) 
-                  cat("FileUploadURL for Assignment ", assignment[i], 
-                    " Retrieved: ", url, "\n", sep = "")
+                  message("FileUploadURL for Assignment ", assignment[i], 
+                    " Retrieved: ", url)
                 if (open.file.in.browser == TRUE) 
                   browseURL(url)
                 if (download.file == TRUE) {
@@ -49,8 +49,7 @@ function (assignment, questionIdentifier, download = FALSE, file.ext = NULL,
             }
             else if (request$valid == FALSE) {
                 if (print == TRUE) 
-                  cat("Request for Assignment ", assignment[i], 
-                    " failed\n", sep = "")
+                  message("Request for Assignment ", assignment[i], " failed")
             }
         }
     }

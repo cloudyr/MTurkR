@@ -15,11 +15,11 @@ function (operation, parameters = NULL, keypair = credentials(),
         auth$timestamp, GETparameters, browser = browser, log.requests = log.requests, 
         sandbox = sandbox, xml.parse = xml.parse)
     if (request$valid == TRUE & print == TRUE) {
-        cat("Operation (", operation, ") Successful\n", sep = "")
+        message("Operation (", operation, ") Successful")
         return(request)
     }
     else if (request$valid == FALSE & print == TRUE) {
-        cat("Invalid Request\n")
+        warning("Invalid Request")
         return(request)
     }
     else invisible(request)

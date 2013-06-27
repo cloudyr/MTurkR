@@ -42,11 +42,9 @@ function (assignments, feedback = NULL, rejected = FALSE, keypair = credentials(
                 sandbox = sandbox)
             if (print == TRUE) {
                 if (request$valid == TRUE) 
-                  cat("Assignment ", assignment, " Approved\n", 
-                    sep = "")
+                  message("Assignment ", assignment, " Approved", sep = "")
                 else if (request$valid == FALSE) 
-                  cat("Invalid Request for ", assignment, "\n", 
-                    sep = "")
+                  warning("Invalid Request for ", assignment)
                 return(request)
             }
             else invisible(request)
@@ -63,6 +61,6 @@ function (assignments, feedback = NULL, rejected = FALSE, keypair = credentials(
         else Assignments[i, ] <- c(assignments[i], "", x$valid)
     }
     if (print == TRUE) 
-        cat(sum(x$valid), " Assignments Approved\n", sep = "")
+        message(sum(x$valid), " Assignments Approved")
     invisible(Assignments)
 }

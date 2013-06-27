@@ -49,24 +49,19 @@ function (amount, assignments = NULL, hits = NULL, bonus.ct = NULL,
         sufficient <- TRUE
     else sufficient <- FALSE
     if (print == TRUE) {
-        cat("Total Payments:  $", round(payments, 2), "\n", sep = "")
-        cat("Payment Fee:     $", round(payment.fee, 2), "\n", 
-            sep = "")
-        cat("Masters Fee:     $", round(masters.fee, 2), "\n", 
-            sep = "")
-        cat("Bonuses:         $", round(bonuses, 2), "\n", sep = "")
-        cat("Bonus Fee:       $", round(bonus.fee, 2), "\n", 
-            sep = "")
-        cat("-------------------------\n")
-        cat("  Old Balance:   $", round(oldbalance, 2), "\n", 
-            sep = "")
-        cat("  Total Cost:    $", round(total, 2), "\n", sep = "")
+        message("Total Payments:  $", round(payments, 2))
+        message("Payment Fee:     $", round(payment.fee, 2))
+        message("Masters Fee:     $", round(masters.fee, 2))
+        message("Bonuses:         $", round(bonuses, 2))
+        message("Bonus Fee:       $", round(bonus.fee, 2))
+        message("-------------------------")
+        message("  Old Balance:   $", round(oldbalance, 2))
+        message("  Total Cost:    $", round(total, 2))
         if (sufficient == TRUE) 
-            cat("  New Balance:   $", round(newbalance, 2), " < SUFFICIENT\n", 
-                sep = "")
-        else cat("  New Balance:   $", round(newbalance, 2), 
-            " < INSUFFICIENT\n", sep = "")
-        cat("\n")
+            message("  New Balance:   $", round(newbalance, 2), " < SUFFICIENT")
+        else
+			message("  New Balance:   $", round(newbalance, 2), " < INSUFFICIENT")
+        message()
     }
     invisible(list(Total = round(total, 3), OldBalance = round(oldbalance, 
         3), NewBalance = round(newbalance, 3), SufficientFunds = sufficient))

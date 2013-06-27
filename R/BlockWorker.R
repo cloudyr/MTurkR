@@ -35,12 +35,10 @@ function (workers, reasons, keypair = credentials(), print = TRUE,
                 sandbox = sandbox)
             Workers[i, ] = c(workers[i], reasons[i], request$valid)
             if (request$valid == TRUE & print == TRUE) {
-                cat(i, ": Worker ", workers[i], " Blocked\n", 
-                  sep = "")
+                message(i, ": Worker ", workers[i], " Blocked")
             }
             else if (request$valid == FALSE & print == TRUE) {
-                cat(i, ": Invalid Request for worker ", workers[i], 
-                  "\n", sep = "")
+                warning(i,": Invalid Request for worker ",workers[i])
             }
         }
     }

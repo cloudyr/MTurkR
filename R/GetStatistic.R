@@ -61,9 +61,8 @@ function (statistic, period = "LifeToDate", count = NULL, response.group = NULL,
                   else warning("Cannot print statistic value")
                 }
                 if (print == TRUE) {
-                  cat("Statistic (", statistic, ", past ", count, 
-                    " days) Retrieved: ", request$value, "\n", 
-                    sep = "")
+                  message("Statistic (", statistic, ", past ", count, 
+                    " days) Retrieved: ", request$value)
                 }
             }
             else {
@@ -76,14 +75,13 @@ function (statistic, period = "LifeToDate", count = NULL, response.group = NULL,
                   request$value <- strsplit(strsplit(request$xml, 
                     "<DoubleValue>")[[1]][2], "</DoubleValue>")[[1]][1]
                 if (print == TRUE) 
-                  cat(statistic, " (", period, "): ", request$value, 
-                    "\n", sep = "")
+                  message(statistic, " (", period, "): ", request$value)
             }
             invisible(request$value)
         }
         else if (request$valid == FALSE) {
             if (print == TRUE) 
-                cat("Invalid Request\n")
+                warning("Invalid Request")
             invisible(NA)
         }
     }

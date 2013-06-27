@@ -75,8 +75,7 @@ function (assignment = NULL, hit = NULL, hit.type = NULL, status = NULL,
                     #  h$QualificationRequirements)
                   }
                   if (print == TRUE) 
-                    cat(i, ": Assignment ", assignment[i], " Retrieved\n", 
-                      sep = "")
+                    message(i, ": Assignment ", assignment[i], " Retrieved")
                 }
 			}
         }
@@ -183,8 +182,7 @@ function (assignment = NULL, hit = NULL, hit.type = NULL, status = NULL,
 				request$assignments$HITTypeId <- hit.type
         }
         if (print == TRUE) 
-            cat(cumulative, " of ", request$total, " Assignments Retrieved\n", 
-                sep = "")
+            message(cumulative, " of ", request$total, " Assignments Retrieved")
         invisible(request$assignments)
     }
 }

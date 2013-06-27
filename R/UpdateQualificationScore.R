@@ -54,18 +54,16 @@ function (qual, workers, values = NULL, increment = NULL, keypair = credentials(
                 request$valid)
             if (request$valid == TRUE) {
                 if (print == TRUE) 
-                  cat(i, ": Qualification Score for Worker ", 
-                    workers[i], " updated to ", values[i], "\n", 
-                    sep = "")
+                  message(i, ": Qualification Score for Worker ", 
+                    workers[i], " updated to ", values[i])
             }
             else if (request$valid == FALSE) {
                 if (print == TRUE) 
-                  cat(i, ": Invalid Request for worker ", workers[i], 
-                    "\n")
+                  warning(i, ": Invalid Request for worker ", workers[i])
             }
         }
     }
     if (print == TRUE) 
-        cat(i, " Qualification Scores Updated\n", sep = "")
+        message(i, " Qualification Scores Updated")
     invisible(Qualifications)
 }

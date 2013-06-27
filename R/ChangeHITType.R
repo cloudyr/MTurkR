@@ -68,12 +68,10 @@ function (hit = NULL, old.hit.type = NULL, new.hit.type = NULL,
                 x$valid)
             if (print == TRUE) {
                 if (x$valid == TRUE) {
-                  cat(i, ": HITType of HIT ", hitlist[i], " Changed to: ", 
-                    new.hit.type, "\n", sep = "")
+                  message(i, ": HITType of HIT ", hitlist[i], " Changed to: ",new.hit.type)
                 }
                 else if (x$valid == FALSE) {
-                  cat(i, ": Invalid Request for HIT ", hitlist[i], 
-                    "\n", sep = "")
+                  warning(i,": Invalid Request for HIT ",hitlist[i])
                 }
             }
         }

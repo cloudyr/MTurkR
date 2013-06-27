@@ -40,13 +40,12 @@ function (qual.requests, values, keypair = credentials(), print = TRUE,
                 values[i], request$valid)
             if (request$valid == TRUE) {
                 if (print == TRUE) 
-                  cat(i, ": Qualification (", qual.requests[i], 
-                    ") Granted\n", sep = "")
+                  message(i, ": Qualification (", qual.requests[i],") Granted")
             }
             else if (request$valid == FALSE) {
                 if (print == TRUE) 
-                  cat(i, ": Invalid Request for QualificationRequest ", 
-                    qual.requests[i], "\n", sep = "")
+                  warning(i, ": Invalid Request for QualificationRequest ", 
+                    qual.requests[i])
             }
         }
     }

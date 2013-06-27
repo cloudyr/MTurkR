@@ -135,15 +135,14 @@ function (hit.type = NULL, question = NULL, validate.question = FALSE,
             HITs[1, ] <- c(type, hit, request$valid)
             if (print == TRUE) {
                 if (!is.null(hit.type)) 
-                  cat("HIT ", hit, " created\n", sep = "")
+                  message("HIT ", hit, " created")
                 else if (is.null(hit.type)) 
-                  cat("HIT ", hit, " created (of type ", type, 
-                    ")\n", sep = "")
+                  message("HIT ", hit, " created (of type ", type,")")
             }
         }
         else if (request$valid == FALSE) {
             if (print == TRUE) 
-                cat("Invalid Request\n")
+                warning("Invalid Request")
         }
         if (print == TRUE) 
             return(HITs)

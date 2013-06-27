@@ -30,13 +30,12 @@ function (qual, worker, reason = NULL, keypair = credentials(),
                 sandbox = sandbox)
             if (request$valid == TRUE) {
                 if (print == TRUE) 
-                  cat(i, ": Qualification (", qualbatch, ") for worker ", 
-                    workerbatch, " Revoked\n", sep = "")
+                  message(i, ": Qualification (", qualbatch, ") for worker ", 
+                    workerbatch, " Revoked")
             }
             else if (request$valid == FALSE) {
                 if (print == TRUE) 
-                  cat(i, ": Invalid Request for worker ", workerbatch, 
-                    "\n", sep = "")
+                  warning(i, ": Invalid Request for worker ", workerbatch)
             }
             invisible(request)
         }

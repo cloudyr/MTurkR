@@ -33,17 +33,15 @@ function (about, helptype = NULL, keypair = credentials(), print = TRUE,
                 "<MessageText>")[[1]][2], "</MessageText>")[[1]][1]
             request$documentation <- strsplit(strsplit(request$xml, 
                 "<Name>")[[1]][2], "</Name>")[[1]][1]
-            cat(request$operation, ": ", request$documentation, 
-                sep = "")
+            message(request$operation, ": ", request$documentation)
             if (helptype == "Operation") 
-                cat("\nOr visit: http://docs.amazonwebservices.com/AWSMechTurk/latest/AWSMturkAPI/ApiReference_", 
-                  about, "Operation.html\n", sep = "")
+                message("Or visit: http://docs.amazonwebservices.com/AWSMechTurk/latest/AWSMturkAPI/ApiReference_", 
+                  about, "Operation.html")
             if (helptype == "ResponseGroup") 
-                cat("\nOr visit: http://docs.amazonwebservices.com/AWSMechTurk/latest/AWSMturkAPI/ApiReference_HITDataStructureArticle.html\n", 
-                  sep = "")
+                message("Or visit: http://docs.amazonwebservices.com/AWSMechTurk/latest/AWSMturkAPI/ApiReference_HITDataStructureArticle.html")
         }
         else if (request$valid == FALSE) {
-            cat("Invalid Request\n")
+            warning("Invalid Request")
         }
     }
 }

@@ -12,7 +12,7 @@ function (keyid, operation, signature, timestamp, GETparameters,
         "&Timestamp=", timestamp, "&Signature=", curlEscape(signature), 
         GETparameters, sep = "")
     if (validation.test == TRUE) {
-        cat("Request URL: ", request.url, "\n", sep = "")
+        message("Request URL: ", request.url)
         invisible(request.url)
     }
     else {
@@ -89,13 +89,11 @@ function (keyid, operation, signature, timestamp, GETparameters,
             }
             if (valid == FALSE) {
                 if (print.errors == TRUE) {
-                  cat("Request ", request.id, " not valid for API request:\n", 
-                    sep = "")
-                  cat(strsplit(request.url, "&")[[1]], sep = "\n                                     &")
+                  message("Request ", request.id, " not valid for API request:")
+                  message(strsplit(request.url, "&")[[1]], "\n                                     &")
                   errors <- ParseErrorCodes(xml = response)
                   for (i in 1:dim(errors)[1]) {
-                    cat("Error (", errors[i, 1], "): ", errors[i, 
-                      2], "\n", sep = "")
+                    message("Error (", errors[i, 1], "): ", errors[i,2])
                   }
                 }
             }

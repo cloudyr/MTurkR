@@ -76,7 +76,7 @@ function (qual, response.group = NULL, return.all = TRUE, pagenumber = 1,
     request$batch.total <- NULL
     return.list <- list(HITs = request$HITs, QualificationRequirements = request$QualificationRequirements)
     if (print == TRUE) {
-        cat(request$total, " HITs Retrieved\n", sep = "")
+        message(request$total, " HITs Retrieved")
         if (request$total > 0) 
             return(return.list)
     }

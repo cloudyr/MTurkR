@@ -40,29 +40,20 @@ function (hit.type, notification = NULL, active = NULL, keypair = credentials(),
         if (request$valid == TRUE) {
             if (print == TRUE) {
                 if (!is.null(notification) & is.null(active)) 
-                  cat("HITTypeNotification for ", hit.type, " Created\n", 
-                    sep = "")
-                else if (!is.null(notification) & !is.null(active) && 
-                  active == TRUE) 
-                  cat("HITTypeNotification ", hit.type, " Created & Active\n", 
-                    sep = "")
-                else if (!is.null(notification) & !is.null(active) && 
-                  active == FALSE) 
-                  cat("HITTypeNotification ", hit.type, " Created & Inactive\n", 
-                    sep = "")
-                else if (is.null(notification) & !is.null(active) && 
-                  active == TRUE) 
-                  cat("HITTypeNotification ", hit.type, " Active\n", 
-                    sep = "")
-                else if (is.null(notification) & !is.null(active) && 
-                  active == FALSE) 
-                  cat("HITTypeNotification ", hit.type, " Inactive\n", 
-                    sep = "")
+                  message("HITTypeNotification for ", hit.type, " Created")
+                else if (!is.null(notification) & !is.null(active) && active == TRUE) 
+                  message("HITTypeNotification ", hit.type, " Created & Active")
+                else if (!is.null(notification) & !is.null(active) && active == FALSE) 
+                  message("HITTypeNotification ", hit.type, " Created & Inactive")
+                else if (is.null(notification) & !is.null(active) && active == TRUE) 
+                  message("HITTypeNotification ", hit.type, " Active")
+                else if (is.null(notification) & !is.null(active) && active == FALSE) 
+                  message("HITTypeNotification ", hit.type, " Inactive")
             }
         }
         else if (request$valid == FALSE) {
             if (print == TRUE) 
-                cat("Invalid Request\n")
+                warning("Invalid Request")
         }
     }
     if (print == TRUE) 

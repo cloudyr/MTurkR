@@ -31,15 +31,13 @@ function (qual, workers, keypair = credentials(), print = TRUE,
                 else Qualifications <- rbind(Qualifications, 
                   x)
                 if (print == TRUE) {
-                  cat("Qualification (", qual, ") Score for ", 
-                    workers[i], ": ", Qualifications$Value[i], 
-                    "\n", sep = "")
+                  message("Qualification (", qual, ") Score for ", 
+                    workers[i], ": ", Qualifications$Value[i])
                 }
             }
             else if (request$valid == FALSE) {
                 if (print == TRUE) 
-                  cat("Invalid Request for worker ", workers[i], 
-                    "\n", sep = "")
+                  warning("Invalid Request for worker ", workers[i])
             }
         }
     }

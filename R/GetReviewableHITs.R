@@ -74,7 +74,7 @@ function (hit.type = NULL, status = NULL, response.group = "Minimal",
     }
     request$batch.total <- NULL
     if (print == TRUE) 
-        cat(request$total, " HITs Retrieved\n", sep = "")
+        message(request$total, " HITs Retrieved")
     HITs <- as.data.frame(request$HITs, stringsAsFactors = FALSE)
     names(HITs) <- "HITId"
     invisible(HITs)

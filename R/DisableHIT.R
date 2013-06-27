@@ -60,12 +60,10 @@ function (hit = NULL, hit.type = NULL, response.group = NULL,
                 else request$ResponseGroup <- response.group
                 HITs[i, ] = c(hitlist[i], request$valid)
                 if (print == TRUE) 
-                  cat(i, ": HIT ", hitlist[i], " Disabled\n", 
-                    sep = "")
+                  message(i, ": HIT ", hitlist[i], " Disabled")
             }
             else if (request$valid == FALSE & print == TRUE) {
-                cat(i, ": Invalid Request for HIT ", hitlist[i], 
-                  "\n", sep = "")
+                warning(i, ": Invalid Request for HIT ", hitlist[i])
             }
         }
     }

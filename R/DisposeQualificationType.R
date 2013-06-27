@@ -29,15 +29,14 @@ function (qual, keypair = credentials(), print = TRUE, browser = FALSE,
         if (request$valid == TRUE) {
             QualificationTypes[1, ] <- c(qual, request$valid)
             if (print == TRUE) {
-                cat("QualificationType ", qual, " Disposed\n", 
-                  sep = "")
+                message("QualificationType ", qual, " Disposed")
                 return(QualificationTypes)
             }
             else invisible(QualificationTypes)
         }
         else if (request$valid == FALSE) {
             if (print == TRUE) 
-                cat("Invalid Request\n")
+                warning("Invalid Request\n")
             invisible(NULL)
         }
     }

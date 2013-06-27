@@ -37,8 +37,7 @@ function (workers, reasons = NULL, keypair = credentials(), print = TRUE,
                 sandbox = sandbox)
             if (request$valid == TRUE) {
                 if (print == TRUE) 
-                  cat(i, ": Worker ", workers[i], " Unblocked\n", 
-                    sep = "")
+                  message(i, ": Worker ", workers[i], " Unblocked")
                 if (is.null(reasons)) 
                   Workers[i, ] = c(workers[i], NA, request$valid)
                 else Workers[i, ] = c(workers[i], reasons[i], 
@@ -46,8 +45,7 @@ function (workers, reasons = NULL, keypair = credentials(), print = TRUE,
             }
             else if (request$valid == FALSE) {
                 if (print == TRUE) 
-                  cat(i, ": Invalid Request for worker ", workers[i], 
-                    "\n", sep = "")
+                  warning(i, ": Invalid Request for worker ", workers[i])
             }
         }
     }

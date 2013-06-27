@@ -26,12 +26,11 @@ function (qual, keypair = credentials(), print = TRUE, browser = FALSE,
         if (request$valid == TRUE) {
             Qualifications <- QualificationTypesToDataFrame(xml = request$xml)
             if (print == TRUE) 
-                cat("QualificationType Retrieved: ", qual, "\n", 
-                  sep = "")
+                message("QualificationType Retrieved: ", qual)
         }
         else if (request$valid == FALSE) {
             if (print == TRUE) 
-                cat("Invalid Request\n")
+                warning("Invalid Request")
         }
     }
     if (print == TRUE) 

@@ -50,32 +50,31 @@ function (hit, assignment = NULL, policy.level = NULL, retrieve.results = TRUE,
         if (request$valid == TRUE) {
             ReviewResults <- ReviewResultsToDataFrame(xml = request$xml)
             if (print == TRUE) {
-                cat("ReviewResults Retrieved: ")
+                message("ReviewResults Retrieved: ", appendLF=FALSE)
                 if (is.null(ReviewResults)) 
-                  cat("0\n")
+					message("0\n")
                 else {
                   if ("AssignmentReviewResult" %in% names(ReviewResults)) 
-                    cat(length(ReviewResults$AssignmentReviewResults), 
-                      " Assignment ReviewResults Retrieved\n", 
-                      sep = "")
+                    message(length(ReviewResults$AssignmentReviewResults), 
+                      " Assignment ReviewResults Retrieved")
                   if ("AssignmentReviewAction" %in% names(ReviewResults)) 
-                    cat(length(ReviewResults$AssignmentReviewResults), 
-                      " Assignment ReviewActions Retrieved\n", 
-                      sep = "")
+                    message(length(ReviewResults$AssignmentReviewResults), 
+                      " Assignment ReviewActions Retrieved")
                   if ("HITReviewResult" %in% names(ReviewResults)) 
-                    cat(length(ReviewResults$AssignmentReviewResults), 
-                      " HIT ReviewResults Retrieved\n", sep = "")
+                    message(length(ReviewResults$AssignmentReviewResults), 
+                      " HIT ReviewResults Retrieved")
                   if ("HITReviewAction" %in% names(ReviewResults)) 
-                    cat(length(ReviewResults$AssignmentReviewResults), 
-                      " HIT ReviewActions Retrieved\n", sep = "")
+                    message(length(ReviewResults$AssignmentReviewResults), 
+                      " HIT ReviewActions Retrieved")
                   return(ReviewResults)
                 }
             }
-            else invisible(ReviewResults)
+            else
+				invisible(ReviewResults)
         }
         else if (request$valid == FALSE) {
             if (print == TRUE) 
-                cat("Invalid Request\n")
+                warning("Invalid Request")
             invisible(request)
         }
     }

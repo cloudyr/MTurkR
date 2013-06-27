@@ -69,7 +69,7 @@ function (qual = NULL, return.all = TRUE, pagenumber = "1", pagesize = "10",
     }
     request$batch.total <- NULL
     if (print == TRUE) {
-        cat(request$total, " Requests Retrieved\n", sep = "")
+        message(request$total, " Requests Retrieved")
         if (request$total > 0) 
             return(request$QualificationRequests)
     }

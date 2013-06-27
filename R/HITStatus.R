@@ -36,7 +36,7 @@ function (hit = NULL, hit.type = NULL, keypair = credentials(),
             "Assignments Available", "Assignments Completed", 
             "Expiration")
         print(toprint, row.names = FALSE)
-        cat("\n")
+        message()
     }
     invisible(HITs)
 }

@@ -52,13 +52,12 @@ function (title, description, reward, duration, keywords = NULL,
                 "</HITTypeId>")[[1]][1]
             HITType[1, ] <- c(hit.type, request$valid)
             if (print == TRUE) 
-                cat("HITType Registered: ", HITType$HITTypeId[1], 
-                  "\n", sep = "")
+                message("HITType Registered: ", HITType$HITTypeId[1])
         }
         else if (request$valid == FALSE) {
             HITType[1, ] <- c(NULL, request$valid)
             if (print == TRUE) 
-                cat("Invalid Request\n")
+                warning("Invalid Request")
         }
         if (print == TRUE) 
             return(HITType)

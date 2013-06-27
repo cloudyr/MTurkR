@@ -40,13 +40,11 @@ function (qual, workers, value = "1", notify = FALSE, name = NULL,
                 sandbox = sandbox)
             if (print == TRUE) {
                 if (request$valid == TRUE) {
-                  cat("Qualification (", qual, ") Assigned to worker ", 
-                    worker, "\n", sep = "")
+                  message("Qualification (", qual, ") Assigned to worker ", worker)
                   invisible(request)
                 }
                 else if (request$valid == FALSE) {
-                  cat("Invalid Request for worker ", worker, 
-                    "\n", sep = "")
+                  warning("Invalid Request for worker ",worker)
                   return(request)
                 }
             }

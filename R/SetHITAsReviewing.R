@@ -50,17 +50,14 @@ function (hit = NULL, hit.type = NULL, revert = FALSE, keypair = credentials(),
             if (request$valid == TRUE) {
                 if (print == TRUE) {
                   if (revert == "false") 
-                    cat(i, ": HIT (", hitlist[i], ") set as Reviewing\n", 
-                      sep = "")
+                    message(i, ": HIT (", hitlist[i], ") set as Reviewing")
                   if (revert == "true") 
-                    cat(i, ": HIT (", hitlist[i], ") set as Reviewable\n", 
-                      sep = "")
+                    message(i, ": HIT (", hitlist[i], ") set as Reviewable")
                 }
             }
             else if (request$valid == FALSE) {
                 if (print == TRUE) 
-                  cat(i, ": Invalid Request for HIT ", hitlist[i], 
-                    "\n", sep = "")
+                  warning(i, ": Invalid Request for HIT ", hitlist[i])
             }
         }
     }

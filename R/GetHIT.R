@@ -39,7 +39,7 @@ function (hit, response.group = NULL, keypair = credentials(),
         if (request$valid == TRUE) {
             z <- HITsToDataFrame(xml = request$xml)
             if (print == TRUE) 
-                cat("HIT (", hit, ") Retrieved\n", sep = "")
+                message("HIT (", hit, ") Retrieved")
             if (return.hit.dataframe == TRUE & return.qual.dataframe == 
                 TRUE) 
                 return.list <- list(HITs = z$HITs, QualificationRequirements = z$QualificationRequirements)
@@ -53,7 +53,7 @@ function (hit, response.group = NULL, keypair = credentials(),
         }
         else {
             if (print == TRUE) 
-                cat("No HITs Retrieved\n", sep = "")
+                message("No HITs Retrieved")
             return.list <- NULL
         }
         invisible(return.list)

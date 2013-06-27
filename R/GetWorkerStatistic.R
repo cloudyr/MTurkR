@@ -57,9 +57,8 @@ function (worker, statistic, period = "LifeToDate", count = NULL,
                   else warning("Cannot print statistic value")
                 }
                 if (print == TRUE) 
-                  cat("Statistic (", statistic, ", past ", count, 
-                    " days) for ", worker, " Retrieved: ", request$value, 
-                    "\n", sep = "")
+                  message("Statistic (", statistic, ", past ", count, 
+                    " days) for ", worker, " Retrieved: ", request$value)
                 invisible(request$value)
             }
             else {
@@ -73,15 +72,14 @@ function (worker, statistic, period = "LifeToDate", count = NULL,
                     "<DoubleValue>")[[1]][2], "</DoubleValue>")[[1]][1]
                 else warning("Cannot print statistic value")
                 if (print == TRUE) 
-                  cat("Statistic (", statistic, ",", period, 
-                    ") for ", worker, " Retrieved: ", request$value, 
-                    "\n", sep = "")
+                  message("Statistic (", statistic, ",", period, 
+                    ") for ", worker, " Retrieved: ", request$value)
                 invisible(request$value)
             }
         }
         else if (request$valid == FALSE) {
             if (print == TRUE) 
-                cat("Invalid Request\n")
+                warning("Invalid Request")
         }
     }
 }

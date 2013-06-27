@@ -31,13 +31,12 @@ function (notification, test.event.type = "HITExpired", keypair = credentials(),
         TestEvent[1, ] <- c(test.event.type, notification, request$valid)
         if (request$valid == TRUE) {
             if (print == TRUE) 
-                cat("TestEventNotification ", test.event.type, 
-                  " Sent\n")
+                message("TestEventNotification ", test.event.type," Sent")
             invisible(TestEvent)
         }
         else if (request$valid == FALSE) {
             if (print == TRUE) 
-                cat("Invalid Request\n")
+                warning("Invalid Request")
             invisible(TestEvent)
         }
     }

@@ -102,7 +102,7 @@ function (response.group = NULL, return.all = TRUE, pagenumber = "1",
         FALSE) 
         return.list <- NULL
     if (print == TRUE) {
-        cat(request$total, " HITs Retrieved\n", sep = "")
+        message(request$total, " HITs Retrieved")
         return(return.list)
     }
     else invisible(return.list)

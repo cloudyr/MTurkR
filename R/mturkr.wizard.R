@@ -221,7 +221,7 @@ function(style="tcltk", sandbox=FALSE) {
 				tkgrid(logentry, row=1, column=2)
 				# write response to console
 				printxml <- function(){
-					cat("MTurk XML Response:\n")
+					message("MTurk XML Response:")
 					print(xmlParse(mturkrlog$Response[n]))
 				}
 				tkgrid(tkbutton(logentry, text="Show API Response XML in Console", command=printxml),row=8, column=1, columnspan=2)
@@ -471,7 +471,7 @@ function(style="tcltk", sandbox=FALSE) {
 					if(!is.null(wizardenv$qualreq)){
 						qreqsplit <- strsplit(wizardenv$qualreq,"&")[[1]]
 						for(i in 2:length(qreqsplit)){
-							cat(strsplit(qreqsplit[i],"=")[[1]][1],": ",strsplit(qreqsplit[i],"=")[[1]][2],"\n",sep="")
+							message(strsplit(qreqsplit[i],"=")[[1]][1],": ",strsplit(qreqsplit[i],"=")[[1]][2])
 						}
 					}
 				})
@@ -1865,12 +1865,12 @@ function(style="tcltk", sandbox=FALSE) {
 					
 					# function to print assignment details to console
 					printdetails <- function(){
-						cat("Details for Assignment ",assignment$AssignmentId,":\n",sep="")
+						message("Details for Assignment ",assignment$AssignmentId,":")
 						hitvars <- assignment[1,12:(dim(assignment)[2]-1)]
 						for(i in 1:length(hitvars)){
-							cat(names(assignment)[11+i], ": ", hitvars[i], "\n", sep="")
+							message(names(assignment)[11+i], ": ", hitvars[i])
 						}
-						cat("\n")
+						message()
 					}
 					# layout
 					viewassign <- tktoplevel()
@@ -3319,7 +3319,7 @@ function(style="tcltk", sandbox=FALSE) {
 				if(!is.na(answer))
 					print(QuestionFormAnswersToDataFrame(answer))
 				else
-					cat("No answer data to display\n")
+					message("No answer data to display")
 			}
 			# function to approve qual requests
 			approverequests <- function(){

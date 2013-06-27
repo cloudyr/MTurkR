@@ -63,13 +63,11 @@ function (subjects, msgs, workers, batch = FALSE, keypair = credentials(),
                   lastworker, subjects, msgs, request$valid)
                 if (request$valid == TRUE) {
                   if (print == TRUE) 
-                    cat(j, ": Workers ", firstworker, " to ", 
-                      lastworker, " Notified\n", sep = "")
+                    message(j, ": Workers ", firstworker, " to ",lastworker, " Notified")
                 }
                 else if (request$valid == FALSE) {
                   if (print == TRUE) 
-                    cat(j, ": Invalid Request for workers ", 
-                      firstworker, " to ", lastworker, "\n")
+                    warning(j,": Invalid Request for workers ",firstworker," to ",lastworker)
                 }
             }
             i <- i + 100
@@ -120,13 +118,11 @@ function (subjects, msgs, workers, batch = FALSE, keypair = credentials(),
                   msgs[i], request$valid)
                 if (request$valid == TRUE) {
                   if (print == TRUE) 
-                    cat(i, ": Worker (", workers[i], ") Notified\n", 
-                      sep = "")
+                    message(i, ": Worker (", workers[i], ") Notified")
                 }
                 else if (request$valid == FALSE) {
                   if (print == TRUE) 
-                    cat(i, ": Invalid Request for worker ", workers[i], 
-                      "\n")
+                    warning(i,": Invalid Request for worker ", workers[i])
                 }
             }
         }
