@@ -17,7 +17,8 @@ function (query = NULL, requester = NULL, min.reward = NULL,
         parameters <- paste(parameters, "qualifiedFor=on", "&", 
             sep = "")
     if (nchar(parameters) == 0) 
-        shell.exec("https://www.mturk.com/mturk/searchbar?")
-    else shell.exec(paste("https://www.mturk.com/mturk/searchbar?", 
-        parameters, sep = ""))
+        browseURL("https://www.mturk.com/mturk/searchbar?")
+    else
+		browseURL(paste("https://www.mturk.com/mturk/searchbar?", 
+			parameters, sep = ""))
 }
