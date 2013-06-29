@@ -1,12 +1,16 @@
-### CHANGES TO MTurkR 0.4 ###
+# CHANGES TO MTurkR 0.4 #
+
+## SIGNIFICANT USER-VISIBLE CHANGES ##
+* Improved error, warning, and message handling by converting calls to `cat` to `warning` and `message`, where appropriate.
 
 ## BUG FIXES ##
 * Fixed bug in GenerateHTMLQuestion() related to XML encoding. (h/t Alex Neustädter)
 * In `request` and several convenience functions, corrected `shell.exec` to `browseURL` to be platform-independent.
 * Added filters to `request` to handle a variety of problematic characters (that might emerge from FreeText responses in assignments). (h/t and contributions from Solomon Messing)
+* removed references to `shell.exec` and replaced with `browseURL`.
 
 
-### CHANGES TO MTurkR 0.3.5 ###
+# CHANGES TO MTurkR 0.3.5 #
 
 ## SIGNIFICANT USER-VISIBLE CHANGES ##
 * CreateHIT() now provides an option to validate the 'question' parameter for HTMLQuestion, ExternalQuestion, and QuestionForm HIT structures.
@@ -18,7 +22,7 @@
 * Fixed bug in GetAssignments() that prevented the return of assignments for an entire HITType or for multiple HITs. Specifically, previous version was retrieving assignments via the API but not returning them to the user. (h/t Robert Vesco)
 
 
-### CHANGES TO MTurkR 0.3 ###
+# CHANGES TO MTurkR 0.3 #
 
 ## SIGNIFICANT USER-VISIBLE CHANGES ##
 * To improve speed and reduce the number of API calls, HITsToDataFrame(), which is called by SearchHITs(), GetHIT(), etc., now uses the convenience function ListQualificationTypes() to return the name of QualificationRequirements when applicable.
@@ -44,7 +48,7 @@
 
 
 
-### CHANGES TO MTurkR 0.2 ###
+# CHANGES TO MTurkR 0.2 #
 
 ## SIGNIFICANT USER-VISIBLE CHANGES ##
 * A completely new GUI interface for managing MTurkR, which now suggests library(tcltk), has been added. The previous, text-based wizard remains available by calling mturkr.wizard("simple").
