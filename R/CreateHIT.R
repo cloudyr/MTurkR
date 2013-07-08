@@ -116,6 +116,8 @@ function (hit.type = NULL, question = NULL, validate.question = FALSE,
     names(HITs) <- c("HITTypeId", "HITId", "Valid")
     if (is.null(hit.type)) 
         type <- NA
+    else
+        type <- hit.type
     auth <- authenticate(operation, secret)
     if (browser == TRUE) {
         request <- request(keyid, auth$operation, auth$signature, 
