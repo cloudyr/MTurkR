@@ -1,6 +1,6 @@
 HITsToDataFrame <-
 function (xml = NULL, xml.parsed = NULL, return.hit.xml = FALSE, 
-    return.qual.list = TRUE) 
+    return.qual.list = TRUE, sandbox = FALSE) 
 {
     if (!is.null(xml) & !is.null(xml.parsed)) 
         stop("No XML or parsed XML provided to convert to dataframe")
@@ -44,7 +44,7 @@ function (xml = NULL, xml.parsed = NULL, return.hit.xml = FALSE,
                 if (!is.null(quals.nodeset) && length(quals.nodeset) > 
                   0) {
                   quals[[i]] <- QualificationRequirementsToDataFrame(xmlnodeset = quals.nodeset, 
-                    hit.number = i)
+                    hit.number = i, sandbox = sandbox)
                 }
                 else quals[[i]] <- NULL
             }
