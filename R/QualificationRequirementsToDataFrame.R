@@ -1,6 +1,6 @@
 QualificationRequirementsToDataFrame <-
 function (xml = NULL, xml.parsed = NULL, xmlnodeset = NULL, hit = NULL, 
-    hit.number = NULL) 
+    hit.number = NULL, sandbox = FALSE) 
 {
     if (is.null(xmlnodeset) & is.null(xml.parsed) & is.null(xml)) 
         stop("Must supply XML (parsed or unparsed) xor XMLNodeSet")
@@ -18,7 +18,7 @@ function (xml = NULL, xml.parsed = NULL, xmlnodeset = NULL, hit = NULL,
             }
             else {
                 quals$Name[i] <- GetQualificationType(quals$QualificationTypeId[i], 
-                  print = FALSE)$Name
+                  print = FALSE, sandbox = sandbox)$Name
             }
             quals$Comparator[i] <- xmlValue(xmlChildren(xmlnodeset[[i]])$Comparator)
             if ("LocaleValue" %in% names(xmlChildren(xmlnodeset[[i]]))) 
@@ -46,7 +46,7 @@ function (xml = NULL, xml.parsed = NULL, xmlnodeset = NULL, hit = NULL,
 			return(NULL)
     }
     else if (!is.null(hit)) {
-        xmlnodeset <- xpathApply(xmlParse(GetHIT(hit = hit, keypair = credentials)$xml), 
+        xmlnodeset <- xpathApply(xmlParse(GetHIT(hit = hit, keypair = credentials, sandbox = sandbox)$xml), 
             paste("//QualificationRequirement", sep = ""))
         return(batch(xmlnodeset))
     }
