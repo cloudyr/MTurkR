@@ -4,6 +4,7 @@
 * Improved error, warning, and message handling by converting calls to `cat` to `warning` and `message`, where appropriate.
 
 ## BUG FIXES ##
+* Fixed bug in GetHIT(), which trickled down through HITsToDataFrame() and QualificationRequirementsToDataFrame() that caused error when retrieving HITs from the sandbox with user-defined qualifications. (h/t Eric Lin)
 * Fixed bug in GenerateHTMLQuestion() related to XML encoding. (h/t Alex Neustädter)
 * In `request` and several convenience functions, corrected `shell.exec` to `browseURL` to be platform-independent.
 * Added filters to `request` to handle a variety of problematic characters (that might emerge from FreeText responses in assignments). (h/t and contributions from Solomon Messing)
