@@ -21,11 +21,11 @@ AnswerKeyToDataFrame(xml=NULL, xml.parsed=NULL)
 AssignmentsToDataFrame(xml = NULL, xml.parsed = NULL, return.assignment.xml = FALSE)
 BonusPaymentsToDataFrame(xml = NULL, xml.parsed = NULL)
 ExternalQuestionToDataFrame(xml = NULL, xml.parsed = NULL)
-HITsToDataFrame(xml = NULL, xml.parsed = NULL, return.hit.xml = FALSE, return.qual.list = TRUE)
+HITsToDataFrame(xml = NULL, xml.parsed = NULL, return.hit.xml = FALSE, return.qual.list = TRUE, sandbox = FALSE)
 HTMLQuestionToDataFrame(xml = NULL, xml.parsed = NULL)
 QualificationRequestsToDataFrame(xml = NULL, xml.parsed = NULL)
 QualificationRequirementsToDataFrame(	xml = NULL, xml.parsed = NULL, xmlnodeset = NULL,
-										hit = NULL, hit.number = NULL)
+						hit = NULL, hit.number = NULL, sandbox = FALSE)
 QualificationsToDataFrame(xml = NULL, xml.parsed = NULL)
 QualificationTypesToDataFrame(xml = NULL, xml.parsed = NULL)
 QuestionFormAnswersToDataFrame(xml = NULL, xml.parsed = NULL)
@@ -42,6 +42,7 @@ WorkerBlockToDataFrame(xml = NULL, xml.parsed = NULL)
   \item{return.qual.list}{A logical indicating whether the QualificationRequirement list should be returned. Default is \code{TRUE}.}
   \item{hit}{An optional parameter included for advanced users, to return only one of the specified HITs.}
   \item{hit.number}{An optional parameter included for advanced users, to return only one of the specified HITs.}
+  \item{sandbox}{A logical indicating whether GetQualificationType, called internally, should query the sandbox for user-defined QualificationTypes.}
 }
 \details{Mostly internal functions to convert XML-formatted MTurk responses into more useful R dataframes. These are mostly internal to the extent that most users will never call them directly, but they may be useful if one needs to examine information stored in the MTurkR log file, or if \code{\link{genericmturkr}} is used.}
 \value{A dataframe (or list of dataframes, in some cases) containing the request data.}
