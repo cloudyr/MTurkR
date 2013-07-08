@@ -37,7 +37,7 @@ function (hit, response.group = NULL, keypair = credentials(),
             auth$timestamp, GETparameters, log.requests = log.requests, 
             sandbox = sandbox)
         if (request$valid == TRUE) {
-            z <- HITsToDataFrame(xml = request$xml)
+            z <- HITsToDataFrame(xml = request$xml, sandbox = sandbox)
             if (print == TRUE) 
                 message("HIT (", hit, ") Retrieved")
             if (return.hit.dataframe == TRUE & return.qual.dataframe == 
