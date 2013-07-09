@@ -6,13 +6,16 @@ function (keyid, operation, signature, timestamp, GETparameters,
 {
     if (sandbox == TRUE) 
         host <- "https://mechanicalturk.sandbox.amazonaws.com/"
-    else host <- "https://mechanicalturk.amazonaws.com/"
+    else
+    	host <- "https://mechanicalturk.amazonaws.com/"
     request.url <- paste(host, "?Service=", service, "&AWSAccessKeyId=", 
         keyid, "&Version=", version, "&Operation=", operation, 
         "&Timestamp=", timestamp, "&Signature=", curlEscape(signature), 
         GETparameters, sep = "")
-    if (validation.test == TRUE)
-        invisible(request.url)
+    if (validation.test){
+        message("Request URL:",request.url)
+        invisible(NULL)
+    }
     else {
         if (browser == TRUE) {
             browseURL(request.url)
