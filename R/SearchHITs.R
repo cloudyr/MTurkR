@@ -9,7 +9,8 @@ function (response.group = NULL, return.all = TRUE, pagenumber = "1",
         keyid <- keypair[1]
         secret <- keypair[2]
     }
-    else stop("No keypair provided or 'credentials' object not stored")
+    else
+        stop("No keypair provided or 'credentials' object not stored")
     operation <- "SearchHITs"
     if (!sortproperty %in% c("Title", "Reward", "Expiration", 
         "CreationTime", "Enumeration")) 
@@ -29,11 +30,10 @@ function (response.group = NULL, return.all = TRUE, pagenumber = "1",
     GETparameters <- ""
     if (!is.null(response.group)) {
         if (!response.group %in% c("Request", "Minimal", "HITDetail", 
-            "HITQuestion", "HITAssignmentSummary")) 
+                                    "HITQuestion", "HITAssignmentSummary")) 
             stop("ResponseGroup must be in c(Request,Minimal,HITDetail,HITQuestion,HITAssignmentSummary)")
         if (length(response.group) == 1) 
-            GETparameters <- paste(GETparameters, "&ResponseGroup=", 
-                response.group, sep = "")
+            GETparameters <- paste(GETparameters, "&ResponseGroup=", response.group, sep = "")
         else {
             for (i in 1:length(response.group)) {
                 GETparameters <- paste(GETparameters, "&ResponseGroup", 
@@ -43,19 +43,20 @@ function (response.group = NULL, return.all = TRUE, pagenumber = "1",
     }
     batch <- function(pagenumber) {
         GETiteration <- paste(GETparameters, "&PageNumber=", 
-            pagenumber, "&PageSize=", pagesize, "&SortProperty=", 
-            sortproperty, "&SortDirection=", sortdirection, sep = "")
+                        pagenumber, "&PageSize=", pagesize, "&SortProperty=", 
+                        sortproperty, "&SortDirection=", sortdirection, sep = "")
         auth <- authenticate(operation, secret)
         batch <- request(keyid, auth$operation, auth$signature, 
-            auth$timestamp, GETiteration, log.requests = log.requests, 
-            sandbox = sandbox)
+                        auth$timestamp, GETiteration, log.requests = log.requests, 
+                        sandbox = sandbox)
         batch$total <- as.numeric(strsplit(strsplit(batch$xml, 
             "<TotalNumResults>")[[1]][2], "</TotalNumResults>")[[1]][1])
-        batch$batch.total <- length(xpathApply(xmlParse(batch$xml), 
-            "//HIT"))
+        batch$batch.total <- length(xpathApply(xmlParse(batch$xml), "//HIT"))
         if (return.hit.dataframe == TRUE) {
             if (batch$total > 0) {
-                hitlist <- HITsToDataFrame(xml = batch$xml, return.qual.list = return.qual.dataframe)
+                hitlist <- HITsToDataFrame( xml = batch$xml,
+                                            return.qual.list = return.qual.dataframe,
+                                            sandbox = sandbox)
                 batch$HITs <- hitlist$HITs
                 if (return.qual.dataframe == TRUE) 
                   batch$QualificationRequirements <- hitlist$QualificationRequirements
@@ -75,7 +76,7 @@ function (response.group = NULL, return.all = TRUE, pagenumber = "1",
             request$HITs <- rbind(request$HITs, nextbatch$HITs)
         if (return.qual.dataframe == TRUE) 
             request$QualificationRequirements <- rbind(request$QualificationRequirements, 
-                nextbatch$QualificationRequirements, sandbox = sandbox)
+                                                nextbatch$QualificationRequirements)
         request$pages.returned <- pagesize
         runningtotal <- runningtotal + request$batch.total
         pagenumber <- pagenumber + 1
@@ -88,22 +89,21 @@ function (response.group = NULL, return.all = TRUE, pagenumber = "1",
             return.qual.dataframe <- TRUE
         }
     }
-    else request$ResponseGroup <- response.group
-    if (return.hit.dataframe == TRUE & return.qual.dataframe == 
-        TRUE) 
-        return.list <- list(HITs = request$HITs, QualificationRequirements = request$QualificationRequirements)
-    else if (return.hit.dataframe == TRUE & return.qual.dataframe == 
-        FALSE) 
+    else
+        request$ResponseGroup <- response.group
+    if (return.hit.dataframe == TRUE & return.qual.dataframe == TRUE) 
+        return.list <- list(HITs = request$HITs,
+                            QualificationRequirements = request$QualificationRequirements)
+    else if (return.hit.dataframe == TRUE & return.qual.dataframe == FALSE) 
         return.list <- list(HITs = request$HITs)
-    else if (return.hit.dataframe == FALSE & return.qual.dataframe == 
-        TRUE) 
+    else if (return.hit.dataframe == FALSE & return.qual.dataframe == TRUE) 
         return.list <- list(QualificationRequirements = request$QualificationRequirements)
-    else if (return.hit.dataframe == FALSE & return.qual.dataframe == 
-        FALSE) 
+    else if (return.hit.dataframe == FALSE & return.qual.dataframe == FALSE) 
         return.list <- NULL
     if (print == TRUE) {
         message(request$total, " HITs Retrieved")
         return(return.list)
     }
-    else invisible(return.list)
+    else
+        invisible(return.list)
 }
