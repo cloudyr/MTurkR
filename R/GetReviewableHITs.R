@@ -78,6 +78,5 @@ function (hit.type = NULL, status = NULL, response.group = "Minimal",
     request$batch.total <- NULL
     if (print == TRUE) 
         message(request$total, "HITs Retrieved")
-    HITs <- data.frame(HITId = request$HITs)
-    invisible(HITs)
+    invisible(data.frame(HITId = request$HITs))
 }

@@ -2,8 +2,10 @@
 
 ## SIGNIFICANT USER-VISIBLE CHANGES ##
 * Improved error, warning, and message handling by converting calls to `cat` to `warning` and `message`, where appropriate.
+* Most API query functions now include a `validation.test` parameter that, when TRUE, runs pre-query checks on the MTurkR call and returns the full API query URL. The call is not executed. This can be used for pre- or post-request debugging.
 
 ## BUG FIXES ##
+* Fixed bug in GetReviewableHITs() that correctly queried the API but returned an incomplete dataframe. (h/t Eric Lin)
 * Fixed bug in CreateHIT(), saying `type` was not defined, that occurred when `hit.type` was non-NULL. (h/t Eric Lin)
 * Fixed bug in GetHIT(), which trickled down through HITsToDataFrame() and QualificationRequirementsToDataFrame() that caused error when retrieving HITs from the sandbox with user-defined qualifications. (h/t Eric Lin)
 * Fixed bug in GenerateHTMLQuestion() related to XML encoding. (h/t Alex Neustädter)
