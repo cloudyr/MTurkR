@@ -35,23 +35,19 @@ function (hit.type = NULL, status = NULL, response.group = "Minimal",
             pagesize, "&SortProperty=", sortproperty, "&SortDirection=", 
             sortdirection, sep = "")
         if (!is.null(hit.type)) 
-            GETparameters <- paste(GETparameters, "&HITTypeId=", 
-                hit.type, sep = "")
-        if (!is.null(status) && (status %in% c("Reviewable", 
-            "Reviewing"))) 
-            GETparameters <- paste(GETparameters, "&Status=", 
-                status, sep = "")
+            GETparameters <- paste(GETparameters, "&HITTypeId=", hit.type, sep = "")
+        if (!is.null(status) && (status %in% c("Reviewable", "Reviewing"))) 
+            GETparameters <- paste(GETparameters, "&Status=", status, sep = "")
         auth <- authenticate(operation, secret)
         batch <- request(keyid, auth$operation, auth$signature, 
-            auth$timestamp, GETparameters, log.requests = log.requests, 
-            sandbox = sandbox, validation.test = validation.test)
+						auth$timestamp, GETparameters, log.requests = log.requests, 
+						sandbox = sandbox, validation.test = validation.test)
 		if(validation.test)
 			invisible(batch)
         batch$HITs <- NA
         batch$total <- as.numeric(strsplit(strsplit(batch$xml, 
             "<TotalNumResults>")[[1]][2], "</TotalNumResults>")[[1]][1])
-        batch$batch.total <- length(xpathApply(xmlParse(batch$xml), 
-            "//HITId"))
+        batch$batch.total <- length(xpathApply(xmlParse(batch$xml), "//HITId"))
         if (batch$total > 0) {
             for (i in 1:batch$batch.total) {
                 batch$HITs[i] <- strsplit(strsplit(batch$xml, 
@@ -64,7 +60,7 @@ function (hit.type = NULL, status = NULL, response.group = "Minimal",
     if(validation.test)
 		invisible(request)
 	runningtotal <- request$batch.total
-    pagenumber = 2
+    pagenumber <- 2
     while (request$total > runningtotal) {
         nextbatch <- batch(operation, keyid, secret, hit, pagenumber, 
             pagesize, sortproperty, sortdirection, sandbox = sandbox,
@@ -81,8 +77,7 @@ function (hit.type = NULL, status = NULL, response.group = "Minimal",
     }
     request$batch.total <- NULL
     if (print == TRUE) 
-        message(request$total, " HITs Retrieved")
-    HITs <- as.data.frame(request$HITs, stringsAsFactors = FALSE)
-    names(HITs) <- "HITId"
+        message(request$total, "HITs Retrieved")
+    HITs <- data.frame(HITId = request$HITs)
     invisible(HITs)
 }
