@@ -5,7 +5,8 @@
 \description{A function designed for advanced users to be able to make arbitrary requests to the MTurk API. Most users do not need this.}
 \usage{
 genericmturkr(operation, parameters = NULL, keypair = credentials(), print = TRUE, 
-			browser = FALSE, log.requests = TRUE, sandbox = FALSE, xml.parse = TRUE)
+			browser = FALSE, log.requests = TRUE, sandbox = FALSE,
+			xml.parse = TRUE, validation.test = FALSE)
 
 makeGETparameters(parameter, value)
 }
@@ -21,6 +22,7 @@ makeGETparameters(parameter, value)
   \item{xml.parse}{Whether the returned list should contain parsed XML.}
   \item{parameter}{A character string containing a parameter name, or a vector of character strings containing parameter names.}
   \item{value}{A character string containing a value for a parameter, or a vector of character strings containing the value for each of the parameters specified in \code{parameter}.}
+  \item{validation.test}{A logical specifying whether only the pre-request checks should be conducted and the request URL returned (without executing the request). Default is \code{FALSE}.}
 }
 \details{
 A simple wrapper for \code{\link{authenticate}} and \code{\link{request}} to provide advanced users with generic access to the MTurk API. \code{genericmturkr} executes arbitrary MTurk API requests for the specified MTurk API operation and any \code{parameters}. \code{makeGETparameters} provides a convenience function to generate these. Though this function does not underly the other MTurkR functions, it can produce similar effects (though response information is returned unformatted).
