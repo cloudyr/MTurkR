@@ -3,15 +3,16 @@ status <-
 function (hit = NULL, hit.type = NULL, keypair = credentials(), 
     print = TRUE, log.requests = TRUE, sandbox = FALSE) 
 {
-    if ((is.null(hit) & is.null(hit.type)) | (!is.null(hit) & 
-        !is.null(hit.type))) 
+    if ((is.null(hit) & is.null(hit.type)) | (!is.null(hit) & !is.null(hit.type))) 
         stop("Must provide 'hit' xor 'hit.type'")
-    hitsearch <- SearchHITs(keypair = keypair, print = FALSE, 
-        log.requests = log.requests, sandbox = sandbox, return.qual.dataframe = FALSE)
+    hitsearch <- SearchHITs(keypair = keypair, print = TRUE, 
+                            log.requests = log.requests, sandbox = sandbox,
+                            return.qual.dataframe = FALSE)
+    if(is.null(hitsearch$HITs))
+        stop()
     HITs <- hitsearch$HITs
-    if (!is.null(hit)) {
+    if (!is.null(hit))
         HITs <- HITs[grep(hit, HITs$HITId), ]
-    }
     else if (!is.null(hit.type)) {
         HITs <- HITs[HITs$HITTypeId == hit.type, ]
         if (dim(HITs)[1] == 0) 
@@ -30,11 +31,9 @@ function (hit = NULL, hit.type = NULL, keypair = credentials(),
     }
     if (print == TRUE) {
         toprint <- HITs[, c("HITId", "HITReviewStatus", "NumberofAssignmentsPending", 
-            "NumberofAssignmentsAvailable", "NumberofAssignmentsCompleted", 
-            "Expiration")]
+            "NumberofAssignmentsAvailable", "NumberofAssignmentsCompleted", "Expiration")]
         names(toprint) <- c("HITId", "Review Status", "Assignments Pending", 
-            "Assignments Available", "Assignments Completed", 
-            "Expiration")
+            "Assignments Available", "Assignments Completed", "Expiration")
         print(toprint, row.names = FALSE)
         message()
     }
