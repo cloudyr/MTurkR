@@ -40,8 +40,8 @@ function (hit.type = NULL, status = NULL, response.group = "Minimal",
             GETparameters <- paste(GETparameters, "&Status=", status, sep = "")
         auth <- authenticate(operation, secret)
         batch <- request(keyid, auth$operation, auth$signature, 
-						auth$timestamp, GETparameters, log.requests = log.requests, 
-						sandbox = sandbox, validation.test = validation.test)
+			auth$timestamp, GETparameters, log.requests = log.requests, 
+			sandbox = sandbox, validation.test = validation.test)
 		if(validation.test)
 			invisible(batch)
         batch$HITs <- NA
@@ -51,22 +51,22 @@ function (hit.type = NULL, status = NULL, response.group = "Minimal",
         if (batch$total > 0) {
             for (i in 1:batch$batch.total) {
                 batch$HITs[i] <- strsplit(strsplit(batch$xml, 
-                  "<HITId>")[[1]][2], "</HITId>")[[1]][1]
+                  "<HITId>")[[1]][i+1], "</HITId>")[[1]][1]
             }
         }
         return(batch)
     }
     request <- batch(operation, keyid, secret, pagenumber, pagesize)
     if(validation.test)
-		invisible(request)
-	runningtotal <- request$batch.total
+        invisible(request)
+    runningtotal <- request$batch.total
     pagenumber <- 2
     while (request$total > runningtotal) {
         nextbatch <- batch(operation, keyid, secret, hit, pagenumber, 
             pagesize, sortproperty, sortdirection, sandbox = sandbox,
-			validation.test = validation.test)
-		if(validation.test)
-			invisible(nextbatch)
+            validation.test = validation.test)
+            if(validation.test)
+                invisible(nextbatch)
         request$request.id <- c(request$request.id, nextbatch$request.id)
         request$valid <- c(request$valid, nextbatch$valid)
         request$xml.response <- c(request$xml, nextbatch$xml)
@@ -77,6 +77,6 @@ function (hit.type = NULL, status = NULL, response.group = "Minimal",
     }
     request$batch.total <- NULL
     if (print == TRUE) 
-        message(request$total, "HITs Retrieved")
+        message(request$total, " HITs Retrieved")
     invisible(data.frame(HITId = request$HITs))
 }
