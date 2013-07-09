@@ -5,7 +5,8 @@
 \description{Force a HIT to expire immediately, as opposed to at its prespecified expiration time. Expired HITs can be extended with the \code{\link{ExtendHIT}} operation.}
 \usage{
 ExpireHIT(hit = NULL, hit.type = NULL, keypair = credentials(), 
-		print = TRUE, browser = FALSE, log.requests = TRUE, sandbox = FALSE)
+		print = TRUE, browser = FALSE, log.requests = TRUE,
+		sandbox = FALSE, validation.test = FALSE)
 }
 \arguments{
   \item{hit}{A character string containing a HITId or a vector of character strings containing multiple HITIds.}
@@ -15,6 +16,7 @@ ExpireHIT(hit = NULL, hit.type = NULL, keypair = credentials(),
   \item{browser}{Optionally open the request in the default web browser, rather than opening in R. Default is \code{FALSE}.}
   \item{log.requests}{A logical specifying whether API requests should be logged. Default is \code{TRUE}. See \code{\link{readlogfile}} for details.}
   \item{sandbox}{Optionally execute the request in the MTurk sandbox rather than the live server.  Default is \code{FALSE}.}
+  \item{validation.test}{A logical specifying whether only the pre-request checks should be conducted and the request URL returned (without executing the request). Default is \code{FALSE}.}
 }
 \details{
 A function to (prematurely) expire a HIT (or multiple HITs), thereby preventing any additional assignments from being completed. Pending assignments can still be submitted. An expired HIT can be reactived by adding additional time to its expiration using \code{\link{ExtendHIT}}.

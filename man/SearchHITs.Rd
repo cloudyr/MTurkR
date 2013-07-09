@@ -8,7 +8,8 @@ SearchHITs(	response.group = NULL, return.all = TRUE,
 			pagenumber = "1", pagesize = "10", 
 			sortproperty = "Enumeration", sortdirection = "Ascending", 
 			keypair = credentials(), print = TRUE, log.requests = TRUE, sandbox = FALSE, 
-			return.hit.dataframe = TRUE, return.qual.dataframe = TRUE)
+			return.hit.dataframe = TRUE, return.qual.dataframe = TRUE,
+			validation.test = FALSE)
 }
 \arguments{
   \item{response.group}{An optional character string (or vector of character strings) specifying what details of each HIT to return of: \dQuote{Request}, \dQuote{Minimal}, \dQuote{HITDetail}, \dQuote{HITQuestion}, \dQuote{HITAssignmentSummary}. For more information, see \url{http://docs.aws.amazon.com/AWSMechTurk/latest/AWSMturkAPI/ApiReference_CommonParametersArticle.html}.}
@@ -23,6 +24,7 @@ SearchHITs(	response.group = NULL, return.all = TRUE,
   \item{sandbox}{Optionally execute the request in the MTurk sandbox rather than the live server. Default is \code{FALSE}.}
   \item{return.hit.dataframe}{A logical indicating whether the dataframe of HITs should be returned. Default is \code{TRUE}.}
   \item{return.qual.dataframe}{A logical indicating whether the list of each HIT's QualificationRequirements (stored as dataframes in that list) should be returned. Default is \code{TRUE}.}
+  \item{validation.test}{A logical specifying whether only the pre-request checks should be conducted and the request URL returned (without executing the request). Default is \code{FALSE}.}
 }
 \details{
 Retrieve your current HITs (and, optionally, characteristics thereof). To view HITs on the MTurk requester website, see \code{\link{OpenManageHITPage}}. To view HITs on the MTurk worker website, use \code{\link{ViewAvailableHITs}}.

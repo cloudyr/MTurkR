@@ -2,7 +2,8 @@ contact <-
 ContactWorker <-
 ContactWorkers <-
 function (subjects, msgs, workers, batch = FALSE, keypair = credentials(), 
-    print = FALSE, browser = FALSE, log.requests = TRUE, sandbox = FALSE) 
+    print = FALSE, browser = FALSE, log.requests = TRUE, sandbox = FALSE,
+	validation.test = FALSE) 
 {
     if (!is.null(keypair)) {
         keyid <- keypair[1]
@@ -39,35 +40,39 @@ function (subjects, msgs, workers, batch = FALSE, keypair = credentials(),
                 upper <- 100
             }
             for (k in 1:upper) {
-                GETworkers <- paste(GETworkers, "&WorkerId.", 
-                  k, "=", workerbatch[k], sep = "")
+                GETworkers <- paste(GETworkers, "&WorkerId.", k,
+									"=", workerbatch[k], sep = "")
                 if (k == 1) 
-                  firstworker <- workerbatch[k]
+					firstworker <- workerbatch[k]
                 else if (k == upper) 
-                  lastworker <- workerbatch[k]
+					lastworker <- workerbatch[k]
             }
-            GETparameters <- paste("&Subject=", curlEscape(subjects), 
-                "&MessageText=", curlEscape(msgs), GETworkers, 
-                sep = "")
+            GETparameters <- paste(	"&Subject=", curlEscape(subjects), 
+									"&MessageText=", curlEscape(msgs), GETworkers, 
+									sep = "")
             auth <- authenticate(operation, secret)
             if (browser == TRUE) {
                 request <- request(keyid, auth$operation, auth$signature, 
-                  auth$timestamp, GETparameters, browser = browser, 
-                  sandbox = sandbox)
+					auth$timestamp, GETparameters, browser = browser, 
+					sandbox = sandbox, validation.test = validation.test)
+				if(validation.test)
+					invisible(request)
             }
             else {
                 request <- request(keyid, auth$operation, auth$signature, 
-                  auth$timestamp, GETparameters, log.requests = log.requests, 
-                  sandbox = sandbox)
-                Notifications[j, ] <- c(nbatches, firstworker, 
-                  lastworker, subjects, msgs, request$valid)
+					auth$timestamp, GETparameters, log.requests = log.requests, 
+					sandbox = sandbox, validation.test = validation.test)
+				if(validation.test)
+					invisible(request)
+                Notifications[j, ] <- c(nbatches, firstworker, lastworker,
+										subjects, msgs, request$valid)
                 if (request$valid == TRUE) {
-                  if (print == TRUE) 
-                    message(j, ": Workers ", firstworker, " to ",lastworker, " Notified")
+					if (print == TRUE) 
+						message(j, ": Workers ", firstworker, " to ",lastworker, " Notified")
                 }
                 else if (request$valid == FALSE) {
-                  if (print == TRUE) 
-                    warning(j,": Invalid Request for workers ",firstworker," to ",lastworker)
+					if (print == TRUE) 
+						warning(j,": Invalid Request for workers ",firstworker," to ",lastworker)
                 }
             }
             i <- i + 100
@@ -80,13 +85,11 @@ function (subjects, msgs, workers, batch = FALSE, keypair = credentials(),
     else {
         for (i in 1:length(subjects)) {
             if (nchar(curlEscape(subjects[i])) > 200) 
-                stop(paste("Subject ", i, " Too Long (200 char max)", 
-                  sep = ""))
+                stop(paste("Subject ", i, " Too Long (200 char max)", sep = ""))
         }
         for (i in 1:length(msgs)) {
             if (nchar(curlEscape(msgs[i])) > 4096) 
-                stop(paste("Message ", i, "Text Too Long (4096 char max)", 
-                  sep = ""))
+                stop(paste("Message ", i, "Text Too Long (4096 char max)", sep = ""))
         }
         if (length(subjects) == 1) 
             subjects <- rep(subjects[1], length(workers))
@@ -96,38 +99,40 @@ function (subjects, msgs, workers, batch = FALSE, keypair = credentials(),
             msgs <- rep(msgs[1], length(workers))
         else if (!length(msgs) == length(workers)) 
             stop("Number of messages is not 1 nor length(workers)")
-        Notifications <- data.frame(matrix(nrow = length(workers), 
-            ncol = 4))
-        names(Notifications) <- c("WorkerId", "Subject", "Message", 
-            "Valid")
+        Notifications <- data.frame(matrix(nrow = length(workers), ncol = 4))
+        names(Notifications) <- c("WorkerId", "Subject", "Message", "Valid")
         for (i in 1:length(workers)) {
             GETparameters <- paste("&Subject=", curlEscape(subjects[i]), 
-                "&MessageText=", curlEscape(msgs[i]), "&WorkerId.1=", 
-                workers[i], sep = "")
+									"&MessageText=", curlEscape(msgs[i]),
+									"&WorkerId.1=", workers[i], sep = "")
             auth <- authenticate(operation, secret)
             if (browser == TRUE) {
                 request <- request(keyid, auth$operation, auth$signature, 
-                  auth$timestamp, GETparameters, browser = browser, 
-                  sandbox = sandbox)
+					auth$timestamp, GETparameters, browser = browser, 
+					sandbox = sandbox, validation.test = validation.test)
+				if(validation.test)
+					invisible(request)
             }
             else {
                 request <- request(keyid, auth$operation, auth$signature, 
-                  auth$timestamp, GETparameters, log.requests = log.requests, 
-                  sandbox = sandbox)
-                Notifications[i, ] <- c(workers[i], subjects[i], 
-                  msgs[i], request$valid)
+					auth$timestamp, GETparameters, log.requests = log.requests, 
+					sandbox = sandbox, validation.test = validation.test)
+				if(validation.test)
+					invisible(request)
+                Notifications[i, ] <- c(workers[i], subjects[i], msgs[i], request$valid)
                 if (request$valid == TRUE) {
-                  if (print == TRUE) 
-                    message(i, ": Worker (", workers[i], ") Notified")
+					if (print == TRUE) 
+						message(i, ": Worker (", workers[i], ") Notified")
                 }
                 else if (request$valid == FALSE) {
-                  if (print == TRUE) 
+					if (print == TRUE) 
                     warning(i,": Invalid Request for worker ", workers[i])
                 }
             }
         }
         if (print == TRUE) 
             return(Notifications)
-        else invisible(Notifications)
+        else
+			invisible(Notifications)
     }
 }

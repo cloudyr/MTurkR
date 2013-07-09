@@ -3,7 +3,8 @@ searchquals <-
 function (query = NULL, only.mine = TRUE, only.requestable = FALSE, 
     return.all = FALSE, pagenumber = "1", pagesize = "10", sortproperty = "Name", 
     sortdirection = "Ascending", keypair = credentials(), print = TRUE, 
-    log.requests = TRUE, sandbox = FALSE, return.qual.dataframe = TRUE) 
+    log.requests = TRUE, sandbox = FALSE, return.qual.dataframe = TRUE,
+	validation.test = FALSE) 
 {
     if (!is.null(keypair)) {
         keyid <- keypair[1]
@@ -21,33 +22,29 @@ function (query = NULL, only.mine = TRUE, only.requestable = FALSE,
         stop("'pagenumber' must be > 1")
     GETparameters <- ""
     if (!is.null(query)) 
-        GETparameters <- paste(GETparameters, "&Query=", curlEscape(query), 
-            sep = "")
+        GETparameters <- paste(GETparameters, "&Query=", curlEscape(query), sep = "")
     if (only.mine == TRUE) 
-        GETparameters <- paste(GETparameters, "&MustBeOwnedByCaller=", 
-            "true", sep = "")
+        GETparameters <- paste(GETparameters, "&MustBeOwnedByCaller=", "true", sep = "")
     else if (only.mine == FALSE) 
-        GETparameters <- paste(GETparameters, "&MustBeOwnedByCaller=", 
-            "false", sep = "")
+        GETparameters <- paste(GETparameters, "&MustBeOwnedByCaller=", "false", sep = "")
     if (only.requestable == TRUE) 
-        GETparameters <- paste(GETparameters, "&MustBeRequestable=", 
-            "true", sep = "")
+        GETparameters <- paste(GETparameters, "&MustBeRequestable=", "true", sep = "")
     else if (only.requestable == FALSE) 
-        GETparameters <- paste(GETparameters, "&MustBeRequestable=", 
-            "false", sep = "")
+        GETparameters <- paste(GETparameters, "&MustBeRequestable=", "false", sep = "")
     batch <- function(operation, keyid, secret, GETparameters, 
-        pagenumber, pagesize, sandbox = sandbox) {
+        pagenumber, pagesize, sandbox = sandbox, validation.test = validation.test) {
         GETparameters <- paste(GETparameters, "&PageNumber=", 
             pagenumber, "&PageSize=", pagesize, "&SortProperty=", 
             sortproperty, "&SortDirection=", sortdirection, sep = "")
         auth <- authenticate(operation, secret)
         batch <- request(keyid, auth$operation, auth$signature, 
             auth$timestamp, GETparameters, log.requests = log.requests, 
-            sandbox = sandbox)
+            sandbox = sandbox, validation.test = validation.test)
+		if(validation.test)
+			invisible(batch)
         batch$total <- as.numeric(strsplit(strsplit(batch$xml, 
-            "<TotalNumResults>")[[1]][2], "</TotalNumResults>")[[1]][1])
-        batch$batch.total <- length(xpathApply(xmlParse(batch$xml), 
-            "//QualificationTypeId"))
+							"<TotalNumResults>")[[1]][2], "</TotalNumResults>")[[1]][1])
+        batch$batch.total <- length(xpathApply(xmlParse(batch$xml), "//QualificationTypeId"))
         if (return.qual.dataframe == TRUE) {
             if (batch$total > 0) 
                 batch$quals <- QualificationTypesToDataFrame(xml = batch$xml)
@@ -55,8 +52,10 @@ function (query = NULL, only.mine = TRUE, only.requestable = FALSE,
         return(batch)
     }
     request <- batch(operation, keyid, secret, GETparameters, 
-        pagenumber, pagesize, sandbox = sandbox)
-    runningtotal <- request$batch.total
+        pagenumber, pagesize, sandbox = sandbox, validation.test = validation.test)
+    if(validation.test)
+		invisible(request)
+	runningtotal <- request$batch.total
     pagenumber = 2
     if (return.all == TRUE) {
         sortproperty <- "Name"
@@ -65,7 +64,9 @@ function (query = NULL, only.mine = TRUE, only.requestable = FALSE,
         pagenumber <- "1"
         while (request$total > runningtotal) {
             nextbatch <- batch(operation, keyid, secret, GETparameters, 
-                pagenumber, pagesize, sandbox = sandbox)
+                pagenumber, pagesize, sandbox = sandbox, validation.test = validation.test)
+			if(validation.test)
+				invisible(nextbatch)
             request$request.id <- c(request$request.id, nextbatch$request.id)
             request$valid <- c(request$valid, nextbatch$valid)
             request$xml.response <- c(request$xml, nextbatch$xml)
@@ -86,5 +87,6 @@ function (query = NULL, only.mine = TRUE, only.requestable = FALSE,
         warning("Invalid Request")
         return(request$quals)
     }
-    else invisible(request$quals)
+    else
+		invisible(request$quals)
 }

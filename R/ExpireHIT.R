@@ -1,7 +1,8 @@
 ExpireHIT <-
 expire <-
 function (hit = NULL, hit.type = NULL, keypair = credentials(), 
-    print = TRUE, browser = FALSE, log.requests = TRUE, sandbox = FALSE) 
+    print = TRUE, browser = FALSE, log.requests = TRUE,
+	sandbox = FALSE, validation.test = FALSE) 
 {
     if (!is.null(keypair)) {
         keyid <- keypair[1]
@@ -9,8 +10,7 @@ function (hit = NULL, hit.type = NULL, keypair = credentials(),
     }
     else stop("No keypair provided or 'credentials' object not stored")
     operation <- "ForceExpireHIT"
-    if ((is.null(hit) & is.null(hit.type)) | (!is.null(hit) & 
-        !is.null(hit.type))) 
+    if ((is.null(hit) & is.null(hit.type)) | (!is.null(hit) & !is.null(hit.type))) 
         stop("Must provide 'hit' xor 'hit.type'")
     else if (!is.null(hit)) {
         hitlist <- hit
@@ -31,16 +31,20 @@ function (hit = NULL, hit.type = NULL, keypair = credentials(),
         if (browser == TRUE) {
             request <- request(keyid, auth$operation, auth$signature, 
                 auth$timestamp, GETiteration, browser = browser, 
-                sandbox = sandbox)
+                sandbox = sandbox, validation.test = validation.test)
+			if(validation.test)
+				invisible(request)
         }
         else {
             request <- request(keyid, auth$operation, auth$signature, 
                 auth$timestamp, GETiteration, log.requests = log.requests, 
-                sandbox = sandbox)
+                sandbox = sandbox, validation.test = validation.test)
+			if(validation.test)
+				invisible(request)
             HITs[i, ] = c(hitlist[i], request$valid)
             if (request$valid == TRUE) {
                 if (print == TRUE) 
-                  message(i, ": HIT ", hitlist[i], " Expired")
+					message(i, ": HIT ", hitlist[i], " Expired")
             }
             else if (request$valid == FALSE & print == TRUE) 
                 warning(i, ": Invalid Request for HIT ", hitlist[i])

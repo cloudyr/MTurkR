@@ -11,13 +11,16 @@
 \description{Block or unblock a worker. This prevents a worker from completing any HITs for you while they are blocked, but does not affect their ability to complete work for other requesters or affect their worker statistics. \code{GetBlockedWorkers} retrieves your list of currently blocked workers.}
 \usage{
 BlockWorker(workers, reasons, keypair = credentials(), 
-			print = TRUE, browser = FALSE, log.requests = TRUE, sandbox = FALSE)
+			print = TRUE, browser = FALSE, log.requests = TRUE,
+			sandbox = FALSE, validation.test = FALSE)
 
 UnblockWorker(	workers, reasons = NULL, keypair = credentials(), 
-				print = TRUE, browser = FALSE, log.requests = TRUE, sandbox = FALSE)
+				print = TRUE, browser = FALSE, log.requests = TRUE,
+				sandbox = FALSE, validation.test = FALSE)
 
 GetBlockedWorkers(pagenumber = NULL, pagesize = NULL, keypair = credentials(), 
-				print = TRUE, browser = FALSE, log.requests = TRUE, sandbox = FALSE)
+				print = TRUE, browser = FALSE, log.requests = TRUE,
+				sandbox = FALSE, validation.test = FALSE)
 }
 \arguments{
   \item{workers}{A character string containing a WorkerId, or a vector of character strings containing multiple WorkerIds.}
@@ -29,6 +32,7 @@ GetBlockedWorkers(pagenumber = NULL, pagesize = NULL, keypair = credentials(),
   \item{browser}{Optionally open the request in the default web browser, rather than opening in R. Default is \code{FALSE}.}
   \item{log.requests}{A logical specifying whether API requests should be logged. Default is \code{TRUE}. See \code{\link{readlogfile}} for details.}
   \item{sandbox}{Optionally execute the request in the MTurk sandbox rather than the live server.  Default is \code{FALSE}.}
+  \item{validation.test}{A logical specifying whether only the pre-request checks should be conducted and the request URL returned (without executing the request). Default is \code{FALSE}.}
 }
 \details{
 \code{BlockWorker} prevents the specified worker from completing any of your HITs. \code{UnblockWorker} reverses this operation. 

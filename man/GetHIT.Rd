@@ -9,7 +9,8 @@
 \usage{
 GetHIT(	hit, response.group = NULL, keypair = credentials(), print = TRUE, 
 		browser = FALSE, log.requests = TRUE, sandbox = FALSE, 
-		return.hit.dataframe = TRUE, return.qual.dataframe = TRUE)
+		return.hit.dataframe = TRUE, return.qual.dataframe = TRUE,
+		validation.test = FALSE)
 
 HITStatus(	hit = NULL, hit.type = NULL, 
 			keypair = credentials(), print = TRUE, 
@@ -26,6 +27,7 @@ HITStatus(	hit = NULL, hit.type = NULL,
   \item{sandbox}{Optionally execute the request in the MTurk sandbox rather than the live server.  Default is \code{FALSE}.}
   \item{return.hit.dataframe}{A logical indicating whether the dataframe of HITs should be returned. Default is \code{TRUE}.}
   \item{return.qual.dataframe}{A logical indicating whether the list of each HIT's QualificationRequirements (stored as dataframes in that list) should be returned. Default is \code{TRUE}.}
+  \item{validation.test}{A logical specifying whether only the pre-request checks should be conducted and the request URL returned (without executing the request). Default is \code{FALSE}.}
 }
 \details{
 \code{GetHIT} retrieves characteristics of a HIT. \code{HITStatus} is a wrapper that retrieves the Number of Assignments Pending, Number of Assignments Available, Number of Assignments Completed for the HIT(s), which is helpful for checking on the progress of currently available HITs. Specifying a \code{hit.type} causes the function to first search for avialable HITs of that HITType, then return the requested information for each HIT.

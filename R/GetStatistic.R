@@ -2,7 +2,7 @@ GetStatistic <-
 statistic <-
 function (statistic, period = "LifeToDate", count = NULL, response.group = NULL, 
     keypair = credentials(), print = TRUE, browser = FALSE, log.requests = TRUE, 
-    sandbox = FALSE) 
+    sandbox = FALSE, validation.test = FALSE) 
 {
     if (!is.null(keypair)) {
         keyid <- keypair[1]
@@ -36,12 +36,16 @@ function (statistic, period = "LifeToDate", count = NULL, response.group = NULL,
     if (browser == TRUE) {
         request <- request(keyid, auth$operation, auth$signature, 
             auth$timestamp, GETparameters, browser = browser, 
-            sandbox = sandbox)
+            sandbox = sandbox, validation.test = validation.test)
+		if(validation.test)
+			invisible(request)
     }
     else {
         request <- request(keyid, auth$operation, auth$signature, 
             auth$timestamp, GETparameters, log.requests = log.requests, 
-            sandbox = sandbox)
+            sandbox = sandbox, validation.test = validation.test)
+		if(validation.test)
+			invisible(request)
         request$statistic <- statistic
         request$period <- period
         if (request$valid == TRUE) {

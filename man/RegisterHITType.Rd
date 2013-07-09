@@ -7,7 +7,7 @@
 RegisterHITType(title, description, reward, duration, keywords = NULL, 
 				auto.approval.delay = NULL, qual.req = NULL, 
 				keypair = credentials(), print = TRUE, browser = FALSE, 
-				log.requests = TRUE, sandbox = FALSE)
+				log.requests = TRUE, sandbox = FALSE, validation.test = FALSE)
 }
 \arguments{
   \item{title}{A character string containing the title for the HITType. All HITs of this HITType will be visibly grouped to workers according to this title. Maximum of 128 characters.}
@@ -22,6 +22,7 @@ RegisterHITType(title, description, reward, duration, keywords = NULL,
   \item{browser}{Optionally open the request in the default web browser, rather than opening in R. Default is \code{FALSE}.}
   \item{log.requests}{A logical specifying whether API requests should be logged. Default is \code{TRUE}. See \code{\link{readlogfile}} for details.}
   \item{sandbox}{Optionally execute the request in the MTurk sandbox rather than the live server.  Default is \code{FALSE}.}
+  \item{validation.test}{A logical specifying whether only the pre-request checks should be conducted and the request URL returned (without executing the request). Default is \code{FALSE}.}
 }
 \details{All HITs of a given HITType are visibly grouped together for workers and share common properties (e.g., reward amount, QualificationRequirements). This function registers a HITType in the MTurk system, which can then be used when creating individual HITs. If a requester wants to change these properties for a specific HIT, the HIT should be changed to a new HITType (see \code{\link{ChangeHITType}}).
 

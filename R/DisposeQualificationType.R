@@ -1,7 +1,7 @@
 DisposeQualificationType <-
 disposequal <-
 function (qual, keypair = credentials(), print = TRUE, browser = FALSE, 
-    log.requests = TRUE, sandbox = FALSE) 
+    log.requests = TRUE, sandbox = FALSE, validation.test = FALSE) 
 {
     if (!is.null(keypair)) {
         keyid <- keypair[1]
@@ -17,22 +17,26 @@ function (qual, keypair = credentials(), print = TRUE, browser = FALSE,
     if (browser == TRUE) {
         request <- request(keyid, auth$operation, auth$signature, 
             auth$timestamp, GETparameters, browser = browser, 
-            sandbox = sandbox)
+            sandbox = sandbox, validation.test = validation.test)
+		if(validation.test)
+			invisible(request)
     }
     else {
         QualificationTypes <- data.frame(matrix(ncol = 2))
-        names(QualificationTypes) <- c("QualificationTypeId", 
-            "Valid")
+        names(QualificationTypes) <- c("QualificationTypeId", "Valid")
         request <- request(keyid, auth$operation, auth$signature, 
             auth$timestamp, GETparameters, log.requests = log.requests, 
-            sandbox = sandbox)
+            sandbox = sandbox, validation.test = validation.test)
+		if(validation.test)
+			invisible(request)
         if (request$valid == TRUE) {
             QualificationTypes[1, ] <- c(qual, request$valid)
             if (print == TRUE) {
                 message("QualificationType ", qual, " Disposed")
                 return(QualificationTypes)
             }
-            else invisible(QualificationTypes)
+            else
+				invisible(QualificationTypes)
         }
         else if (request$valid == FALSE) {
             if (print == TRUE) 

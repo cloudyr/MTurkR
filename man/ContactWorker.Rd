@@ -6,7 +6,8 @@
 \description{Contact one or more workers. This sends an email with specified subject line and body text to one or more workers. This can be used to recontact workers in panel/longitudinal research or to send follow-up work. Most likely will need to be used in tandem with \code{\link{GrantBonus}} to implement panels.}
 \usage{
 ContactWorker(	subjects, msgs, workers, batch = FALSE, keypair = credentials(), 
-				print = FALSE, browser = FALSE, log.requests = TRUE, sandbox = FALSE)
+				print = FALSE, browser = FALSE, log.requests = TRUE,
+				sandbox = FALSE, validation.test = FALSE)
 }
 \arguments{
   \item{subjects}{A character string containing subject line of an email, or a vector of character strings of of length equal to the number of workers to be contacted containing the subject line of the email for each worker. Maximum of 200 characters.}
@@ -18,6 +19,7 @@ ContactWorker(	subjects, msgs, workers, batch = FALSE, keypair = credentials(),
   \item{browser}{Optionally open the request in the default web browser, rather than opening in R. Default is \code{FALSE}.}
   \item{log.requests}{A logical specifying whether API requests should be logged. Default is \code{TRUE}. See \code{\link{readlogfile}} for details.}
   \item{sandbox}{Optionally execute the request in the MTurk sandbox rather than the live server.  Default is \code{FALSE}.}
+  \item{validation.test}{A logical specifying whether only the pre-request checks should be conducted and the request URL returned (without executing the request). Default is \code{FALSE}.}
 }
 \details{
 Send an email to one or more workers, either with a common subject and body text or subject and body customized for each worker.

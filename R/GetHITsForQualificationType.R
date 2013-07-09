@@ -2,7 +2,7 @@ GetHITsForQualificationType <-
 gethitsbyqual <-
 function (qual, response.group = NULL, return.all = TRUE, pagenumber = 1, 
     pagesize = 100, keypair = credentials(), print = TRUE, log.requests = TRUE, 
-    sandbox = FALSE, return.hit.dataframe = TRUE) 
+    sandbox = FALSE, return.hit.dataframe = TRUE, validation.test = FALSE) 
 {
     if (!is.null(keypair)) {
         keyid <- keypair[1]
@@ -25,12 +25,11 @@ function (qual, response.group = NULL, return.all = TRUE, pagenumber = 1,
             "HITDetail", "HITAssignmentSummary")) 
             stop("ResponseGroup must be in c(Minimal,HITQuestion,HITDetail,HITAssignmentSummary)")
         if (length(response.group) == 1) 
-            GETparameters <- paste(GETparameters, "&ResponseGroup=", 
-                response.group, sep = "")
+            GETparameters <- paste(GETparameters, "&ResponseGroup=", response.group, sep = "")
         else {
             for (i in 1:length(response.group)) {
-                GETparameters <- paste(GETparameters, "&ResponseGroup", 
-                  i - 1, "=", response.group[i], sep = "")
+                GETparameters <- paste(GETparameters, "&ResponseGroup", i - 1,
+										"=", response.group[i], sep = "")
             }
         }
     }
@@ -40,11 +39,12 @@ function (qual, response.group = NULL, return.all = TRUE, pagenumber = 1,
         auth <- authenticate(operation, secret)
         batch <- request(keyid, auth$operation, auth$signature, 
             auth$timestamp, GETiteration, log.requests = log.requests, 
-            sandbox = sandbox)
+            sandbox = sandbox, validation.test = validation.test)
+		if(validation.test)
+			invisible(batch)
         batch$total <- as.numeric(strsplit(strsplit(batch$xml, 
             "<TotalNumResults>")[[1]][2], "</TotalNumResults>")[[1]][1])
-        batch$batch.total <- length(xpathApply(xmlParse(batch$xml), 
-            "//HIT"))
+        batch$batch.total <- length(xpathApply(xmlParse(batch$xml), "//HIT"))
         if (return.hit.dataframe == TRUE) {
             if (batch$total > 0) {
                 hitlist <- HITsToDataFrame(xml = batch$xml)
@@ -55,6 +55,8 @@ function (qual, response.group = NULL, return.all = TRUE, pagenumber = 1,
         return(batch)
     }
     request <- batch(pagenumber)
+	if(validation.test)
+		invisible(request)
     runningtotal <- request$batch.total
     pagenumber = 2
     while (request$total > runningtotal) {
@@ -74,7 +76,8 @@ function (qual, response.group = NULL, return.all = TRUE, pagenumber = 1,
         pagenumber <- pagenumber + 1
     }
     request$batch.total <- NULL
-    return.list <- list(HITs = request$HITs, QualificationRequirements = request$QualificationRequirements)
+    return.list <- list(HITs = request$HITs,
+						QualificationRequirements = request$QualificationRequirements)
     if (print == TRUE) {
         message(request$total, " HITs Retrieved")
         if (request$total > 0) 

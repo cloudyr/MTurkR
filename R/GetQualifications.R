@@ -2,7 +2,7 @@ GetQualifications <-
 getquals <-
 function (qual, status = NULL, return.all = TRUE, pagenumber = 1, 
     pagesize = 100, keypair = credentials(), print = TRUE, log.requests = TRUE, 
-    sandbox = FALSE, return.qual.dataframe = TRUE) 
+    sandbox = FALSE, return.qual.dataframe = TRUE, validation.test = FALSE) 
 {
     if (!is.null(keypair)) {
         keyid <- keypair[1]
@@ -22,8 +22,7 @@ function (qual, status = NULL, return.all = TRUE, pagenumber = 1,
     if (!is.null(status)) {
         if (!status %in% c("Granted", "Revoked")) 
             warning("Status parameter ignored because it is not 'Granted' or 'Revoked'")
-        else GETparameters <- paste(GETparameters, "&Status=", 
-            status, sep = "")
+        else GETparameters <- paste(GETparameters, "&Status=", status, sep = "")
     }
     batch <- function(qual, pagenumber) {
         GETiteration <- paste(GETparameters, "&PageNumber=", 
@@ -31,7 +30,9 @@ function (qual, status = NULL, return.all = TRUE, pagenumber = 1,
         auth <- authenticate(operation, secret)
         batch <- request(keyid, auth$operation, auth$signature, 
             auth$timestamp, GETiteration, log.requests = log.requests, 
-            sandbox = sandbox)
+            sandbox = sandbox, validation.test = validation.test)
+		if(validation.test)
+			invisible(batch)
         batch$Qualifications <- NA
         batch$total <- as.numeric(strsplit(strsplit(batch$xml, 
             "<TotalNumResults>")[[1]][2], "</TotalNumResults>")[[1]][1])
@@ -44,6 +45,8 @@ function (qual, status = NULL, return.all = TRUE, pagenumber = 1,
         return(batch)
     }
     request <- batch(qual, pagenumber)
+	if(validation.test)
+		invisible(request)
     runningtotal <- request$batch.total
     pagenumber = 2
     while (request$total > runningtotal) {

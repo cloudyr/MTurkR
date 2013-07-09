@@ -1,7 +1,7 @@
 SendTestEventNotification <-
 notificationtest <-
 function (notification, test.event.type = "HITExpired", keypair = credentials(), 
-    print = TRUE, browser = FALSE, log.requests = TRUE, sandbox = FALSE) 
+    print = TRUE, browser = FALSE, log.requests = TRUE, sandbox = FALSE, validation.test = FALSE) 
 {
     if (!is.null(keypair)) {
         keyid <- keypair[1]
@@ -10,8 +10,7 @@ function (notification, test.event.type = "HITExpired", keypair = credentials(),
     else stop("No keypair provided or 'credentials' object not stored")
     operation <- "SendTestEventNotificaiton"
     if (!test.event.type %in% c("AssignmentAccepted", "AssignmentAbandoned", 
-        "AssignmentReturned", "AssignmentSubmitted", "HITReviewable", 
-        "HITExpired")) 
+        "AssignmentReturned", "AssignmentSubmitted", "HITReviewable", "HITExpired")) 
         stop("Inappropriate TestEventType specified")
     GETparameters <- notification
     GETparameters <- paste(GETparameters, "&TestEventType=", 
@@ -22,13 +21,17 @@ function (notification, test.event.type = "HITExpired", keypair = credentials(),
     if (browser == TRUE) {
         request <- request(keyid, auth$operation, auth$signature, 
             auth$timestamp, GETparameters, browser = browser, 
-            sandbox = sandbox)
+            sandbox = sandbox, validation.test = validation.test)
+		if(validation.test)
+			invisible(request)
     }
     else {
         request <- request(keyid, auth$operation, auth$signature, 
             auth$timestamp, GETparameters, log.requests = log.requests, 
-            sandbox = sandbox)
-        TestEvent[1, ] <- c(test.event.type, notification, request$valid)
+            sandbox = sandbox, validation.test = validation.test)
+        if(validation.test)
+			invisible(request)
+		TestEvent[1, ] <- c(test.event.type, notification, request$valid)
         if (request$valid == TRUE) {
             if (print == TRUE) 
                 message("TestEventNotification ", test.event.type," Sent")

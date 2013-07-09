@@ -10,7 +10,8 @@ GetAssignment(	assignment = NULL, hit = NULL, hit.type = NULL, status = NULL,
 				return.all = FALSE, pagenumber = "1", pagesize = "10", 
 				sortproperty = "SubmitTime", sortdirection = "Ascending", 
 				response.group = NULL, keypair = credentials(), print = TRUE, browser = FALSE,
-				log.requests = TRUE, sandbox = FALSE, return.assignment.dataframe = TRUE)
+				log.requests = TRUE, sandbox = FALSE, return.assignment.dataframe = TRUE,
+				validation.test = FALSE)
 }
 \arguments{
   \item{assignment}{An optional character string specifying the AssignmentId of an assignment to return.}
@@ -29,6 +30,7 @@ GetAssignment(	assignment = NULL, hit = NULL, hit.type = NULL, status = NULL,
   \item{log.requests}{A logical specifying whether API requests should be logged. Default is \code{TRUE}. See \code{\link{readlogfile}} for details.}
   \item{sandbox}{Optionally execute the request in the MTurk sandbox rather than the live server.  Default is \code{FALSE}.}
   \item{return.assignment.dataframe}{A logical specifying whether the Assignment dataframe should be returned. Default is \code{TRUE}.}
+  \item{validation.test}{A logical specifying whether only the pre-request checks should be conducted and the request URL returned (without executing the request). Default is \code{FALSE}.}
 }
 \details{This function returns the requested assignments. The function must specify an AssignmentId xor a HITId xor a HITTypeId. If an AssignmentId is specified, only that assignment is returned. If a HIT or HITType is specified, default behavior is to return all assignments through a series of sequential (but invisible) API calls meaning that returning large numbers of assignments (or assignments for a large number of HITs in a single request) may be time consuming.
 

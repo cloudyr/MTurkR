@@ -2,7 +2,7 @@ GetReviewResultsForHIT <-
 reviewresults <-
 function (hit, assignment = NULL, policy.level = NULL, retrieve.results = TRUE, 
     retrieve.actions = TRUE, keypair = credentials(), print = TRUE, 
-    browser = FALSE, log.requests = TRUE, sandbox = FALSE) 
+    browser = FALSE, log.requests = TRUE, sandbox = FALSE, validation.test = FALSE) 
 {
     keyid <- keypair[1]
     secret <- keypair[2]
@@ -21,32 +21,32 @@ function (hit, assignment = NULL, policy.level = NULL, retrieve.results = TRUE,
         if (!retrieve.actions %in% c(TRUE, FALSE)) 
             stop("RetrieveActions must be TRUE or FALSE")
         else if (retrieve.actions == TRUE) 
-            GETparameters <- paste(GETparameters, "&RetrieveActions=T", 
-                sep = "")
+            GETparameters <- paste(GETparameters, "&RetrieveActions=T", sep = "")
         else if (retrieve.actions == FALSE) 
-            GETparameters <- paste(GETparameters, "&RetrieveActions=F", 
-                sep = "")
+            GETparameters <- paste(GETparameters, "&RetrieveActions=F", sep = "")
     }
     if (!is.null(retrieve.results)) {
         if (!retrieve.results %in% c(TRUE, FALSE)) 
             stop("RetrieveResults must be TRUE or FALSE")
         else if (retrieve.results == TRUE) 
-            GETparameters <- paste(GETparameters, "&RetrieveResults=T", 
-                sep = "")
+            GETparameters <- paste(GETparameters, "&RetrieveResults=T", sep = "")
         else if (retrieve.results == FALSE) 
-            GETparameters <- paste(GETparameters, "&RetrieveResults=F", 
-                sep = "")
+            GETparameters <- paste(GETparameters, "&RetrieveResults=F", sep = "")
     }
     auth = authenticate(operation, secret)
     if (browser == TRUE) {
         request <- request(keyid, auth$operation, auth$signature, 
             auth$timestamp, GETparameters, browser = browser, 
-            sandbox = sandbox)
+            sandbox = sandbox, validation.test = validation.test)
+		if(validation.test)
+			invisible(request)
     }
     else {
         request <- request(keyid, auth$operation, auth$signature, 
             auth$timestamp, GETparameters, log.requests = log.requests, 
-            sandbox = sandbox)
+            sandbox = sandbox, validation.test = validation.test)
+		if(validation.test)
+			invisible(request)
         if (request$valid == TRUE) {
             ReviewResults <- ReviewResultsToDataFrame(xml = request$xml)
             if (print == TRUE) {

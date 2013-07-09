@@ -2,7 +2,7 @@ block <-
 BlockWorker <-
 BlockWorkers <-
 function (workers, reasons, keypair = credentials(), print = TRUE, 
-    browser = FALSE, log.requests = TRUE, sandbox = FALSE) 
+    browser = FALSE, log.requests = TRUE, sandbox = FALSE, validation.test = FALSE) 
 {
     if (!is.null(keypair)) {
         keyid <- keypair[1]
@@ -21,18 +21,22 @@ function (workers, reasons, keypair = credentials(), print = TRUE,
     Workers <- data.frame(matrix(ncol = 3))
     names(Workers) <- c("WorkerId", "Reason", "Valid")
     for (i in 1:length(workers)) {
-        GETparameters <- paste("&WorkerId=", workers[i], "&Reason=", 
-            curlEscape(reasons[i]), sep = "")
+        GETparameters <- paste(	"&WorkerId=", workers[i],
+								"&Reason=", curlEscape(reasons[i]), sep = "")
         auth <- authenticate(operation, secret)
         if (browser == TRUE) {
             request <- request(keyid, auth$operation, auth$signature, 
                 auth$timestamp, GETparameters, browser = browser, 
-                sandbox = sandbox)
+                sandbox = sandbox, validation.test = validation.test)
+			if(validation.test)
+				invisible(request)
         }
         else {
             request <- request(keyid, auth$operation, auth$signature, 
                 auth$timestamp, GETparameters, log.requests = log.requests, 
-                sandbox = sandbox)
+                sandbox = sandbox, validation.test = validation.test)
+			if(validation.test)
+				invisible(request)
             Workers[i, ] = c(workers[i], reasons[i], request$valid)
             if (request$valid == TRUE & print == TRUE) {
                 message(i, ": Worker ", workers[i], " Blocked")

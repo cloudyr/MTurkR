@@ -7,13 +7,13 @@
 \description{Retrieves the amount of money (in US Dollars) in your MTurk account. \code{SufficientFunds} provides a wrapper that checks whether your account has sufficient funds based upon specified characters of your HIT.}
 \usage{
 AccountBalance(	keypair = credentials(), print = TRUE, browser = FALSE, 
-				log.requests = TRUE, sandbox = FALSE)
+				log.requests = TRUE, sandbox = FALSE, validation.test = FALSE)
 
 SufficientFunds(amount, assignments = NULL, hits = NULL, 
 				bonus.ct = NULL, bonus.amount = NULL, masters = FALSE, 
 				turkfee = 0.1, turkmin = 0.005, mastersfee = 0.2, 
 				keypair = credentials(), print = TRUE, 
-				log.requests = TRUE, sandbox = FALSE)
+				log.requests = TRUE, sandbox = FALSE, validation.test = FALSE)
 }
 \arguments{
   \item{amount}{Intended per-assignment payment amount.}
@@ -30,6 +30,7 @@ SufficientFunds(amount, assignments = NULL, hits = NULL,
   \item{browser}{Optionally open the request in the default web browser, rather than opening in R. Default is \code{FALSE}.}
   \item{log.requests}{A logical specifying whether API requests should be logged. Default is \code{TRUE}. See \code{\link{readlogfile}} for details.}
   \item{sandbox}{Optionally execute the request in the MTurk sandbox rather than the live server.  Default is \code{FALSE}.}
+  \item{validation.test}{A logical specifying whether only the pre-request checks should be conducted and the request URL returned (without executing the request). Default is \code{FALSE}.}
 }
 \details{
 \code{AccountBalance} takes no substantive arguments. \code{SufficientFunds} is a wrapper for \code{AccountBalance} that accepts as inputs information about intended payments and bonuses to check whether your account has sufficient funds. If \code{sandbox=TRUE}, \code{AccountBalance} always returns \dQuote{$10,000.00}.

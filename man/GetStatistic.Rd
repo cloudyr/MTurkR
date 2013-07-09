@@ -10,13 +10,15 @@
 \usage{
 GetStatistic(	statistic, period = "LifeToDate", count = NULL,
 				response.group = NULL, keypair = credentials(), print = TRUE, 
-				browser = FALSE, log.requests = TRUE, sandbox = FALSE)
+				browser = FALSE, log.requests = TRUE, sandbox = FALSE,
+				validation.test = FALSE)
 RequesterReport(period = "LifeToDate", keypair = credentials(), 
 				log.requests = TRUE, sandbox = FALSE, print = TRUE)
 
 GetWorkerStatistic(	worker, statistic, period = "LifeToDate", count = NULL,
 					response.group = NULL, keypair = credentials(), print = TRUE,
-					browser = FALSE, log.requests = TRUE, sandbox = FALSE)
+					browser = FALSE, log.requests = TRUE, sandbox = FALSE,
+					validation.test = FALSE)
 WorkerReport(	worker, period = "LifeToDate", 
 				keypair = credentials(), log.requests = TRUE, 
 				sandbox = FALSE, print = TRUE)
@@ -32,6 +34,7 @@ WorkerReport(	worker, period = "LifeToDate",
   \item{browser}{Optionally open the request in the default web browser, rather than opening in R. Default is \code{FALSE}.}
   \item{log.requests}{A logical specifying whether API requests should be logged. Default is \code{TRUE}. See \code{\link{readlogfile}} for details.}
   \item{sandbox}{Optionally execute the request in the MTurk sandbox rather than the live server.  Default is \code{FALSE}.}
+  \item{validation.test}{A logical specifying whether only the pre-request checks should be conducted and the request URL returned (without executing the request). Default is \code{FALSE}.}
 }
 \details{
 Retrieve a specific requester or worker statistic. The list of available statistics can be retrieved by calling \code{\link{ListStatistics}}. Useful for monitoring workers or one's own use of the requester system.

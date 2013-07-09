@@ -3,7 +3,7 @@ gethit <-
 hit <-
 function (hit, response.group = NULL, keypair = credentials(), 
     print = TRUE, browser = FALSE, log.requests = TRUE, sandbox = FALSE, 
-    return.hit.dataframe = TRUE, return.qual.dataframe = TRUE) 
+    return.hit.dataframe = TRUE, return.qual.dataframe = TRUE, validation.test = FALSE) 
 {
     if (!is.null(keypair)) {
         keyid <- keypair[1]
@@ -30,26 +30,28 @@ function (hit, response.group = NULL, keypair = credentials(),
     if (browser == TRUE) {
         request <- request(keyid, auth$operation, auth$signature, 
             auth$timestamp, GETparameters, browser = browser, 
-            sandbox = sandbox)
+            sandbox = sandbox, validation.test = validation.test)
+		if(validation.test)
+			invisible(request)
     }
     else {
         request <- request(keyid, auth$operation, auth$signature, 
             auth$timestamp, GETparameters, log.requests = log.requests, 
-            sandbox = sandbox)
+            sandbox = sandbox, validation.test = validation.test)
+		if(validation.test)
+			invisible(request)
         if (request$valid == TRUE) {
             z <- HITsToDataFrame(xml = request$xml, sandbox = sandbox)
             if (print == TRUE) 
                 message("HIT (", hit, ") Retrieved")
-            if (return.hit.dataframe == TRUE & return.qual.dataframe == 
-                TRUE) 
+            if (return.hit.dataframe == TRUE & return.qual.dataframe == TRUE) 
                 return.list <- list(HITs = z$HITs, QualificationRequirements = z$QualificationRequirements)
-            else if (return.hit.dataframe == TRUE & return.qual.dataframe == 
-                FALSE) 
+            else if (return.hit.dataframe == TRUE & return.qual.dataframe == FALSE) 
                 return.list <- list(HITs = z$HITs)
-            else if (return.hit.dataframe == FALSE & return.qual.dataframe == 
-                TRUE) 
+            else if (return.hit.dataframe == FALSE & return.qual.dataframe == TRUE) 
                 return.list <- list(QualificationRequirements = z$QualificationRequirements)
-            else return.list <- NULL
+            else
+				return.list <- NULL
         }
         else {
             if (print == TRUE) 

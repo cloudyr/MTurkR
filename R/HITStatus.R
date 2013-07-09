@@ -34,11 +34,11 @@ function (hit = NULL, hit.type = NULL, keypair = credentials(),
                                             "Totals"),
                                 HITReviewStatus = c("---------------",""),
                                 NumberofAssignmentsPending = c("--------------------",
-                                    sum(as.numeric(HITs$NumberofAssignmentsAvailable[1:i]))),
+                                    sum(as.numeric(HITs$NumberofAssignmentsAvailable))),
                                 NumberofAssignmentsAvailable = c("------------------",
-                                    sum(as.numeric(HITs$NumberofAssignmentsPending[1:i]))),
+                                    sum(as.numeric(HITs$NumberofAssignmentsPending))),
                                 NumberofAssignmentsCompleted = c("--------------------",
-                                    sum(as.numeric(HITs$NumberofAssignmentsCompleted[1:i]))),
+                                    sum(as.numeric(HITs$NumberofAssignmentsCompleted))),
                                 Expiration = c("----------",""))
             toprint <- rbind(toprint,totals)
         }

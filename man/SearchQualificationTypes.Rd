@@ -8,7 +8,8 @@ SearchQualificationTypes(query = NULL, only.mine = TRUE, only.requestable = FALS
 						return.all = FALSE, pagenumber = "1", pagesize = "10", 
 						sortproperty = "Name", sortdirection = "Ascending", 
 						keypair = credentials(), print = TRUE, log.requests = TRUE, 
-						sandbox = FALSE, return.qual.dataframe = TRUE)
+						sandbox = FALSE, return.qual.dataframe = TRUE,
+						validation.test = FALSE)
 }
 \arguments{
   \item{query}{An optional character string containing a search query to be used to search among available QualificationTypes.}
@@ -24,6 +25,7 @@ SearchQualificationTypes(query = NULL, only.mine = TRUE, only.requestable = FALS
   \item{log.requests}{A logical specifying whether API requests should be logged. Default is \code{TRUE}. See \code{\link{readlogfile}} for details.}
   \item{sandbox}{Optionally execute the request in the MTurk sandbox rather than the live server.  Default is \code{FALSE}.}
   \item{return.qual.dataframe}{A logical indicating whether the QualificationTypes should be returned as a dataframe. Default is \code{TRUE}.}
+  \item{validation.test}{A logical specifying whether only the pre-request checks should be conducted and the request URL returned (without executing the request). Default is \code{FALSE}.}
 }
 \details{
 Retrieve available QualificationTypes, optionally only those QualificationTypes created by you and/or those that meet specific search criteria specified in the \code{query} parameter. Given that the total number of QualificationTypes available from all requesters could be infinitely large, specifying both \code{only.mine=FALSE} and \code{return.all=FALSE} will be time-consuming and may cause memory problems.

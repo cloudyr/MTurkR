@@ -2,7 +2,8 @@ GrantBonus <-
 bonus <-
 paybonus <-
 function (workers, assignments, amounts, reasons, keypair = credentials(), 
-    print = FALSE, browser = FALSE, log.requests = TRUE, sandbox = FALSE) 
+    print = FALSE, browser = FALSE, log.requests = TRUE, sandbox = FALSE,
+	validation.test = FALSE) 
 {
     if (!is.null(keypair)) {
         keyid <- keypair[1]
@@ -26,8 +27,7 @@ function (workers, assignments, amounts, reasons, keypair = credentials(),
                 i, sep = ""))
     }
     Bonuses <- data.frame(matrix(nrow = length(workers), ncol = 5))
-    names(Bonuses) <- c("WorkerId", "AssignmentId", "Amount", 
-        "Reason", "Valid")
+    names(Bonuses) <- c("WorkerId", "AssignmentId", "Amount", "Reason", "Valid")
     for (i in 1:length(workers)) {
         GETparameters <- paste("&WorkerId=", workers[i], "&AssignmentId=", 
             assignments[i], "&BonusAmount.1.Amount=", amounts[i], 
@@ -37,12 +37,16 @@ function (workers, assignments, amounts, reasons, keypair = credentials(),
         if (browser == TRUE) {
             request <- request(keyid, auth$operation, auth$signature, 
                 auth$timestamp, GETparameters, browser = browser, 
-                sandbox = sandbox)
+                sandbox = sandbox, validation.test = validation.test)
+			if(validation.test)
+				invisible(request)
         }
         else {
             request <- request(keyid, auth$operation, auth$signature, 
                 auth$timestamp, GETparameters, log.requests = log.requests, 
-                sandbox = sandbox)
+                sandbox = sandbox, validation.test = validation.test)
+			if(validation.test)
+				invisible(request)
             Bonuses[i, ] <- c(workers[i], assignments[i], amounts[i], 
                 reasons[i], request$valid)
             if (request$valid == TRUE) {
@@ -58,5 +62,6 @@ function (workers, assignments, amounts, reasons, keypair = credentials(),
     }
     if (print == TRUE) 
         return(Bonuses)
-    else invisible(Bonuses)
+    else
+		invisible(Bonuses)
 }

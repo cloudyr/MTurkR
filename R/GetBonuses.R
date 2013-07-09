@@ -2,7 +2,8 @@ GetBonuses <-
 bonuses <-
 function (assignment = NULL, hit = NULL, hit.type = NULL, return.all = TRUE, 
     pagenumber = "1", pagesize = "100", keypair = credentials(), 
-    print = TRUE, log.requests = TRUE, sandbox = FALSE, return.bonus.dataframe = TRUE) 
+    print = TRUE, log.requests = TRUE, sandbox = FALSE,
+	return.bonus.dataframe = TRUE, validation.test = FALSE) 
 {
     if (!is.null(keypair)) {
         keyid <- keypair[1]
@@ -27,13 +28,16 @@ function (assignment = NULL, hit = NULL, hit.type = NULL, return.all = TRUE,
             GETparameters <- paste("&HITId=", hit, "&PageNumber=", 
                 pagenumber, "&PageSize=", pagesize, sep = "")
         }
-        else GETparameters <- paste("&AssignmentId=", assignment, 
-            "&PageNumber=", pagenumber, "&PageSize=", pagesize, 
-            sep = "")
+        else
+			GETparameters <- paste(	"&AssignmentId=", assignment, 
+									"&PageNumber=", pagenumber,
+									"&PageSize=", pagesize, sep = "")
         auth <- authenticate(operation, secret)
         request <- request(keyid, auth$operation, auth$signature, 
             auth$timestamp, GETparameters, log.requests = log.requests, 
-            sandbox = sandbox)
+            sandbox = sandbox, validation.test = validation.test)
+		if(validation.test)
+			invisible(request)
         request$operation <- operation
         if (request$valid == TRUE) {
             request$total.bonuses <- strsplit(strsplit(request$xml, 
@@ -55,26 +59,28 @@ function (assignment = NULL, hit = NULL, hit.type = NULL, return.all = TRUE,
     }
     else if (!is.null(hit.type)) {
         hitsearch <- SearchHITs(keypair = keypair, print = FALSE, 
-            log.requests = log.requests, sandbox = sandbox, return.qual.dataframe = FALSE)
-        hitlist <- hitsearch$HITs[hitsearch$HITs$HITTypeId == 
-            hit.type, ]$HITId
+								log.requests = log.requests, sandbox = sandbox,
+								return.qual.dataframe = FALSE)
+        hitlist <- hitsearch$HITs[hitsearch$HITs$HITTypeId == hit.type, ]$HITId
         if (length(hitlist) == 0) 
             stop("No HITs found for HITType")
         z <- data.frame(matrix(ncol = 3, nrow = length(hitlist)))
         names(z) <- c("HITs", "Number", "Amount")
         for (i in 1:length(z$HITId)) {
-            GETparameters <- paste("&HITId=", z$HITId[i], "&PageNumber=", 
-                pagenumber, "&PageSize=", pagesize, sep = "")
+            GETparameters <- paste(	"&HITId=", z$HITId[i],
+									"&PageNumber=", pagenumber,
+									"&PageSize=", pagesize, sep = "")
             auth <- authenticate(operation, secret)
             request <- request(keyid, auth$operation, auth$signature, 
                 auth$timestamp, GETparameters, log.requests = log.requests, 
-                sandbox = sandbox)
+                sandbox = sandbox, validation.test = validation.test)
+			if(validation.test)
+				invisible(request)
             if (request$valid == TRUE) {
                 request$bonuses <- BonusPaymentsToDataFrame(xml = request$xml)
                 if (!is.null(request$bonuses)) {
                   z$Number[i] <- dim(request$bonuses)[1]
-                  z$Amount[i] <- round(sum(as.numeric(request$bonuses$Amount)), 
-                    2)
+                  z$Amount[i] <- round(sum(as.numeric(request$bonuses$Amount)), 2)
                 }
                 else {
                   z$Number[i] <- 0

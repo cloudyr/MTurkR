@@ -1,7 +1,7 @@
 SetHITAsReviewing <-
 reviewing <-
 function (hit = NULL, hit.type = NULL, revert = FALSE, keypair = credentials(), 
-    print = TRUE, browser = FALSE, log.requests = TRUE, sandbox = FALSE) 
+    print = TRUE, browser = FALSE, log.requests = TRUE, sandbox = FALSE, validation.test = FALSE) 
 {
     if (!is.null(keypair)) {
         keyid <- keypair[1]
@@ -36,12 +36,16 @@ function (hit = NULL, hit.type = NULL, revert = FALSE, keypair = credentials(),
         if (browser == TRUE) {
             request <- request(keyid, auth$operation, auth$signature, 
                 auth$timestamp, GETiteration, browser = browser, 
-                sandbox = sandbox)
+                sandbox = sandbox, validation.test = validation.test)
+			if(validation.test)
+				invisible(request)
         }
         else {
             request <- request(keyid, auth$operation, auth$signature, 
                 auth$timestamp, GETiteration, log.requests = log.requests, 
-                sandbox = sandbox)
+                sandbox = sandbox, validation.test = validation.test)
+			if(validation.test)
+				invisible(request)
             if (revert == "false") 
                 status <- "Reviewing"
             else if (revert == "true") 
@@ -63,5 +67,6 @@ function (hit = NULL, hit.type = NULL, revert = FALSE, keypair = credentials(),
     }
     if (print == TRUE) 
         return(HITs)
-    else invisible(HITs)
+    else
+		invisible(HITs)
 }

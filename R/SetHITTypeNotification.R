@@ -1,7 +1,7 @@
 SetHITTypeNotification <-
 setnotification <-
 function (hit.type, notification = NULL, active = NULL, keypair = credentials(), 
-    print = TRUE, browser = FALSE, log.requests = TRUE, sandbox = FALSE) 
+    print = TRUE, browser = FALSE, log.requests = TRUE, sandbox = FALSE, validation.test = FALSE)
 {
     if (is.null(notification) & is.null(active)) 
         stop("Must specify either 'notification' and/or 'active'")
@@ -17,11 +17,9 @@ function (hit.type, notification = NULL, active = NULL, keypair = credentials(),
     if (!is.null(notification)) 
         GETparameters <- paste(GETparameters, notification, sep = "")
     if (!is.null(active) && active == TRUE) 
-        GETparameters <- paste(GETparameters, "&Active=true", 
-            sep = "")
+        GETparameters <- paste(GETparameters, "&Active=true", sep = "")
     if (!is.null(active) && active == FALSE) 
-        GETparameters <- paste(GETparameters, "&Active=false", 
-            sep = "")
+        GETparameters <- paste(GETparameters, "&Active=false", sep = "")
     Notification <- data.frame(matrix(ncol = 4))
     names(Notification) <- c("HITTypeId", "Notification", "Active", 
         "Valid")
@@ -29,14 +27,17 @@ function (hit.type, notification = NULL, active = NULL, keypair = credentials(),
     if (browser == TRUE) {
         request <- request(keyid, auth$operation, auth$signature, 
             auth$timestamp, GETparameters, browser = browser, 
-            sandbox = sandbox)
+            sandbox = sandbox, validation.test = validation.test)
+		if(validation.test)
+			invisible(request)
     }
     else {
         request <- request(keyid, auth$operation, auth$signature, 
             auth$timestamp, GETparameters, log.requests = log.requests, 
-            sandbox = sandbox)
-        Notification[1, ] <- c(hit.type, notification, active, 
-            request$valid)
+            sandbox = sandbox, validation.test = validation.test)
+        if(validation.test)
+			invisible(request)
+		Notification[1, ] <- c(hit.type, notification, active, request$valid)
         if (request$valid == TRUE) {
             if (print == TRUE) {
                 if (!is.null(notification) & is.null(active)) 
@@ -58,5 +59,6 @@ function (hit.type, notification = NULL, active = NULL, keypair = credentials(),
     }
     if (print == TRUE) 
         return(Notification)
-    else invisible(Notification)
+    else
+		invisible(Notification)
 }

@@ -13,7 +13,8 @@ CreateHIT(	hit.type = NULL, question = NULL, validate.question = FALSE,
 			auto.approval.delay = NULL, qual.req = NULL, 
 			hitlayoutid = NULL, hitlayoutparameters = NULL, 
 			response.group = NULL, keypair = credentials(), print = TRUE, 
-			browser = FALSE, log.requests = TRUE, sandbox = FALSE)
+			browser = FALSE, log.requests = TRUE, sandbox = FALSE,
+			validation.test = FALSE)
 }
 \arguments{
   \item{hit.type}{An optional character string specifying the HITTypeId that this HIT should be visibly grouped with (and whose properties, e.g. reward amount, this HIT should inherit).}
@@ -40,6 +41,7 @@ CreateHIT(	hit.type = NULL, question = NULL, validate.question = FALSE,
   \item{browser}{Optionally open the request in the default web browser, rather than opening in R. Default is \code{FALSE}.}
   \item{log.requests}{A logical specifying whether API requests should be logged. Default is \code{TRUE}. See \code{\link{readlogfile}} for details.}
   \item{sandbox}{Optionally execute the request in the MTurk sandbox rather than the live server.  Default is \code{FALSE}.}
+  \item{validation.test}{A logical specifying whether only the pre-request checks should be conducted and the request URL returned (without executing the request). Default is \code{FALSE}.}
 }
 \details{This function creates a new HIT and makes it available to workers. Characteristics of the HIT can either be specified by including a valid HITTypeId for \dQuote{hit.type} or creating a new HITType by atomically specifying the characteristics of a new HITType.
 

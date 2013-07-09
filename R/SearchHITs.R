@@ -3,7 +3,8 @@ searchhits <-
 function (response.group = NULL, return.all = TRUE, pagenumber = "1", 
     pagesize = "10", sortproperty = "Enumeration", sortdirection = "Ascending", 
     keypair = credentials(), print = TRUE, log.requests = TRUE, 
-    sandbox = FALSE, return.hit.dataframe = TRUE, return.qual.dataframe = TRUE) 
+    sandbox = FALSE, return.hit.dataframe = TRUE, return.qual.dataframe = TRUE,
+	validation.test = FALSE) 
 {
     if (!is.null(keypair)) {
         keyid <- keypair[1]
@@ -48,7 +49,9 @@ function (response.group = NULL, return.all = TRUE, pagenumber = "1",
         auth <- authenticate(operation, secret)
         batch <- request(keyid, auth$operation, auth$signature, 
                         auth$timestamp, GETiteration, log.requests = log.requests, 
-                        sandbox = sandbox)
+                        sandbox = sandbox, validation.test = validation.test)
+		if(validation.test)
+			invisible(batch)
         batch$total <- as.numeric(strsplit(strsplit(batch$xml, 
             "<TotalNumResults>")[[1]][2], "</TotalNumResults>")[[1]][1])
         batch$batch.total <- length(xpathApply(xmlParse(batch$xml), "//HIT"))
@@ -65,10 +68,14 @@ function (response.group = NULL, return.all = TRUE, pagenumber = "1",
         return(batch)
     }
     request <- batch(pagenumber)
+	if(validation.test)
+		invisible(request)
     runningtotal <- request$batch.total
     pagenumber = 2
     while (request$total > runningtotal) {
         nextbatch <- batch(pagenumber)
+		if(validation.test)
+			invisible(nextbatch)
         request$request.id <- c(request$request.id, nextbatch$request.id)
         request$valid <- c(request$valid, nextbatch$valid)
         request$xml.response <- c(request$xml, nextbatch$xml)

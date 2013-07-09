@@ -14,7 +14,7 @@ AssignQualification(qual, workers, value = "1", notify = FALSE,
 					conditional.value = NULL, conditional.period = NULL, 
 					set.statistic.as.value = FALSE, 
 					keypair = credentials(), print = FALSE, browser = FALSE, 
-					log.requests = TRUE, sandbox = FALSE)
+					log.requests = TRUE, sandbox = FALSE, validation.test = FALSE)
 }
 \arguments{
   \item{qual}{A character string containing a QualificationTypeId.}
@@ -41,6 +41,7 @@ AssignQualification(qual, workers, value = "1", notify = FALSE,
   \item{browser}{Optionally open the request in the default web browser, rather than opening in R. Default is \code{FALSE}.}
   \item{log.requests}{A logical specifying whether API requests should be logged. Default is \code{TRUE}. See \code{\link{readlogfile}} for details.}
   \item{sandbox}{Optionally execute the request in the MTurk sandbox rather than the live server.  Default is \code{FALSE}.}
+  \item{validation.test}{A logical specifying whether only the pre-request checks should be conducted and the request URL returned (without executing the request). Default is \code{FALSE}. This option is not available for conditional qualification assignment.}
 }
 \details{
 A very robust function to assign a Qualification to one or more workers. The simplest use of the function is to assign a Qualification of the specified value to one worker, but assignment to multiple workers is possible. Workers can be assigned a Qualification previously created by \code{\link{CreateQualificationType}} or with the characteristics of a new QualificationType specified atomically. Qualifications can also be assigned conditional on each worker's value of a specified statistic (including assigning the value of the specified statistic as the worker's score for the Qualification).

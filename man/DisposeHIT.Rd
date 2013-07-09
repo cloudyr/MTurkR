@@ -6,7 +6,7 @@
 \usage{
 DisposeHIT(	hit = NULL, hit.type = NULL, response.group = NULL, 
 			keypair = credentials(), print = TRUE, browser = FALSE, 
-			log.requests = TRUE, sandbox = FALSE)
+			log.requests = TRUE, sandbox = FALSE, validation.test = FALSE)
 }
 \arguments{
   \item{hit}{A character string containing a HITId or a vector of character strings containing multiple HITIds.}
@@ -16,7 +16,8 @@ DisposeHIT(	hit = NULL, hit.type = NULL, response.group = NULL,
   \item{print}{Optionally print the results of the API request to the standard output. Default is \code{TRUE}.}
   \item{browser}{Optionally open the request in the default web browser, rather than opening in R. Default is \code{FALSE}.}
   \item{log.requests}{A logical specifying whether API requests should be logged. Default is \code{TRUE}. See \code{\link{readlogfile}} for details.}
-  \item{sandbox}{Optionally execute the request in the MTurk sandbox rather than the live server.  Default is \code{FALSE}.}
+  \item{sandbox}{Optionally execute the request in the MTurk sandbox rather than the live server. Default is \code{FALSE}.}
+  \item{validation.test}{A logical specifying whether only the pre-request checks should be conducted and the request URL returned (without executing the request). Default is \code{FALSE}.}
 }
 \details{
 Dispose of a HIT (and its assignment data) when it is no longer needed. Must specify a HITId or a HITTypeId, but not both. HITTypeId uses the \code{\link{SearchHITs}} operation to locate HITs of the specified HITType before disposing of them.

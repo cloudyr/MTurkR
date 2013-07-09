@@ -4,7 +4,7 @@ function (name, description, status, keywords = NULL, retry.delay = NULL,
     test = NULL, answerkey = NULL, test.duration = NULL,
 	validate.test = FALSE, validate.answerkey = FALSE,
 	auto = NULL, auto.value = NULL, keypair = credentials(), print = TRUE, 
-    browser = FALSE, log.requests = TRUE, sandbox = FALSE) 
+    browser = FALSE, log.requests = TRUE, sandbox = FALSE, validation.test = FALSE) 
 {
     if (!is.null(keypair)) {
         keyid <- keypair[1]
@@ -18,8 +18,7 @@ function (name, description, status, keywords = NULL, retry.delay = NULL,
         curlEscape(description), "&QualificationTypeStatus=", 
         status, sep = "")
     if (!is.null(keywords)) 
-        GETparameters <- paste(GETparameters, "&Keywords=", curlEscape(keywords), 
-            sep = "")
+        GETparameters <- paste(GETparameters, "&Keywords=", curlEscape(keywords), sep = "")
     if (!is.null(test)) {
         if(validate.test==TRUE){
 			if(!is.null(xmlChildren(xmlParse(test))$QuestionForm))
@@ -33,7 +32,7 @@ function (name, description, status, keywords = NULL, retry.delay = NULL,
 			}
 			}
 		GETparameters <- paste(GETparameters, "&Test=", curlEscape(test), 
-			"&TestDurationInSeconds=", test.duration, sep = "")
+								"&TestDurationInSeconds=", test.duration, sep = "")
         if (!is.null(answerkey)) {
             if(validate.answerkey==TRUE){
 				if(!is.null(xmlChildren(xmlParse(answerkey))$AnswerKey))
@@ -57,35 +56,33 @@ function (name, description, status, keywords = NULL, retry.delay = NULL,
         }
     }
     if (!is.null(retry.delay)) 
-        GETparameters <- paste(GETparameters, "&RetryDelayInSeconds=", 
-            retry.delay, sep = "")
+        GETparameters <- paste(GETparameters, "&RetryDelayInSeconds=", retry.delay, sep = "")
     if (!is.null(auto) && auto == TRUE & is.null(test) & !is.null(auto.value)) 
-        GETparameters <- paste(GETparameters, "&AutoGranted=", 
-            "true", "&AutoGrantedValue=", auto.value, sep = "")
-    else if (!is.null(auto) && auto == FALSE & is.null(test) & 
-        !is.null(auto.value)) 
-        GETparameters <- paste(GETparameters, "&AutoGranted=", 
-            "false", "&AutoGrantedValue=", auto.value, sep = "")
-    else if (!is.null(auto) && auto == TRUE & is.null(test) & 
-        is.null(auto.value)) 
-        GETparameters <- paste(GETparameters, "&AutoGranted=", 
-            "true", sep = "")
-    else if (!is.null(auto) && auto == FALSE & is.null(test) & 
-        is.null(auto.value)) 
-        GETparameters <- paste(GETparameters, "&AutoGranted=", 
-            "false", sep = "")
+        GETparameters <- paste(GETparameters, "&AutoGranted=", "true",
+								"&AutoGrantedValue=", auto.value, sep = "")
+    else if (!is.null(auto) && auto == FALSE & is.null(test) & !is.null(auto.value)) 
+        GETparameters <- paste(GETparameters, "&AutoGranted=", "false",
+								"&AutoGrantedValue=", auto.value, sep = "")
+    else if (!is.null(auto) && auto == TRUE & is.null(test) & is.null(auto.value)) 
+        GETparameters <- paste(GETparameters, "&AutoGranted=", "true", sep = "")
+    else if (!is.null(auto) && auto == FALSE & is.null(test) & is.null(auto.value)) 
+        GETparameters <- paste(GETparameters, "&AutoGranted=", "false", sep = "")
     else if (!is.null(auto) && !is.null(test)) 
         warning("AutoGranted Ignored! Test and AutoGranted cannot be declared together")
     auth <- authenticate(operation, secret)
     if (browser == TRUE) {
         request <- request(keyid, auth$operation, auth$signature, 
             auth$timestamp, GETparameters, browser = browser, 
-            sandbox = sandbox)
+            sandbox = sandbox, validation.test = validation.test)
+		if(validation.test)
+			invisible(request)
     }
     else {
         request <- request(keyid, auth$operation, auth$signature, 
             auth$timestamp, GETparameters, log.requests = log.requests, 
-            sandbox = sandbox)
+            sandbox = sandbox, validation.test = validation.test)
+		if(validation.test)
+			invisible(request)
         if (request$valid == TRUE) {
             QualificationType <- QualificationTypesToDataFrame(xml = request$xml)
             if (print == TRUE) {

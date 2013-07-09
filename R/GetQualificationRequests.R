@@ -3,7 +3,7 @@ qualrequests <-
 function (qual = NULL, return.all = TRUE, pagenumber = "1", pagesize = "10", 
     sortproperty = "SubmitTime", sortdirection = "Ascending", 
     keypair = credentials(), print = TRUE, log.requests = TRUE, 
-    sandbox = FALSE, return.qual.dataframe = TRUE) 
+    sandbox = FALSE, return.qual.dataframe = TRUE, validation.test = FALSE) 
 {
     if (!is.null(keypair)) {
         keyid <- keypair[1]
@@ -38,7 +38,9 @@ function (qual = NULL, return.all = TRUE, pagenumber = "1", pagesize = "10",
         auth <- authenticate(operation, secret)
         batch <- request(keyid, auth$operation, auth$signature, 
             auth$timestamp, GETiteration, log.requests = log.requests, 
-            sandbox = sandbox)
+            sandbox = sandbox, validation.test = validation.test)
+		if(validation.test)
+			invisible(batch)
         batch$QualificationRequests <- NA
         batch$total <- as.numeric(strsplit(strsplit(batch$xml, 
             "<TotalNumResults>")[[1]][2], "</TotalNumResults>")[[1]][1])
@@ -52,6 +54,8 @@ function (qual = NULL, return.all = TRUE, pagenumber = "1", pagesize = "10",
     }
     request <- batch(qual, pagenumber, pagesize, sortproperty, 
         sortdirection, sandbox = sandbox)
+	if(validation.test)
+		invisible(request)
     runningtotal <- request$batch.total
     pagenumber = 2
     while (request$total > runningtotal) {

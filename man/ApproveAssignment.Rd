@@ -9,11 +9,11 @@
 \usage{
 ApproveAssignment(	assignments, feedback = NULL, rejected = FALSE, 
 					keypair = credentials(), print = FALSE, browser = FALSE, 
-					log.requests = TRUE, sandbox = FALSE)
+					log.requests = TRUE, sandbox = FALSE, validation.test = FALSE)
 
 ApproveAllAssignments(	hit = NULL, hit.type = NULL, feedback = NULL, 
 						keypair = credentials(), print = FALSE, 
-						log.requests = TRUE, sandbox = FALSE)
+						log.requests = TRUE, sandbox = FALSE, validation.test = FALSE)
 }
 \arguments{
   \item{assignments}{A character string containing an AssignmentId, or a vector of multiple character strings containing multiple AssignmentIds, to approve.}
@@ -26,6 +26,7 @@ ApproveAllAssignments(	hit = NULL, hit.type = NULL, feedback = NULL,
   \item{browser}{Optionally open the request in the default web browser, rather than opening in R. Default is \code{FALSE}.}
   \item{log.requests}{A logical specifying whether API requests should be logged. Default is \code{TRUE}. See \code{\link{readlogfile}} for details.}
   \item{sandbox}{Optionally execute the request in the MTurk sandbox rather than the live server.  Default is \code{FALSE}.}
+  \item{validation.test}{A logical specifying whether only the pre-request checks should be conducted and the request URL returned (without executing the request). Default is \code{FALSE}.}
 }
 \details{
 Approve assignments, by AssignmentId (as returned by \code{\link{GetAssignment}} or by HITId or HITTypeId. Must specify \code{assignments} xor \code{hit} xor \code{hit.type}. \code{ApproveAllAssignments} approves all assignments of a given HIT or HITType without first having to perform \code{\link{GetAssignment}}.

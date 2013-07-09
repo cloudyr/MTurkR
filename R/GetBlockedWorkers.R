@@ -1,7 +1,8 @@
 GetBlockedWorkers <-
 blockedworkers <-
 function (pagenumber = NULL, pagesize = NULL, keypair = credentials(), 
-    print = TRUE, browser = FALSE, log.requests = TRUE, sandbox = FALSE) 
+    print = TRUE, browser = FALSE, log.requests = TRUE,
+	sandbox = FALSE, validation.test = FALSE) 
 {
     if (!is.null(keypair)) {
         keyid <- keypair[1]
@@ -13,28 +14,29 @@ function (pagenumber = NULL, pagesize = NULL, keypair = credentials(),
     if (!is.null(pagesize)) {
         if (as.numeric(pagesize) > 65535) 
             stop("'pagesize' must be <=65535")
-        else GETparameters <- paste(GETparameters, "&PageSize=", 
-            pagesize, sep = "")
+        else GETparameters <- paste(GETparameters, "&PageSize=", pagesize, sep = "")
     }
-    else GETparameters <- paste(GETparameters, "&PageSize=65535", 
-        sep = "")
+    else GETparameters <- paste(GETparameters, "&PageSize=65535", sep = "")
     if (!is.null(pagenumber)) {
         if (as.numeric(pagenumber) < 1) 
             stop("'pagenumber' must be > 1")
-        else GETparameters <- paste(GETparameters, "&PageNumber=", 
-            pagenumber, sep = "")
+        else GETparameters <- paste(GETparameters, "&PageNumber=", pagenumber, sep = "")
     }
     Workers <- NA
     auth <- authenticate(operation, secret)
     if (browser == TRUE) {
         request <- request(keyid, auth$operation, auth$signature, 
             auth$timestamp, GETparameters, browser = browser, 
-            sandbox = sandbox)
+            sandbox = sandbox, validation.test = validation.test)
+		if(validation.test)
+			invisible(request)
     }
     else {
         request <- request(keyid, auth$operation, auth$signature, 
             auth$timestamp, GETparameters, log.requests = log.requests, 
-            sandbox = sandbox)
+            sandbox = sandbox, validation.test = validation.test)
+		if(validation.test)
+			invisible(request)
         if (request$valid == TRUE) {
             Workers <- WorkerBlockToDataFrame(xml = request$xml)
             if (print == TRUE) {

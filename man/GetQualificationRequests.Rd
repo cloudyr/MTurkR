@@ -8,7 +8,8 @@ GetQualificationRequests(qual = NULL, return.all = TRUE,
 						pagenumber = "1", pagesize = "10", 
 						sortproperty = "SubmitTime", sortdirection = "Ascending", 
 						keypair = credentials(), print = TRUE, 
-						log.requests = TRUE, sandbox = FALSE, return.qual.dataframe = TRUE)
+						log.requests = TRUE, sandbox = FALSE,
+						return.qual.dataframe = TRUE, validation.test = FALSE)
 }
 \arguments{
   \item{qual}{An optional character string containing a QualificationTypeId to which the search should be restricted. If none is supplied, requests made for all QualificationTypes are returned.}
@@ -22,6 +23,7 @@ GetQualificationRequests(qual = NULL, return.all = TRUE,
   \item{log.requests}{A logical specifying whether API requests should be logged. Default is \code{TRUE}. See \code{\link{readlogfile}} for details.}
   \item{sandbox}{Optionally execute the request in the MTurk sandbox rather than the live server.  Default is \code{FALSE}.}
   \item{return.qual.dataframe}{A logical indicating whether the QualificationTypes should be returned as a dataframe. Default is \code{TRUE}.}
+  \item{validation.test}{A logical specifying whether only the pre-request checks should be conducted and the request URL returned (without executing the request). Default is \code{FALSE}.}
 }
 \details{
 A function to retrieve pending Qualification Requests made by workers, either for a specified QualificationType or all QualificationTypes. Specifically, all active, custom QualificationTypes are visible to workers, and workers can request a QualificationType (e.g., when a HIT requires one they do not have). This function retrieves those requests so that they can be granted (with \code{\link{GrantQualification}}) or rejected (with \code{\link{RejectQualification}}).

@@ -5,9 +5,9 @@
 \description{Get all Qualifications of a particular QualificationType assigned to Workers.}
 \usage{
 GetQualifications(	qual, status = NULL, return.all = TRUE, 
-					pagenumber = 1, pagesize = 100, 
-					keypair = credentials(), print = TRUE, 
-					log.requests = TRUE, sandbox = FALSE, return.qual.dataframe = TRUE)
+					pagenumber = 1, pagesize = 100, keypair = credentials(),
+					print = TRUE, log.requests = TRUE, sandbox = FALSE,
+					return.qual.dataframe = TRUE, validation.test = FALSE)
 }
 \arguments{
   \item{qual}{A character string containing a QualificationTypeId for a custom (i.e., not built-in) QualificationType.}
@@ -20,6 +20,7 @@ GetQualifications(	qual, status = NULL, return.all = TRUE,
   \item{log.requests}{A logical specifying whether API requests should be logged. Default is \code{TRUE}. See \code{\link{readlogfile}} for details.}
   \item{sandbox}{Optionally execute the request in the MTurk sandbox rather than the live server. Default is \code{FALSE}.}
   \item{return.qual.dataframe}{A logical specifying whether the Qualification dataframe should be returned. Default is \code{TRUE}.}
+  \item{validation.test}{A logical specifying whether only the pre-request checks should be conducted and the request URL returned (without executing the request). Default is \code{FALSE}.}
 }
 \details{
 A function to retrieve Qualifications granted for the specified QualificationType. To retrieve a specific Qualification score (e.g., for one worker), use \code{\link{GetQualificationScore}}.

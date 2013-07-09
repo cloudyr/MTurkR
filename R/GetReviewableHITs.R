@@ -3,7 +3,7 @@ reviewable <-
 function (hit.type = NULL, status = NULL, response.group = "Minimal", 
     return.all = TRUE, pagenumber = "1", pagesize = "10", sortproperty = "Enumeration", 
     sortdirection = "Ascending", keypair = credentials(), print = TRUE, 
-    log.requests = TRUE, sandbox = FALSE) 
+    log.requests = TRUE, sandbox = FALSE, validation.test = FALSE) 
 {
     if (!is.null(keypair)) {
         keyid <- keypair[1]
@@ -44,7 +44,9 @@ function (hit.type = NULL, status = NULL, response.group = "Minimal",
         auth <- authenticate(operation, secret)
         batch <- request(keyid, auth$operation, auth$signature, 
             auth$timestamp, GETparameters, log.requests = log.requests, 
-            sandbox = sandbox)
+            sandbox = sandbox, validation.test = validation.test)
+		if(validation.test)
+			invisible(batch)
         batch$HITs <- NA
         batch$total <- as.numeric(strsplit(strsplit(batch$xml, 
             "<TotalNumResults>")[[1]][2], "</TotalNumResults>")[[1]][1])
@@ -59,11 +61,16 @@ function (hit.type = NULL, status = NULL, response.group = "Minimal",
         return(batch)
     }
     request <- batch(operation, keyid, secret, pagenumber, pagesize)
-    runningtotal <- request$batch.total
+    if(validation.test)
+		invisible(request)
+	runningtotal <- request$batch.total
     pagenumber = 2
     while (request$total > runningtotal) {
         nextbatch <- batch(operation, keyid, secret, hit, pagenumber, 
-            pagesize, sortproperty, sortdirection, sandbox = sandbox)
+            pagesize, sortproperty, sortdirection, sandbox = sandbox,
+			validation.test = validation.test)
+		if(validation.test)
+			invisible(nextbatch)
         request$request.id <- c(request$request.id, nextbatch$request.id)
         request$valid <- c(request$valid, nextbatch$valid)
         request$xml.response <- c(request$xml, nextbatch$xml)

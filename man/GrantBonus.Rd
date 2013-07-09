@@ -7,7 +7,7 @@
 \usage{
 GrantBonus(	workers, assignments, amounts, reasons, 
 			keypair = credentials(), print = FALSE, browser = FALSE, 
-			log.requests = TRUE, sandbox = FALSE)
+			log.requests = TRUE, sandbox = FALSE, validation.test = FALSE)
 }
 \arguments{
   \item{workers}{A character string containing a WorkerId, or a vector of character strings containing multiple WorkerIds.}
@@ -19,6 +19,7 @@ GrantBonus(	workers, assignments, amounts, reasons,
   \item{browser}{Optionally open the request in the default web browser, rather than opening in R. Default is \code{FALSE}.}
   \item{log.requests}{A logical specifying whether API requests should be logged. Default is \code{TRUE}. See \code{\link{readlogfile}} for details.}
   \item{sandbox}{Optionally execute the request in the MTurk sandbox rather than the live server.  Default is \code{FALSE}.}
+  \item{validation.test}{A logical specifying whether only the pre-request checks should be conducted and the request URL returned (without executing the request). Default is \code{FALSE}.}
 }
 \details{
 A simple function to grant a bonus to one or more workers. The function is somewhat picky in that it requires a WorkerId, the AssignmentId for an assignment that worker has completed, an amount, and a reason for the bonus, for each bonus to be paid. Optionally, the amount and reason can be specified as single (character string) values, which will be used for each bonus.

@@ -7,7 +7,7 @@
 GetBonuses(assignment = NULL, hit = NULL, hit.type = NULL, return.all = TRUE, 
 			pagenumber = "1", pagesize = "100", keypair = credentials(), 
 			print = TRUE, log.requests = TRUE, sandbox = FALSE, 
-			return.bonus.dataframe = TRUE)
+			return.bonus.dataframe = TRUE, validation.test = FALSE)
 }
 \arguments{
   \item{assignment}{An optional character string containing an AssignmentId whose bonuses should be returned.}
@@ -21,6 +21,7 @@ GetBonuses(assignment = NULL, hit = NULL, hit.type = NULL, return.all = TRUE,
   \item{log.requests}{A logical specifying whether API requests should be logged. Default is \code{TRUE}. See \code{\link{readlogfile}} for details.}
   \item{sandbox}{Optionally execute the request in the MTurk sandbox rather than the live server.  Default is \code{FALSE}.}
   \item{return.bonus.dataframe}{A logical specifying whether to return the Bonus dataframe.}
+  \item{validation.test}{A logical specifying whether only the pre-request checks should be conducted and the request URL returned (without executing the request). Default is \code{FALSE}.}
 }
 \details{
 Retrieve bonuses previously paid to a specified HIT, Assignment, or HITType.

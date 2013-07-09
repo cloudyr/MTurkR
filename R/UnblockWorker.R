@@ -2,13 +2,14 @@ UnblockWorker <-
 UnblockWorkers <-
 unblock <-
 function (workers, reasons = NULL, keypair = credentials(), print = TRUE, 
-    browser = FALSE, log.requests = TRUE, sandbox = FALSE) 
+    browser = FALSE, log.requests = TRUE, sandbox = FALSE, validation.test = FALSE) 
 {
     if (!is.null(keypair)) {
         keyid <- keypair[1]
         secret <- keypair[2]
     }
-    else stop("No keypair provided or 'credentials' object not stored")
+    else
+		stop("No keypair provided or 'credentials' object not stored")
     operation <- "UnblockWorker"
     if (length(workers) > 1) {
         if (!is.null(reasons)) {
@@ -29,13 +30,17 @@ function (workers, reasons = NULL, keypair = credentials(), print = TRUE,
         if (browser == TRUE) {
             request <- request(keyid, auth$operation, auth$signature, 
                 auth$timestamp, GETparameters, browser = browser, 
-                sandbox = sandbox)
+                sandbox = sandbox, validation.test = validation.test)
+			if(validation.test)
+				invisible(request)
         }
         else {
             request <- request(keyid, auth$operation, auth$signature, 
                 auth$timestamp, GETparameters, log.requests = log.requests, 
-                sandbox = sandbox)
-            if (request$valid == TRUE) {
+                sandbox = sandbox, validation.test = validation.test)
+            if(validation.test)
+				invisible(request)
+			if (request$valid == TRUE) {
                 if (print == TRUE) 
                   message(i, ": Worker ", workers[i], " Unblocked")
                 if (is.null(reasons)) 
@@ -51,5 +56,6 @@ function (workers, reasons = NULL, keypair = credentials(), print = TRUE,
     }
     if (print == TRUE) 
         return(Workers)
-    else invisible(Workers)
+    else
+		invisible(Workers)
 }

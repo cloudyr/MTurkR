@@ -1,7 +1,7 @@
 GetQualificationScore <-
 qualscore <-
 function (qual, workers, keypair = credentials(), print = TRUE, 
-    browser = FALSE, log.requests = TRUE, sandbox = FALSE) 
+    browser = FALSE, log.requests = TRUE, sandbox = FALSE, validation.test = FALSE) 
 {
     if (!is.null(keypair)) {
         keyid <- keypair[1]
@@ -17,12 +17,16 @@ function (qual, workers, keypair = credentials(), print = TRUE,
         if (browser == TRUE) {
             request <- request(keyid, auth$operation, auth$signature, 
                 auth$timestamp, GETparameters, browser = browser, 
-                sandbox = sandbox)
+                sandbox = sandbox, validation.test = validation.test)
+			if(validation.test)
+				invisible(request)
         }
         else {
             request <- request(keyid, auth$operation, auth$signature, 
                 auth$timestamp, GETparameters, log.requests = log.requests, 
-                sandbox = sandbox)
+                sandbox = sandbox, validation.test = validation.test)
+			if(validation.test)
+				invisible(request)
             if (request$valid == TRUE) {
                 x <- QualificationsToDataFrame(xml = request$xml)
                 x$WorkerId <- workers[i]
@@ -44,6 +48,7 @@ function (qual, workers, keypair = credentials(), print = TRUE,
     if (browser == FALSE) {
         if (print == TRUE) 
             return(Qualifications)
-        else invisible(Qualifications)
+        else
+			invisible(Qualifications)
     }
 }

@@ -8,7 +8,7 @@ ChangeHITType(	hit = NULL, old.hit.type = NULL, new.hit.type = NULL,
 				title = NULL, description = NULL, reward = NULL, duration = NULL, keywords = NULL, 
 				auto.approval.delay = NULL, qual.req = NULL, 
 				keypair = credentials(), print = TRUE, browser = FALSE, 
-				log.requests = TRUE, sandbox = FALSE)
+				log.requests = TRUE, sandbox = FALSE, validation.test = FALSE)
 }
 \arguments{
   \item{hit}{An optional character string containing the HITId whose HITTypeId is to be changed, or a vector of character strings containing each of multiple HITIds to be changed.}
@@ -26,6 +26,7 @@ ChangeHITType(	hit = NULL, old.hit.type = NULL, new.hit.type = NULL,
   \item{browser}{Optionally open the request in the default web browser, rather than opening in R. Default is \code{FALSE}.}
   \item{log.requests}{A logical specifying whether API requests should be logged. Default is \code{TRUE}. See \code{\link{readlogfile}} for details.}
   \item{sandbox}{Optionally execute the request in the MTurk sandbox rather than the live server.  Default is \code{FALSE}.}
+  \item{validation.test}{A logical specifying whether only the pre-request checks should be conducted and the request URL returned (without executing the request). Default is \code{FALSE}.}
 }
 \details{
 This function changes the HITType of a specified HIT (or multiple specific HITs or all HITs of a specified HITType) to a new HITType.  \code{hit} xor \code{old.hit.type} must be specified. Then, either a new HITTypeId can be specified or a new HITType can be created by atomically by specifying the characteristics of the new HITType.

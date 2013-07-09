@@ -8,7 +8,7 @@ GetHITsForQualificationType(qual, response.group = NULL, return.all = TRUE,
 							pagenumber = 1, pagesize = 100, 
 							keypair = credentials(), print = TRUE, 
 							log.requests = TRUE, sandbox = FALSE, 
-							return.hit.dataframe = TRUE)
+							return.hit.dataframe = TRUE, validation.test = FALSE)
 }
 \arguments{
   \item{qual}{A character string containing a QualificationTypeId.}
@@ -21,6 +21,7 @@ GetHITsForQualificationType(qual, response.group = NULL, return.all = TRUE,
   \item{log.requests}{A logical specifying whether API requests should be logged. Default is \code{TRUE}. See \code{\link{readlogfile}} for details.}
   \item{sandbox}{Optionally execute the request in the MTurk sandbox rather than the live server.  Default is \code{FALSE}.}
   \item{return.hit.dataframe}{A logical indicating whether the HIT dataframe should be returned. Default is \code{TRUE}.}
+  \item{validation.test}{A logical specifying whether only the pre-request checks should be conducted and the request URL returned (without executing the request). Default is \code{FALSE}.}
 }
 \details{
 A function to retrieve HITs that require the specified QualificationType.

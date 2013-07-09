@@ -14,7 +14,7 @@ function (keyid, operation, signature, timestamp, GETparameters,
         GETparameters, sep = "")
     if (validation.test){
         message("Request URL:",request.url)
-        invisible(NULL)
+        invisible(list(request.url=request.url))
     }
     else {
         if (browser == TRUE) {

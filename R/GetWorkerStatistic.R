@@ -2,7 +2,8 @@ GetWorkerStatistic <-
 workerstatistic <-
 function (worker, statistic, period = "LifeToDate", count = NULL, 
     response.group = NULL, keypair = credentials(), print = TRUE, 
-    browser = FALSE, log.requests = TRUE, sandbox = FALSE) 
+    browser = FALSE, log.requests = TRUE, sandbox = FALSE,
+	validation.test = FALSE) 
 {
     if (!is.null(keypair)) {
         keyid <- keypair[1]
@@ -25,19 +26,22 @@ function (worker, statistic, period = "LifeToDate", count = NULL,
     if (!is.null(count)) {
         if (is.na(as.numeric(count))) 
             stop("Count must be numeric or coercible to numeric")
-        else GETparameters <- paste(GETparameters, "&Count=", 
-            count, sep = "")
+        else GETparameters <- paste(GETparameters, "&Count=", count, sep = "")
     }
     auth <- authenticate(operation, secret)
     if (browser == TRUE) {
         request <- request(keyid, auth$operation, auth$signature, 
             auth$timestamp, GETparameters, browser = browser, 
-            sandbox = sandbox)
+            sandbox = sandbox, validation.test = validation.test)
+		if(validation.test)
+			invisible(request)
     }
     else {
         request <- request(keyid, auth$operation, auth$signature, 
             auth$timestamp, GETparameters, log.requests = log.requests, 
-            sandbox = sandbox)
+            sandbox = sandbox, validation.test = validation.test)
+		if(validation.test)
+			invisible(request)
         request$statistic <- statistic
         request$period <- period
         if (request$valid == TRUE) {

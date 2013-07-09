@@ -2,7 +2,7 @@ GrantQualification <-
 GrantQualifications <-
 grantqual <-
 function (qual.requests, values, keypair = credentials(), print = TRUE, 
-    browser = FALSE, log.requests = TRUE, sandbox = FALSE) 
+    browser = FALSE, log.requests = TRUE, sandbox = FALSE, validation.test = FALSE) 
 {
     if (!is.null(keypair)) {
         keyid <- keypair[1]
@@ -21,8 +21,7 @@ function (qual.requests, values, keypair = credentials(), print = TRUE,
                 qual.requests[i], "\n", sep = "")
     }
     QualificationRequests <- data.frame(matrix(ncol = 3))
-    names(QualificationRequests) <- c("QualificationRequestId", 
-        "Value", "Valid")
+    names(QualificationRequests) <- c("QualificationRequestId", "Value", "Valid")
     for (i in 1:length(qual.requests)) {
         GETparameters <- paste("&QualificationRequestId=", qual.requests[i], 
             "&IntegerValue=", values[i], sep = "")
@@ -30,12 +29,16 @@ function (qual.requests, values, keypair = credentials(), print = TRUE,
         if (browser == TRUE) {
             request <- request(keyid, auth$operation, auth$signature, 
                 auth$timestamp, GETparameters, browser = browser, 
-                sandbox = sandbox)
+                sandbox = sandbox, validation.test = validation.test)
+			if(validation.test)
+				invisible(request)
         }
         else {
             request <- request(keyid, auth$operation, auth$signature, 
                 auth$timestamp, GETparameters, log.requests = log.requests, 
-                sandbox = sandbox)
+                sandbox = sandbox, validation.test = validation.test)
+			if(validation.test)
+				invisible(request)
             QualificationRequests[i, ] <- c(qual.requests[i], 
                 values[i], request$valid)
             if (request$valid == TRUE) {

@@ -2,7 +2,7 @@ SufficientFunds <-
 function (amount, assignments = NULL, hits = NULL, bonus.ct = NULL, 
     bonus.amount = NULL, masters = FALSE, turkfee = 0.1, turkmin = 0.005, 
     mastersfee = 0.2, keypair = credentials(), print = TRUE, 
-    log.requests = TRUE, sandbox = FALSE) 
+    log.requests = TRUE, sandbox = FALSE, validation.test = FALSE)
 {
     total <- 0
     payments <- 0
@@ -42,7 +42,9 @@ function (amount, assignments = NULL, hits = NULL, bonus.ct = NULL,
         else bonus.fee <- turkfee * bonuses
         total <- total + bonuses + bonus.fee
     }
-    balchar <- AccountBalance(print = FALSE)
+    balchar <- AccountBalance(print = FALSE, validation.test = validation.test)
+	if(validation.test)
+		invisible(balchar)
     oldbalance <- as.numeric(substring(balchar, 1, nchar(balchar)))
     newbalance <- oldbalance - total
     if (newbalance >= 0) 
@@ -58,11 +60,10 @@ function (amount, assignments = NULL, hits = NULL, bonus.ct = NULL,
         message("  Old Balance:   $", round(oldbalance, 2))
         message("  Total Cost:    $", round(total, 2))
         if (sufficient == TRUE) 
-            message("  New Balance:   $", round(newbalance, 2), " < SUFFICIENT")
+            message("  New Balance:   $", round(newbalance, 2), " < SUFFICIENT\n")
         else
-			message("  New Balance:   $", round(newbalance, 2), " < INSUFFICIENT")
-        message()
+			message("  New Balance:   $", round(newbalance, 2), " < INSUFFICIENT\n")
     }
-    invisible(list(Total = round(total, 3), OldBalance = round(oldbalance, 
-        3), NewBalance = round(newbalance, 3), SufficientFunds = sufficient))
+    invisible(list(Total = round(total, 3), OldBalance = round(oldbalance, 3),
+					NewBalance = round(newbalance, 3), SufficientFunds = sufficient))
 }
