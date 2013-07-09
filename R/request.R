@@ -11,10 +11,8 @@ function (keyid, operation, signature, timestamp, GETparameters,
         keyid, "&Version=", version, "&Operation=", operation, 
         "&Timestamp=", timestamp, "&Signature=", curlEscape(signature), 
         GETparameters, sep = "")
-    if (validation.test == TRUE) {
-        message("Request URL: ", request.url)
+    if (validation.test == TRUE)
         invisible(request.url)
-    }
     else {
         if (browser == TRUE) {
             browseURL(request.url)
