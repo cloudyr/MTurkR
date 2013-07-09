@@ -16,7 +16,7 @@ function (operation, parameters = NULL, keypair = credentials(),
         auth$timestamp, GETparameters, browser = browser, log.requests = log.requests, 
         sandbox = sandbox, xml.parse = xml.parse, validation.test = validation.test)
     if(validation.test)
-        message("Request URL:",request)
+        invisible(NULL)
     if (request$valid == TRUE & print == TRUE) {
         message("Operation (", operation, ") Successful")
         return(request)
