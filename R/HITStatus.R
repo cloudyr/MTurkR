@@ -15,18 +15,21 @@ function (hit = NULL, hit.type = NULL, keypair = credentials(),
         HITs <- HITs[grep(hit, HITs$HITId), ]
     else if (!is.null(hit.type)) {
         HITs <- HITs[HITs$HITTypeId == hit.type, ]
-        if (dim(HITs)[1] == 0) 
-            stop("No HITs found for HITType")
+        if (dim(HITs)[1] == 0) {
+            message("No HITs found for HITType")
+            return(HITs)
+        }
         if (dim(HITs)[1] > 1) {
             i <- dim(HITs)[1]
-            HITs$HITId[i + 1] <- "------------------------------"
-            HITs$NumberofAssignmentsPending[i + 1] <- "--------------------"
-            HITs$NumberofAssignmentsAvailable[i + 1] <- "------------------"
-            HITs$NumberofAssignmentsCompleted[i + 1] <- "--------------------"
-            HITs$HITId[i + 2] <- "Totals"
-            HITs$NumberofAssignmentsPending[i + 2] <- sum(as.numeric(HITs$NumberofAssignmentsAvailable[1:i]))
-            HITs$NumberofAssignmentsAvailable[i + 2] <- sum(as.numeric(HITs$NumberofAssignmentsPending[1:i]))
-            HITs$NumberofAssignmentsCompleted[i + 2] <- sum(as.numeric(HITs$NumberofAssignmentsCompleted[1:i]))
+            totals <- data.frame(HITId = c( "------------------------------",
+                                            "Totals"),
+                                NumberofAssignmentsPending = c("--------------------",
+                                    sum(as.numeric(HITs$NumberofAssignmentsAvailable[1:i]))),
+                                NumberofAssignmentsAvailable = c("------------------",
+                                    sum(as.numeric(HITs$NumberofAssignmentsPending[1:i]))),
+                                NumberofAssignmentsCompleted = c("--------------------",
+                                    sum(as.numeric(HITs$NumberofAssignmentsCompleted[1:i]))))
+            HITs <- rbind(HITs,totals)
         }
     }
     if (print == TRUE) {
