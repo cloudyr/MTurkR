@@ -8,9 +8,9 @@ function (hit = NULL, hit.type = NULL, keypair = credentials(),
     hitsearch <- SearchHITs(keypair = keypair, print = TRUE, 
                             log.requests = log.requests, sandbox = sandbox,
                             return.qual.dataframe = FALSE)
-    if(is.null(hitsearch$HITs))
-        stop()
     HITs <- hitsearch$HITs
+    if(is.null(HITs))
+        return(HITs) # return if NULL
     if (!is.null(hit))
         HITs <- HITs[grep(hit, HITs$HITId), ]
     else if (!is.null(hit.type)) {
