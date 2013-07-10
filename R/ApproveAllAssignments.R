@@ -21,23 +21,23 @@ function (hit = NULL, hit.type = NULL, feedback = NULL, keypair = credentials(),
         hitlist <- hitsearch$HITs[hitsearch$HITs$HITTypeId == hit.type, ]$HITId
         if (length(hitlist) == 0) 
             stop("No HITs found for HITType")
-        assignments = c()
+        assignments <- c()
         for (i in 1:length(hitlist)) {
-            assignments <- c(get, GetAssignments(hit = hitlist[i], 
+            assignments <- c(assignments, GetAssignments(hit = hitlist[i], 
                 return.all = TRUE, keypair = keypair, log.requests = log.requests, 
                 sandbox = sandbox))$AssignmentId
         }
     }
     if (is.null(feedback)) {
         request <- ApproveAssignments(keypair, assignments, print = print, 
-									log.requests = log.requests, sandbox = sandbox,
-									validation.test = validation.test)
+					log.requests = log.requests, sandbox = sandbox,
+					validation.test = validation.test)
 		invisible(request)
 	}
     else{
 		request <- ApproveAssignments(keypair, assignments, feedback = feedback,
-										print = print, log.requests = log.requests, 
-										sandbox = sandbox, validation.test = validation.test)
+						print = print, log.requests = log.requests, 
+						sandbox = sandbox, validation.test = validation.test)
 		invisible(request)
 	}
 }
