@@ -17,7 +17,7 @@ function (hit = NULL, hit.type = NULL, feedback = NULL, keypair = credentials(),
     }
     else if (!is.null(hit.type)) {
         hitsearch <- SearchHITs(keypair = keypair, print = print, 
-								sandbox = sandbox, return.qual.dataframe = FALSE)
+                                sandbox = sandbox, return.qual.dataframe = FALSE)
         hitlist <- hitsearch$HITs[hitsearch$HITs$HITTypeId == hit.type, ]$HITId
         if (length(hitlist) == 0) 
             stop("No HITs found for HITType")
@@ -25,19 +25,19 @@ function (hit = NULL, hit.type = NULL, feedback = NULL, keypair = credentials(),
         for (i in 1:length(hitlist)) {
             assignments <- c(assignments, GetAssignments(hit = hitlist[i], 
                 return.all = TRUE, keypair = keypair, log.requests = log.requests, 
-                sandbox = sandbox))$AssignmentId
+                sandbox = sandbox)$AssignmentId)
         }
     }
     if (is.null(feedback)) {
         request <- ApproveAssignments(keypair, assignments, print = print, 
-					log.requests = log.requests, sandbox = sandbox,
-					validation.test = validation.test)
-		invisible(request)
-	}
+                                      log.requests = log.requests, sandbox = sandbox,
+                                      validation.test = validation.test)
+            invisible(request)
+    }
     else{
-		request <- ApproveAssignments(keypair, assignments, feedback = feedback,
-						print = print, log.requests = log.requests, 
-						sandbox = sandbox, validation.test = validation.test)
-		invisible(request)
-	}
+        request <- ApproveAssignments(keypair, assignments, feedback = feedback,
+                                      print = print, log.requests = log.requests, 
+                                      sandbox = sandbox, validation.test = validation.test)
+        invisible(request)
+    }
 }
