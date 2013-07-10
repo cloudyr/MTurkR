@@ -36,26 +36,20 @@ function (qual, comparator, value, preview = NULL, qual.number = NULL,
             qual.number <- i
         else if (is.null(qual.number)) 
             qual.number <- 1
-        if (qual[i] == "PercentAssignmentsSubmitted" | qual[i] == 
-            "Submitted") 
-            qual[i] <- "00000000000000000000"
-        else if (qual[i] == "PercentAssignmentsAbandoned" | qual[i] == 
-            "Abandoned") 
-            qual[i] <- "00000000000000000070"
-        else if (qual[i] == "PercentAssignmentsReturned" | qual[i] == 
-            "Returned") 
-            qual[i] <- "000000000000000000E0"
-        else if (qual[i] == "PercentAssignmentsApproved" | qual[i] == 
-            "Approved") 
+        #if (qual[i] == "PercentAssignmentsSubmitted" | qual[i] == "Submitted") 
+        #    qual[i] <- "00000000000000000000"
+        #else if (qual[i] == "PercentAssignmentsAbandoned" | qual[i] == "Abandoned") 
+        #    qual[i] <- "00000000000000000070"
+        #else if (qual[i] == "PercentAssignmentsReturned" | qual[i] == "Returned") 
+        #    qual[i] <- "000000000000000000E0"
+        #else if (qual[i] == "PercentAssignmentsRejected" | qual[i] == "Rejected") 
+        #    qual[i] <- "000000000000000000S0"
+        if (qual[i] == "PercentAssignmentsApproved" | qual[i] == "Approved") 
             qual[i] <- "000000000000000000L0"
-        else if (qual[i] == "PercentAssignmentsRejected" | qual[i] == 
-            "Rejected") 
-            qual[i] <- "000000000000000000S0"
         else if (qual[i] == "NumberHITsApproved" | qual[i] == 
             "NumberApproved" | qual[i] == "HITs") 
             qual[i] <- "00000000000000000040"
-        else if (qual[i] == "Locale" | qual[i] == "Country" | 
-            qual[i] == "Location") 
+        else if (qual[i] == "Locale" | qual[i] == "Country" | qual[i] == "Location") 
             qual[i] <- "00000000000000000071"
         else if (qual[i] == "Adult") 
             qual[i] <- "00000000000000000060"
