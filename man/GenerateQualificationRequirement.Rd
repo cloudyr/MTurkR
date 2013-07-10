@@ -7,7 +7,7 @@ GenerateQualificationRequirement(qual, comparator, value, preview = NULL,
 								qual.number = NULL, format = "REST")
 }
 \arguments{
-  \item{qual}{A character string containing a QualificationTypeId, or a vector of QualificationTypeIds. This parameter also accepts shorthand labels for built-in QualificationTypes: \dQuote{Submitted}, \dQuote{Accepted}, \dQuote{}, \dQuote{Abandoned}, \dQuote{Returned}, \dQuote{Approved}, \dQuote{Rejected}, \dQuote{NumberApproved}, \dQuote{Locale}, \dQuote{Adult}, and MTurk \dQuote{masters} QualificationTypes (\dQuote{Masters}, \dQuote{Categorization}, or \dQuote{Photo Moderation}).}
+  \item{qual}{A character string containing a QualificationTypeId, or a vector of QualificationTypeIds. This parameter also accepts shorthand labels for built-in QualificationTypes: \dQuote{Approved} (percent of assignments approved), \dQuote{NumberApproved} (number of assignments approved), \dQuote{Locale}, \dQuote{Adult}, and MTurk \dQuote{masters} QualificationTypes (\dQuote{Masters}, \dQuote{Categorization}, or \dQuote{Photo Moderation}).}
   \item{comparator}{A character string containing a comparator, or a vector of comparators, by which a worker's score of a qualification is compared to the specified \code{value}. One of \code{<},\code{<=},\code{>},\code{>=},\code{==},\code{!=},\code{Exists}. For \dQuote{Masters}-type qualifications, only \code{Exists} is available.}
   \item{value}{A numeric or character string value (or vecotr of such) against which workers scores will be compared. Must be a non-negative integer.}
   \item{preview}{An optional logical specifying whether a worker must have the Qualification in order to preview the HIT on the MTurk worker site. The default is \code{FALSE}.}
@@ -30,7 +30,7 @@ A convenience function to translate the details of a QualificationRequirement in
 }
 \examples{
 \dontrun{
-a <- ListQualificationTypes()[6,2] # Number of HITs Approved
+a <- ListQualificationTypes()[2,2] # Number of HITs Approved
 b <- GenerateQualificationRequirement(a,">","90")
 }
 }
