@@ -21,7 +21,7 @@ function (assignments, feedback = NULL, rejected = FALSE, keypair = credentials(
         if (length(feedback) == 1) 
             feedback <- rep(feedback[1], length(assignments))
         else if (!length(feedback) == length(assignments)) 
-            stop("Number of feedback is not 1 nor length(assignmetns)")
+            stop("Number of feedback is not 1 nor length(assignments)")
     }
     batch <- function(assignment, feedback.batch = NULL) {
         GETparameters <- paste("&AssignmentId=", assignment, sep = "")
