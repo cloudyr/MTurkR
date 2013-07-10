@@ -1,6 +1,7 @@
 # CHANGES TO MTurkR 0.4 #
 
 ## SIGNIFICANT USER-VISIBLE CHANGES ##
+* Per API changes on April 8, 2013, several built-in QualificationTypes were removed. See ListQualificationTypes() for the available types.
 * Improved error, warning, and message handling by converting calls to `cat` to `warning` and `message`, where appropriate.
 * Most API query functions now include a `validation.test` parameter that, when TRUE, runs pre-query checks on the MTurkR call and returns the full API query URL. The call is not executed. This can be used for pre- or post-request debugging.
 
