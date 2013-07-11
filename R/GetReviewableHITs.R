@@ -30,7 +30,7 @@ function (hit.type = NULL, status = NULL, response.group = "Minimal",
         pagesize <- "100"
         pagenumber <- "1"
     }
-    batch <- function(operation, keyid, secret, pagenumber, pagesize) {
+    batch <- function(operation, pagenumber, pagesize) {
         GETparameters <- paste("&PageNumber=", pagenumber, "&PageSize=", 
             pagesize, "&SortProperty=", sortproperty, "&SortDirection=", 
             sortdirection, sep = "")
@@ -56,17 +56,15 @@ function (hit.type = NULL, status = NULL, response.group = "Minimal",
         }
         return(batch)
     }
-    request <- batch(operation, keyid, secret, pagenumber, pagesize)
+    request <- batch(operation, pagenumber, pagesize)
     if(validation.test)
         invisible(request)
     runningtotal <- request$batch.total
     pagenumber <- 2
     while (request$total > runningtotal) {
-        nextbatch <- batch(operation, keyid, secret, hit, pagenumber, 
-            pagesize, sortproperty, sortdirection, sandbox = sandbox,
-            validation.test = validation.test)
-            if(validation.test)
-                invisible(nextbatch)
+        nextbatch <- batch(operation, pagenumber, pagesize)
+        if(validation.test)
+            invisible(nextbatch)
         request$request.id <- c(request$request.id, nextbatch$request.id)
         request$valid <- c(request$valid, nextbatch$valid)
         request$xml.response <- c(request$xml, nextbatch$xml)
