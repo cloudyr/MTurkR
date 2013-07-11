@@ -9,20 +9,24 @@ function (about, helptype = NULL, keypair = credentials(), print = TRUE,
     else stop("No keypair provided or 'credentials' object not stored")
     operation <- "Help"
     if (about %in% ListOperations()) {
-        helptype <- "Operation"
-        GETparameters <- paste("&HelpType=Operation", "&MessageText=", about, sep = "")
+        if(is.null(helptype))
+            helptype <- "Operation"
+        GETparameters <- paste("&HelpType=",helptype, "&About=", about, sep = "")
     }
-    else if (about %in% c("Minimal", "HITDetail", "HITQuestion", "HITAssignmentSummary")) {
-        helptype <- "ResponseGroup"
-        GETparameters <- paste("&HelpType=ResponseGroup", "&MessageText=", about, sep = "")
+    else if (about %in% c("Minimal", "HITDetail", "HITQuestion", "HITAssignmentSummary",
+                          "AssignmentFeedback", "Parameters", "Request")) {
+        if(is.null(helptype))
+            helptype <- "ResponseGroup"
+        GETparameters <- paste("&HelpType=",helptype, "&About=", about, sep = "")
     }
-    else stop("Operation or ResponseGroup not recognized")
+    else
+        stop("Operation or ResponseGroup not recognized")
     auth <- authenticate(operation, secret)
     if (browser == TRUE) {
         request <- request(keyid, auth$operation, auth$signature, 
-            auth$timestamp, GETparameters, browser = browser, validation.test = validation.test)
-		if(validation.test)
-			invisible(request)
+             auth$timestamp, GETparameters, browser = browser, validation.test = validation.test)
+        if(validation.test)
+            invisible(request)
     }
     else {
         request <- request(keyid, auth$operation, auth$signature, 
