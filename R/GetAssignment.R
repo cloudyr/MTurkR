@@ -111,9 +111,10 @@ function (assignment = NULL, hit = NULL, hit.type = NULL, status = NULL,
         batch <- function(batchhit, pagenumber) {
             GETiteration <- ""
             if (!is.null(status)) {
-                if (status %in% c("Approved", "Rejected", "Submitted")) 
+                if(all(status %in% c("Approved", "Rejected", "Submitted")))
                     GETiteration <- paste(GETiteration, "&AssignmentStatus=", 
-                                          status, GETresponsegroup, sep = "")
+                                          paste(status,collapse=","),
+                                          GETresponsegroup, sep = "")
                 else
                     status <- NULL
             }
