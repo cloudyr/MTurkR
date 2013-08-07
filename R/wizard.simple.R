@@ -23,7 +23,8 @@ function (graphics = FALSE, sandbox = NULL)
     if (sandbox %in% c("Yes", "YES", "yes", "TRUE", "true", "True", 
         "1", TRUE)) 
         sandbox <- TRUE
-    else sandbox <- FALSE
+    else
+		sandbox <- FALSE
     wizard.menu <- function() {
         menu.opts <- c("Check Account Balance", "Check Sufficient Funds", 
             "Create HIT", "Check HIT Status", "Get Assignment(s)", 
@@ -82,20 +83,20 @@ function (graphics = FALSE, sandbox = NULL)
             }
             quals <- menu(c("Yes", "No"), "Do you want to restrict the HIT with a QualificationRequirement?")
             if (quals == 1) {
-                qual.types <- as.data.frame(rbind(c("Worker_PercentAssignmentsSubmitted", 
-                  "00000000000000000000"), c("Worker_PercentAssignmentsAbandoned", 
-                  "00000000000000000070"), c("Worker_PercentAssignmentsReturned", 
-                  "000000000000000000E0"), c("Worker_PercentAssignmentsApproved", 
-                  "000000000000000000L0"), c("Worker_PercentAssignmentsRejected", 
-                  "000000000000000000S0"), c("Worker_NumberHITsApproved", 
-                  "00000000000000000040"), c("Worker_Locale", 
-                  "00000000000000000071"), c("Worker_Adult", 
-                  "00000000000000000060"), c("Categorization Masters (Sandbox)", 
-                  "2F1KVCNHMVHV8E9PBUB2A4J79LU20F"), c("Categorization Masters (Production)", 
-                  "2NDP2L92HECWY8NS8H3CK0CP5L9GHO"), c("Photo Moderation Masters (Sandbox)", 
-                  "2TGBB6BFMFFOM08IBMAFGGESC1UWJX"), c("Photo Moderation Masters (Production)", 
-                  "21VZU98JHSTLZ5BPP4A9NOBJEK3DPG"), c("Other", 
-                  "")))
+                qual.types <- as.data.frame(rbind(
+					c("Worker_PercentAssignmentsSubmitted", "00000000000000000000"),
+					c("Worker_PercentAssignmentsAbandoned", "00000000000000000070"),
+					c("Worker_PercentAssignmentsReturned", "000000000000000000E0"), 
+					c("Worker_PercentAssignmentsApproved", "000000000000000000L0"), 
+					c("Worker_PercentAssignmentsRejected", "000000000000000000S0"), 
+					c("Worker_NumberHITsApproved", "00000000000000000040"), 
+					c("Worker_Locale", "00000000000000000071"),
+					c("Worker_Adult", "00000000000000000060"), 
+					c("Categorization Masters (Sandbox)", "2F1KVCNHMVHV8E9PBUB2A4J79LU20F"),
+					c("Categorization Masters (Production)", "2NDP2L92HECWY8NS8H3CK0CP5L9GHO"),
+					c("Photo Moderation Masters (Sandbox)", "2TGBB6BFMFFOM08IBMAFGGESC1UWJX"),
+					c("Photo Moderation Masters (Production)", "21VZU98JHSTLZ5BPP4A9NOBJEK3DPG"),
+					c("Other", "")))
                 names(quals) <- c("Qualification", "QualificationTypeId")
                 qual.to.add <- menu(qual.types$Qualification, 
                   title = "Which QualificationRequirement would you like to add?")
@@ -111,7 +112,8 @@ function (graphics = FALSE, sandbox = NULL)
                 silent = TRUE)
             if (class(hit) == "try-error") 
                 warning("An error occurred: ", hit)
-            else print(hit)
+            else
+				print(hit)
             message()
             wizard.menu()
         }
@@ -488,8 +490,7 @@ function (graphics = FALSE, sandbox = NULL)
             wizard.menu()
         }
         else if (choice == 15) {
-            periods <- c("OneDay", "SevenDays", "ThirtyDays", 
-                "LifeToDate")
+            periods <- c("OneDay", "SevenDays", "ThirtyDays", "LifeToDate")
             period.choice <- menu(periods, title = "For what period do you want Requester Statistics?")
             if (period.choice == 0) 
                 wizard.menu()
@@ -506,8 +507,7 @@ function (graphics = FALSE, sandbox = NULL)
         else if (choice == 16) {
             message("For which worker do you want statistics?")
             workerid <- readline(prompt = "WorkerId: ")
-            periods <- c("OneDay", "SevenDays", "ThirtyDays", 
-                "LifeToDate")
+            periods <- c("OneDay", "SevenDays", "ThirtyDays", "LifeToDate")
             period.choice <- menu(periods, title = "For what period do you want Worker Statistics?")
             if (period.choice == 0) 
                 wizard.menu()

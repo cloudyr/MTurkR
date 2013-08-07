@@ -1,1 +1,4 @@
 exportPattern("^[[:alpha:]]+")
+importFrom(digest, hmac)
+importFrom(RCurl, base64Encode, getURL)
+importFrom(XML, xmlParse, xmlChildren, xpathApply, xmlValue)

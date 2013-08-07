@@ -66,23 +66,15 @@ function (keyid, operation, signature, timestamp, GETparameters,
                     "Sandbox\t", "Parameters\t", "Valid\t", "URL\t", 
                     "Response", sep = ""), logfilename)
                 response.xml <- response
-                response.xml <- gsub(" ", "#!SPACE!#", response.xml, 
-                  fixed = TRUE)
+                response.xml <- gsub(" ", "#!SPACE!#", response.xml, fixed = TRUE)
                 response.xml <- gsub("[[:space:]]", "", response.xml)
-                response.xml <- gsub("#!SPACE!#", " ", response.xml, 
-                  fixed = TRUE)
-                response.xml <- gsub("&#xa;", "", response.xml, 
-                  fixed = TRUE)
-                response.xml <- gsub("&#xA;", "", response.xml, 
-                  fixed = TRUE)
-                response.xml <- gsub("&#xd;", "", response.xml, 
-                  fixed = TRUE)
-                response.xml <- gsub("&#xD;", "", response.xml, 
-                  fixed = TRUE)
-                response.xml <- gsub("&#x9;", "  ", response.xml, 
-                  fixed = TRUE)
-                response.xml <- gsub("&#09;", "  ", response.xml, 
-                  fixed = TRUE)
+                response.xml <- gsub("#!SPACE!#", " ", response.xml, fixed = TRUE)
+                response.xml <- gsub("&#xa;", "", response.xml, fixed = TRUE)
+                response.xml <- gsub("&#xA;", "", response.xml, fixed = TRUE)
+                response.xml <- gsub("&#xd;", "", response.xml, fixed = TRUE)
+                response.xml <- gsub("&#xD;", "", response.xml, fixed = TRUE)
+                response.xml <- gsub("&#x9;", "  ", response.xml, fixed = TRUE)
+                response.xml <- gsub("&#09;", "  ", response.xml, fixed = TRUE)
                 write(paste(timestamp, "\t", request.id, "\t", 
                   operation, "\t", sandbox, "\t", GETparameters, 
                   "\t", valid, "\t", request.url, "\t", response.xml, 
