@@ -1,0 +1,34 @@
+\name{GenerateNotification}
+\alias{GenerateNotification}
+\title{Generate Notification}
+\description{Generate a HITType Notification data structure for use in \code{\link{SetHITTypeNotification}}.}
+\usage{
+GenerateNotification(destination, transport = "Email", event.type, 
+					version = "2006-05-05", event.number = "1", format = "REST")
+}
+\arguments{
+  \item{destination}{Currently, a character string containing a complete email address.}
+  \item{transport}{Currently only \dQuote{\code{Email}} is supported.}
+  \item{event.type}{A character string containing one of: \code{AssignmentAccepted}, \code{AssignmentAbandoned}, \code{AssignmentReturned}, \code{AssignmentSubmitted}, \code{HITReviewable}, \code{HITExpired}, \code{Ping}.}
+  \item{version}{Version of the HITType Notification API to use. Intended only for advanced users.}
+  \item{event.number}{Intended only for advanced users to construct custom Notifications.}
+  \item{format}{Format of QualificationRequirement (SOAP or REST). Currently only REST is supported (as is the default).}
+}
+\details{Generate a Notification data structure for use in the \code{notification} option of \code{\link{SetHITTypeNotification}}.}
+\value{A character string containing a URL query parameter-formatted Notification data structure.}
+\references{
+\href{http://docs.amazonwebservices.com/AWSMechTurk/latest/AWSMturkAPI/ApiReference_NotificationDataStructureArticle.html}{API Reference}
+}
+\author{Thomas J. Leeper}
+%\note{}
+\seealso{
+\code{\link{SetHITTypeNotification}}
+
+\code{\link{SendTestEventNotification}}
+}
+\examples{
+\dontrun{
+a <- GenerateNotification("requester@example.com",event.type="HITExpired")
+}
+}
+\keyword{Notifications}
