@@ -1,12 +1,9 @@
 readlogfile <-
-function (filename = NULL)
+function(path = options()$MTurkR.logdir, filename = "MTurkRlog.tsv")
 {
-    if (is.null(filename)) 
-        filename <- "MTurkRlog.tsv"
-    if (!filename %in% list.files()) 
+    if (!filename %in% list.files(path=path))
         stop("No Log File Found")
-	logfile <- read.delim(filename, header = TRUE, sep = "\t", 
+	logfile <- read.delim(file.path(path,filename), header = TRUE, sep = "\t", 
 		quote = "", stringsAsFactors = FALSE)
-	#class(logfile) <- c("data.frame","MTurkRlog")
 	invisible(logfile)
 }
