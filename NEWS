@@ -4,6 +4,7 @@
 * Per API changes on April 8, 2013, several built-in QualificationTypes were removed. See ListQualificationTypes() for the available types.
 * Improved error, warning, and message handling by converting calls to `cat` to `warning` and `message`, where appropriate.
 * Most API query functions now include a `validation.test` parameter that, when TRUE, runs pre-query checks on the MTurkR call and returns the full API query URL. The call is not executed. This can be used for pre- or post-request debugging.
+* The 'MTurkRlog.tsv' file is now located according to a global option, specified by `options(MTurkR.logdir = getwd())`. The previous default behavior (to store the file in the working directory) is preserved but can now be globally modified for all requests. This might be useful for storing all requests in a single directory.
 
 ## BUG FIXES ##
 * Fixed bug in GetReviewableHITs() that correctly queried the API but returned an incomplete dataframe. (h/t Eric Lin)
