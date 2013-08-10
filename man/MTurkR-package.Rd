@@ -27,7 +27,7 @@ Thomas J. Leeper
 Maintainer: Thomas J. Leeper <thosjleeper@gmail.com>
 }
 \references{
-\href{http://www.thomasleeper.com/MTurkR/index.html}{MTurkR homepage}
+\href{http://leeper.github.io/MTurkR/}{MTurkR homepage}
 
 \href{http://www.mturk.com}{Amazon Mechanical Turk}
 
