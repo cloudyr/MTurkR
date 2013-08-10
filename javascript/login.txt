@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<title>Research Study</title>
+
+		<script language="javascript">
+		/* FUNCTION TO CREATE LOGINS: */
+		function LogIn(){
+		loggedin=false;
+		username="";
+		username=prompt("Username:","");
+		/* username=username.toLowerCase(); */
+		if (username=="guest1" || 
+			username=="mna609" || 
+			username=="mab344" || 
+			username=="law744")
+		{ 
+		loggedin=true;
+		window.location="1/home.html"; /* REDIRECT TO LINK */
+		}
+
+		if (username=="guest2" || 
+			username=="haa253" || 
+			username=="jna847" || 
+			username=="bmy431")
+		{
+		loggedin=true;
+		window.location="2/home.html";
+		}
+
+		if (username=="guest3" || 
+			username=="tjz464")
+		{
+		loggedin=true;
+		window.location="3/home.html";
+		}
+
+		if (username=="guest4" || 
+			username=="dba391" || 
+			username=="jlb797" || 
+			username=="bpb865" || 
+			username=="vaz394")
+		{
+		loggedin=true;
+		window.location="4/home.html";
+		}
+
+		if (username=="guest5" || 
+			username=="mbm516" || 
+			username=="mhc701" || 
+			username=="ocz556")
+		{
+		loggedin=true;
+		window.location="5/home.html";
+		}
+
+		if (username=="guest6" || 
+			username=="jka849" || 
+			username=="wca672" || 
+			username=="eyi399")
+		{
+		loggedin=true;
+		window.location="6/home.html";
+		}
+
+		if (username=="guest7" || 
+			username=="cra481" || 
+			username=="aaj937" || 
+			username=="vaz737")
+		{
+		loggedin=true;
+		window.location="7/home.html";
+		}
+
+		if (loggedin==false) {
+		alert("Invalid login!");
+		}
+		}
+		</script> 
+	</head>
+	<body>
+		<div style="margin-left:15%; margin-right:15%">
+			<br/>
+			<p>This is a login template page, that will redirect people based upon a login username or perhaps an anonymous code.</p>
+			<br/>
+			<br/>
+			<form><input type="button" value="Login with your code!" onClick="LogIn()"></form>
+		</div>
+	</body>
+</html>

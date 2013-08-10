@@ -1,0 +1,56 @@
+<?xml ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<title>Pipe MTurk parameters </title>
+	</head>
+	<body onload="urlCapture()">
+		<div style="font-family:sans-serif;margin-left:10%;margin-right:10%;">
+			<p style="font-weight:bold;margin-left:15%;margin-right:15%;font-size:2em;">Pipe MTurk parameters via URL</p>
+			<script type="text/javascript" language="javascript">
+				// RETRIEVE URL
+				var fullurl=new String();
+				// THIS IS THE LINE TO CAPTURE THE ACTUAL URL:
+				var fullurl=document.location.href;
+				
+				// THIS LINE IS JUST HERE FOR SANDBOX TO TEST THAT THE CODE IS WORKING
+				var fullurl="https://s3.amazonaws.com/mturk_bulk/hits/46029244/xIpb71zULpXQALR7MKF2DA.html?assignmentId=2PB51Y7QEOZFH9JGPVKMUFXTFYWGDA&hitId=2OMJ79KQW6186NX9AI3DA5XC8D2JL4&workerId=A1RO9EXAMPLE65&turkSubmitTo=https%3A%2F%2Fwww.mturk.com";
+			
+				// SPLITS THE URL
+				var bits = new Array();
+				bits = fullurl.split("?");
+				parameters = bits[1].split("&");
+				// ASSIGNS THE URL PARAMETERS TO JAVASCRIPT VARIABLES
+				var assign = parameters[0].split("=")[1];
+				var hit = parameters[1].split("=")[1];
+				var worker = parameters[2].split("=")[1];
+				
+				if(assign=="ASSIGNMENT_ID_NOT_AVAILABLE")
+					{
+					document.write("<p style='font-weight:bold;text-align:center;'>Link will become available once you accept the HIT.</p>");
+					}
+				else
+					{
+					// CONSTRUCT THE SURVEY LINK WITH THE EMBEDDED VALUES:
+					var surveylink = new String("http://www.test.com/?"
+												+ "assignmentId=" + assign
+												+ "&hitId=" + hit
+												+ "&workerId=" + worker
+												);
+					// IN QUALTRICS, THESE PARAMETERS CAN BE RETRIEVED AND USED IN THE SURVEY BY RETRIEVED 'EMBEDDED VALUES' AND USING AS 'PIPED TEXT'
+					// IN SURVEY MONKEY, ONE VALUE (OR A CONCATENATION OF VALUES) CAN BE SENT TO (AND SAVED BY) THE SURVEY BUT NOT PIPED
+						// E.G., var surveylink = new String("http://www.survey.com/surveylink?c=" + worker");
+					// IN GOOGLE FORMS, PARAMETERS CAN BE PIPED TO FORM ENTRY FIELDS
+						/* E.G., var surveylink = new String("http://spreadsheets.google.com/viewform?formkey=12345" 
+															+ "&entry_0=" + assign
+															+ "&entry_1=" + hit
+															+ "&entry_2=" + worker);
+						*/
+					// DISPLAY THE LINK
+					document.write("<a href=\"" + surveylink + "\">Complete this survey</a><br />");
+					}
+			</script>
+		</div>
+	</body>
+</html>

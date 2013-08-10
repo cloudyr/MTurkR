@@ -1,0 +1,48 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<title>Check WorkerId</title>
+		<script language="javascript">
+			// code that checks the value entered in the form against a list of pre-specified values
+			function check() {
+			var answer=document.getElementById('answer');
+			var idcheck=document.getElementById('WorkerId').value;
+			idcheck=idcheck.toUpperCase();
+			// list of values 
+			var workers = [
+					"GUEST1",
+					"GUEST2",
+					"GUEST3"
+					];
+			if(workers.indexOf(idcheck)>-1)
+			  {
+				// Code to be output if WorkerId is in list
+				answer.innerHTML='You have already completed this survey. Sorry.';
+			  }
+
+			else
+			  {
+				// Code to be output otherwise
+				answer.innerHTML='You have NOT completed this survey.';
+			  }
+			}
+		</script>
+	</head>
+	<body>
+		<!--
+			Simple form for worker to enter their workerid
+			This could be included in a HIT, so that workers can check directly within the HIT (before accepting it)
+			Or, this could be an off-site page that is linked to so that workers can check
+		-->
+		<div style="margin-left:20%;margin-right:20%;">
+			<p style="font-family:sans-serif;text-align:center;">Enter your MTurk WorkerId below to see if you have already completed the study.</p>
+			<form style="text-align:center;">
+				<input type="text" name="WorkerId" id="WorkerId" />
+				<input type="button" onclick="check();" value="Check your WorkerID" />
+				<!-- This is where the results of the check are output -->
+				<span id="answer" style="font-weight:bold;font-family:sans-serif;text-align:center;"></span>
+			</form>
+		</div>
+		<p>&nbsp;</p>
+	</body>
+</html>

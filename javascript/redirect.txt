@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>Survey</title>
+	<link rel="stylesheet" type="text/css" href="css.css" />
+	<script type="text/javascript" language="javascript">
+		/* FUNCTION TO REDIRECT */
+		function openSurvey(surveylink){
+			window.location = surveylink;
+		}
+	</script>
+</head>
+<body>
+	<div style="margin-left:5%;margin-right:5%;text-align:center;">
+		<br/>
+		<p style="font-size:1em;font-family:sans-serif;font-weight:bold;">You will be directed to your survey momentarily.</p>
+		<script type="text/javascript" language="javascript">
+			/* RANDOMIZATION: insert URLS BELOW: */
+			var rtext = new Array ();
+			rtext[0] = "https://www.surveymonkey.com/s/rmpssurvey1";
+			rtext[1] = "https://www.surveymonkey.com/s/rmpssurvey2";
+			rtext[2] = "https://www.surveymonkey.com/s/rmpssurvey3";
+			/* ARRAY CAN BE EXTENDED TO ANY LENGTH */
+			var i = Math.floor(3*Math.random()); /* multiply Math.random() by the length of the array */
+			/* CODE BELOW SENDS YOU TO WEBSITE, BY CALLING openSurvey(): */
+			var surveylink = new String(rtext[i]);
+			t=setTimeout("openSurvey(surveylink)",2500); /* 2500 lag time before redirect in milliseconds */
+		</script>	
+	</div>
+</body>
+</html>
