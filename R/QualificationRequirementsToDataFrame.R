@@ -16,10 +16,10 @@ function (xml = NULL, xml.parsed = NULL, xmlnodeset = NULL, hit = NULL,
                 quals$Name[i] <- qlist[qlist$QualificationTypeId == 
                   quals$QualificationTypeId[i], "Qualification"]
             }
-            else {
-                quals$Name[i] <- GetQualificationType(quals$QualificationTypeId[i], 
-                  print = FALSE, sandbox = sandbox)$Name
-            }
+            #else {
+            #    quals$Name[i] <- GetQualificationType(quals$QualificationTypeId[i], 
+            #      print = FALSE, sandbox = sandbox)$Name
+            #}
             quals$Comparator[i] <- xmlValue(xmlChildren(xmlnodeset[[i]])$Comparator)
             if ("LocaleValue" %in% names(xmlChildren(xmlnodeset[[i]]))) 
                 quals$Value[i] <- xmlValue(xmlChildren(xmlnodeset[[i]])$LocaleValue)
