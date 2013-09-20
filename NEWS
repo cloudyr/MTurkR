@@ -7,6 +7,7 @@
 * The 'MTurkRlog.tsv' file is now located according to a global option, specified by `options(MTurkR.logdir = getwd())`. The previous default behavior (to store the file in the working directory) is preserved but can now be globally modified for all requests. This might be useful for storing all requests in a single directory.
 
 ## BUG FIXES ##
+* A series of related changes were made to `GetAssignment`, `AssignmentsToDataFrame` and `QuestionFormAnswersToDataFrame` to handle Answer data structures with differing QuestionIdentifiers.
 * Eliminated several `response.group` options from `GetHITsForQualificationType` due to personal communication with AWS.
 * Fixed bug in `GetReviewableHITs` that correctly queried the API but returned an incomplete dataframe. (h/t Eric Lin)
 * Fixed bug in `CreateHIT`, saying `type` was not defined, that occurred when `hit.type` was non-NULL. (h/t Eric Lin)
