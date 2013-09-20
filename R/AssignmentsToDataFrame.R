@@ -34,36 +34,15 @@ function (xml = NULL, xml.parsed = NULL, return.assignment.xml = FALSE)
             assignments$RequesterFeedback[i] <- xmlValue(xmlChildren(q)$RequesterFeedback)
             assignments$Answer[i] <- xmlValue(xmlChildren(q)$Answer)
         }
-	}
-	# return answers and merge
-	answers <- QuestionFormAnswersToDataFrame(xml.parsed = xml.parsed)
-	
-	tmp <- reshape(answers, timevar="QuestionIdentifier",
-	               direction="wide", idvar="AssignmentId",
-				   drop=c( "WorkerId","HITId","FreeText","SelectionIdentifier",
-				           "OtherSelectionField","UploadedFileKey","UploadedFileSizeInBytes"))
-	
-	values <- as.data.frame(matrix(ncol=unique(answers$QuestionIdentifier)+1,nrow=nrow(assignments)))
-	names(values) <- c("AssignmentId",unique(answers$QuestionIdentifier))
-	reshape(answers,timevar="QuestionIdentifier",direction="wide",idvar="AssignmentId")
-	
-        vars.returned <- answers[answers$AssignmentId == assignments$AssignmentId[1], 
-            "QuestionIdentifier"]
-        n.returned <- length(vars.returned)
-        values <- data.frame(matrix(nrow = dim(assignments)[1], 
-            ncol = n.returned + 1))
-        names(values) <- c(vars.returned, "AssignmentIdfromAnswers")
-        for (j in 1:n.returned) {
-            for (k in 1:dim(assignments)[1]) {
-                values$AssignmentIdfromAnswers[k] <-
-					answers[answers$AssignmentId == assignments$AssignmentId[k], "AssignmentId"][1]
-                values[k, j] <- 
-					answers[(answers$AssignmentId == assignments$AssignmentId[k] & 
-					answers$QuestionIdentifier == vars.returned[j]), ]$Combined.Answers
-            }
-        }
-        assignments <- cbind(assignments, values)
-        return(list(assignments = assignments, answers = answers))
+	    # return answers and merge
+	    answers <- QuestionFormAnswersToDataFrame(xml.parsed = xml.parsed)
+	    values <- reshape(answers, timevar="QuestionIdentifier",
+	                    direction="wide", idvar="AssignmentId",
+				        drop=c( "WorkerId","HITId","FreeText","SelectionIdentifier",
+				                "OtherSelectionField","UploadedFileKey","UploadedFileSizeInBytes"))
+	    names(values) <- gsub("Combined.Answers.","",names(values),fixed=TRUE)
+	    merge(assignments,values,by="AssignmentId")
+	    return(list(assignments = assignments, answers = answers))
     }
     else
 		return(list(assignments = NULL, answers = NULL))
