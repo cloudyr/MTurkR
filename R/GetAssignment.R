@@ -8,24 +8,24 @@ function (assignment = NULL, hit = NULL, hit.type = NULL, status = NULL,
     print = TRUE, browser = FALSE, log.requests = TRUE, sandbox = FALSE, 
     return.assignment.dataframe = TRUE, validation.test = FALSE) 
 {
-    if (!is.null(keypair)) {
+    if(!is.null(keypair)) {
         keyid <- keypair[1]
         secret <- keypair[2]
     }
     else stop("No keypair provided or 'credentials' object not stored")
-    if (!sortproperty %in% c("AcceptTime", "SubmitTime", "AssignmentStatus")) 
+    if(!sortproperty %in% c("AcceptTime", "SubmitTime", "AssignmentStatus")) 
         stop("'sortproperty' must be 'AcceptTime' | 'SubmitTime' | 'AssignmentStatus'")
-    if (!sortdirection %in% c("Ascending", "Descending")) 
+    if(!sortdirection %in% c("Ascending", "Descending")) 
         stop("'sortdirection' must be 'Ascending' | 'Descending'")
-    if (as.numeric(pagesize) < 1 || as.numeric(pagesize) > 100) 
+    if(as.numeric(pagesize) < 1 || as.numeric(pagesize) > 100) 
         stop("'pagesize' must be in range (1,100)")
-    if (as.numeric(pagenumber) < 1) 
+    if(as.numeric(pagenumber) < 1) 
         stop("'pagenumber' must be > 1")
     GETresponsegroup <- ""
-    if (!is.null(response.group)) {
-        if (!is.null(assignment)) {
-            if (!response.group %in% c("Request", "Minimal", 
-                "AssignmentFeedback", "HITDetail", "HITQuestion")) 
+    if(!is.null(response.group)) {
+        if(!is.null(assignment)) {
+            if(!response.group %in% c("Request", "Minimal", 
+                    "AssignmentFeedback", "HITDetail", "HITQuestion")) 
                 stop("ResponseGroup must be in c(Request,Minimal,AssignmentFeedback,HITDetail,HITQuestion)")
         }
         else {
@@ -33,9 +33,8 @@ function (assignment = NULL, hit = NULL, hit.type = NULL, status = NULL,
                 "AssignmentFeedback")) 
                 stop("ResponseGroup must be in c(Request,Minimal,AssignmentFeedback)")
         }
-        if (length(response.group) == 1) 
-            GETresponsegroup <- paste("&ResponseGroup=", response.group, 
-                sep = "")
+        if(length(response.group) == 1) 
+            GETresponsegroup <- paste("&ResponseGroup=", response.group, sep = "")
         else {
             for (i in 1:length(response.group)) {
                 GETresponsegroup <- paste(	"&ResponseGroup", i-1,
@@ -46,8 +45,7 @@ function (assignment = NULL, hit = NULL, hit.type = NULL, status = NULL,
     if (!is.null(assignment)) {
         operation <- "GetAssignment"
         for (i in 1:length(assignment)) {
-            GETparameters = paste("&AssignmentId=", assignment[i], 
-                GETresponsegroup, sep = "")
+            GETparameters = paste("&AssignmentId=", assignment[i], GETresponsegroup, sep = "")
             auth <- authenticate(operation, secret)
             if (browser == TRUE) {
                 request <- request(keyid, auth$operation, auth$signature, 
@@ -83,9 +81,8 @@ function (assignment = NULL, hit = NULL, hit.type = NULL, status = NULL,
         operation <- "GetAssignmentsForHIT"
         if ((is.null(hit) & is.null(hit.type)) | (!is.null(hit) & !is.null(hit.type))) 
             stop("Must provide 'assignment' xor 'hit' xor 'hit.type'")
-        else if (!is.null(hit)) {
+        else if (!is.null(hit))
             hitlist <- hit
-        }
         else if (!is.null(hit.type)) {
             hitsearch <- SearchHITs(keypair = keypair, print = FALSE, 
                                     log.requests = log.requests, sandbox = sandbox, 
@@ -111,24 +108,23 @@ function (assignment = NULL, hit = NULL, hit.type = NULL, status = NULL,
                     status <- NULL
             }
             GETiteration <- paste("&HITId=", batchhit, "&PageNumber=", 
-                pagenumber, "&PageSize=", pagesize, "&SortProperty=", 
-                sortproperty, "&SortDirection=", sortdirection, 
-                GETiteration, sep = "")
+                            pagenumber, "&PageSize=", pagesize, "&SortProperty=", 
+                            sortproperty, "&SortDirection=", sortdirection, 
+                            GETiteration, sep = "")
             auth <- authenticate(operation, secret)
-            batch <- request(keyid, auth$operation, auth$signature, 
-                auth$timestamp, GETiteration, log.requests = log.requests, 
-                sandbox = sandbox, validation.test = validation.test)
-                if(validation.test)
-                    invisible(batch)
+            batch <- request(   keyid, auth$operation, auth$signature, 
+                                auth$timestamp, GETiteration, log.requests = log.requests, 
+                                sandbox = sandbox, validation.test = validation.test)
+            if(validation.test)
+                invisible(batch)
             batch$total <- as.numeric(strsplit(strsplit(batch$xml, 
-                "<TotalNumResults>")[[1]][2], "</TotalNumResults>")[[1]][1])
+                            "<TotalNumResults>")[[1]][2], "</TotalNumResults>")[[1]][1])
             batch$batch.total <- length(xpathApply(xmlParse(batch$xml), "//Assignment"))
             if (batch$batch.total > 0 & return.assignment.dataframe == TRUE) {
                 batch$assignments <- AssignmentsToDataFrame(xml = batch$xml)$assignments
                 batch$assignments$Answer <- NULL
             }
-            else if (batch$batch.total > 0 & return.assignment.dataframe == 
-                FALSE) 
+            else if (batch$batch.total > 0 & return.assignment.dataframe == FALSE) 
                 batch$assignments <- NULL
             else
                 batch$assignments <- NA
