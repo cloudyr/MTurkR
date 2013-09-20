@@ -34,7 +34,19 @@ function (xml = NULL, xml.parsed = NULL, return.assignment.xml = FALSE)
             assignments$RequesterFeedback[i] <- xmlValue(xmlChildren(q)$RequesterFeedback)
             assignments$Answer[i] <- xmlValue(xmlChildren(q)$Answer)
         }
-        answers <- QuestionFormAnswersToDataFrame(xml.parsed = xml.parsed)
+	}
+	# return answers and merge
+	answers <- QuestionFormAnswersToDataFrame(xml.parsed = xml.parsed)
+	
+	tmp <- reshape(answers, timevar="QuestionIdentifier",
+	               direction="wide", idvar="AssignmentId",
+				   drop=c( "WorkerId","HITId","FreeText","SelectionIdentifier",
+				           "OtherSelectionField","UploadedFileKey","UploadedFileSizeInBytes"))
+	
+	values <- as.data.frame(matrix(ncol=unique(answers$QuestionIdentifier)+1,nrow=nrow(assignments)))
+	names(values) <- c("AssignmentId",unique(answers$QuestionIdentifier))
+	reshape(answers,timevar="QuestionIdentifier",direction="wide",idvar="AssignmentId")
+	
         vars.returned <- answers[answers$AssignmentId == assignments$AssignmentId[1], 
             "QuestionIdentifier"]
         n.returned <- length(vars.returned)
