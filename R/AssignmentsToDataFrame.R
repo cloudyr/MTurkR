@@ -41,7 +41,7 @@ function (xml = NULL, xml.parsed = NULL, return.assignment.xml = FALSE)
 				        drop=c( "WorkerId","HITId","FreeText","SelectionIdentifier",
 				                "OtherSelectionField","UploadedFileKey","UploadedFileSizeInBytes"))
 	    names(values) <- gsub("Combined.Answers.","",names(values),fixed=TRUE)
-	    merge(assignments,values,by="AssignmentId")
+	    assignments <- merge(assignments,values,by="AssignmentId",all=TRUE)
 	    return(list(assignments = assignments, answers = answers))
     }
     else
