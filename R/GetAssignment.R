@@ -66,19 +66,11 @@ function (assignment = NULL, hit = NULL, hit.type = NULL, status = NULL,
                 QualificationRequirements <- list()
                 if (request$valid == TRUE) {
                     a <- AssignmentsToDataFrame(xml = request$xml)$assignments
-                    #h <- HITsToDataFrame(xml = request$xml)
                     a$Answer <- NULL
-                    if (i == 1) {
+                    if (i == 1)
                         Assignments <- a
-                        #HITs <- h$HITs
-                        #QualificationRequirements <- h$QualificationRequirements
-                    }
-                    else {
+                    else
                         Assignments <- merge(Assignments, a, all=TRUE)
-                        #HITs <- merge(HITs, h$HITs,all=TRUE)
-                        #QualificationRequirements <- c(QualificationRequirements, 
-                        #  h$QualificationRequirements)
-                    }
                     if (print == TRUE) 
                         message(i, ": Assignment ", assignment[i], " Retrieved")
                 }
@@ -156,12 +148,6 @@ function (assignment = NULL, hit = NULL, hit.type = NULL, status = NULL,
                 if(validation.test)
                      invisible(nextrequest)
                 request$total <- request$total + nextrequest$total
-#				request$request.id <- c(request$request.id, 
-#                    nextrequest$request.id)
-#				request$request.url <- c(request$request.url, 
-#                    nextrequest$request.url)
-#				request$valid <- c(request$valid, nextrequest$valid)
-#				request$xml <- c(request$xml, nextrequest$xml)
                 if (return.assignment.dataframe == TRUE) 
                 request$assignments <- merge(request$assignments, 
                                              nextrequest$assignments, all=TRUE)
@@ -174,12 +160,6 @@ function (assignment = NULL, hit = NULL, hit.type = NULL, status = NULL,
                     nextbatch <- batch(hitlist[i], pagenumber)
                     if(validation.test)
                          invisible(nextbatch)
-#					request$request.id <- c(request$request.id, 
-#						nextbatch$request.id)
-#					request$request.url <- c(request$request.url, 
-#						nextbatch$request.url)
-#					request$valid <- c(request$valid, nextbatch$valid)
-#					request$xml <- c(request$xml, nextbatch$xml)
                     if (return.assignment.dataframe == TRUE) 
                          request$assignments <- merge(request$assignments, 
                                                       nextbatch$assignments, all=TRUE)
