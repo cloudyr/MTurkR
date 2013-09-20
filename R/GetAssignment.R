@@ -62,25 +62,25 @@ function (assignment = NULL, hit = NULL, hit.type = NULL, status = NULL,
                                    auth$timestamp, GETparameters, log.requests = log.requests, 
                                    sandbox = sandbox, validation.test = validation.test)
                 if(validation.test)
-                     invisible(request)
+                    invisible(request)
                 QualificationRequirements <- list()
                 if (request$valid == TRUE) {
-                     a <- AssignmentsToDataFrame(xml = request$xml)$assignments
-                     #h <- HITsToDataFrame(xml = request$xml)
-                     a$Answer <- NULL
-                     if (i == 1) {
-                          Assignments <- a
-                         #HITs <- h$HITs
-                         #QualificationRequirements <- h$QualificationRequirements
-                     }
-                     else {
-                          Assignments <- merge(Assignments, a, all=TRUE)
-                          #HITs <- merge(HITs, h$HITs,all=TRUE)
-                          #QualificationRequirements <- c(QualificationRequirements, 
-                          #  h$QualificationRequirements)
-                     }
-                     if (print == TRUE) 
-                          message(i, ": Assignment ", assignment[i], " Retrieved")
+                    a <- AssignmentsToDataFrame(xml = request$xml)$assignments
+                    #h <- HITsToDataFrame(xml = request$xml)
+                    a$Answer <- NULL
+                    if (i == 1) {
+                        Assignments <- a
+                        #HITs <- h$HITs
+                        #QualificationRequirements <- h$QualificationRequirements
+                    }
+                    else {
+                        Assignments <- merge(Assignments, a, all=TRUE)
+                        #HITs <- merge(HITs, h$HITs,all=TRUE)
+                        #QualificationRequirements <- c(QualificationRequirements, 
+                        #  h$QualificationRequirements)
+                    }
+                    if (print == TRUE) 
+                        message(i, ": Assignment ", assignment[i], " Retrieved")
                 }
             }
         }
