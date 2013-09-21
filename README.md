@@ -16,3 +16,4 @@ Read more about the package:
 * Examples in an introductory article: "[Crowdsourcing with R and the MTurk API](http://polmeth.wustl.edu/methodologist/tpm_v20_n2.pdf)" in *The Political Methodologist* 20(1):2-7.
 * Examples from a blog post by Solomon Messing: "[Streamline Your Mechanical Turk Workflow with MTurkR](http://solomonmessing.wordpress.com/2013/06/24/streamline-your-mechanical-turk-workflow-with-mturkr/)
 * Sample code to [create and manage qualifications](http://leeper.github.io/MTurkR/qualification_test_example.r), with associated xml files for [QuestionForm](http://leeper.github.io/MTurkR/questionform_example.xml) and [AnswerKey](http://leeper.github.io/MTurkR/answerkey_example.xml)
+* Workflow and sample code to [mimick the Requester UI's display of input HITLayout parameters with assignment results](https://github.com/leeper/MTurkR/blob/gh-pages/batchinputs.md).
