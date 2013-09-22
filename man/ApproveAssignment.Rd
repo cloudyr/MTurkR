@@ -9,11 +9,13 @@
 \usage{
 ApproveAssignment(	assignments, feedback = NULL, rejected = FALSE, 
 					keypair = credentials(), print = FALSE, browser = FALSE, 
-					log.requests = TRUE, sandbox = FALSE, validation.test = FALSE)
+					log.requests = TRUE, sandbox = getOption('MTurkR.sandbox'),
+                    validation.test = FALSE)
 
 ApproveAllAssignments(	hit = NULL, hit.type = NULL, feedback = NULL, 
 						keypair = credentials(), print = FALSE, 
-						log.requests = TRUE, sandbox = FALSE, validation.test = FALSE)
+						log.requests = TRUE, sandbox = getOption('MTurkR.sandbox'),
+                        validation.test = FALSE)
 }
 \arguments{
   \item{assignments}{A character string containing an AssignmentId, or a vector of multiple character strings containing multiple AssignmentIds, to approve.}

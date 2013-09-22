@@ -5,8 +5,8 @@
 \description{Dispose of a QualificationType. This deletes the QualificationType, Qualification scores for all workers, and all records thereof.}
 \usage{
 DisposeQualificationType(qual, keypair = credentials(), print = TRUE, 
-						browser = FALSE, log.requests = TRUE, sandbox = FALSE,
-						validation.test = FALSE)
+						browser = FALSE, log.requests = TRUE,
+                        sandbox = getOption('MTurkR.sandbox'), validation.test = FALSE)
 }
 \arguments{
   \item{qual}{A character string containing a QualificationTypeId.}

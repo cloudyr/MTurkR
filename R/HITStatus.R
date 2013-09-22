@@ -1,7 +1,7 @@
 HITStatus <-
 status <-
 function (hit = NULL, hit.type = NULL, keypair = credentials(), 
-    print = TRUE, log.requests = TRUE, sandbox = FALSE) 
+    print = TRUE, log.requests = TRUE, sandbox = getOption('MTurkR.sandbox'))
 {
     if ((is.null(hit) & is.null(hit.type)) | (!is.null(hit) & !is.null(hit.type))) 
         stop("Must provide 'hit' xor 'hit.type'")

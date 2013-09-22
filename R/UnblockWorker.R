@@ -2,7 +2,8 @@ UnblockWorker <-
 UnblockWorkers <-
 unblock <-
 function (workers, reasons = NULL, keypair = credentials(), print = TRUE, 
-    browser = FALSE, log.requests = TRUE, sandbox = FALSE, validation.test = FALSE) 
+    browser = FALSE, log.requests = TRUE, sandbox = getOption('MTurkR.sandbox'),
+    validation.test = FALSE) 
 {
     if (!is.null(keypair)) {
         keyid <- keypair[1]

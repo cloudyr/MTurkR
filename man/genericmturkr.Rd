@@ -5,7 +5,7 @@
 \description{A function designed for advanced users to be able to make arbitrary requests to the MTurk API. Most users do not need this.}
 \usage{
 genericmturkr(operation, parameters = NULL, keypair = credentials(), print = TRUE, 
-			browser = FALSE, log.requests = TRUE, sandbox = FALSE,
+			browser = FALSE, log.requests = TRUE, sandbox = getOption('MTurkR.sandbox'),
 			xml.parse = TRUE, validation.test = FALSE)
 
 makeGETparameters(parameter, value)

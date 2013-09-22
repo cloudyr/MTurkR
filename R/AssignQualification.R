@@ -7,7 +7,7 @@ function (qual, workers, value = "1", notify = FALSE, name = NULL,
     auto.value = NULL, conditional.statistic = NULL, conditional.comparator = NULL, 
     conditional.value = NULL, conditional.period = NULL, set.statistic.as.value = FALSE, 
     keypair = credentials(), print = FALSE, browser = FALSE, 
-    log.requests = TRUE, sandbox = FALSE, validation.test = FALSE) 
+    log.requests = TRUE, sandbox = getOption('MTurkR.sandbox'), validation.test = FALSE) 
 {
     if (!is.null(keypair)) {
         keyid <- keypair[1]

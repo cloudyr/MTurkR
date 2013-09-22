@@ -7,7 +7,8 @@
 \usage{
 RejectAssignment(	assignments, feedback = NULL, 
 					keypair = credentials(), print = TRUE, browser = FALSE, 
-					log.requests = TRUE, sandbox = FALSE, validation.test = FALSE)
+					log.requests = TRUE, sandbox = getOption('MTurkR.sandbox'),
+                    validation.test = FALSE)
 }
 \arguments{
   \item{assignments}{A character string containing an AssignmentId, or a vector of multiple character strings containing multiple AssignmentIds, to reject.}

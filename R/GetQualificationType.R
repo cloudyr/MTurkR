@@ -1,8 +1,8 @@
 GetQualificationType <-
 qualtype <-
 function (qual, keypair = credentials(), print = TRUE, browser = FALSE, 
-    log.requests = TRUE, sandbox = FALSE, return.qual.dataframe = TRUE,
-	validation.test = FALSE) 
+    log.requests = TRUE, sandbox = getOption('MTurkR.sandbox'),
+    return.qual.dataframe = TRUE, validation.test = FALSE) 
 {
     if (!is.null(keypair)) {
         keyid <- keypair[1]

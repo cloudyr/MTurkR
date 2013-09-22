@@ -2,7 +2,8 @@ GetReviewResultsForHIT <-
 reviewresults <-
 function (hit, assignment = NULL, policy.level = NULL, retrieve.results = TRUE, 
     retrieve.actions = TRUE, keypair = credentials(), print = TRUE, 
-    browser = FALSE, log.requests = TRUE, sandbox = FALSE, validation.test = FALSE) 
+    browser = FALSE, log.requests = TRUE, sandbox = getOption('MTurkR.sandbox'),
+    validation.test = FALSE) 
 {
     keyid <- keypair[1]
     secret <- keypair[2]

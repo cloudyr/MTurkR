@@ -6,7 +6,7 @@
 \usage{
 ExpireHIT(hit = NULL, hit.type = NULL, keypair = credentials(), 
 		print = TRUE, browser = FALSE, log.requests = TRUE,
-		sandbox = FALSE, validation.test = FALSE)
+		sandbox = getOption('MTurkR.sandbox'), validation.test = FALSE)
 }
 \arguments{
   \item{hit}{A character string containing a HITId or a vector of character strings containing multiple HITIds.}

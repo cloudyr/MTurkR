@@ -1,6 +1,6 @@
 HITsToDataFrame <-
 function (xml = NULL, xml.parsed = NULL, return.hit.xml = FALSE, 
-    return.qual.list = TRUE, sandbox = FALSE) 
+    return.qual.list = TRUE, sandbox = getOption('MTurkR.sandbox')) 
 {
     if (!is.null(xml) & !is.null(xml.parsed)) 
         stop("No XML or parsed XML provided to convert to dataframe")

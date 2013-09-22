@@ -8,7 +8,7 @@ GetQualificationRequests(qual = NULL, return.all = TRUE,
 						pagenumber = "1", pagesize = "10", 
 						sortproperty = "SubmitTime", sortdirection = "Ascending", 
 						keypair = credentials(), print = TRUE, 
-						log.requests = TRUE, sandbox = FALSE,
+						log.requests = TRUE, sandbox = getOption('MTurkR.sandbox'),
 						return.qual.dataframe = TRUE, validation.test = FALSE)
 }
 \arguments{

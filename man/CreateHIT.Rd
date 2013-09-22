@@ -13,7 +13,7 @@ CreateHIT(	hit.type = NULL, question = NULL, validate.question = FALSE,
 			auto.approval.delay = NULL, qual.req = NULL, 
 			hitlayoutid = NULL, hitlayoutparameters = NULL, 
 			response.group = NULL, keypair = credentials(), print = TRUE, 
-			browser = FALSE, log.requests = TRUE, sandbox = FALSE,
+			browser = FALSE, log.requests = TRUE, sandbox = getOption('MTurkR.sandbox'),
 			validation.test = FALSE)
 }
 \arguments{

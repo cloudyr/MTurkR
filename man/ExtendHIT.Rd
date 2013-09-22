@@ -6,7 +6,8 @@
 \usage{
 ExtendHIT(hit = NULL, hit.type = NULL, add.assignments = NULL, add.seconds = NULL, 
 		unique.request.token = NULL, keypair = credentials(), print = TRUE, 
-		browser = FALSE, log.requests = TRUE, sandbox = FALSE, validation.test = FALSE)
+		browser = FALSE, log.requests = TRUE, sandbox = getOption('MTurkR.sandbox'),
+        validation.test = FALSE)
 }
 \arguments{
   \item{hit}{An optional character string containing a HITId or a vector of character strings containing multiple HITIds.}

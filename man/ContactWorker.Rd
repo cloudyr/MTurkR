@@ -7,7 +7,7 @@
 \usage{
 ContactWorker(	subjects, msgs, workers, batch = FALSE, keypair = credentials(), 
 				print = FALSE, browser = FALSE, log.requests = TRUE,
-				sandbox = FALSE, validation.test = FALSE)
+				sandbox = getOption('MTurkR.sandbox'), validation.test = FALSE)
 }
 \arguments{
   \item{subjects}{A character string containing subject line of an email, or a vector of character strings of of length equal to the number of workers to be contacted containing the subject line of the email for each worker. Maximum of 200 characters.}

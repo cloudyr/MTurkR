@@ -14,7 +14,8 @@ AssignQualification(qual, workers, value = "1", notify = FALSE,
 					conditional.value = NULL, conditional.period = NULL, 
 					set.statistic.as.value = FALSE, 
 					keypair = credentials(), print = FALSE, browser = FALSE, 
-					log.requests = TRUE, sandbox = FALSE, validation.test = FALSE)
+					log.requests = TRUE, sandbox = getOption('MTurkR.sandbox'),
+                    validation.test = FALSE)
 }
 \arguments{
   \item{qual}{A character string containing a QualificationTypeId.}

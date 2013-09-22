@@ -1,7 +1,8 @@
 DisposeQualificationType <-
 disposequal <-
 function (qual, keypair = credentials(), print = TRUE, browser = FALSE, 
-    log.requests = TRUE, sandbox = FALSE, validation.test = FALSE) 
+    log.requests = TRUE, sandbox = getOption('MTurkR.sandbox'),
+    validation.test = FALSE) 
 {
     if (!is.null(keypair)) {
         keyid <- keypair[1]

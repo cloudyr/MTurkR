@@ -6,7 +6,8 @@
 \usage{
 SetHITAsReviewing(	hit = NULL, hit.type = NULL, revert = FALSE, 
 					keypair = credentials(), print = TRUE, browser = FALSE, 
-					log.requests = TRUE, sandbox = FALSE, validation.test = FALSE)
+					log.requests = TRUE, sandbox = getOption('MTurkR.sandbox'),
+                    validation.test = FALSE)
 }
 \arguments{
   \item{hit}{An optional chracter character string containing a HITId, or a vector character strings containing HITIds, whose status are to be changed.}

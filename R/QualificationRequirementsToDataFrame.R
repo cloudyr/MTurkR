@@ -1,6 +1,6 @@
 QualificationRequirementsToDataFrame <-
 function (xml = NULL, xml.parsed = NULL, xmlnodeset = NULL, hit = NULL, 
-    hit.number = NULL, sandbox = FALSE) 
+    hit.number = NULL, sandbox = getOption('MTurkR.sandbox'))
 {
     if (is.null(xmlnodeset) & is.null(xml.parsed) & is.null(xml)) 
         stop("Must supply XML (parsed or unparsed) xor XMLNodeSet")

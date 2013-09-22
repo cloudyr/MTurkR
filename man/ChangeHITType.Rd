@@ -8,7 +8,8 @@ ChangeHITType(	hit = NULL, old.hit.type = NULL, new.hit.type = NULL,
 				title = NULL, description = NULL, reward = NULL, duration = NULL, keywords = NULL, 
 				auto.approval.delay = NULL, qual.req = NULL, 
 				keypair = credentials(), print = TRUE, browser = FALSE, 
-				log.requests = TRUE, sandbox = FALSE, validation.test = FALSE)
+				log.requests = TRUE, sandbox = getOption('MTurkR.sandbox'),
+                validation.test = FALSE)
 }
 \arguments{
   \item{hit}{An optional character string containing the HITId whose HITTypeId is to be changed, or a vector of character strings containing each of multiple HITIds to be changed.}

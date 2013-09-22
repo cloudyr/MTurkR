@@ -1,6 +1,6 @@
 genericmturkr <-
 function (operation, parameters = NULL, keypair = credentials(), 
-    print = TRUE, browser = FALSE, log.requests = TRUE, sandbox = FALSE, 
+    print = TRUE, browser = FALSE, log.requests = TRUE, sandbox = getOption('MTurkR.sandbox'), 
     xml.parse = TRUE, validation.test = FALSE)
 {
     if (!is.null(keypair)) {

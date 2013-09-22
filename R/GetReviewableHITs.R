@@ -3,7 +3,7 @@ reviewable <-
 function (hit.type = NULL, status = NULL, response.group = "Minimal", 
     return.all = TRUE, pagenumber = "1", pagesize = "10", sortproperty = "Enumeration", 
     sortdirection = "Ascending", keypair = credentials(), print = TRUE, 
-    log.requests = TRUE, sandbox = FALSE, validation.test = FALSE) 
+    log.requests = TRUE, sandbox = getOption('MTurkR.sandbox'), validation.test = FALSE) 
 {
     if (!is.null(keypair)) {
         keyid <- keypair[1]

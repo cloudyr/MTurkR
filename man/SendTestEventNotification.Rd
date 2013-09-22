@@ -6,7 +6,8 @@
 \usage{
 SendTestEventNotification(	notification, test.event.type, 
 							keypair = credentials(), print = TRUE, browser = FALSE, 
-							log.requests = TRUE, sandbox = FALSE, validation.test = FALSE)
+							log.requests = TRUE, sandbox = getOption('MTurkR.sandbox'),
+                            validation.test = FALSE)
 }
 \arguments{
   \item{notification}{A character string containing a URL query parameter-formatted Notification structure (e.g., returned by \code{\link{GenerateNotification}}).}

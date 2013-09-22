@@ -2,7 +2,7 @@ approve <-
 ApproveAssignment <-
 ApproveAssignments <-
 function (assignments, feedback = NULL, rejected = FALSE, keypair = credentials(), 
-    print = FALSE, browser = FALSE, log.requests = TRUE, sandbox = FALSE,
+    print = FALSE, browser = FALSE, log.requests = TRUE, sandbox = getOption('MTurkR.sandbox'),
 	validation.test = FALSE) 
 {
     if (!is.null(keypair)) {

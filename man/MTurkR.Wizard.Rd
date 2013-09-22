@@ -5,7 +5,7 @@
 \title{Interactive MTurkR Mode}
 \description{An interactive, menu-based wizard to perform MTurkR functions. Designed for beginners and those with aversion to the programming required elsewhere in the package.}
 \usage{
-MTurkR.Wizard(style="tcltk", sandbox = FALSE)
+MTurkR.Wizard(style="tcltk", sandbox = getOption('MTurkR.sandbox'))
 wizard.simple(graphics = FALSE, sandbox = NULL)
 }
 \arguments{

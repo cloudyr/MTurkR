@@ -3,8 +3,8 @@ searchquals <-
 function (query = NULL, only.mine = TRUE, only.requestable = FALSE, 
     return.all = FALSE, pagenumber = "1", pagesize = "10", sortproperty = "Name", 
     sortdirection = "Ascending", keypair = credentials(), print = TRUE, 
-    log.requests = TRUE, sandbox = FALSE, return.qual.dataframe = TRUE,
-	validation.test = FALSE) 
+    log.requests = TRUE, sandbox = getOption('MTurkR.sandbox'),
+    return.qual.dataframe = TRUE, validation.test = FALSE) 
 {
     if (!is.null(keypair)) {
         keyid <- keypair[1]

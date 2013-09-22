@@ -5,7 +5,7 @@
 \usage{
 request(keyid, operation, signature, timestamp, GETparameters, 
 		version = "2012-03-25", service = "AWSMechanicalTurkRequester", 
-		browser = FALSE, log.requests = TRUE, sandbox = FALSE, 
+		browser = FALSE, log.requests = TRUE, sandbox = getOption('MTurkR.sandbox'), 
 		xml.parse = FALSE, print.errors = TRUE, validation.test = FALSE)
 }
 \arguments{

@@ -3,7 +3,7 @@ qualrequests <-
 function (qual = NULL, return.all = TRUE, pagenumber = "1", pagesize = "10", 
     sortproperty = "SubmitTime", sortdirection = "Ascending", 
     keypair = credentials(), print = TRUE, log.requests = TRUE, 
-    sandbox = FALSE, return.qual.dataframe = TRUE, validation.test = FALSE) 
+    sandbox = getOption('MTurkR.sandbox'), return.qual.dataframe = TRUE, validation.test = FALSE) 
 {
     if (!is.null(keypair)) {
         keyid <- keypair[1]

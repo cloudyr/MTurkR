@@ -8,7 +8,8 @@ UpdateQualificationType(qual, description = NULL, status = NULL,
 						retry.delay = NULL, test = NULL, answerkey = NULL, 
 						test.duration = NULL, auto = NULL, auto.value = NULL, 
 						keypair = credentials(), print = TRUE, browser = FALSE, 
-						log.requests = TRUE, sandbox = FALSE, validation.test = FALSE)
+						log.requests = TRUE, sandbox = getOption('MTurkR.sandbox'),
+                        validation.test = FALSE)
 }
 \arguments{
   \item{qual}{A character string containing a QualificationTypeId.}

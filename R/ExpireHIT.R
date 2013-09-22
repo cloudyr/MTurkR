@@ -2,7 +2,7 @@ ExpireHIT <-
 expire <-
 function (hit = NULL, hit.type = NULL, keypair = credentials(), 
     print = TRUE, browser = FALSE, log.requests = TRUE,
-	sandbox = FALSE, validation.test = FALSE) 
+	sandbox = getOption('MTurkR.sandbox'), validation.test = FALSE) 
 {
     if (!is.null(keypair)) {
         keyid <- keypair[1]

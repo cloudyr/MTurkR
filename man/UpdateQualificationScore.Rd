@@ -6,7 +6,8 @@
 \usage{
 UpdateQualificationScore(qual, workers, values = NULL, increment = NULL, 
 						keypair = credentials(), print = TRUE, browser = FALSE, 
-						log.requests = TRUE, sandbox = FALSE, validation.test = FALSE)
+						log.requests = TRUE, sandbox = getOption('MTurkR.sandbox'),
+                        validation.test = FALSE)
 }
 \arguments{
   \item{qual}{A character string containing a QualificationTypeId.}

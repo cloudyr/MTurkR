@@ -8,7 +8,7 @@ function (hit.type = NULL, question = NULL, validate.question = FALSE,
     description = NULL, reward = NULL, duration = NULL, keywords = NULL, 
     auto.approval.delay = NULL, qual.req = NULL, hitlayoutid = NULL, 
     hitlayoutparameters = NULL, response.group = NULL, keypair = credentials(), 
-    print = TRUE, browser = FALSE, log.requests = TRUE, sandbox = FALSE,
+    print = TRUE, browser = FALSE, log.requests = TRUE, sandbox = getOption('MTurkR.sandbox'),
 	validation.test = FALSE) 
 {
     if (!is.null(keypair)) {

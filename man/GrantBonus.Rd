@@ -7,7 +7,7 @@
 \usage{
 GrantBonus(	workers, assignments, amounts, reasons, 
 			keypair = credentials(), print = FALSE, browser = FALSE, 
-			log.requests = TRUE, sandbox = FALSE, validation.test = FALSE)
+			log.requests = TRUE, sandbox = getOption('MTurkR.sandbox'), validation.test = FALSE)
 }
 \arguments{
   \item{workers}{A character string containing a WorkerId, or a vector of character strings containing multiple WorkerIds.}

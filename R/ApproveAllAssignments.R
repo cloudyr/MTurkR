@@ -1,7 +1,7 @@
 approveall <-
 ApproveAllAssignments <-
 function (hit = NULL, hit.type = NULL, feedback = NULL, keypair = credentials(), 
-    print = FALSE, log.requests = TRUE, sandbox = FALSE, validation.test = FALSE) 
+    print = FALSE, log.requests = TRUE, sandbox = getOption('MTurkR.sandbox'), validation.test = FALSE) 
 {
     if (!is.null(feedback)) {
         if (length(feedback) > 0) 

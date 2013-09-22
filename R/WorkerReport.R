@@ -1,6 +1,6 @@
 WorkerReport <-
 function (worker, period = "LifeToDate", keypair = credentials(), 
-    log.requests = TRUE, sandbox = FALSE, print = TRUE) 
+    log.requests = TRUE, sandbox = getOption('MTurkR.sandbox'), print = TRUE) 
 {
     if (!period %in% c("OneDay", "SevenDays", "ThirtyDays", "LifeToDate")) 
         stop("Period not valid")

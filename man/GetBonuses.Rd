@@ -6,7 +6,7 @@
 \usage{
 GetBonuses(assignment = NULL, hit = NULL, hit.type = NULL, return.all = TRUE, 
 			pagenumber = "1", pagesize = "100", keypair = credentials(), 
-			print = TRUE, log.requests = TRUE, sandbox = FALSE, 
+			print = TRUE, log.requests = TRUE, sandbox = getOption('MTurkR.sandbox'), 
 			return.bonus.dataframe = TRUE, validation.test = FALSE)
 }
 \arguments{

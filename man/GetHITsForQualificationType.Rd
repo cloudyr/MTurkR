@@ -7,7 +7,7 @@
 GetHITsForQualificationType(qual, response.group = NULL, return.all = TRUE, 
 							pagenumber = 1, pagesize = 100, 
 							keypair = credentials(), print = TRUE, 
-							log.requests = TRUE, sandbox = FALSE, 
+							log.requests = TRUE, sandbox = getOption('MTurkR.sandbox'), 
 							return.hit.dataframe = TRUE, validation.test = FALSE)
 }
 \arguments{

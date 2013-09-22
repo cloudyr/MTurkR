@@ -10,7 +10,7 @@ CreateQualificationType(name, description, status, keywords = NULL,
 						validate.test = FALSE, validate.answerkey = FALSE,
 						auto = NULL, auto.value = NULL, keypair = credentials(),
 						print = TRUE, browser = FALSE, log.requests = TRUE,
-						sandbox = FALSE, validation.test = FALSE)
+						sandbox = getOption('MTurkR.sandbox'), validation.test = FALSE)
 }
 \arguments{
   \item{name}{A name for the QualificationType. This is visible to workers. It cannot be modified by \code{\link{UpdateQualificationType}}.}

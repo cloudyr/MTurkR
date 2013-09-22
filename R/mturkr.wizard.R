@@ -1,6 +1,6 @@
 MTurkR.Wizard <-
 mturkr.wizard <-
-function(style="tcltk", sandbox=FALSE) {
+function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
 	if(style=="simple"){
 		wizard.simple(graphics=FALSE, sandbox=sandbox)
 	}

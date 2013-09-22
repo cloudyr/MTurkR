@@ -8,13 +8,13 @@
 \description{Retrieve various details of a HIT as a dataframe. What details are returned depend upon the requested ResponseGroup.}
 \usage{
 GetHIT(	hit, response.group = NULL, keypair = credentials(), print = TRUE, 
-		browser = FALSE, log.requests = TRUE, sandbox = FALSE, 
+		browser = FALSE, log.requests = TRUE, sandbox = getOption('MTurkR.sandbox'), 
 		return.hit.dataframe = TRUE, return.qual.dataframe = TRUE,
 		validation.test = FALSE)
 
 HITStatus(	hit = NULL, hit.type = NULL, 
 			keypair = credentials(), print = TRUE, 
-			log.requests = TRUE, sandbox = FALSE)
+			log.requests = TRUE, sandbox = getOption('MTurkR.sandbox'))
 }
 \arguments{
   \item{hit}{An optional character string specifying the HITId of the HIT to be retrieved. Must specify \code{hit} xor \code{hit.type}.}

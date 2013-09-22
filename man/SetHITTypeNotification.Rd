@@ -6,7 +6,8 @@
 \usage{
 SetHITTypeNotification(	hit.type, notification = NULL, active = NULL, 
 						keypair = credentials(), print = TRUE, browser = FALSE, 
-						log.requests = TRUE, sandbox = FALSE, validation.test = FALSE)
+						log.requests = TRUE, sandbox = getOption('MTurkR.sandbox'),
+                        validation.test = FALSE)
 }
 \arguments{
   \item{hit.type}{A character string specifying the HITTypeId of the HITType for which notifications are being configured.}

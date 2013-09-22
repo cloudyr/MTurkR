@@ -6,7 +6,7 @@
 \usage{
 GetQualificationScore(	qual, workers, keypair = credentials(), 
 						print = TRUE, browser = FALSE, 
-						log.requests = TRUE, sandbox = FALSE,
+						log.requests = TRUE, sandbox = getOption('MTurkR.sandbox'),
 						validation.test = FALSE)
 }
 \arguments{

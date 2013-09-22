@@ -6,7 +6,7 @@
 \usage{
 GetFileUpload(assignment, questionIdentifier, download = FALSE, file.ext = NULL, 
 				open.file.in.browser = FALSE, keypair = credentials(), print = TRUE, 
-				browser = FALSE, log.requests = TRUE, sandbox = FALSE,
+				browser = FALSE, log.requests = TRUE, sandbox = getOption('MTurkR.sandbox'),
 				validation.test = FALSE)
 }
 \arguments{

@@ -10,18 +10,18 @@
 \usage{
 GetStatistic(	statistic, period = "LifeToDate", count = NULL,
 				response.group = NULL, keypair = credentials(), print = TRUE, 
-				browser = FALSE, log.requests = TRUE, sandbox = FALSE,
+				browser = FALSE, log.requests = TRUE, sandbox = getOption('MTurkR.sandbox'),
 				validation.test = FALSE)
 RequesterReport(period = "LifeToDate", keypair = credentials(), 
-				log.requests = TRUE, sandbox = FALSE, print = TRUE)
+				log.requests = TRUE, sandbox = getOption('MTurkR.sandbox'), print = TRUE)
 
 GetWorkerStatistic(	worker, statistic, period = "LifeToDate", count = NULL,
 					response.group = NULL, keypair = credentials(), print = TRUE,
-					browser = FALSE, log.requests = TRUE, sandbox = FALSE,
+					browser = FALSE, log.requests = TRUE, sandbox = getOption('MTurkR.sandbox'),
 					validation.test = FALSE)
 WorkerReport(	worker, period = "LifeToDate", 
 				keypair = credentials(), log.requests = TRUE, 
-				sandbox = FALSE, print = TRUE)
+				sandbox = getOption('MTurkR.sandbox'), print = TRUE)
 }
 \arguments{
   \item{worker}{A character string containing a WorkerId.}

@@ -7,7 +7,8 @@
 \usage{
 RejectQualification(qual.request, reason = NULL, 
 					keypair = credentials(), print = TRUE, browser = FALSE, 
-					log.requests = TRUE, sandbox = FALSE, validation.test = FALSE)
+					log.requests = TRUE, sandbox = getOption('MTurkR.sandbox'),
+                    validation.test = FALSE)
 }
 \arguments{
   \item{qual.request}{A character string containing a QualificationRequestId, or a vector of character strings containing multiple QualificationRequestIds (e.g., as returned by \code{\link{GetQualificationRequests}}).}

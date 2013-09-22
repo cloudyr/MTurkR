@@ -5,7 +5,7 @@ GetAssignments <-
 function (assignment = NULL, hit = NULL, hit.type = NULL, status = NULL, 
     return.all = FALSE, pagenumber = "1", pagesize = "10", sortproperty = "SubmitTime", 
     sortdirection = "Ascending", response.group = NULL, keypair = credentials(), 
-    print = TRUE, browser = FALSE, log.requests = TRUE, sandbox = FALSE, 
+    print = TRUE, browser = FALSE, log.requests = TRUE, sandbox = getOption('MTurkR.sandbox'), 
     return.assignment.dataframe = TRUE, validation.test = FALSE) 
 {
     if(!is.null(keypair)) {

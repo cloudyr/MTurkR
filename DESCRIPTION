@@ -1,6 +1,6 @@
 Package: MTurkR
-Version: 0.3.52
-Date: 2013-09-20
+Version: 0.3.6
+Date: 2013-09-22
 Title: Access to Amazon Mechanical Turk Requester API via R
 Authors@R: c(	person("Thomas", "Leeper", role = c("aut", "cre"),
 					email = "thosjleeper@gmail.com"),

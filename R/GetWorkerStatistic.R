@@ -2,7 +2,7 @@ GetWorkerStatistic <-
 workerstatistic <-
 function (worker, statistic, period = "LifeToDate", count = NULL, 
     response.group = NULL, keypair = credentials(), print = TRUE, 
-    browser = FALSE, log.requests = TRUE, sandbox = FALSE,
+    browser = FALSE, log.requests = TRUE, sandbox = getOption('MTurkR.sandbox'),
 	validation.test = FALSE) 
 {
     if (!is.null(keypair)) {

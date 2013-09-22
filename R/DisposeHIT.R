@@ -2,7 +2,7 @@ DisposeHIT <-
 disposehit <-
 function (hit = NULL, hit.type = NULL, response.group = NULL, 
     keypair = credentials(), print = TRUE, browser = FALSE, log.requests = TRUE, 
-    sandbox = FALSE, validation.test = FALSE) 
+    sandbox = getOption('MTurkR.sandbox'), validation.test = FALSE) 
 {
     if (!is.null(keypair)) {
         keyid <- keypair[1]

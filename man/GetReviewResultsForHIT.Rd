@@ -8,7 +8,7 @@ GetReviewResultsForHIT(	hit, assignment = NULL, policy.level = NULL,
 						retrieve.results = TRUE, retrieve.actions = TRUE,
 						keypair = credentials(), print = TRUE,
 						browser = FALSE, log.requests = TRUE,
-						sandbox = FALSE, validation.test = FALSE)
+						sandbox = getOption('MTurkR.sandbox'), validation.test = FALSE)
 }
 \arguments{
   \item{hit}{A character string containing a HITId.}

@@ -12,15 +12,15 @@
 \usage{
 BlockWorker(workers, reasons, keypair = credentials(), 
 			print = TRUE, browser = FALSE, log.requests = TRUE,
-			sandbox = FALSE, validation.test = FALSE)
+			sandbox = getOption('MTurkR.sandbox'), validation.test = FALSE)
 
 UnblockWorker(	workers, reasons = NULL, keypair = credentials(), 
 				print = TRUE, browser = FALSE, log.requests = TRUE,
-				sandbox = FALSE, validation.test = FALSE)
+				sandbox = getOption('MTurkR.sandbox'), validation.test = FALSE)
 
 GetBlockedWorkers(pagenumber = NULL, pagesize = NULL, keypair = credentials(), 
 				print = TRUE, browser = FALSE, log.requests = TRUE,
-				sandbox = FALSE, validation.test = FALSE)
+				sandbox = getOption('MTurkR.sandbox'), validation.test = FALSE)
 }
 \arguments{
   \item{workers}{A character string containing a WorkerId, or a vector of character strings containing multiple WorkerIds.}
