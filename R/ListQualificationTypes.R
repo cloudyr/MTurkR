@@ -10,6 +10,8 @@ function (qual = NULL)
         c("Worker_NumberHITsApproved", "00000000000000000040"),
         c("Worker_Locale", "00000000000000000071"), 
         c("Worker_Adult", "00000000000000000060"),
+        c("Masters (Sandbox)","2ARFPLSP75KLA8M8DH1HTEQVJT3SY6"),
+        c("Masters (Production)","2F1QJWKUDD8XADTFD2Q0G6UTO95ALH"),
         c("Categorization Masters (Sandbox)", "2F1KVCNHMVHV8E9PBUB2A4J79LU20F"),
         c("Categorization Masters (Production)", "2NDP2L92HECWY8NS8H3CK0CP5L9GHO"),
         c("Photo Moderation Masters (Sandbox)", "2TGBB6BFMFFOM08IBMAFGGESC1UWJX"),
