@@ -54,7 +54,7 @@ function (xml = NULL, xml.parsed = NULL)
 				multiple <- ""
 				for (j in 1:length(xmlChildren(questions[[z]])$SelectionIdentifier)) {
 					multiple <- paste(multiple,
-								xmlValue(xmlChildren(xmlChildren(questions[[z]])[i]$QuestionIdentifier)$text), 
+								xmlValue(xmlChildren(xmlChildren(questions[[z]])[j]$QuestionIdentifier)$text),
 								sep = ";")
 				}
 				if (length(xmlChildren(questions[[z]])$OtherSelectionField) == 1) 
