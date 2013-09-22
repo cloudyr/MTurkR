@@ -1,6 +1,7 @@
 # CHANGES TO MTurkR 0.4 #
 
 ## SIGNIFICANT USER-VISIBLE CHANGES ##
+* From version 0.3.65, `SearchHITs` returns a named list of QualificationRequirements. This is a consequence of some significant changes to now the names of user-defined QualificationTypes are added to this list (moving that functionality from `QualificationRequirementsToDataFrame` to `SearchHITs`.
 * From version 0.3.6, a global option `options('MTurkR.sandbox'=FALSE)` has been added to allow easier reuse of code between testing in the sandbox and the live server. The default behavior remains to use the live server, but using an option, which is called by all functions, allows one to toggle the global option and then recycle code verbatim.
 * Per API changes on April 8, 2013, several built-in QualificationTypes were removed. See `ListQualificationTypes` for the available types.
 * Improved error, warning, and message handling by converting calls to `cat` to `warning` and `message`, where appropriate.

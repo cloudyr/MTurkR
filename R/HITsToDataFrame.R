@@ -45,6 +45,7 @@ function (xml = NULL, xml.parsed = NULL, return.hit.xml = FALSE,
                 if (!is.null(quals.nodeset) && length(quals.nodeset) > 0) {
                     quals[[i]] <- QualificationRequirementsToDataFrame(xmlnodeset = quals.nodeset, 
                         hit.number = i, sandbox = sandbox)
+                    quals[[i]]$HITId <- HITs$HITId[i]
                 }
                 else
                     quals[[i]] <- NA

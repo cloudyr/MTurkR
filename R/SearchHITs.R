@@ -71,24 +71,26 @@ function (response.group = NULL, return.all = TRUE, pagenumber = "1",
 	if(validation.test)
 		invisible(request)
     runningtotal <- request$batch.total
-    pagenumber = 2
-    while (request$total > runningtotal) {
-        nextbatch <- batch(pagenumber)
-		if(validation.test)
-			invisible(nextbatch)
-        request$request.id <- c(request$request.id, nextbatch$request.id)
-        request$valid <- c(request$valid, nextbatch$valid)
-        request$xml.response <- c(request$xml, nextbatch$xml)
-        if (return.hit.dataframe == TRUE) 
-            request$HITs <- rbind(request$HITs, nextbatch$HITs)
-        if (return.qual.dataframe == TRUE) 
-            request$QualificationRequirements <- rbind(request$QualificationRequirements, 
-                                                nextbatch$QualificationRequirements)
-        request$pages.returned <- pagesize
-        runningtotal <- runningtotal + request$batch.total
-        pagenumber <- pagenumber + 1
+    if(return.all){
+        pagenumber <- 2
+        while (request$total > runningtotal) {
+            nextbatch <- batch(pagenumber)
+            if(validation.test)
+                invisible(nextbatch)
+            request$request.id <- c(request$request.id, nextbatch$request.id)
+            request$valid <- c(request$valid, nextbatch$valid)
+            request$xml.response <- c(request$xml, nextbatch$xml)
+            if (return.hit.dataframe == TRUE) 
+                request$HITs <- rbind(request$HITs, nextbatch$HITs)
+            if (return.qual.dataframe == TRUE) 
+                request$QualificationRequirements <- c(request$QualificationRequirements, 
+                                                    nextbatch$QualificationRequirements)
+            request$pages.returned <- pagesize
+            runningtotal <- runningtotal + request$batch.total
+            pagenumber <- pagenumber + 1
+        }
+        request$batch.total <- NULL
     }
-    request$batch.total <- NULL
     if (!is.null(response.group)) {
         request$ResponseGroup <- c("Minimal", "HITDetail", "HITQuestion")
         if (response.group == "Minimal") {
@@ -98,17 +100,35 @@ function (response.group = NULL, return.all = TRUE, pagenumber = "1",
     }
     else
         request$ResponseGroup <- response.group
-    if (return.hit.dataframe == TRUE & return.qual.dataframe == TRUE) 
-        return.list <- list(HITs = request$HITs,
+    if(return.qual.dataframe==TRUE){
+        tmpdf <- do.call(rbind,request$QualificationRequirements)
+        allQuals <- unique(tmpdf$QualificationTypeId)
+        allQuals <- allQuals[!allQuals %in% ListQualificationTypes()$QualificationTypeId]
+        if(length(allQuals)>0){
+            allNames <- character(length=length(allQuals))
+            for(i in 1:length(allQuals))
+                allNames[i] <- GetQualificationType(allQuals[i], print = print, sandbox = sandbox)$Name
+            for(i in 1:nrow(tmpdf)){
+                if(is.na(tmpdf$Name[i]))
+                    tmpdf$Name[i] <- allNames[allQuals==tmpdf$QualificationTypeId[i]]
+            }
+            request$QualificationRequirements <- split(tmpdf,tmpdf$HITId)
+        }
+        if(return.hit.dataframe==TRUE){
+            return.list <- list(HITs = request$HITs,
                             QualificationRequirements = request$QualificationRequirements)
-    else if (return.hit.dataframe == TRUE & return.qual.dataframe == FALSE) 
-        return.list <- list(HITs = request$HITs)
-    else if (return.hit.dataframe == FALSE & return.qual.dataframe == TRUE) 
-        return.list <- list(QualificationRequirements = request$QualificationRequirements)
-    else if (return.hit.dataframe == FALSE & return.qual.dataframe == FALSE) 
-        return.list <- NULL
+        }
+        else
+            return.list <- list(QualificationRequirements = request$QualificationRequirements)
+    }
+    else{
+        if (return.hit.dataframe == TRUE) 
+            return.list <- list(HITs = request$HITs)        
+        else
+            return.list <- NULL
+    }
     if (print == TRUE) {
-        message(request$total, " HITs Retrieved")
+        message(runningtotal, " HITs Retrieved")
         return(return.list)
     }
     else
