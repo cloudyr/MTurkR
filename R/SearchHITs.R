@@ -101,18 +101,20 @@ function (response.group = NULL, return.all = TRUE, pagenumber = "1",
     else
         request$ResponseGroup <- response.group
     if(return.qual.dataframe==TRUE){
-        tmpdf <- do.call(rbind,request$QualificationRequirements)
-        allQuals <- unique(tmpdf$QualificationTypeId)
-        allQuals <- allQuals[!allQuals %in% ListQualificationTypes()$QualificationTypeId]
-        if(length(allQuals)>0){
-            allNames <- character(length=length(allQuals))
-            for(i in 1:length(allQuals))
-                allNames[i] <- GetQualificationType(allQuals[i], print = print, sandbox = sandbox)$Name
-            for(i in 1:nrow(tmpdf)){
-                if(is.na(tmpdf$Name[i]))
-                    tmpdf$Name[i] <- allNames[allQuals==tmpdf$QualificationTypeId[i]]
+        if(!is.null(request$QualificationRequirements) && length(request$QualificationRequirements)>0){
+            tmpdf <- do.call(rbind,request$QualificationRequirements)
+            allQuals <- unique(tmpdf$QualificationTypeId)
+            allQuals <- allQuals[!allQuals %in% ListQualificationTypes()$QualificationTypeId]
+            if(length(allQuals)>0){
+                allNames <- character(length=length(allQuals))
+                for(i in 1:length(allQuals))
+                    allNames[i] <- GetQualificationType(allQuals[i], print = print, sandbox = sandbox)$Name
+                for(i in 1:nrow(tmpdf)){
+                    if(is.na(tmpdf$Name[i]))
+                        tmpdf$Name[i] <- allNames[allQuals==tmpdf$QualificationTypeId[i]]
+                }
+                request$QualificationRequirements <- split(tmpdf,tmpdf$HITId)
             }
-            request$QualificationRequirements <- split(tmpdf,tmpdf$HITId)
         }
         if(return.hit.dataframe==TRUE){
             return.list <- list(HITs = request$HITs,
