@@ -13,9 +13,9 @@ function (hit = NULL, hit.type = NULL, keypair = credentials(),
         return(HITs) # return if NULL
     if (!is.null(hit)){
         HITs <- HITs[grep(hit, HITs$HITId), ]
-        toprint <- HITs[, c("HITId", "HITReviewStatus", "NumberofAssignmentsPending", 
-                            "NumberofAssignmentsAvailable",
-                            "NumberofAssignmentsCompleted", "Expiration")]
+        toprint <- HITs[, c("HITId", "HITReviewStatus", "NumberOfAssignmentsPending", 
+                            "NumberOfAssignmentsAvailable",
+                            "NumberOfAssignmentsCompleted", "Expiration")]
         names(toprint) <- c("HITId", "Review Status", "Assignments Pending", 
                             "Assignments Available", "Assignments Completed",
                             "Expiration")
@@ -27,18 +27,18 @@ function (hit = NULL, hit.type = NULL, keypair = credentials(),
             invisible(HITs)
         }
         if (dim(HITs)[1] > 1) {
-            toprint <- HITs[,c( "HITId","HITReviewStatus","NumberofAssignmentsPending",
-                                "NumberofAssignmentsAvailable",
-                                "NumberofAssignmentsCompleted", "Expiration")]
+            toprint <- HITs[,c( "HITId","HITReviewStatus","NumberOfAssignmentsPending",
+                                "NumberOfAssignmentsAvailable",
+                                "NumberOfAssignmentsCompleted", "Expiration")]
             totals <- data.frame(HITId = c( "------------------------------",
                                             "Totals"),
                                 HITReviewStatus = c("---------------",""),
-                                NumberofAssignmentsPending = c("--------------------",
-                                    sum(as.numeric(HITs$NumberofAssignmentsPending))),
-                                NumberofAssignmentsAvailable = c("------------------",
-                                    sum(as.numeric(HITs$NumberofAssignmentsAvailable))),
-                                NumberofAssignmentsCompleted = c("--------------------",
-                                    sum(as.numeric(HITs$NumberofAssignmentsCompleted))),
+                                NumberOfAssignmentsPending = c("--------------------",
+                                    sum(as.numeric(HITs$NumberOfAssignmentsPending))),
+                                NumberOfAssignmentsAvailable = c("------------------",
+                                    sum(as.numeric(HITs$NumberOfAssignmentsAvailable))),
+                                NumberOfAssignmentsCompleted = c("--------------------",
+                                    sum(as.numeric(HITs$NumberOfAssignmentsCompleted))),
                                 Expiration = c("----------",""))
             toprint <- rbind(toprint,totals)
         }

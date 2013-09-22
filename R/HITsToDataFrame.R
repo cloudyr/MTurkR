@@ -14,8 +14,8 @@ function (xml = NULL, xml.parsed = NULL, return.hit.xml = FALSE,
             "Title", "Description", "Keywords", "HITStatus", 
             "MaxAssignments", "Amount", "AutoApprovalDelayInSeconds", 
             "Expiration", "AssignmentDurationInSeconds", "NumberOfSimilarHITs", 
-            "HITReviewStatus", "RequesterAnnotation", "NumberofAssignmentsPending", 
-            "NumberofAssignmentsAvailable", "NumberofAssignmentsCompleted", 
+            "HITReviewStatus", "RequesterAnnotation", "NumberOfAssignmentsPending", 
+            "NumberOfAssignmentsAvailable", "NumberOfAssignmentsCompleted", 
             "Question")
         for (i in 1:length(hit.xml)) {
             q <- xpathApply(xml.parsed, "//HIT")[[i]]
@@ -40,19 +40,20 @@ function (xml = NULL, xml.parsed = NULL, return.hit.xml = FALSE,
             HITs[i, 18] <- xmlValue(xmlChildren(q)$NumberOfAssignmentsCompleted)
             HITs[i, 19] <- xmlValue(xmlChildren(q)$Question)
             if (return.qual.list == TRUE) {
-                quals.nodeset <- xpathApply(xml.parsed, paste("//HIT[", 
-                  i, "]/QualificationRequirement", sep = ""))
-                if (!is.null(quals.nodeset) && length(quals.nodeset) > 
-                  0) {
-                  quals[[i]] <- QualificationRequirementsToDataFrame(xmlnodeset = quals.nodeset, 
-                    hit.number = i, sandbox = sandbox)
+                quals.nodeset <- xpathApply(xml.parsed, paste("//HIT[", i,
+                    "]/QualificationRequirement", sep = ""))
+                if (!is.null(quals.nodeset) && length(quals.nodeset) > 0) {
+                    quals[[i]] <- QualificationRequirementsToDataFrame(xmlnodeset = quals.nodeset, 
+                        hit.number = i, sandbox = sandbox)
                 }
-                else quals[[i]] <- NULL
+                else
+                    quals[[i]] <- NA
             }
         }
-        if (!is.null(quals)) 
+        if (!is.null(quals))
             return(list(HITs = HITs, QualificationRequirements = quals))
-        else return(list(HITs = HITs))
+        else
+            return(list(HITs = HITs))
     }
     else
 		return(list(HITs = NULL))
