@@ -3,7 +3,7 @@
 \title{Read the MTurkR Logfile}
 \description{A log of all MTurk API requests are stored in a tab-separated value file called \sQuote{MTurkRLog.tsv} in, by default, the current working directory. This function reads this MTurkR logfile into R as a dataframe, using \code{read.delim}.}
 \usage{
-readlogfile(path = options()$MTurkR.logdir, filename="MTurkRlog.tsv")
+readlogfile(path = getOption('MTurkR.logdir'), filename="MTurkRlog.tsv")
 }
 \arguments{
   \item{path}{An optional character string specifying the path of a directory containing an MTurkR log file.}

@@ -1,5 +1,5 @@
 readlogfile <-
-function(path = options()$MTurkR.logdir, filename = "MTurkRlog.tsv")
+function(path = getOption('MTurkR.logdir'), filename = "MTurkRlog.tsv")
 {
     if (!filename %in% list.files(path=path))
         stop("No Log File Found")
