@@ -21,7 +21,7 @@ In **MTurkR**, we could obtain this as follows:
 inputvalues <- 
 data.frame( hitvar1=c("Input for HIT 1 for var1","Input for HIT 2 for var1","Input for HIT 3 for var1"),
             hitvar2=c("Input for HIT 1 for var2","Input for HIT 2 for var2","Input for HIT 3 for var2"),
-            hitvar3=c("Input for HIT 1 for var2","Input for HIT 2 for var2","Input for HIT 3 for var2"))
+            hitvar3=c("Input for HIT 1 for var3","Input for HIT 2 for var3","Input for HIT 3 for var3"))
 
 # initialize a HITId variable:
 inputvalues$HITId <- NA
