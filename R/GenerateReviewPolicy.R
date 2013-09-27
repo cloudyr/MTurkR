@@ -9,10 +9,10 @@ function (hitpolicy = NULL, assignpolicy = NULL)
         addChildren(hitreviewpolicy, HITPolicyName)
         for (i in 1:length(hitpolicy)) {
             newnode <- newXMLNode("Parameter", parent = hitreviewpolicy)
-            if (!names(hitpolicy)[i] %in% c("QuestionIds", "QuestionIdAgreementThreshold", 
+            if (!names(hitpolicy)[i] %in% c("QuestionIds", "QuestionAgreementThreshold", 
                 "DisregardAssignmentIfRejected", "DisregardAssignmentIfKnownAnswerScoreIsLessThan", 
                 "ExtendIfHITAgreementScoreIsLessThan", "ExtendMaximumAssignments", 
-                "ExtendMinimumTimeInSeconds", "ApproveIfWorkerAgreementScoreIsNotLessThan", 
+                "ExtendMinimumTimeInSeconds", "ApproveIfWorkerAgreementScoreIsAtLeast", 
                 "RejectIfWorkerAgreementScoreIsLessThan", "RejectReason")) 
                 stop("Inappropriate HIT ReviewPolicy Parameter hitpolicy[[", 
                   i, "]]")
