@@ -61,8 +61,8 @@ function (keyid, operation, signature, timestamp, GETparameters,
                 valid <- FALSE
             else valid <- FALSE
             if (log.requests == TRUE) {
-                logfilename <- file.path(options()$MTurkR.logdir,"MTurkRlog.tsv")
-                if (!"MTurkRlog.tsv" %in% list.files(path=options()$MTurkR.logdir)) 
+                logfilename <- file.path(getOption('MTurkR.logdir'),"MTurkRlog.tsv")
+                if (!"MTurkRlog.tsv" %in% list.files(path=getOption('MTurkR.logdir'))) 
                   write(paste("Timestamp\t", "RequestId\t", "Operation\t", 
                     "Sandbox\t", "Parameters\t", "Valid\t", "URL\t", 
                     "Response", sep = ""), logfilename)
