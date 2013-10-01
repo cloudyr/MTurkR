@@ -5,10 +5,12 @@
 \title{Grant Qualification Request}
 \description{Grant a Worker's request for a Qualification.}
 \usage{
-GrantQualification(	qual.requests, values, 
-					keypair = credentials(), print = TRUE, browser = FALSE, 
-					log.requests = TRUE, sandbox = getOption('MTurkR.sandbox'),
-                    validation.test = FALSE)
+GrantQualification(	qual.requests, values, keypair = credentials(),
+                    print = getOption('MTurkR.print'),
+                    browser = getOption('MTurkR.browser'), 
+					log.requests = getOption('MTurkR.log'),
+                    sandbox = getOption('MTurkR.sandbox'),
+                    validation.test = getOption('MTurkR.test'))
 }
 \arguments{
   \item{qual.requests}{A character string containing a QualificationRequestId (for example, returned by \code{\link{GetQualificationRequests}}), or a vector of QualificationRequestIds.}

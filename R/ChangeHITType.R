@@ -3,8 +3,9 @@ changehittype <-
 function (hit = NULL, old.hit.type = NULL, new.hit.type = NULL, 
     title = NULL, description = NULL, reward = NULL, duration = NULL, 
     keywords = NULL, auto.approval.delay = NULL, qual.req = NULL, 
-    keypair = credentials(), print = TRUE, browser = FALSE, log.requests = TRUE, 
-    sandbox = getOption('MTurkR.sandbox'), validation.test = FALSE) 
+    keypair = credentials(), print = getOption('MTurkR.print'),
+    browser = getOption('MTurkR.browser'), log.requests = getOption('MTurkR.log'), 
+    sandbox = getOption('MTurkR.sandbox'), validation.test = getOption('MTurkR.test')) 
 {
     if (!is.null(keypair)) {
         keyid <- keypair[1]

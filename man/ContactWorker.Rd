@@ -6,8 +6,9 @@
 \description{Contact one or more workers. This sends an email with specified subject line and body text to one or more workers. This can be used to recontact workers in panel/longitudinal research or to send follow-up work. Most likely will need to be used in tandem with \code{\link{GrantBonus}} to implement panels.}
 \usage{
 ContactWorker(	subjects, msgs, workers, batch = FALSE, keypair = credentials(), 
-				print = FALSE, browser = FALSE, log.requests = TRUE,
-				sandbox = getOption('MTurkR.sandbox'), validation.test = FALSE)
+				print = getOption('MTurkR.print'), browser = getOption('MTurkR.browser'),
+                log.requests = getOption('MTurkR.log'), sandbox = getOption('MTurkR.sandbox'),
+                validation.test = getOption('MTurkR.test'))
 }
 \arguments{
   \item{subjects}{A character string containing subject line of an email, or a vector of character strings of of length equal to the number of workers to be contacted containing the subject line of the email for each worker. Maximum of 200 characters.}

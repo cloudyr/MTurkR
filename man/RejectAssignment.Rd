@@ -6,9 +6,11 @@
 \description{Reject a Worker's assignment (or multiple assignments) submitted for a HIT. Feedback should be provided for why an assignment was rejected.}
 \usage{
 RejectAssignment(	assignments, feedback = NULL, 
-					keypair = credentials(), print = TRUE, browser = FALSE, 
-					log.requests = TRUE, sandbox = getOption('MTurkR.sandbox'),
-                    validation.test = FALSE)
+					keypair = credentials(), print = getOption('MTurkR.print'),
+                    browser = getOption('MTurkR.browser'), 
+					log.requests = getOption('MTurkR.log'),
+                    sandbox = getOption('MTurkR.sandbox'),
+                    validation.test = getOption('MTurkR.test'))
 }
 \arguments{
   \item{assignments}{A character string containing an AssignmentId, or a vector of multiple character strings containing multiple AssignmentIds, to reject.}

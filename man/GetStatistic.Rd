@@ -9,19 +9,27 @@
 \description{Get a requester statistic or a statistic for a particular worker. \code{RequesterReport} and \code{WorkerReport} provide wrappers that return all available statistics.}
 \usage{
 GetStatistic(	statistic, period = "LifeToDate", count = NULL,
-				response.group = NULL, keypair = credentials(), print = TRUE, 
-				browser = FALSE, log.requests = TRUE, sandbox = getOption('MTurkR.sandbox'),
-				validation.test = FALSE)
+				response.group = NULL, keypair = credentials(),
+                print = getOption('MTurkR.print'), 
+				browser = getOption('MTurkR.browser'),
+                log.requests = getOption('MTurkR.log'),
+                sandbox = getOption('MTurkR.sandbox'),
+				validation.test = getOption('MTurkR.test'))
 RequesterReport(period = "LifeToDate", keypair = credentials(), 
-				log.requests = TRUE, sandbox = getOption('MTurkR.sandbox'), print = TRUE)
+				log.requests = getOption('MTurkR.log'),
+                sandbox = getOption('MTurkR.sandbox'),
+                print = getOption('MTurkR.print'))
 
 GetWorkerStatistic(	worker, statistic, period = "LifeToDate", count = NULL,
-					response.group = NULL, keypair = credentials(), print = TRUE,
-					browser = FALSE, log.requests = TRUE, sandbox = getOption('MTurkR.sandbox'),
-					validation.test = FALSE)
+					response.group = NULL, keypair = credentials(),
+                    print = getOption('MTurkR.print'),
+					browser = getOption('MTurkR.browser'),
+                    log.requests = getOption('MTurkR.log'),
+                    sandbox = getOption('MTurkR.sandbox'),
+					validation.test = getOption('MTurkR.test'))
 WorkerReport(	worker, period = "LifeToDate", 
-				keypair = credentials(), log.requests = TRUE, 
-				sandbox = getOption('MTurkR.sandbox'), print = TRUE)
+				keypair = credentials(), log.requests = getOption('MTurkR.log'), 
+				sandbox = getOption('MTurkR.sandbox'), print = getOption('MTurkR.print'))
 }
 \arguments{
   \item{worker}{A character string containing a WorkerId.}

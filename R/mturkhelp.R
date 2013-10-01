@@ -1,6 +1,7 @@
 mturkhelp <-
-function (about, helptype = NULL, keypair = credentials(), print = TRUE, 
-    browser = FALSE, log.requests = TRUE, validation.test = FALSE) 
+function (about, helptype = NULL, keypair = credentials(), print = getOption('MTurkR.print'), 
+    browser = getOption('MTurkR.browser'), log.requests = getOption('MTurkR.log'),
+    validation.test = getOption('MTurkR.test')) 
 {
     if (!is.null(keypair)) {
         keyid <- keypair[1]

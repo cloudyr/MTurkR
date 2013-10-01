@@ -4,8 +4,10 @@
 \title{Get some help}
 \description{Functions to obtain help with the MTurk API (as opposed to the MTurkR package itself). \code{mturkrhelp} makes help requests directly to the API, while \code{APIReference} simply loads the API documentation.}
 \usage{
-mturkhelp(	about, helptype = NULL, keypair = credentials(), print = TRUE, 
-			browser = FALSE, log.requests = TRUE, validation.test = FALSE)
+mturkhelp(	about, helptype = NULL, keypair = credentials(), print = getOption('MTurkR.print'), 
+			browser = getOption('MTurkR.browser'),
+            log.requests = getOption('MTurkR.log'),
+            validation.test = getOption('MTurkR.test'))
 
 APIReference()
 }

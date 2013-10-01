@@ -1,8 +1,9 @@
 SetHITTypeNotification <-
 setnotification <-
 function (hit.type, notification = NULL, active = NULL, keypair = credentials(), 
-    print = TRUE, browser = FALSE, log.requests = TRUE, sandbox = getOption('MTurkR.sandbox'),
-    validation.test = FALSE)
+    print = getOption('MTurkR.print'), browser = getOption('MTurkR.browser'),
+    log.requests = getOption('MTurkR.log'), sandbox = getOption('MTurkR.sandbox'),
+    validation.test = getOption('MTurkR.test'))
 {
     if (is.null(notification) & is.null(active)) 
         stop("Must specify either 'notification' and/or 'active'")

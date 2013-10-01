@@ -5,9 +5,10 @@
 \description{Extend the time remaining on a HIT or the number of assignments available for the HIT.}
 \usage{
 ExtendHIT(hit = NULL, hit.type = NULL, add.assignments = NULL, add.seconds = NULL, 
-		unique.request.token = NULL, keypair = credentials(), print = TRUE, 
-		browser = FALSE, log.requests = TRUE, sandbox = getOption('MTurkR.sandbox'),
-        validation.test = FALSE)
+		unique.request.token = NULL, keypair = credentials(),
+        print = getOption('MTurkR.print'), browser = getOption('MTurkR.browser'),
+        log.requests = getOption('MTurkR.log'), sandbox = getOption('MTurkR.sandbox'),
+        validation.test = getOption('MTurkR.test'))
 }
 \arguments{
   \item{hit}{An optional character string containing a HITId or a vector of character strings containing multiple HITIds.}

@@ -2,8 +2,9 @@ GetBonuses <-
 bonuses <-
 function (assignment = NULL, hit = NULL, hit.type = NULL, return.all = TRUE, 
     pagenumber = "1", pagesize = "100", keypair = credentials(), 
-    print = TRUE, log.requests = TRUE, sandbox = getOption('MTurkR.sandbox'),
-	return.bonus.dataframe = TRUE, validation.test = FALSE) 
+    print = getOption('MTurkR.print'), log.requests = getOption('MTurkR.log'),
+    sandbox = getOption('MTurkR.sandbox'), return.bonus.dataframe = TRUE,
+    validation.test = getOption('MTurkR.test')) 
 {
     if (!is.null(keypair)) {
         keyid <- keypair[1]

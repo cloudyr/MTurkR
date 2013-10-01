@@ -4,9 +4,12 @@
 \title{Get QualificationType}
 \description{Get the details of a Qualification Type.}
 \usage{
-GetQualificationType(qual, keypair = credentials(), print = TRUE, browser = FALSE, 
-					log.requests = TRUE, sandbox = getOption('MTurkR.sandbox'),
-                    return.qual.dataframe = TRUE, validation.test = FALSE)
+GetQualificationType(qual, keypair = credentials(), print = getOption('MTurkR.print'),
+                    browser = getOption('MTurkR.browser'), 
+					log.requests = getOption('MTurkR.log'),
+                    sandbox = getOption('MTurkR.sandbox'),
+                    return.qual.dataframe = TRUE,
+                    validation.test = getOption('MTurkR.test'))
 }
 \arguments{
   \item{qual}{A character string containing a QualificationTypeId.}

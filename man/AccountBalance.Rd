@@ -6,15 +6,19 @@
 \title{Retrieve MTurk account balance}
 \description{Retrieves the amount of money (in US Dollars) in your MTurk account. \code{SufficientFunds} provides a wrapper that checks whether your account has sufficient funds based upon specified characters of your HIT.}
 \usage{
-AccountBalance(	keypair = credentials(), print = TRUE, browser = FALSE, 
-				log.requests = TRUE, sandbox = getOption('MTurkR.sandbox'),
-                validation.test = FALSE)
+AccountBalance(	keypair = credentials(), print = getOption('MTurkR.print'),
+                browser = getOption('MTurkR.browser'), 
+				log.requests = getOption('MTurkR.log'),
+                sandbox = getOption('MTurkR.sandbox'),
+                validation.test = getOption('MTurkR.test'))
 
 SufficientFunds(amount, assignments = NULL, hits = NULL, 
 				bonus.ct = NULL, bonus.amount = NULL, masters = FALSE, 
 				turkfee = 0.1, turkmin = 0.005, mastersfee = 0.2, 
-				keypair = credentials(), print = TRUE, log.requests = TRUE,
-                sandbox = getOption('MTurkR.sandbox'), validation.test = FALSE)
+				keypair = credentials(), print = getOption('MTurkR.print'),
+                log.requests = getOption('MTurkR.log'),
+                sandbox = getOption('MTurkR.sandbox'),
+                validation.test = getOption('MTurkR.test'))
 }
 \arguments{
   \item{amount}{Intended per-assignment payment amount.}

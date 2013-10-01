@@ -12,9 +12,9 @@ CreateHIT(	hit.type = NULL, question = NULL, validate.question = FALSE,
 			title = NULL, description = NULL, reward = NULL, duration = NULL, keywords = NULL, 
 			auto.approval.delay = NULL, qual.req = NULL, 
 			hitlayoutid = NULL, hitlayoutparameters = NULL, 
-			response.group = NULL, keypair = credentials(), print = TRUE, 
-			browser = FALSE, log.requests = TRUE, sandbox = getOption('MTurkR.sandbox'),
-			validation.test = FALSE)
+			response.group = NULL, keypair = credentials(), print = getOption('MTurkR.print'), 
+			browser = getOption('MTurkR.browser'), log.requests = getOption('MTurkR.log'),
+            sandbox = getOption('MTurkR.sandbox'), validation.test = getOption('MTurkR.test'))
 }
 \arguments{
   \item{hit.type}{An optional character string specifying the HITTypeId that this HIT should be visibly grouped with (and whose properties, e.g. reward amount, this HIT should inherit).}

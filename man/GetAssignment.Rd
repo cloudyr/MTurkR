@@ -9,9 +9,11 @@
 GetAssignment(	assignment = NULL, hit = NULL, hit.type = NULL, status = NULL, 
 				return.all = FALSE, pagenumber = "1", pagesize = "10", 
 				sortproperty = "SubmitTime", sortdirection = "Ascending", 
-				response.group = NULL, keypair = credentials(), print = TRUE, browser = FALSE,
-				log.requests = TRUE, sandbox = getOption('MTurkR.sandbox'), return.assignment.dataframe = TRUE,
-				validation.test = FALSE)
+				response.group = NULL, keypair = credentials(), print = getOption('MTurkR.print'),
+                browser = getOption('MTurkR.browser'),
+				log.requests = getOption('MTurkR.log'),
+                sandbox = getOption('MTurkR.sandbox'), return.assignment.dataframe = TRUE,
+				validation.test = getOption('MTurkR.test'))
 }
 \arguments{
   \item{assignment}{An optional character string specifying the AssignmentId of an assignment to return.}

@@ -5,9 +5,11 @@
 \description{Dispose of a HIT that is no longer needed. You can only dispose of HITs that are Reviewable, with all assignments either approved or rejected.}
 \usage{
 DisposeHIT(	hit = NULL, hit.type = NULL, response.group = NULL, 
-			keypair = credentials(), print = TRUE, browser = FALSE, 
-			log.requests = TRUE, sandbox = getOption('MTurkR.sandbox'),
-            validation.test = FALSE)
+			keypair = credentials(), print = getOption('MTurkR.print'),
+            browser = getOption('MTurkR.browser'), 
+			log.requests = getOption('MTurkR.log'),
+            sandbox = getOption('MTurkR.sandbox'),
+            validation.test = getOption('MTurkR.test'))
 }
 \arguments{
   \item{hit}{A character string containing a HITId or a vector of character strings containing multiple HITIds.}

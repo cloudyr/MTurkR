@@ -1,8 +1,9 @@
 GetStatistic <-
 statistic <-
 function (statistic, period = "LifeToDate", count = NULL, response.group = NULL, 
-    keypair = credentials(), print = TRUE, browser = FALSE, log.requests = TRUE, 
-    sandbox = getOption('MTurkR.sandbox'), validation.test = FALSE) 
+    keypair = credentials(), print = getOption('MTurkR.print'),
+    browser = getOption('MTurkR.browser'), log.requests = getOption('MTurkR.log'), 
+    sandbox = getOption('MTurkR.sandbox'), validation.test = getOption('MTurkR.test')) 
 {
     if (!is.null(keypair)) {
         keyid <- keypair[1]

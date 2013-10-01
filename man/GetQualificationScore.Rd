@@ -5,9 +5,11 @@
 \description{Get a Worker's score for a specific Qualification. You can only retrieve scores for custom QualificationTypes. Scores for built-in QualificationTypes should be retrieved with \code{\link{GetWorkerStatistic}}.}
 \usage{
 GetQualificationScore(	qual, workers, keypair = credentials(), 
-						print = TRUE, browser = FALSE, 
-						log.requests = TRUE, sandbox = getOption('MTurkR.sandbox'),
-						validation.test = FALSE)
+						print = getOption('MTurkR.print'),
+                        browser = getOption('MTurkR.browser'), 
+						log.requests = getOption('MTurkR.log'),
+                        sandbox = getOption('MTurkR.sandbox'),
+						validation.test = getOption('MTurkR.test'))
 }
 \arguments{
   \item{qual}{A character string containing a QualificationTypeId for a custom QualificationType.}

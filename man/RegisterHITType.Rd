@@ -6,9 +6,11 @@
 \usage{
 RegisterHITType(title, description, reward, duration, keywords = NULL, 
 				auto.approval.delay = NULL, qual.req = NULL, 
-				keypair = credentials(), print = TRUE, browser = FALSE, 
-				log.requests = TRUE, sandbox = getOption('MTurkR.sandbox'),
-                validation.test = FALSE)
+				keypair = credentials(), print = getOption('MTurkR.print'),
+                browser = getOption('MTurkR.browser'), 
+				log.requests = getOption('MTurkR.log'),
+                sandbox = getOption('MTurkR.sandbox'),
+                validation.test = getOption('MTurkR.test'))
 }
 \arguments{
   \item{title}{A character string containing the title for the HITType. All HITs of this HITType will be visibly grouped to workers according to this title. Maximum of 128 characters.}

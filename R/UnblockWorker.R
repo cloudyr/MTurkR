@@ -1,9 +1,9 @@
 UnblockWorker <-
 UnblockWorkers <-
 unblock <-
-function (workers, reasons = NULL, keypair = credentials(), print = TRUE, 
-    browser = FALSE, log.requests = TRUE, sandbox = getOption('MTurkR.sandbox'),
-    validation.test = FALSE) 
+function (workers, reasons = NULL, keypair = credentials(), print = getOption('MTurkR.print'), 
+    browser = getOption('MTurkR.browser'), log.requests = getOption('MTurkR.log'),
+    sandbox = getOption('MTurkR.sandbox'), validation.test = getOption('MTurkR.test')) 
 {
     if (!is.null(keypair)) {
         keyid <- keypair[1]

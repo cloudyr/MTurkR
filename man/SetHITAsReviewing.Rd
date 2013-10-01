@@ -5,9 +5,11 @@
 \description{Update the status of a HIT, from \dQuote{Reviewable} to \dQuote{Reviewing} or the reverse.}
 \usage{
 SetHITAsReviewing(	hit = NULL, hit.type = NULL, revert = FALSE, 
-					keypair = credentials(), print = TRUE, browser = FALSE, 
-					log.requests = TRUE, sandbox = getOption('MTurkR.sandbox'),
-                    validation.test = FALSE)
+					keypair = credentials(), print = getOption('MTurkR.print'),
+                    browser = getOption('MTurkR.browser'), 
+					log.requests = getOption('MTurkR.log'),
+                    sandbox = getOption('MTurkR.sandbox'),
+                    validation.test = getOption('MTurkR.test'))
 }
 \arguments{
   \item{hit}{An optional chracter character string containing a HITId, or a vector character strings containing HITIds, whose status are to be changed.}

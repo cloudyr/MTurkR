@@ -5,9 +5,11 @@
 \description{Configure a notification to be sent when specific actions occur for the specified HITType.}
 \usage{
 SetHITTypeNotification(	hit.type, notification = NULL, active = NULL, 
-						keypair = credentials(), print = TRUE, browser = FALSE, 
-						log.requests = TRUE, sandbox = getOption('MTurkR.sandbox'),
-                        validation.test = FALSE)
+						keypair = credentials(), print = getOption('MTurkR.print'),
+                        browser = getOption('MTurkR.browser'), 
+						log.requests = getOption('MTurkR.log'),
+                        sandbox = getOption('MTurkR.sandbox'),
+                        validation.test = getOption('MTurkR.test'))
 }
 \arguments{
   \item{hit.type}{A character string specifying the HITTypeId of the HITType for which notifications are being configured.}

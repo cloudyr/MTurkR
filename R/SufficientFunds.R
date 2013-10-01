@@ -1,9 +1,9 @@
 SufficientFunds <-
 function (amount, assignments = NULL, hits = NULL, bonus.ct = NULL, 
     bonus.amount = NULL, masters = FALSE, turkfee = 0.1, turkmin = 0.005, 
-    mastersfee = 0.2, keypair = credentials(), print = TRUE, 
-    log.requests = TRUE, sandbox = getOption('MTurkR.sandbox'),
-    validation.test = FALSE)
+    mastersfee = 0.2, keypair = credentials(), print = getOption('MTurkR.print'), 
+    log.requests = getOption('MTurkR.log'), sandbox = getOption('MTurkR.sandbox'),
+    validation.test = getOption('MTurkR.test'))
 {
     total <- 0
     payments <- 0

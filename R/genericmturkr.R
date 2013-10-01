@@ -1,7 +1,8 @@
 genericmturkr <-
 function (operation, parameters = NULL, keypair = credentials(), 
-    print = TRUE, browser = FALSE, log.requests = TRUE, sandbox = getOption('MTurkR.sandbox'), 
-    xml.parse = TRUE, validation.test = FALSE)
+    print = getOption('MTurkR.print'), browser = getOption('MTurkR.browser'),
+    log.requests = getOption('MTurkR.log'), sandbox = getOption('MTurkR.sandbox'), 
+    xml.parse = TRUE, validation.test = getOption('MTurkR.test'))
 {
     if (!is.null(keypair)) {
         keyid <- keypair[1]

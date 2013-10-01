@@ -5,8 +5,9 @@
 \description{Force a HIT to expire immediately, as opposed to at its prespecified expiration time. Expired HITs can be extended with the \code{\link{ExtendHIT}} operation.}
 \usage{
 ExpireHIT(hit = NULL, hit.type = NULL, keypair = credentials(), 
-		print = TRUE, browser = FALSE, log.requests = TRUE,
-		sandbox = getOption('MTurkR.sandbox'), validation.test = FALSE)
+		print = getOption('MTurkR.print'), browser = getOption('MTurkR.browser'),
+        log.requests = getOption('MTurkR.log'), sandbox = getOption('MTurkR.sandbox'),
+        validation.test = getOption('MTurkR.test'))
 }
 \arguments{
   \item{hit}{A character string containing a HITId or a vector of character strings containing multiple HITIds.}

@@ -6,8 +6,11 @@
 \usage{
 GetQualifications(	qual, status = NULL, return.all = TRUE, 
 					pagenumber = 1, pagesize = 100, keypair = credentials(),
-					print = TRUE, log.requests = TRUE, sandbox = getOption('MTurkR.sandbox'),
-					return.qual.dataframe = TRUE, validation.test = FALSE)
+					print = getOption('MTurkR.print'),
+                    log.requests = getOption('MTurkR.log'),
+                    sandbox = getOption('MTurkR.sandbox'),
+					return.qual.dataframe = TRUE,
+                    validation.test = getOption('MTurkR.test'))
 }
 \arguments{
   \item{qual}{A character string containing a QualificationTypeId for a custom (i.e., not built-in) QualificationType.}

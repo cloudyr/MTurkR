@@ -6,8 +6,11 @@
 \description{Pay a bonus to one or more workers. This function spends money from your MTurk account and will fail if insufficient funds are available.}
 \usage{
 GrantBonus(	workers, assignments, amounts, reasons, 
-			keypair = credentials(), print = FALSE, browser = FALSE, 
-			log.requests = TRUE, sandbox = getOption('MTurkR.sandbox'), validation.test = FALSE)
+			keypair = credentials(), print = getOption('MTurkR.print'),
+            browser = getOption('MTurkR.browser'), 
+			log.requests = getOption('MTurkR.log'),
+            sandbox = getOption('MTurkR.sandbox'),
+            validation.test = getOption('MTurkR.test'))
 }
 \arguments{
   \item{workers}{A character string containing a WorkerId, or a vector of character strings containing multiple WorkerIds.}

@@ -2,9 +2,9 @@ SearchHITs <-
 searchhits <-
 function (response.group = NULL, return.all = TRUE, pagenumber = "1", 
     pagesize = "10", sortproperty = "Enumeration", sortdirection = "Ascending", 
-    keypair = credentials(), print = TRUE, log.requests = TRUE, 
+    keypair = credentials(), print = getOption('MTurkR.print'), log.requests = getOption('MTurkR.log'), 
     sandbox = getOption('MTurkR.sandbox'), return.hit.dataframe = TRUE,
-    return.qual.dataframe = TRUE, validation.test = FALSE) 
+    return.qual.dataframe = TRUE, validation.test = getOption('MTurkR.test')) 
 {
     if (!is.null(keypair)) {
         keyid <- keypair[1]

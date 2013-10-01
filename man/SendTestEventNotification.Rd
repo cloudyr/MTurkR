@@ -5,9 +5,11 @@
 \description{Test a HITType Notification, for example, to try out a HITType Notification before creating a HIT.}
 \usage{
 SendTestEventNotification(	notification, test.event.type, 
-							keypair = credentials(), print = TRUE, browser = FALSE, 
-							log.requests = TRUE, sandbox = getOption('MTurkR.sandbox'),
-                            validation.test = FALSE)
+							keypair = credentials(), print = getOption('MTurkR.print'),
+                            browser = getOption('MTurkR.browser'), 
+							log.requests = getOption('MTurkR.log'),
+                            sandbox = getOption('MTurkR.sandbox'),
+                            validation.test = getOption('MTurkR.test'))
 }
 \arguments{
   \item{notification}{A character string containing a URL query parameter-formatted Notification structure (e.g., returned by \code{\link{GenerateNotification}}).}

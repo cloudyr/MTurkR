@@ -2,9 +2,9 @@ SearchQualificationTypes <-
 searchquals <-
 function (query = NULL, only.mine = TRUE, only.requestable = FALSE, 
     return.all = FALSE, pagenumber = "1", pagesize = "10", sortproperty = "Name", 
-    sortdirection = "Ascending", keypair = credentials(), print = TRUE, 
-    log.requests = TRUE, sandbox = getOption('MTurkR.sandbox'),
-    return.qual.dataframe = TRUE, validation.test = FALSE) 
+    sortdirection = "Ascending", keypair = credentials(), print = getOption('MTurkR.print'), 
+    log.requests = getOption('MTurkR.log'), sandbox = getOption('MTurkR.sandbox'),
+    return.qual.dataframe = TRUE, validation.test = getOption('MTurkR.test')) 
 {
     if (!is.null(keypair)) {
         keyid <- keypair[1]

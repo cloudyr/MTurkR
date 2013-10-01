@@ -13,9 +13,11 @@ AssignQualification(qual, workers, value = "1", notify = FALSE,
 					conditional.statistic = NULL, conditional.comparator = NULL, 
 					conditional.value = NULL, conditional.period = NULL, 
 					set.statistic.as.value = FALSE, 
-					keypair = credentials(), print = FALSE, browser = FALSE, 
-					log.requests = TRUE, sandbox = getOption('MTurkR.sandbox'),
-                    validation.test = FALSE)
+					keypair = credentials(), print = getOption('MTurkR.print'),
+                    browser = getOption('MTurkR.browser'), 
+					log.requests = getOption('MTurkR.log'),
+                    sandbox = getOption('MTurkR.sandbox'),
+                    validation.test = getOption('MTurkR.test'))
 }
 \arguments{
   \item{qual}{A character string containing a QualificationTypeId.}

@@ -6,9 +6,11 @@
 \description{Revoke a Qualification from a worker or multiple workers. This deletes their qualification score and any record thereof.}
 \usage{
 RevokeQualification(qual, worker, reason = NULL, 
-					keypair = credentials(), print = TRUE, browser = FALSE, 
-					log.requests = TRUE, sandbox = getOption('MTurkR.sandbox'),
-                    validation.test = FALSE)
+					keypair = credentials(), print = getOption('MTurkR.print'),
+                    browser = getOption('MTurkR.browser'), 
+					log.requests = getOption('MTurkR.log'),
+                    sandbox = getOption('MTurkR.sandbox'),
+                    validation.test = getOption('MTurkR.test'))
 }
 \arguments{
   \item{qual}{A character string containing a QualificationTypeId.}

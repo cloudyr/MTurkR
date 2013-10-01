@@ -5,9 +5,11 @@
 \description{Update a worker's score for a QualificationType that you created. Scores for built-in QualificationTypes (e.g., location, worker statistics) cannot be updated.}
 \usage{
 UpdateQualificationScore(qual, workers, values = NULL, increment = NULL, 
-						keypair = credentials(), print = TRUE, browser = FALSE, 
-						log.requests = TRUE, sandbox = getOption('MTurkR.sandbox'),
-                        validation.test = FALSE)
+						keypair = credentials(), print = getOption('MTurkR.print'),
+                        browser = getOption('MTurkR.browser'), 
+						log.requests = getOption('MTurkR.log'),
+                        sandbox = getOption('MTurkR.sandbox'),
+                        validation.test = getOption('MTurkR.test'))
 }
 \arguments{
   \item{qual}{A character string containing a QualificationTypeId.}

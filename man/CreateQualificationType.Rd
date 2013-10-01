@@ -9,8 +9,11 @@ CreateQualificationType(name, description, status, keywords = NULL,
 						test.duration = NULL,
 						validate.test = FALSE, validate.answerkey = FALSE,
 						auto = NULL, auto.value = NULL, keypair = credentials(),
-						print = TRUE, browser = FALSE, log.requests = TRUE,
-						sandbox = getOption('MTurkR.sandbox'), validation.test = FALSE)
+						print = getOption('MTurkR.print'),
+                        browser = getOption('MTurkR.browser'),
+                        log.requests = getOption('MTurkR.log'),
+						sandbox = getOption('MTurkR.sandbox'),
+                        validation.test = getOption('MTurkR.test'))
 }
 \arguments{
   \item{name}{A name for the QualificationType. This is visible to workers. It cannot be modified by \code{\link{UpdateQualificationType}}.}
