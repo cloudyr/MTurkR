@@ -168,7 +168,7 @@ function (assignment = NULL, hit = NULL, hit.type = NULL, status = NULL,
             cumulative <- cumulative + runningtotal
             request$batch.total <- NULL
             if (!is.null(hit.type))
-                 request$assignments$HITTypeId <- hit.type
+                 request$assignments["HITTypeId"] <- hit.type
         }
         if (print == TRUE) 
             message(cumulative, " of ", request$total, " Assignments Retrieved")
