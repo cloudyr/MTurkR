@@ -2,8 +2,10 @@ GetBonuses <-
 bonuses <-
 function (assignment = NULL, hit = NULL, hit.type = NULL, return.all = TRUE, 
     pagenumber = "1", pagesize = "100", keypair = credentials(), 
-    print = getOption('MTurkR.print'), log.requests = getOption('MTurkR.log'),
-    sandbox = getOption('MTurkR.sandbox'), return.bonus.dataframe = TRUE,
+    print = getOption('MTurkR.print'), browser = browser = getOption('MTurkR.browser'),
+    log.requests = getOption('MTurkR.log'),
+    sandbox = getOption('MTurkR.sandbox'),
+    return.bonus.dataframe = TRUE,
     validation.test = getOption('MTurkR.test')) 
 {
     if (!is.null(keypair)) {
@@ -35,10 +37,13 @@ function (assignment = NULL, hit = NULL, hit.type = NULL, return.all = TRUE,
 									"&PageSize=", pagesize, sep = "")
         auth <- authenticate(operation, secret)
         request <- request(keyid, auth$operation, auth$signature, 
-            auth$timestamp, GETparameters, log.requests = log.requests, 
-            sandbox = sandbox, validation.test = validation.test)
+            auth$timestamp, GETparameters, browser=browser,
+            log.requests = log.requests, sandbox = sandbox,
+            validation.test = validation.test)
 		if(validation.test)
 			invisible(request)
+        if(browser == TRUE)
+            invisible(NULL)
         request$operation <- operation
         if (request$valid == TRUE) {
             request$total.bonuses <- strsplit(strsplit(request$xml, 
@@ -49,9 +54,9 @@ function (assignment = NULL, hit = NULL, hit.type = NULL, return.all = TRUE,
             if (return.bonus.dataframe == TRUE) {
                 Bonuses <- BonusPaymentsToDataFrame(xml = request$xml)
                 if (!is.null(hit)) 
-                  Bonuses$HITId <- hit
+                    Bonuses$HITId <- hit
                 if (print == TRUE) 
-                  invisible(Bonuses)
+                    invisible(Bonuses)
             }
         }
         else if (request$valid == FALSE) {
@@ -80,17 +85,17 @@ function (assignment = NULL, hit = NULL, hit.type = NULL, return.all = TRUE,
             if (request$valid == TRUE) {
                 request$bonuses <- BonusPaymentsToDataFrame(xml = request$xml)
                 if (!is.null(request$bonuses)) {
-                  z$Number[i] <- dim(request$bonuses)[1]
-                  z$Amount[i] <- round(sum(as.numeric(request$bonuses$Amount)), 2)
+                    z$Number[i] <- dim(request$bonuses)[1]
+                    z$Amount[i] <- round(sum(as.numeric(request$bonuses$Amount)), 2)
                 }
                 else {
-                  z$Number[i] <- 0
-                  z$Amount[i] <- 0
+                    z$Number[i] <- 0
+                    z$Amount[i] <- 0
                 }
             }
             else {
                 if (print == TRUE) 
-                  warning("Invalid Request for HIT ", z$HITId[i])
+                    warning("Invalid Request for HIT ", z$HITId[i])
             }
         }
         if (return.bonus.dataframe == TRUE) {

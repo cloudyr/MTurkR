@@ -6,7 +6,8 @@
 \usage{
 GetBonuses(assignment = NULL, hit = NULL, hit.type = NULL, return.all = TRUE, 
 			pagenumber = "1", pagesize = "100", keypair = credentials(), 
-			print = getOption('MTurkR.print'), log.requests = getOption('MTurkR.log'),
+			print = getOption('MTurkR.print'), browser = getOption('MTurkR.browser'), 
+            log.requests = getOption('MTurkR.log'),
             sandbox = getOption('MTurkR.sandbox'), 
 			return.bonus.dataframe = TRUE,
             validation.test = getOption('MTurkR.test'))
@@ -20,6 +21,7 @@ GetBonuses(assignment = NULL, hit = NULL, hit.type = NULL, return.all = TRUE,
   \item{pagesize}{An optional character string indicating how many search results should be returned by each request, between 1 and 100. Most users can ignore this.}
   \item{keypair}{A two-item character vector containing an AWS Access Key ID in the first position and the corresponding Secret Access Key in the second position. Set default with \code{\link{credentials}}.}
   \item{print}{Optionally print the results of the API request to the standard output. Default is \code{TRUE}.}
+  \item{browser}{Optionally open the request in the default web browser, rather than opening in R. Default is \code{FALSE}.}
   \item{log.requests}{A logical specifying whether API requests should be logged. Default is \code{TRUE}. See \code{\link{readlogfile}} for details.}
   \item{sandbox}{Optionally execute the request in the MTurk sandbox rather than the live server.  Default is \code{FALSE}.}
   \item{return.bonus.dataframe}{A logical specifying whether to return the Bonus dataframe.}
