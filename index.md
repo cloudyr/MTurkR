@@ -1,7 +1,7 @@
 ---
 layout: default
 title: MTurkR
-ghurl: https://github.com/leeper/MTurkR/blog/gh-pages
+ghurl: https://github.com/leeper/MTurkR/blob/gh-pages
 ---
 
 # MTurkR: Access to Amazon Mechanical Turk Requester API via R #
