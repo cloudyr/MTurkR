@@ -12,7 +12,7 @@ ghurl: https://github.com/leeper/MTurkR/tree/gh-pages
 * [Find the latest development version on GitHub](https://github.com/leeper/MTurkR)
 * MTurkR was built under R for Windows, but should be platform-independent
 * [Download package manual (.pdf)](MTurkR-manual.pdf)
-				
+
 ## Features ##
 
 * Free, open-source ([GPL-2](http://www.gnu.org/licenses/gpl-2.0.html))
@@ -20,7 +20,9 @@ ghurl: https://github.com/leeper/MTurkR/tree/gh-pages
 * A sophisticated graphical user interface (GUI) for managing most MTurk operations through R
 * Access, approve, and reject assignments and automatically convert MTurk assignment data to R dataframes
 * Create and manage Qualifications and assign them to MTurk workers in a variety of ways
+
   * Here is some example [R code](qualification_test_example.r) and associated .xml files ([1](questionform_example.xml), [2](answerkey_example.xml)) for creating a Qualification Test and AnswerKey.
+
 * Pay bonuses, contact workers via email, and restrict HITs (to manage panels, for example)
 * Automatically log all MTurk requests for later reference (in a .tsv in your working directory, or another location)
 * Access to live MTurk server and MTurk Sandbox for practicing with code
