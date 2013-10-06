@@ -14,6 +14,7 @@ ghurl: https://github.com/leeper/MTurkR/tree/gh-pages
 * [Download package manual (.pdf)](MTurkR-manual.pdf)
 				
 ## Features ##
+
 * Free, open-source ([GPL-2](http://www.gnu.org/licenses/gpl-2.0.html))
 * Access to full functionality of MTurk (more functionality than Requester UI or MTurk command-line tools)
 * A sophisticated graphical user interface (GUI) for managing most MTurk operations through R
@@ -25,6 +26,7 @@ ghurl: https://github.com/leeper/MTurkR/tree/gh-pages
 * Access to live MTurk server and MTurk Sandbox for practicing with code
 
 ## Getting Help ##
+
 * Visit the <a href="http://mechanicalturk.typepad.com/">Amazon Mechanical Turk Blog</a>
 * For help from workers or to advertise HITs/recruit workers, visit [MTurk Forum](http://mturkforum.com/)
 * For feedback on you and your HITs from workers, visit [TurkOpticon](http://turkopticon.differenceengines.com/)
@@ -33,7 +35,8 @@ ghurl: https://github.com/leeper/MTurkR/tree/gh-pages
 * Comments, feedback, bug reports, and suggestions on MTurkR are also welcome [via email](mailto:thosjleeper@gmail.com?subject=MTurkR) and [on GitHub](https://github.com/leeper/MTurkR/issues)
 * You can also follow the development of MTurkR on <a href="https://github.com/leeper/MTurkR">GitHub</a><
 
-## Some helpful JavaScript-enhanced HTML for running research studies on MTurk ##
+## Some useful JavaScript-enhanced HTML code ##
+
 Below code can be used and modified in order to randomize or restrict access to HITs. Some of the code may be useful in combination and is presented here as simple examples. The code is made available here to assist requesters in streamlining the HIT creation process (e.g., piping the WorkerId to an off-site tool, randomizing) and avoid common mistakes (e.g., allowing workers to complete multiple HITs, constructing multiple separate assignments for conditions because randomization is thought impossible, rejecting workers for completing studies they have worked on previously, and so forth).
 
 * [urlpipe](javascript/mturk-urlpipe.txt) ([view as .html](javascript/mturk-urlpipe.html)): Pipe MTurk parameters (AssignmentId, HITId, WorkerId) to off-site survey tool
