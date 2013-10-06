@@ -21,7 +21,7 @@ ghurl: https://github.com/leeper/MTurkR/blob/gh-pages
 * Access, approve, and reject assignments and automatically convert MTurk assignment data to R dataframes
 * Create and manage Qualifications and assign them to MTurk workers in a variety of ways
 
-  * Here is some example [R code](qualification_test_example.r) and associated .xml files ([1](questionform_example.xml), [2](answerkey_example.xml)) for creating a Qualification Test and AnswerKey.
+  * Here is some example [R code]({{ page.ghurl }}/qualification_test_example.r) and associated .xml files ([1]({{ page.ghurl }}/questionform_example.xml), [2](answerkey_example.xml)) for creating a Qualification Test and AnswerKey.
 
 * Pay bonuses, contact workers via email, and restrict HITs (to manage panels, for example)
 * Automatically log all MTurk requests for later reference (in a .tsv in your working directory, or another location)
