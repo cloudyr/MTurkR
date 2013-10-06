@@ -1,7 +1,7 @@
 ---
 layout: default
 title: MTurkR
-ghurl: https://github.com/leeper/MTurkR/tree/gh-pages
+ghurl: https://github.com/leeper/MTurkR/blog/gh-pages
 ---
 
 # MTurkR: Access to Amazon Mechanical Turk Requester API via R #
@@ -41,8 +41,8 @@ ghurl: https://github.com/leeper/MTurkR/tree/gh-pages
 
 Below code can be used and modified in order to randomize or restrict access to HITs. Some of the code may be useful in combination and is presented here as simple examples. The code is made available here to assist requesters in streamlining the HIT creation process (e.g., piping the WorkerId to an off-site tool, randomizing) and avoid common mistakes (e.g., allowing workers to complete multiple HITs, constructing multiple separate assignments for conditions because randomization is thought impossible, rejecting workers for completing studies they have worked on previously, and so forth).
 
-* [urlpipe](javascript/mturk-urlpipe.txt) ([view as .html](javascript/mturk-urlpipe.html)): Pipe MTurk parameters (AssignmentId, HITId, WorkerId) to off-site survey tool
-* [randomlink](javascript/mturk-randomlink.txt) ([view as .html](javascript/mturk-randomlink.html)): Randomize workers to condition (e.g., a link to a survey)
-* [nonrandomlink](javascript/mturk-nonrandomlink.txt) ([view as .html](javascript/mturk-nonrandomlink.html)): Nonrandomly assign workers to condition based on MTurk WorkerID (e.g., to create different versions of multi-assignment HITs for different workers)
-* [workercheck](javascript/mturk-workercheck.txt) ([view as .html](javascript/mturk-workercheck.html)): Allow workers to check whether they are ineligible to complete a HIT (e.g., because they completed a similar study previously)
-* [softblock](javascript/mturk-softblock.txt) ([view as .html](javascript/mturk-softblock.html)): &ldquo;Soft block&rdquo; workers by preventing them from seeing the link to an off-site survey. (Better functionality is provided by the MTurk RUI and API, which can prevent workers from even seeing the HIT in the first place, but this is a relatively simple hack.)
+* [urlpipe]({{ page.ghurl }}/javascript/mturk-urlpipe.html) ([view as .html](javascript/mturk-urlpipe.html)): Pipe MTurk parameters (AssignmentId, HITId, WorkerId) to off-site survey tool
+* [randomlink]({{ page.ghurl }}/javascript/mturk-randomlink.html) ([view as .html](javascript/mturk-randomlink.html)): Randomize workers to condition (e.g., a link to a survey)
+* [nonrandomlink]({{ page.ghurl }}/javascript/mturk-nonrandomlink.html) ([view as .html](javascript/mturk-nonrandomlink.html)): Nonrandomly assign workers to condition based on MTurk WorkerID (e.g., to create different versions of multi-assignment HITs for different workers)
+* [workercheck]({{ page.ghurl }}/javascript/mturk-workercheck.html) ([view as .html](javascript/mturk-workercheck.html)): Allow workers to check whether they are ineligible to complete a HIT (e.g., because they completed a similar study previously)
+* [softblock]({{ page.ghurl }}/javascript/mturk-softblock.html) ([view as .html](javascript/mturk-softblock.html)): &ldquo;Soft block&rdquo; workers by preventing them from seeing the link to an off-site survey. (Better functionality is provided by the MTurk RUI and API, which can prevent workers from even seeing the HIT in the first place, but this is a relatively simple hack.)
