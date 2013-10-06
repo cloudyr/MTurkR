@@ -4,18 +4,25 @@ title: MTurkR
 ghurl: https://github.com/leeper/MTurkR/blob/gh-pages
 ---
 
-# MTurkR: Access to Amazon Mechanical Turk Requester API via R #
+# MTurkR #
 
-## Package Information ##
+Amazon Mechanical Turk (MTurk) is a crowdsourcing platform that provides researchers and developers with the ability to leverage human intelligence for tasks that cannot easily be automated. The **MTurkR** package provides access to the [MTurk](https://requester.mturk.com/) [Requester API](http://docs.aws.amazon.com/AWSMechTurk/latest/AWSMturkAPI/Welcome.html) via authenticated HTTP requests executed with [RCurl](http://cran.r-project.org/web/packages/RCurl/index.html) and a number of functions to translate API calls into R data structures (using the [XML package](http://cran.r-project.org/web/packages/XML/index.html)).
 
 * [Download the latest release from CRAN](http://cran.r-project.org/web/packages/MTurkR/index.html)
-* [Find the latest development version on GitHub](https://github.com/leeper/MTurkR)
-* MTurkR was built under R for Windows, but should be platform-independent
-* [Download package manual (.pdf)](MTurkR-manual.pdf)
+* [Find the latest development version on GitHub](https://github.com/leeper/MTurkR) and/or install it directly from R using:
+
+```
+# install.packages("devtools")
+library(devtools)
+install_github(repo="MTurkR", username = "leeper")
+```
+
+* You can [download package manual (.pdf) here](http://cran.r-project.org/web/packages/MTurkR/MTurkR.pdf).
 
 ## Features ##
 
 * Free, open-source ([GPL-2](http://www.gnu.org/licenses/gpl-2.0.html))
+* MTurkR was built under R for Windows, but should be platform-independent
 * Access to full functionality of MTurk (more functionality than Requester UI or MTurk command-line tools)
 * A sophisticated graphical user interface (GUI) for managing most MTurk operations through R
 * Access, approve, and reject assignments and automatically convert MTurk assignment data to R dataframes
@@ -29,15 +36,22 @@ ghurl: https://github.com/leeper/MTurkR/blob/gh-pages
 
 ## Getting Help ##
 
-* Visit the <a href="http://mechanicalturk.typepad.com/">Amazon Mechanical Turk Blog</a>
+* Visit the [Amazon Mechanical Turk Blog](http://mechanicalturk.typepad.com/)
 * For help from workers or to advertise HITs/recruit workers, visit [MTurk Forum](http://mturkforum.com/)
 * For feedback on you and your HITs from workers, visit [TurkOpticon](http://turkopticon.differenceengines.com/)
 * Check out the [MTurkR documentation](http://cran.r-project.org/web/packages/MTurkR/MTurkR.pdf) on CRAN
 * Post your question on [Stack Exchange](http://stackoverflow.com/questions/tagged/mechanicalturk+r) or the [AWS Developer Forum](https://forums.aws.amazon.com/forum.jspa?forumID=11)
 * Comments, feedback, bug reports, and suggestions on MTurkR are also welcome [via email](mailto:thosjleeper@gmail.com?subject=MTurkR) and [on GitHub](https://github.com/leeper/MTurkR/issues)
-* You can also follow the development of MTurkR on <a href="https://github.com/leeper/MTurkR">GitHub</a><
+* You can also follow the development of MTurkR on [GitHub](https://github.com/leeper/MTurkR)
 
-## Some useful JavaScript-enhanced HTML code ##
+## MTurkR Code Examples ##
+
+* Examples in an introductory article: "[Crowdsourcing with R and the MTurk API](http://polmeth.wustl.edu/methodologist/tpm_v20_n2.pdf)" in *The Political Methodologist* 20(1):2-7.
+* Examples from a blog post by Solomon Messing: "[Streamline Your Mechanical Turk Workflow with MTurkR](http://solomonmessing.wordpress.com/2013/06/24/streamline-your-mechanical-turk-workflow-with-mturkr/)
+* Sample code to [create and manage qualifications]({{ page.ghurl }}/qualification_test_example.r), with associated xml files for [QuestionForm]({{ page.ghurl }}/questionform_example.xml) and [AnswerKey]({{ page.ghurl }}/answerkey_example.xml)
+* Workflow and sample code to [mimick the Requester UI's display of input HITLayout parameters with assignment results]({{ page.ghurl }}/batchinputs.md).
+
+## JavaScript-enhanced HTML code for MTurk ##
 
 Below code can be used and modified in order to randomize or restrict access to HITs. Some of the code may be useful in combination and is presented here as simple examples. The code is made available here to assist requesters in streamlining the HIT creation process (e.g., piping the WorkerId to an off-site tool, randomizing) and avoid common mistakes (e.g., allowing workers to complete multiple HITs, constructing multiple separate assignments for conditions because randomization is thought impossible, rejecting workers for completing studies they have worked on previously, and so forth).
 
