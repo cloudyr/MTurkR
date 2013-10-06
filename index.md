@@ -8,7 +8,7 @@ ghurl: https://github.com/leeper/MTurkR/tree/gh-pages
 
 ## Package Information ##
 
-* [http://cran.r-project.org/web/packages/MTurkR/index.html](Download the latest release from CRAN)
+* [Download the latest release from CRAN](http://cran.r-project.org/web/packages/MTurkR/index.html)
 * [Find the latest development version on GitHub](https://github.com/leeper/MTurkR)
 * MTurkR was built under R for Windows, but should be platform-independent
 * [Download package manual (.pdf)](MTurkR-manual.pdf)
