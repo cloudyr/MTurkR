@@ -1,74 +1,82 @@
 /* GENERAL FORMATTING */
 html {
-  margin : 5px;
+    margin : 5px;
 	padding : 5px;
 }
 
 body {
-  background-color:#e6e6e6;
-  margin-left: 15%;
-  margin-right: 15%;
+    background-color:#e6e6e6;
+    margin-left: 15%;
+    margin-right: 15%;
 }
 
 /* HEADINGS */
 h1 {
-  color:#4c4c4c; 
-	text-align:left; 
+    color:#4c4c4c; 
+    text-align:left; 
 	font-weight:bold; 
-	font-family:Garamond,Times,serif;
-	font-size:32px;
-	margin-left:24pt;
+	font-family:Garamond,Georgia,Palatino,serif;
+	font-size:24px;
 }
 h2 {
-  background-color:#4c4c4c;
+    background-color:#4c4c4c;
 	color:#e6e6e6;
-	font-family:Garamond,Times,serif;
+	font-family:Garamond,Georgia,Palatino,serif;
 	text-align:center;
 	font-size:16px;
 }
 h3 {
-  color:#4c4c4c; 
+    color:#4c4c4c; 
 	text-align:left; 
 	font-weight:bold; 
-	font-family:Garamond,Times,serif;
+	font-family:Garamond,Georgia,Palatino,serif;
 	font-size:20px;
 }
 
 
 /* TABLES */
-table {	text-align:center;
+table {
+    text-align:center;
 	align:center;
 	max-width: 50%;
 }
 
 /* TEXT */
 p {	
-  margin-bottom: 0.08in;
+    margin-bottom: 0.08in;
 	color:#4c4c4c;
 	text-align:justify;
-	font-family:Garamond,Times,serif;
+	font-family:Garamond,Georgia,Palatino,serif;
 	margin-left:0em;
 	font-size:16px;
 }
+.thomas {
+    color:#4c4c4c; 
+    text-align:left; 
+	font-weight:bold; 
+	font-family:Garamond,Georgia,Palatino,serif;
+	font-size:32px;
+	margin-left:24pt;
+}
 .body {	
-  margin-bottom: 0.08in;
+    margin-bottom: 0.08in;
 	color:#4c4c4c;
 	text-align:center;
-  margin-left: 0in;
-	font-family:Garamond,Times,serif;
+    margin-left: 0in;
+	font-family:Garamond,Georgia,Palatino,serif;
 	font-size:16px;
 }
 .small {
-  margin-bottom: 0.08in;
+    margin-bottom: 0.08in;
 	color:#4c4c4c;
-  margin-left: 0in;
+    margin-left: 0in;
 	text-align:center;
-	font-family:Garamond,Times,serif;
+	font-family:Garamond,Georgia,Palatino,serif;
 	font-size:14px;
 }
 .name {	
-  color:#4c4c4c;
-	font-family:Garamond,Times,serif;
+    color:#4c4c4c;
+	font-family:Garamond,Georgia,Palatino,serif;
 	font-style:italic;
 	text-align:center;
 	font-size:12px;
@@ -77,12 +85,20 @@ p {
 
 /* HYPERLINKS */
 a {	
-  text-decoration:none; 
+    text-decoration:none; 
 	color:maroon;
 }
 a:hover {
-  text-decoration:underline;
+    text-decoration:underline;
 } 
+
+/* CODE */
+code {
+    color:#4c4c4c;
+    /*background-color:#f6f6f6;*/
+    font-weight:bold;
+    font-size:.8em;
+}
 
 
 /* LISTS */
@@ -115,16 +131,16 @@ nav {
 }
 
 span.nav {
-  background-color:#4c4c4c;
-  font-family:Garamond,Times,serif;
-  font-weight:bold;
+    background-color:#4c4c4c;
+    font-family:Garamond,Times,serif;
+    font-weight:bold;
 	text-align:center;
-  display:block;
-  font-size:18px;
+    display:block;
+    font-size:18px;
 }
 
 a.nav {
-  color:#e6e6e6;
+    color:#e6e6e6;
 	margin-left:2%;
-  margin-right:2%;
+    margin-right:2%;
 }

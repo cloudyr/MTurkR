@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Thomas J. Leeper</title>
+	<link rel="stylesheet" type="text/css" href="css.css" />
+	<script>
+		function printDate() {
+			var d = new Date();
+			var x = document.getElementById("years");
+			x.innerHTML = "2009-" + d.getFullYear();
+		}
+	</script>
+</head>
+<body onload="printDate()">
+  <header>
+    <a href="http://www.thomasleeper.com"><p class="thomas">Thomas J. Leeper</p></a>
+  </header>
+  <nav>
+    <span class="nav">
+  	<a class="nav" href="http://leeper.github.io/cv/cv.pdf">CV</a>
+  	<a class="nav" href="http://leeper.github.io/research.html">Research</a>
+  	<a class="nav" href="http://leeper.github.io/software.html">Software</a>
+  	<a class="nav" href="http://leeper.github.io/teaching.html">Teaching</a>
+  	<a class="nav" href="http://dvn.iq.harvard.edu/dvn/dv/leeper">Data</a>
+  	<a class="nav" href="http://leeper.github.io/contact.html">Connect</a>
+    </span>
+  </nav>
+  <div style="margin-top: 0.08in; margin-bottom: 0.08in; color:#4c4c4c; ">
+    <div class="wrapper">
+      <div class="entry-content">
+        {{ content }}
+      </div>
+    </div>
+
+  </div>
+
+	<footer>
+		<hr size="1" />
+		<p class="small">Copyright <span id="years">2009-2013</span> Thomas J. Leeper
+		<br /><a href="mailto:thosjleeper@gmail.com">thosjleeper@gmail.com</a></p>
+	</footer>
+  <script type="text/javascript">
+		var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+		document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+	</script>
+	<script type="text/javascript">
+		try {
+		var pageTracker = _gat._getTracker("UA-10964766-1");
+		pageTracker._trackPageview();
+		} catch(err) {}
+	</script>
+</body>
+</html>
