@@ -17,7 +17,7 @@ library(devtools)
 install_github(repo="MTurkR", username = "leeper")
 ```
 
-* You can [download package manual (.pdf) here](http://cran.r-project.org/web/packages/MTurkR/MTurkR.pdf).
+* You can [download a PDF of the package manual here](http://cran.r-project.org/web/packages/MTurkR/MTurkR.pdf)
 
 ## Features ##
 
@@ -49,7 +49,7 @@ install_github(repo="MTurkR", username = "leeper")
 * Examples in an introductory article: "[Crowdsourcing with R and the MTurk API](http://polmeth.wustl.edu/methodologist/tpm_v20_n2.pdf)" in *The Political Methodologist* 20(1):2-7.
 * Examples from a blog post by Solomon Messing: "[Streamline Your Mechanical Turk Workflow with MTurkR](http://solomonmessing.wordpress.com/2013/06/24/streamline-your-mechanical-turk-workflow-with-mturkr/)
 * Sample code to [create and manage qualifications]({{ page.ghurl }}/qualification_test_example.r), with associated xml files for [QuestionForm]({{ page.ghurl }}/questionform_example.xml) and [AnswerKey]({{ page.ghurl }}/answerkey_example.xml)
-* Workflow and sample code to [mimick the Requester UI's display of input HITLayout parameters with assignment results]({{ page.ghurl }}/batchinputs.md).
+* Workflow and sample code to [mimic the Requester UI's display of input HITLayout parameters with assignment results]({{ page.ghurl }}/batchinputs.md).
 
 ## JavaScript-enhanced HTML code for MTurk ##
 
