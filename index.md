@@ -4,8 +4,8 @@ title: MTurkR
 ghurl: https://github.com/leeper/MTurkR/tree/gh-pages
 ---
 
-		<span style="font-weight:bold;font-size:1.2em;">MTurkR: </span>
-		<span style="font-style:italic;font-size:1.2em;">Access to Amazon Mechanical Turk Requester API via R</span>
+		<span style="font-weight:bold;font-size:1.8em;">MTurkR: </span>
+		<span style="font-style:italic;font-size:1.8em;">Access to Amazon Mechanical Turk Requester API via R</span>
 		<p style="font-size:.3em;">&nbsp;</p>
 		<p style="font-size:.3em;">&nbsp;</p>
 		<p style="font-style:italic;font-size:1.2em;">Package Information</p>
@@ -38,7 +38,7 @@ ghurl: https://github.com/leeper/MTurkR/tree/gh-pages
 				<li>Visit the <a href="http://mechanicalturk.typepad.com/">Amazon Mechanical Turk Blog</a></li>
 				<li>For help from workers or to advertise HITs/recruit workers, visit <a href="http://mturkforum.com/">MTurk Forum</a></li>
 				<li>For feedback on you and your HITs from workers, visit <a href="http://turkopticon.differenceengines.com/">TurkOpticon</a></li>
-				<li>Check out the <a href="http://cran.r-project.org/web/packages/MTurkR/MTurkR.pdf">MTurkR documentation</a>on CRAN</li>
+				<li>Check out the <a href="http://cran.r-project.org/web/packages/MTurkR/MTurkR.pdf">MTurkR documentation</a> on CRAN</li>
 				<li>Post your question on <a href="http://stackoverflow.com/questions/tagged/mechanicalturk+r">Stack Exchange</a> or the <a href="https://forums.aws.amazon.com/forum.jspa?forumID=11">AWS Developer Forum</a></li>
 				<li>Comments, feedback, bug reports, and suggestions on MTurkR are also welcome <a href="mailto:thosjleeper@gmail.com?subject=MTurkR">via email</a> and <a href="https://github.com/leeper/MTurkR/issues">on GitHub</a></li>
 				<li>You can also follow the development of MTurkR on <a href="https://github.com/leeper/MTurkR">GitHub</a></li>
@@ -70,4 +70,3 @@ ghurl: https://github.com/leeper/MTurkR/tree/gh-pages
 			</ul>
 		-->
 		<br/>
-	</div>
