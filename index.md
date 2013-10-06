@@ -10,13 +10,7 @@ Amazon Mechanical Turk (MTurk) is a crowdsourcing platform that provides researc
 
 You can [download the latest package release from CRAN](http://cran.r-project.org/web/packages/MTurkR/index.html) and find [a PDF of the package manual here](http://cran.r-project.org/web/packages/MTurkR/MTurkR.pdf)
 
-If can also find [the latest development version of the package on GitHub](https://github.com/leeper/MTurkR) and/or install it directly from R using:
-
-```
-# install.packages("devtools")
-library(devtools)
-install_github(repo="MTurkR", username = "leeper")
-```
+If can also find [the latest development version of the package on GitHub](https://github.com/leeper/MTurkR).
 
 Comments, feedback, bug reports, and suggestions on MTurkR are also welcome [via email](mailto:thosjleeper@gmail.com?subject=MTurkR) and [on GitHub](https://github.com/leeper/MTurkR/issues)
 
