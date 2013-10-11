@@ -14,7 +14,7 @@ If can also find [the latest development version of the package on GitHub](https
 
 Comments, feedback, bug reports, and suggestions on MTurkR are also welcome [via email](mailto:thosjleeper@gmail.com?subject=MTurkR) and [on GitHub](https://github.com/leeper/MTurkR/issues)
 
-
+---
 ## Features ##
 
 * Free, open-source ([GPL-2](http://www.gnu.org/licenses/gpl-2.0.html))
@@ -22,12 +22,12 @@ Comments, feedback, bug reports, and suggestions on MTurkR are also welcome [via
 * Access to full functionality of MTurk (more functionality than Requester UI or MTurk command-line tools)
 * A sophisticated graphical user interface (GUI) for managing most MTurk operations through R
 * Access, approve, and reject assignments and automatically convert MTurk assignment data to R dataframes
-* Create and manage Qualifications and assign them to MTurk workers in a variety of ways
-  * Here is some example [R code]({{ page.ghurl }}/qualification_test_example.r) and associated .xml files ([1]({{ page.ghurl }}/questionform_example.xml), [2]({{ page.ghurl }}/answerkey_example.xml)) for creating a Qualification Test and AnswerKey.
+* Create and manage Qualifications and assign them to MTurk workers in a variety of ways (see some example [R code]({{ page.ghurl }}/qualification_test_example.r) and associated .xml files ([1]({{ page.ghurl }}/questionform_example.xml), [2]({{ page.ghurl }}/answerkey_example.xml)) for creating a Qualification Test and AnswerKey).
 * Pay bonuses, contact workers via email, and restrict HITs (to manage panels, for example)
 * Automatically log all MTurk requests for later reference (in a .tsv in your working directory, or another location)
 * Access to live MTurk server and MTurk Sandbox for practicing with code
 
+---
 ## Getting Help ##
 
 * Visit the [Amazon Mechanical Turk Blog](http://mechanicalturk.typepad.com/)
@@ -38,6 +38,7 @@ Comments, feedback, bug reports, and suggestions on MTurkR are also welcome [via
 * Comments, feedback, bug reports, and suggestions on MTurkR are also welcome [via email](mailto:thosjleeper@gmail.com?subject=MTurkR) and [on GitHub](https://github.com/leeper/MTurkR/issues)
 * You can also follow the development of MTurkR on [GitHub](https://github.com/leeper/MTurkR)
 
+---
 ## MTurkR Code Examples ##
 
 * Examples in an introductory article: "[Crowdsourcing with R and the MTurk API](http://polmeth.wustl.edu/methodologist/tpm_v20_n2.pdf)" in *The Political Methodologist* 20(1):2-7.
@@ -45,6 +46,7 @@ Comments, feedback, bug reports, and suggestions on MTurkR are also welcome [via
 * Sample code to [create and manage qualifications]({{ page.ghurl }}/qualification_test_example.r), with associated xml files for [QuestionForm]({{ page.ghurl }}/questionform_example.xml) and [AnswerKey]({{ page.ghurl }}/answerkey_example.xml)
 * Workflow and sample code to [mimic the Requester UI's display of input HITLayout parameters with assignment results]({{ page.ghurl }}/batchinputs.md).
 
+---
 ## JavaScript-enhanced HTML code for MTurk ##
 
 Below code can be used and modified in order to randomize or restrict access to HITs. Some of the code may be useful in combination and is presented here as simple examples. The code is made available here to assist requesters in streamlining the HIT creation process (e.g., piping the WorkerId to an off-site tool, randomizing) and avoid common mistakes (e.g., allowing workers to complete multiple HITs, constructing multiple separate assignments for conditions because randomization is thought impossible, rejecting workers for completing studies they have worked on previously, and so forth).
