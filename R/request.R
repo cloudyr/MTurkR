@@ -3,9 +3,8 @@ function (keyid, operation, signature, timestamp, GETparameters,
     version = "2012-03-25", service = "AWSMechanicalTurkRequester", 
     browser = getOption('MTurkR.browser'), log.requests = getOption('MTurkR.log'),
     sandbox = getOption('MTurkR.sandbox'), xml.parse = FALSE,
-    print.errors = TRUE, validation.test = getOption('MTurkR.test')) 
-{
-    if (sandbox == TRUE) 
+    print.errors = TRUE, validation.test = getOption('MTurkR.test')) {
+    if(sandbox == TRUE) 
         host <- "https://mechanicalturk.sandbox.amazonaws.com/"
     else
     	host <- "https://mechanicalturk.amazonaws.com/"
@@ -13,19 +12,18 @@ function (keyid, operation, signature, timestamp, GETparameters,
         keyid, "&Version=", version, "&Operation=", operation, 
         "&Timestamp=", timestamp, "&Signature=", curlEscape(signature), 
         GETparameters, sep = "")
-    if (validation.test){
+    if(validation.test){
         message("Request URL:",request.url)
         invisible(list(request.url=request.url))
     }
     else {
-        if (browser == TRUE) {
+        if(browser == TRUE) {
             browseURL(request.url)
         }
         else {
             response <- getURL(request.url, followlocation = TRUE, 
                 ssl.verifypeer = TRUE, ssl.verifyhost = TRUE, 
-                cainfo = system.file("CurlSSL", "cacert.pem", 
-                  package = "RCurl"))
+                cainfo = system.file("CurlSSL", "cacert.pem", package = "RCurl"))
 			
 			# Additional filters, added by Solomon Messing 6/9/2013:
 			clean <- function(x, pattern, replacement){
@@ -55,14 +53,15 @@ function (keyid, operation, signature, timestamp, GETparameters,
                 "</RequestId>")[[1]][1]
             valid.test <- strsplit(strsplit(response, "<Request><IsValid>")[[1]][2], 
                 "</IsValid>")[[1]][1]
-            if (!is.na(valid.test) && valid.test == "True") 
+            if(!is.na(valid.test) && valid.test == "True") 
                 valid <- TRUE
-            else if (!is.na(valid.test) && valid.test == "False") 
+            else if(!is.na(valid.test) && valid.test == "False") 
                 valid <- FALSE
-            else valid <- FALSE
-            if (log.requests == TRUE) {
+            else
+                valid <- FALSE
+            if(log.requests == TRUE) {
                 logfilename <- file.path(getOption('MTurkR.logdir'),"MTurkRlog.tsv")
-                if (!"MTurkRlog.tsv" %in% list.files(path=getOption('MTurkR.logdir'))) 
+                if(!"MTurkRlog.tsv" %in% list.files(path=getOption('MTurkR.logdir'))) 
                   write(paste("Timestamp\t", "RequestId\t", "Operation\t", 
                     "Sandbox\t", "Parameters\t", "Valid\t", "URL\t", 
                     "Response", sep = ""), logfilename)
@@ -81,17 +80,16 @@ function (keyid, operation, signature, timestamp, GETparameters,
                   "\t", valid, "\t", request.url, "\t", response.xml, 
                   sep = ""), logfilename, append = TRUE)
             }
-            if (valid == FALSE) {
-                if (print.errors == TRUE) {
-                  message("Request ", request.id, " not valid for API request:")
-                  message(strsplit(request.url, "&")[[1]], "\n                                     &")
-                  errors <- ParseErrorCodes(xml = response)
-                  for (i in 1:dim(errors)[1]) {
-                    message("Error (", errors[i, 1], "): ", errors[i,2])
-                  }
+            if(valid == FALSE) {
+                if(print.errors == TRUE) {
+                    message("Request ", request.id, " not valid for API request:")
+                    message(strsplit(request.url, "&")[[1]], "\n                                     &")
+                    errors <- ParseErrorCodes(xml = response)
+                    for (i in 1:dim(errors)[1])
+                        message("Error (", errors[i, 1], "): ", errors[i,2])
                 }
             }
-            if (xml.parse == TRUE) {
+            if(xml.parse == TRUE) {
                 xml.parsed <- xmlParse(response)
                 out <- list(request.url = request.url, request.id = request.id, 
                             valid = valid, xml = response, xml.parsed = xml.parsed)

@@ -1,13 +1,12 @@
 HITsToDataFrame <-
 function (xml = NULL, xml.parsed = NULL, return.hit.xml = FALSE, 
-    return.qual.list = TRUE, sandbox = getOption('MTurkR.sandbox')) 
-{
-    if (!is.null(xml) & !is.null(xml.parsed)) 
+    return.qual.list = TRUE, sandbox = getOption('MTurkR.sandbox')) {
+    if(!is.null(xml) & !is.null(xml.parsed)) 
         stop("No XML or parsed XML provided to convert to dataframe")
-    if (!is.null(xml)) 
+    if(!is.null(xml)) 
         xml.parsed <- xmlParse(xml)
     hit.xml <- xpathApply(xml.parsed, "//HIT")
-    if (!is.null(length(hit.xml))) {
+    if(!is.null(length(hit.xml))) {
         quals <- list()
         HITs <- data.frame(matrix(nrow = length(hit.xml), ncol = 19))
         names(HITs) <- c("HITId", "HITTypeId", "CreationTime", 
@@ -17,7 +16,7 @@ function (xml = NULL, xml.parsed = NULL, return.hit.xml = FALSE,
             "HITReviewStatus", "RequesterAnnotation", "NumberOfAssignmentsPending", 
             "NumberOfAssignmentsAvailable", "NumberOfAssignmentsCompleted", 
             "Question")
-        for (i in 1:length(hit.xml)) {
+        for(i in 1:length(hit.xml)) {
             q <- xpathApply(xml.parsed, "//HIT")[[i]]
             HITs[i, 1] <- xmlValue(xmlChildren(q)$HITId)
             HITs[i, 2] <- xmlValue(xmlChildren(q)$HITTypeId)
@@ -39,10 +38,10 @@ function (xml = NULL, xml.parsed = NULL, return.hit.xml = FALSE,
             HITs[i, 17] <- xmlValue(xmlChildren(q)$NumberOfAssignmentsAvailable)
             HITs[i, 18] <- xmlValue(xmlChildren(q)$NumberOfAssignmentsCompleted)
             HITs[i, 19] <- xmlValue(xmlChildren(q)$Question)
-            if (return.qual.list == TRUE) {
+            if(return.qual.list == TRUE) {
                 quals.nodeset <- xpathApply(xml.parsed, paste("//HIT[", i,
                     "]/QualificationRequirement", sep = ""))
-                if (!is.null(quals.nodeset) && length(quals.nodeset) > 0) {
+                if(!is.null(quals.nodeset) && length(quals.nodeset) > 0) {
                     quals[[i]] <- QualificationRequirementsToDataFrame(xmlnodeset = quals.nodeset, 
                         hit.number = i, sandbox = sandbox)
                     quals[[i]]$HITId <- HITs$HITId[i]
@@ -51,7 +50,7 @@ function (xml = NULL, xml.parsed = NULL, return.hit.xml = FALSE,
                     quals[[i]] <- NA
             }
         }
-        if (!is.null(quals))
+        if(!is.null(quals))
             return(list(HITs = HITs, QualificationRequirements = quals))
         else
             return(list(HITs = HITs))

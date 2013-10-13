@@ -1,7 +1,6 @@
 QualificationTypesToDataFrame <-
-function (xml = NULL, xml.parsed = NULL) 
-{
-    if (!is.null(xml)) 
+function (xml = NULL, xml.parsed = NULL) {
+    if(!is.null(xml)) 
         xml.parsed = xmlParse(xml)
     total <- length(xpathApply(xml.parsed, "//QualificationTypeId"))
     quals <- as.data.frame(matrix(nrow = total, ncol = 13))
@@ -9,7 +8,7 @@ function (xml = NULL, xml.parsed = NULL)
         "Name", "Description", "Keywords", "QualificationTypeStatus", 
         "AutoGranted", "AutoGrantedValue", "IsRequestable", "RetryDelayInSeconds", 
         "TestDurationInSeconds", "Test", "AnswerKey")
-    for (i in 1:total) {
+    for(i in 1:total) {
         q <- xpathApply(xml.parsed, "//QualificationType")[[i]]
         quals[i, 1] <- xmlValue(xmlChildren(q)$QualificationTypeId)
         quals[i, 2] <- xmlValue(xmlChildren(q)$CreationTime)

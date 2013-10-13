@@ -7,13 +7,13 @@ function (assignment = NULL, hit = NULL, hit.type = NULL, status = NULL,
     sortdirection = "Ascending", response.group = NULL, keypair = credentials(), 
     print = getOption('MTurkR.print'), browser = getOption('MTurkR.browser'),
     log.requests = getOption('MTurkR.log'), sandbox = getOption('MTurkR.sandbox'), 
-    return.assignment.dataframe = TRUE, validation.test = getOption('MTurkR.test')) 
-{
+    return.assignment.dataframe = TRUE, validation.test = getOption('MTurkR.test')) {
     if(!is.null(keypair)) {
         keyid <- keypair[1]
         secret <- keypair[2]
     }
-    else stop("No keypair provided or 'credentials' object not stored")
+    else
+        stop("No keypair provided or 'credentials' object not stored")
     if(!sortproperty %in% c("AcceptTime", "SubmitTime", "AssignmentStatus")) 
         stop("'sortproperty' must be 'AcceptTime' | 'SubmitTime' | 'AssignmentStatus'")
     if(!sortdirection %in% c("Ascending", "Descending")) 
@@ -30,14 +30,13 @@ function (assignment = NULL, hit = NULL, hit.type = NULL, status = NULL,
                 stop("ResponseGroup must be in c(Request,Minimal,AssignmentFeedback,HITDetail,HITQuestion)")
         }
         else {
-            if (!response.group %in% c("Request", "Minimal", 
-                "AssignmentFeedback")) 
+            if(!response.group %in% c("Request", "Minimal", "AssignmentFeedback")) 
                 stop("ResponseGroup must be in c(Request,Minimal,AssignmentFeedback)")
         }
         if(length(response.group) == 1) 
             GETresponsegroup <- paste("&ResponseGroup=", response.group, sep = "")
         else {
-            for (i in 1:length(response.group)) {
+            for(i in 1:length(response.group)){
                 GETresponsegroup <- paste(	"&ResponseGroup", i-1,
 											"=", response.group[i], sep = "")
             }
@@ -45,10 +44,10 @@ function (assignment = NULL, hit = NULL, hit.type = NULL, status = NULL,
     }
     if (!is.null(assignment)) {
         operation <- "GetAssignment"
-        for (i in 1:length(assignment)) {
+        for(i in 1:length(assignment)) {
             GETparameters = paste("&AssignmentId=", assignment[i], GETresponsegroup, sep = "")
             auth <- authenticate(operation, secret)
-            if (browser == TRUE) {
+            if(browser == TRUE) {
                 request <- request(keyid, auth$operation, auth$signature, 
                                    auth$timestamp, GETparameters, browser = browser, 
                                    sandbox = sandbox, log.requests = log.requests,
@@ -63,14 +62,14 @@ function (assignment = NULL, hit = NULL, hit.type = NULL, status = NULL,
                 if(validation.test)
                     invisible(request)
                 QualificationRequirements <- list()
-                if (request$valid == TRUE) {
+                if(request$valid == TRUE) {
                     a <- AssignmentsToDataFrame(xml = request$xml)$assignments
                     a$Answer <- NULL
-                    if (i == 1)
+                    if(i == 1)
                         Assignments <- a
                     else
                         Assignments <- merge(Assignments, a, all=TRUE)
-                    if (print == TRUE) 
+                    if(print == TRUE) 
                         message(i, ": Assignment ", assignment[i], " Retrieved")
                 }
             }
@@ -80,19 +79,19 @@ function (assignment = NULL, hit = NULL, hit.type = NULL, status = NULL,
     }
     else {
         operation <- "GetAssignmentsForHIT"
-        if ((is.null(hit) & is.null(hit.type)) | (!is.null(hit) & !is.null(hit.type))) 
+        if((is.null(hit) & is.null(hit.type)) | (!is.null(hit) & !is.null(hit.type))) 
             stop("Must provide 'assignment' xor 'hit' xor 'hit.type'")
-        else if (!is.null(hit))
+        else if(!is.null(hit))
             hitlist <- hit
-        else if (!is.null(hit.type)) {
+        else if(!is.null(hit.type)) {
             hitsearch <- SearchHITs(keypair = keypair, print = FALSE, 
                                     log.requests = log.requests, sandbox = sandbox, 
                                     return.qual.dataframe = FALSE)
             hitlist <- hitsearch$HITs$HITId[hitsearch$HITs$HITTypeId==hit.type]
-            if (length(hitlist) == 0)
+            if(length(hitlist) == 0)
                 stop("No HITs found for HITType")
         }
-        if (return.all == TRUE | length(hitlist)>1) {
+        if(return.all == TRUE | length(hitlist)>1) {
             sortproperty <- "SubmitTime"
             sortdirection <- "Ascending"
             pagesize <- "100"
@@ -100,7 +99,7 @@ function (assignment = NULL, hit = NULL, hit.type = NULL, status = NULL,
         }
         batch <- function(batchhit, pagenumber) {
             GETiteration <- ""
-            if (!is.null(status)) {
+            if(!is.null(status)) {
                 if(all(status %in% c("Approved", "Rejected", "Submitted")))
                     GETiteration <- paste(GETiteration, "&AssignmentStatus=", 
                                           paste(status,collapse=","),
@@ -121,19 +120,19 @@ function (assignment = NULL, hit = NULL, hit.type = NULL, status = NULL,
             batch$total <- as.numeric(strsplit(strsplit(batch$xml, 
                             "<TotalNumResults>")[[1]][2], "</TotalNumResults>")[[1]][1])
             batch$batch.total <- length(xpathApply(xmlParse(batch$xml), "//Assignment"))
-            if (batch$batch.total > 0 & return.assignment.dataframe == TRUE) {
+            if(batch$batch.total > 0 & return.assignment.dataframe == TRUE) {
                 batch$assignments <- AssignmentsToDataFrame(xml = batch$xml)$assignments
                 batch$assignments$Answer <- NULL
             }
-            else if (batch$batch.total > 0 & return.assignment.dataframe == FALSE) 
+            else if(batch$batch.total > 0 & return.assignment.dataframe == FALSE) 
                 batch$assignments <- NULL
             else
                 batch$assignments <- NA
             return(batch)
         }
         cumulative <- 0
-        for (i in 1:length(hitlist)) {
-            if (i == 1){
+        for(i in 1:length(hitlist)) {
+            if(i == 1){
                 request <- batch(hitlist[i], pagenumber)
                 if(validation.test)
                     invisible(request)
@@ -151,13 +150,13 @@ function (assignment = NULL, hit = NULL, hit.type = NULL, status = NULL,
                 request$pages.returned <- pagenumber
                 runningtotal <- nextrequest$batch.total
             }
-            if (return.all == TRUE) {
+            if(return.all == TRUE) {
                 pagenumber <- 2
                 while (request$total > runningtotal) {
                     nextbatch <- batch(hitlist[i], pagenumber)
                     if(validation.test)
                          invisible(nextbatch)
-                    if (return.assignment.dataframe == TRUE) 
+                    if(return.assignment.dataframe == TRUE) 
                          request$assignments <- merge(request$assignments, 
                                                       nextbatch$assignments, all=TRUE)
                     request$pages.returned <- pagenumber
@@ -167,10 +166,10 @@ function (assignment = NULL, hit = NULL, hit.type = NULL, status = NULL,
             }
             cumulative <- cumulative + runningtotal
             request$batch.total <- NULL
-            if (!is.null(hit.type))
+            if(!is.null(hit.type))
                  request$assignments["HITTypeId"] <- hit.type
         }
-        if (print == TRUE) 
+        if(print == TRUE) 
             message(cumulative, " of ", request$total, " Assignments Retrieved")
         invisible(request$assignments)
     }

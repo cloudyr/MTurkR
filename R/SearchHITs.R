@@ -4,41 +4,40 @@ function (response.group = NULL, return.all = TRUE, pagenumber = "1",
     pagesize = "10", sortproperty = "Enumeration", sortdirection = "Ascending", 
     keypair = credentials(), print = getOption('MTurkR.print'), log.requests = getOption('MTurkR.log'), 
     sandbox = getOption('MTurkR.sandbox'), return.hit.dataframe = TRUE,
-    return.qual.dataframe = TRUE, validation.test = getOption('MTurkR.test')) 
-{
-    if (!is.null(keypair)) {
+    return.qual.dataframe = TRUE, validation.test = getOption('MTurkR.test')) {
+    if(!is.null(keypair)) {
         keyid <- keypair[1]
         secret <- keypair[2]
     }
     else
         stop("No keypair provided or 'credentials' object not stored")
     operation <- "SearchHITs"
-    if (!sortproperty %in% c("Title", "Reward", "Expiration", 
+    if(!sortproperty %in% c("Title", "Reward", "Expiration", 
         "CreationTime", "Enumeration")) 
         stop("'sortproperty' must be 'Title' | 'Reward' | 'Expiration' | 'CreationTime' | 'Enumeration'")
-    if (!sortdirection %in% c("Ascending", "Descending")) 
+    if(!sortdirection %in% c("Ascending", "Descending")) 
         stop("'sortdirection' must be 'Ascending' | 'Descending'")
-    if (as.numeric(pagesize) < 1 || as.numeric(pagesize) > 100) 
+    if(as.numeric(pagesize) < 1 || as.numeric(pagesize) > 100) 
         stop("'pagesize' must be in range (1,100)")
-    if (as.numeric(pagenumber) < 1) 
+    if(as.numeric(pagenumber) < 1) 
         stop("'pagenumber' must be > 1")
-    if (return.all == TRUE) {
+    if(return.all == TRUE) {
         sortproperty <- "Enumeration"
         sortdirection <- "Ascending"
         pagesize <- "100"
         pagenumber <- "1"
     }
     GETparameters <- ""
-    if (!is.null(response.group)) {
-        if (!response.group %in% c("Request", "Minimal", "HITDetail", 
+    if(!is.null(response.group)) {
+        if(!response.group %in% c("Request", "Minimal", "HITDetail", 
                                     "HITQuestion", "HITAssignmentSummary")) 
             stop("ResponseGroup must be in c(Request,Minimal,HITDetail,HITQuestion,HITAssignmentSummary)")
-        if (length(response.group) == 1) 
+        if(length(response.group) == 1) 
             GETparameters <- paste(GETparameters, "&ResponseGroup=", response.group, sep = "")
         else {
-            for (i in 1:length(response.group)) {
+            for(i in 1:length(response.group)) {
                 GETparameters <- paste(GETparameters, "&ResponseGroup", 
-                  i - 1, "=", response.group[i], sep = "")
+                i - 1, "=", response.group[i], sep = "")
             }
         }
     }
@@ -55,13 +54,13 @@ function (response.group = NULL, return.all = TRUE, pagenumber = "1",
         batch$total <- as.numeric(strsplit(strsplit(batch$xml, 
             "<TotalNumResults>")[[1]][2], "</TotalNumResults>")[[1]][1])
         batch$batch.total <- length(xpathApply(xmlParse(batch$xml), "//HIT"))
-        if (return.hit.dataframe == TRUE) {
-            if (batch$total > 0) {
+        if(return.hit.dataframe == TRUE) {
+            if(batch$total > 0) {
                 hitlist <- HITsToDataFrame( xml = batch$xml,
                                             return.qual.list = return.qual.dataframe,
                                             sandbox = sandbox)
                 batch$HITs <- hitlist$HITs
-                if (return.qual.dataframe == TRUE) 
+                if(return.qual.dataframe == TRUE) 
                   batch$QualificationRequirements <- hitlist$QualificationRequirements
             }
         }
@@ -73,16 +72,16 @@ function (response.group = NULL, return.all = TRUE, pagenumber = "1",
     runningtotal <- request$batch.total
     if(return.all){
         pagenumber <- 2
-        while (request$total > runningtotal) {
+        while(request$total > runningtotal) {
             nextbatch <- batch(pagenumber)
             if(validation.test)
                 invisible(nextbatch)
             request$request.id <- c(request$request.id, nextbatch$request.id)
             request$valid <- c(request$valid, nextbatch$valid)
             request$xml.response <- c(request$xml, nextbatch$xml)
-            if (return.hit.dataframe == TRUE) 
+            if(return.hit.dataframe == TRUE) 
                 request$HITs <- rbind(request$HITs, nextbatch$HITs)
-            if (return.qual.dataframe == TRUE) 
+            if(return.qual.dataframe == TRUE) 
                 request$QualificationRequirements <- c(request$QualificationRequirements, 
                                                     nextbatch$QualificationRequirements)
             request$pages.returned <- pagesize
@@ -91,9 +90,9 @@ function (response.group = NULL, return.all = TRUE, pagenumber = "1",
         }
         request$batch.total <- NULL
     }
-    if (!is.null(response.group)) {
+    if(!is.null(response.group)) {
         request$ResponseGroup <- c("Minimal", "HITDetail", "HITQuestion")
-        if (response.group == "Minimal") {
+        if(response.group == "Minimal") {
             request$HITs <- request$HITs[, c("HITId", "HITTypeId")]
             return.qual.dataframe <- TRUE
         }
@@ -124,12 +123,12 @@ function (response.group = NULL, return.all = TRUE, pagenumber = "1",
             return.list <- list(QualificationRequirements = request$QualificationRequirements)
     }
     else{
-        if (return.hit.dataframe == TRUE) 
+        if(return.hit.dataframe == TRUE) 
             return.list <- list(HITs = request$HITs)        
         else
             return.list <- NULL
     }
-    if (print == TRUE) {
+    if(print == TRUE) {
         message(runningtotal, " HITs Retrieved")
         return(return.list)
     }

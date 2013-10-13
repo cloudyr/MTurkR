@@ -4,28 +4,28 @@ function (hit.type = NULL, status = NULL, response.group = "Minimal",
     return.all = TRUE, pagenumber = "1", pagesize = "10", sortproperty = "Enumeration", 
     sortdirection = "Ascending", keypair = credentials(), print = getOption('MTurkR.print'), 
     log.requests = getOption('MTurkR.log'), sandbox = getOption('MTurkR.sandbox'),
-    validation.test = getOption('MTurkR.test')) 
-{
-    if (!is.null(keypair)) {
+    validation.test = getOption('MTurkR.test')) {
+    if(!is.null(keypair)) {
         keyid <- keypair[1]
         secret <- keypair[2]
     }
-    else stop("No keypair provided or 'credentials' object not stored")
+    else
+        stop("No keypair provided or 'credentials' object not stored")
     operation <- "GetReviewableHITs"
-    if (!sortproperty %in% c("Title", "Reward", "Expiration", 
+    if(!sortproperty %in% c("Title", "Reward", "Expiration", 
         "CreationTime", "Enumeration")) 
         stop("'sortproperty' must be 'Title' | 'Reward' | 'Expiration' | 'CreationTime' | 'Enumeration'")
-    if (!sortdirection %in% c("Ascending", "Descending")) 
+    if(!sortdirection %in% c("Ascending", "Descending")) 
         stop("'sortdirection' must be 'Ascending' | 'Descending'")
-    if (as.numeric(pagesize) < 1 || as.numeric(pagesize) > 100) 
+    if(as.numeric(pagesize) < 1 || as.numeric(pagesize) > 100) 
         stop("'pagesize' must be in range (1,100)")
-    if (as.numeric(pagenumber) < 1) 
+    if(as.numeric(pagenumber) < 1) 
         stop("'pagenumber' must be > 1")
-    if (!is.null(response.group) && !response.group == "Minimal") 
+    if(!is.null(response.group) && !response.group == "Minimal") 
         warning("ResponseGroup must be 'Minimal'; Minimal used as default")
-    if (!is.null(status) && !status %in% c("Reviewable", "Reviewing")) 
+    if(!is.null(status) && !status %in% c("Reviewable", "Reviewing")) 
         stop("Status must be 'Reviewable' or 'Reviewing' or NULL")
-    if (return.all == TRUE) {
+    if(return.all == TRUE) {
         sortproperty <- "Enumeration"
         sortdirection <- "Ascending"
         pagesize <- "100"
@@ -35,9 +35,9 @@ function (hit.type = NULL, status = NULL, response.group = "Minimal",
         GETparameters <- paste("&PageNumber=", pagenumber, "&PageSize=", 
             pagesize, "&SortProperty=", sortproperty, "&SortDirection=", 
             sortdirection, sep = "")
-        if (!is.null(hit.type)) 
+        if(!is.null(hit.type)) 
             GETparameters <- paste(GETparameters, "&HITTypeId=", hit.type, sep = "")
-        if (!is.null(status) && (status %in% c("Reviewable", "Reviewing"))) 
+        if(!is.null(status) && (status %in% c("Reviewable", "Reviewing"))) 
             GETparameters <- paste(GETparameters, "&Status=", status, sep = "")
         auth <- authenticate(operation, secret)
         batch <- request(keyid, auth$operation, auth$signature, 
@@ -49,8 +49,8 @@ function (hit.type = NULL, status = NULL, response.group = "Minimal",
         batch$total <- as.numeric(strsplit(strsplit(batch$xml, 
             "<TotalNumResults>")[[1]][2], "</TotalNumResults>")[[1]][1])
         batch$batch.total <- length(xpathApply(xmlParse(batch$xml), "//HITId"))
-        if (batch$total > 0) {
-            for (i in 1:batch$batch.total) {
+        if(batch$total > 0) {
+            for(i in 1:batch$batch.total) {
                 batch$HITs[i] <- strsplit(strsplit(batch$xml, 
                   "<HITId>")[[1]][i+1], "</HITId>")[[1]][1]
             }
@@ -62,7 +62,7 @@ function (hit.type = NULL, status = NULL, response.group = "Minimal",
         invisible(request)
     runningtotal <- request$batch.total
     pagenumber <- 2
-    while (request$total > runningtotal) {
+    while(request$total > runningtotal) {
         nextbatch <- batch(operation, pagenumber, pagesize)
         if(validation.test)
             invisible(nextbatch)
@@ -75,7 +75,7 @@ function (hit.type = NULL, status = NULL, response.group = "Minimal",
         pagenumber <- pagenumber + 1
     }
     request$batch.total <- NULL
-    if (print == TRUE) 
+    if(print == TRUE) 
         message(request$total, " HITs Retrieved")
     invisible(data.frame(HITId = request$HITs))
 }

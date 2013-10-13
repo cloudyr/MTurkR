@@ -1,7 +1,6 @@
 ListQualificationTypes <-
-function (qual = NULL) 
-{
-    quals <- as.data.frame(rbind(
+function (qual = NULL) {
+    quals <- setNames(as.data.frame(rbind(
         #c("Worker_PercentAssignmentsSubmitted", "00000000000000000000"),
         #c("Worker_PercentAssignmentsAbandoned", "00000000000000000070"),
         #c("Worker_PercentAssignmentsReturned", "000000000000000000E0"),
@@ -16,9 +15,8 @@ function (qual = NULL)
         c("Categorization Masters (Production)", "2NDP2L92HECWY8NS8H3CK0CP5L9GHO"),
         c("Photo Moderation Masters (Sandbox)", "2TGBB6BFMFFOM08IBMAFGGESC1UWJX"),
         c("Photo Moderation Masters (Production)", "21VZU98JHSTLZ5BPP4A9NOBJEK3DPG")
-        ), stringsAsFactors = FALSE)
-    names(quals) <- c("Qualification", "QualificationTypeId")
-    if (!is.null(qual)) 
+        ), stringsAsFactors = FALSE), c("Qualification", "QualificationTypeId"))
+    if(!is.null(qual)) 
         return(as.character(quals[quals$Qualification == qual, 2]))
     else
         return(quals)

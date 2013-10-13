@@ -10,23 +10,22 @@ function (hit.type = NULL, question = NULL, validate.question = FALSE,
     hitlayoutparameters = NULL, response.group = NULL, keypair = credentials(), 
     print = getOption('MTurkR.print'), browser = getOption('MTurkR.browser'),
     log.requests = getOption('MTurkR.log'), sandbox = getOption('MTurkR.sandbox'),
-	validation.test = getOption('MTurkR.test')) 
-{
-    if (!is.null(keypair)) {
+	validation.test = getOption('MTurkR.test')) {
+    if(!is.null(keypair)) {
         keyid <- keypair[1]
         secret <- keypair[2]
     }
     else
 		stop("No keypair provided or 'credentials' object not stored")
     operation <- "CreateHIT"
-    if (!is.null(hit.type)) {
-        if (!is.null(hit.type) & (!is.null(title) || !is.null(description) || 
+    if(!is.null(hit.type)) {
+        if(!is.null(hit.type) & (!is.null(title) || !is.null(description) || 
             !is.null(reward) || !is.null(duration))) 
             warning("HITType specified, HITType parameters (title, description, reward, duration) ignored")
         GETparameters <- paste("&HITTypeId=", hit.type, sep = "")
     }
     else {
-        if (is.null(title) || is.null(description) || is.null(reward) || is.null(duration)) 
+        if(is.null(title) || is.null(description) || is.null(reward) || is.null(duration)) 
             stop("Must specify HITType xor HITType parameters (title, description, reward, duration)")
         else {
             register <- RegisterHITType(title, description, reward, 
@@ -35,15 +34,16 @@ function (hit.type = NULL, question = NULL, validate.question = FALSE,
                 log.requests = log.requests, sandbox = sandbox, validation.test = validation.test)
 			if(validation.test)
 				invisible(register)
-            if (register$Valid == FALSE) 
+            if(register$Valid == FALSE) 
                 stop("Could not RegisterHITType(), check parameters")
-            else GETparameters <- paste("&HITTypeId=", register$HITTypeId, sep = "")
+            else
+                GETparameters <- paste("&HITTypeId=", register$HITTypeId, sep = "")
         }
     }
-    if (is.null(question)) {
-        if (!is.null(hitlayoutid)) {
+    if(is.null(question)) {
+        if(!is.null(hitlayoutid)) {
             GETparameters <- paste(GETparameters, "&HITLayoutId=", hitlayoutid, sep = "")
-            if (!is.null(hitlayoutparameters)) 
+            if(!is.null(hitlayoutparameters)) 
                 GETparameters <- paste(GETparameters, hitlayoutparameters, sep = "")
         }
         else
@@ -67,18 +67,18 @@ function (hit.type = NULL, question = NULL, validate.question = FALSE,
 		}
 		GETparameters <- paste(GETparameters, "&Question=", curlEscape(question), sep = "")
 	}
-    if (is.null(expiration)) 
+    if(is.null(expiration)) 
         stop("Must specify HIT LifetimeInSeconds for expiration parameter")
-    else if (as.numeric(expiration) < 30 | as.numeric(expiration) > 31536000) 
+    else if(as.numeric(expiration) < 30 | as.numeric(expiration) > 31536000) 
         stop("HIT LifetimeInSeconds/expiration must be between 30 and 31536000 seconds")
-    else GETparameters <- paste(GETparameters, "&LifetimeInSeconds=", 
-        expiration, sep = "")
+    else
+        GETparameters <- paste(GETparameters, "&LifetimeInSeconds=", expiration, sep = "")
     if (is.null(assignments)) 
         stop("Number of Assignments must be specified")
     else if (as.numeric(assignments) < 1 | as.numeric(assignments) > 1e+09) 
         stop("MaxAssignments must be between 1 and 1000000000")
-    else GETparameters <- paste(GETparameters, "&MaxAssignments=", 
-        assignments, sep = "")
+    else
+        GETparameters <- paste(GETparameters, "&MaxAssignments=", assignments, sep = "")
     if (!is.null(response.group)) {
         if (!response.group %in% c("Request", "Minimal", "HITDetail", "HITQuestion", "HITAssignmentSummary")) 
             stop("ResponseGroup must be in c(Request,Minimal,HITDetail,HITQuestion,HITAssignmentSummary)")
@@ -107,8 +107,8 @@ function (hit.type = NULL, question = NULL, validate.question = FALSE,
     else if (!is.null(unique.request.token)) 
         GETparameters <- paste(	GETparameters, "&UniqueRequestToken=", 
 								curlEscape(unique.request.token), sep = "")
-    HITs <- data.frame(matrix(ncol = 3))
-    names(HITs) <- c("HITTypeId", "HITId", "Valid")
+    HITs <- setNames(data.frame(matrix(ncol=3, nrow=1)),
+                c("HITTypeId", "HITId", "Valid"))
     if (is.null(hit.type)) 
         type <- NA
     else
@@ -127,23 +127,23 @@ function (hit.type = NULL, question = NULL, validate.question = FALSE,
             sandbox = sandbox, validation.test = validation.test)
 		if(validation.test)
 			invisible(request)
-        if (request$valid == TRUE) {
+        if(request$valid == TRUE) {
             hit <- strsplit(strsplit(request$xml, "<HITId>")[[1]][2], "</HITId>")[[1]][1]
-            if (is.null(hit.type)) 
+            if(is.null(hit.type)) 
                 type <- strsplit(strsplit(request$xml, "<HITTypeId>")[[1]][2], "</HITTypeId>")[[1]][1]
             HITs[1, ] <- c(type, hit, request$valid)
-            if (print == TRUE) {
-                if (!is.null(hit.type)) 
+            if(print == TRUE) {
+                if(!is.null(hit.type)) 
 					message("HIT ", hit, " created")
-                else if (is.null(hit.type)) 
+                else if(is.null(hit.type)) 
 					message("HIT ", hit, " created (of type ", type,")")
             }
         }
-        else if (request$valid == FALSE) {
-            if (print == TRUE) 
+        else if(request$valid == FALSE) {
+            if(print == TRUE) 
                 warning("Invalid Request")
         }
-        if (print == TRUE) 
+        if(print == TRUE) 
             return(HITs)
         else
 			invisible(HITs)

@@ -1,8 +1,7 @@
 GenerateAnswerKey <-
-function (questions, scoring = NULL) 
-{
+function (questions, scoring = NULL) {
     answerkey <- newXMLNode("AnswerKey", namespaceDefinitions = "http://mechanicalturk.amazonaws.com/AWSMechanicalTurkDataSchemas/2005-10-01/AnswerKey.xsd")
-    for (i in 1:length(questions)) {
+    for(i in 1:length(questions)) {
         question <- newXMLNode("Question", parent = answerkey)
         id <- newXMLNode("QuestionIdentifier", questions[[i]]$QuestionIdentifier,
             parent = question)
@@ -16,48 +15,47 @@ function (questions, scoring = NULL)
 				parent = opt)
 			addChildren(opt, c(selid, score))
 		}
-        if (!is.null(questions[[i]]$DefaultScore)) {
+        if(!is.null(questions[[i]]$DefaultScore)) {
             default <- newXMLNode("DefaultScore", questions[[i]]$DefaultScore,
                 parent = question)
             addChildren(question, default)
         }
         addChildren(answerkey, question)
     }
-    if (!is.null(scoring)) {
-        if (!is.null(scoring$Type) && !scoring$Type %in% c("PercentageMapping", 
+    if(!is.null(scoring)) {
+        if(!is.null(scoring$Type) && !scoring$Type %in% c("PercentageMapping", 
             "ScaleMapping", "RangeMapping")) 
             stop("'scoring$Type' must be PercentageMapping | ScaleMapping | RangeMapping | NULL")
-        else if (!is.null(scoring$Type)) {
+        else if(!is.null(scoring$Type)) {
             qualnode <- newXMLNode("QualificationValueMapping", 
                 parent = answerkey)
             scorenode <- newXMLNode(scoring$Type, parent = qualnode)
-            if (scoring$Type == "RangeMapping") {
-                for (i in 1:dim(scoring$RangeMapping)[1]) {
-                  scorerange <- newXMLNode("SummedScoreRange", 
-                    parent = scorenode)
+            if(scoring$Type == "RangeMapping") {
+                for(i in 1:dim(scoring$RangeMapping)[1]) {
+                  scorerange <- newXMLNode("SummedScoreRange", parent = scorenode)
                   lower <- newXMLNode("InclusiveLowerBound", 
-                    scoring$RangeMapping$InclusiveLowerBound[i], 
-                    parent = scorerange)
+                        scoring$RangeMapping$InclusiveLowerBound[i], 
+                        parent = scorerange)
                   upper <- newXMLNode("InclusiveUpperBound", 
-                    scoring$RangeMapping$InclusiveUpperBound[i], 
-                    parent = scorerange)
+                        scoring$RangeMapping$InclusiveUpperBound[i], 
+                        parent = scorerange)
                   value <- newXMLNode("QualificationValue", scoring$RangeMapping$QualificationValue[i], 
-                    parent = scorerange)
+                        parent = scorerange)
                   addChildren(scorerange, c(lower, upper, value))
                   addChildren(scorenode, scorerange)
                 }
                 rangenode <- newXMLNode("OutOfRangeQualificationValue", 
-                  scoring$OutOfRangeQualificationValue, parent = scorenode)
+                    scoring$OutOfRangeQualificationValue, parent = scorenode)
                 addChildren(scorenode, rangenode)
             }
-            else if (scoring$Type == "PercentageMapping") {
+            else if(scoring$Type == "PercentageMapping") {
                 valuenode <- newXMLNode("MaximumSummedScore", 
-                  scoring$MaximumSummedScore, parent = scorenode)
+                    scoring$MaximumSummedScore, parent = scorenode)
                 addChildren(scorenode, valuenode)
             }
-            else if (scoring$Type == "ScaleMapping") {
+            else if(scoring$Type == "ScaleMapping") {
                 valuenode <- newXMLNode("ScaleMapping", scoring$SummedScoreMultiplier, 
-                  parent = scorenode)
+                    parent = scorenode)
                 addChildren(scorenode, valuenode)
             }
             addChildren(qualnode, scorenode)
@@ -70,9 +68,8 @@ function (questions, scoring = NULL)
 }
 
 AnswerKeyTemplate <-
-function(xml = NULL, xml.parsed = NULL)
-{
-	if (!is.null(xml)) 
+function(xml = NULL, xml.parsed = NULL){
+	if(!is.null(xml)) 
         xml.parsed <- xmlParse(xml)
     qformdf <- QuestionFormToDataFrame(xml.parsed = xml.parsed)$Questions
 	answerkey <- list(NULL)

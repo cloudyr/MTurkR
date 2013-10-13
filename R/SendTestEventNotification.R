@@ -3,24 +3,23 @@ notificationtest <-
 function (notification, test.event.type = "HITExpired", keypair = credentials(), 
     print = getOption('MTurkR.print'), browser = getOption('MTurkR.browser'),
     log.requests = getOption('MTurkR.log'), sandbox = getOption('MTurkR.sandbox'),
-    validation.test = getOption('MTurkR.test')) 
-{
-    if (!is.null(keypair)) {
+    validation.test = getOption('MTurkR.test')) {
+    if(!is.null(keypair)) {
         keyid <- keypair[1]
         secret <- keypair[2]
     }
-    else stop("No keypair provided or 'credentials' object not stored")
+    else
+        stop("No keypair provided or 'credentials' object not stored")
     operation <- "SendTestEventNotificaiton"
-    if (!test.event.type %in% c("AssignmentAccepted", "AssignmentAbandoned", 
+    if(!test.event.type %in% c("AssignmentAccepted", "AssignmentAbandoned", 
         "AssignmentReturned", "AssignmentSubmitted", "HITReviewable", "HITExpired")) 
         stop("Inappropriate TestEventType specified")
     GETparameters <- notification
-    GETparameters <- paste(GETparameters, "&TestEventType=", 
-        test.event.type, sep = "")
-    TestEvent <- data.frame(matrix(ncol = 3))
-    names(TestEvent) <- c("TestEventType", "Notification", "Valid")
+    GETparameters <- paste(GETparameters, "&TestEventType=", test.event.type, sep = "")
+    TestEvent <- setNames(data.frame(matrix(ncol=3, nrow=1)),
+                    c("TestEventType", "Notification", "Valid"))
     auth <- authenticate(operation, secret)
-    if (browser == TRUE) {
+    if(browser == TRUE) {
         request <- request(keyid, auth$operation, auth$signature, 
             auth$timestamp, GETparameters, browser = browser, 
             sandbox = sandbox, validation.test = validation.test)
@@ -34,13 +33,13 @@ function (notification, test.event.type = "HITExpired", keypair = credentials(),
         if(validation.test)
 			invisible(request)
 		TestEvent[1, ] <- c(test.event.type, notification, request$valid)
-        if (request$valid == TRUE) {
-            if (print == TRUE) 
+        if(request$valid == TRUE) {
+            if(print == TRUE) 
                 message("TestEventNotification ", test.event.type," Sent")
             invisible(TestEvent)
         }
-        else if (request$valid == FALSE) {
-            if (print == TRUE) 
+        else if(request$valid == FALSE) {
+            if(print == TRUE) 
                 warning("Invalid Request")
             invisible(TestEvent)
         }

@@ -22,10 +22,8 @@ function (hit = NULL, hit.type = NULL, feedback = NULL, keypair = credentials(),
         if(length(hitlist) == 0) 
             stop("No HITs found for HITType")
         assignments <- sapply(hitlist, function(i){
-                        GetAssignments(hit = i, 
-                        return.all = TRUE, keypair = keypair,
-                        log.requests = log.requests, 
-                        sandbox = sandbox)$AssignmentId })
+                        GetAssignments(hit = i, return.all = TRUE, keypair = keypair,
+                        log.requests = log.requests, sandbox = sandbox)$AssignmentId })
     }
     request <- ApproveAssignments(keypair, assignments, feedback = feedback,
                 print = print, log.requests = log.requests, 

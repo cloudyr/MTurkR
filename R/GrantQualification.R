@@ -3,31 +3,32 @@ GrantQualifications <-
 grantqual <-
 function (qual.requests, values, keypair = credentials(), print = getOption('MTurkR.print'), 
     browser = getOption('MTurkR.browser'), log.requests = getOption('MTurkR.log'),
-    sandbox = getOption('MTurkR.sandbox'), validation.test = getOption('MTurkR.test')) 
-{
-    if (!is.null(keypair)) {
+    sandbox = getOption('MTurkR.sandbox'), validation.test = getOption('MTurkR.test')) {
+    if(!is.null(keypair)) {
         keyid <- keypair[1]
         secret <- keypair[2]
     }
-    else stop("No keypair provided or 'credentials' object not stored")
+    else
+        stop("No keypair provided or 'credentials' object not stored")
     operation <- "GrantQualification"
-    if (!length(qual.requests) == length(values)) {
-        if (length(values) == 1) 
+    if(!length(qual.requests) == length(values)) {
+        if(length(values) == 1) 
             values <- rep(values[1], length(qual.requests))
-        else stop("Number of QualificationRequests is not 1 or number of Values")
+        else
+            stop("Number of QualificationRequests is not 1 or number of Values")
     }
-    for (i in 1:length(values)) {
-        if (!is.numeric(as.numeric(values))) 
+    for(i in 1:length(values)) {
+        if(!is.numeric(as.numeric(values))) 
             warning("Non-numeric Qualification Value requested for request ", 
                 qual.requests[i], "\n", sep = "")
     }
-    QualificationRequests <- data.frame(matrix(ncol = 3))
-    names(QualificationRequests) <- c("QualificationRequestId", "Value", "Valid")
+    QualificationRequests <- setNames(data.frame(matrix(ncol=3, nrow=length(qual.requests))),
+                                c("QualificationRequestId", "Value", "Valid"))
     for (i in 1:length(qual.requests)) {
         GETparameters <- paste("&QualificationRequestId=", qual.requests[i], 
             "&IntegerValue=", values[i], sep = "")
         auth <- authenticate(operation, secret)
-        if (browser == TRUE) {
+        if(browser == TRUE) {
             request <- request(keyid, auth$operation, auth$signature, 
                 auth$timestamp, GETparameters, browser = browser, 
                 sandbox = sandbox, validation.test = validation.test)
@@ -42,19 +43,19 @@ function (qual.requests, values, keypair = credentials(), print = getOption('MTu
 				invisible(request)
             QualificationRequests[i, ] <- c(qual.requests[i], 
                 values[i], request$valid)
-            if (request$valid == TRUE) {
-                if (print == TRUE) 
-                  message(i, ": Qualification (", qual.requests[i],") Granted")
+            if(request$valid == TRUE) {
+                if(print == TRUE) 
+                    message(i, ": Qualification (", qual.requests[i],") Granted")
             }
             else if (request$valid == FALSE) {
-                if (print == TRUE) 
-                  warning(i, ": Invalid Request for QualificationRequest ", 
+                if(print == TRUE) 
+                    warning(i, ": Invalid Request for QualificationRequest ", 
                     qual.requests[i])
             }
         }
     }
-    if (print == TRUE) 
+    if(print == TRUE) 
         return(QualificationRequests)
-    else if (print == FALSE) 
+    else if(print == FALSE) 
         invisible(QualificationRequests)
 }

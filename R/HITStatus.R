@@ -2,9 +2,8 @@ HITStatus <-
 status <-
 function (hit = NULL, hit.type = NULL, keypair = credentials(), 
     print = getOption('MTurkR.print'), log.requests = getOption('MTurkR.log'),
-    sandbox = getOption('MTurkR.sandbox'))
-{
-    if ((is.null(hit) & is.null(hit.type)) | (!is.null(hit) & !is.null(hit.type))) 
+    sandbox = getOption('MTurkR.sandbox')){
+    if((is.null(hit) & is.null(hit.type)) | (!is.null(hit) & !is.null(hit.type))) 
         stop("Must provide 'hit' xor 'hit.type'")
     hitsearch <- SearchHITs(keypair = keypair, print = TRUE, 
                             log.requests = log.requests, sandbox = sandbox,
@@ -12,7 +11,7 @@ function (hit = NULL, hit.type = NULL, keypair = credentials(),
     HITs <- hitsearch$HITs
     if(is.null(HITs))
         return(HITs) # return if NULL
-    if (!is.null(hit)){
+    if(!is.null(hit)){
         HITs <- HITs[grep(hit, HITs$HITId), ]
         toprint <- HITs[, c("HITId", "HITReviewStatus", "NumberOfAssignmentsPending", 
                             "NumberOfAssignmentsAvailable",
@@ -21,18 +20,17 @@ function (hit = NULL, hit.type = NULL, keypair = credentials(),
                             "Assignments Available", "Assignments Completed",
                             "Expiration")
     }
-    else if (!is.null(hit.type)) {
+    else if(!is.null(hit.type)) {
         HITs <- HITs[HITs$HITTypeId == hit.type, ]
-        if (dim(HITs)[1] == 0) {
+        if(dim(HITs)[1] == 0) {
             message("No HITs found for HITType")
             invisible(HITs)
         }
-        if (dim(HITs)[1] > 1) {
+        if(dim(HITs)[1] > 1) {
             toprint <- HITs[,c( "HITId","HITReviewStatus","NumberOfAssignmentsPending",
                                 "NumberOfAssignmentsAvailable",
                                 "NumberOfAssignmentsCompleted", "Expiration")]
-            totals <- data.frame(HITId = c( "------------------------------",
-                                            "Totals"),
+            totals <- data.frame(HITId = c( "------------------------------", "Totals"),
                                 HITReviewStatus = c("---------------",""),
                                 NumberOfAssignmentsPending = c("--------------------",
                                     sum(as.numeric(HITs$NumberOfAssignmentsPending))),

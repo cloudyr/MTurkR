@@ -1,14 +1,13 @@
 BonusPaymentsToDataFrame <-
-function (xml = NULL, xml.parsed = NULL) 
-{
-    if (!is.null(xml)) 
+function (xml = NULL, xml.parsed = NULL){
+    if(!is.null(xml)) 
         xml.parsed <- xmlParse(xml)
     bonus.xml <- xpathApply(xml.parsed, "//BonusPayment")
-    if (length(bonus.xml) > 0) {
-        bonuses <- data.frame(matrix(nrow = length(bonus.xml), ncol = 7))
-        names(bonuses) <- c("AssignmentId", "WorkerId", "Amount", 
-            "CurrencyCode", "FormattedPrice", "Reason", "GrantTime")
-        for (i in 1:length(bonus.xml)) {
+    if(length(bonus.xml) > 0) {
+        bonuses <- setNames(data.frame(matrix(nrow = length(bonus.xml), ncol = 7)),
+                    c("AssignmentId", "WorkerId", "Amount", "CurrencyCode",
+                    "FormattedPrice", "Reason", "GrantTime"))
+        for(i in 1:length(bonus.xml)) {
             bonuses[i, ] <- c(	xmlValue(xpathApply(xml.parsed, "//AssignmentId")[[i]]),
 								xmlValue(xpathApply(xml.parsed, "//WorkerId")[[i]]),
 								xmlValue(xpathApply(xml.parsed, "//Amount")[[i]]),

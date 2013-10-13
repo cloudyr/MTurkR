@@ -1,6 +1,5 @@
 ListOperations <-
-function (op = NULL) 
-{
+function (op = NULL) {
     ops <- c("ApproveAssignment", "ApproveRejectedAssignment", 
         "AssignQualification", "BlockWorker", "ChangeHITTypeOfHIT", 
         "CreateHIT", "CreateQualificationType", "DisableHIT", 
@@ -16,7 +15,8 @@ function (op = NULL)
         "SearchHITs", "SearchQualificationTypes", "SendTestEventNotification", 
         "SetHITAsReviewing", "SetHITTypeNotification", "UnblockWorker", 
         "UpdateQualificationScore", "UpdateQualificationType")
-    if (!is.null(op)) 
+    if(!is.null(op)) 
         return(ops[op])
-    else return(ops)
+    else
+        return(ops)
 }

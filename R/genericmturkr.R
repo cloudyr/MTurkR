@@ -2,9 +2,8 @@ genericmturkr <-
 function (operation, parameters = NULL, keypair = credentials(), 
     print = getOption('MTurkR.print'), browser = getOption('MTurkR.browser'),
     log.requests = getOption('MTurkR.log'), sandbox = getOption('MTurkR.sandbox'), 
-    xml.parse = TRUE, validation.test = getOption('MTurkR.test'))
-{
-    if (!is.null(keypair)) {
+    xml.parse = TRUE, validation.test = getOption('MTurkR.test')){
+    if(!is.null(keypair)) {
         keyid <- keypair[1]
         secret <- keypair[2]
     }
@@ -13,7 +12,7 @@ function (operation, parameters = NULL, keypair = credentials(),
     operation <- operation
     auth <- authenticate(operation, secret)
     GETparameters <- parameters
-    if (browser == TRUE) {
+    if(browser == TRUE) {
 		request <- request(keyid, auth$operation, auth$signature, 
 			auth$timestamp, GETparameters, browser = browser, log.requests = log.requests, 
 			sandbox = sandbox, xml.parse = xml.parse, validation.test = validation.test)
@@ -26,11 +25,11 @@ function (operation, parameters = NULL, keypair = credentials(),
 			sandbox = sandbox, xml.parse = xml.parse, validation.test = validation.test)
 		if(validation.test)
 			invisible(request)
-		if (request$valid == TRUE & print == TRUE) {
+		if(request$valid == TRUE & print == TRUE) {
 			message("Operation (", operation, ") Successful")
 			return(request)
 		}
-		else if (request$valid == FALSE & print == TRUE) {
+		else if(request$valid == FALSE & print == TRUE) {
 			warning("Invalid Request")
 			return(request)
 		}

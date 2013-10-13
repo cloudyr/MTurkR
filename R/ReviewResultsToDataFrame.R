@@ -1,39 +1,35 @@
 ReviewResultsToDataFrame <-
-function (xml = NULL, xml.parsed = NULL) 
-{
-    if (!is.null(xml)) 
+function (xml = NULL, xml.parsed = NULL) {
+    if(!is.null(xml)) 
         xml.parsed <- xmlParse(xml)
     hit.xml <- xpathApply(xml.parsed, "//GetReviewResultsForHITResult")
-    if (!is.null(hit.xml) && length(hit.xml) >= 1) {
+    if(!is.null(hit.xml) && length(hit.xml) >= 1) {
         hit <- xmlValue(xpathApply(xml.parsed, "//HITId")[[1]])
-        if (length(xpathApply(xml.parsed, "//AssignmentReviewPolicy")) > 
-            0) 
+        if(length(xpathApply(xml.parsed, "//AssignmentReviewPolicy")) > 0) 
             assignment.policy <- xmlValue(xpathApply(xml.parsed, 
                 "//AssignmentReviewPolicy")[[1]])
-        else assignment.policy <- NA
-        if (length(xpathApply(xml.parsed, "//HITReviewPolicy")) > 
-            0) 
+        else
+            assignment.policy <- NA
+        if(length(xpathApply(xml.parsed, "//HITReviewPolicy")) > 0) 
             hit.policy <- xmlValue(xpathApply(xml.parsed, "//HITReviewPolicy")[[1]])
-        else hit.policy <- NA
-        if (!is.na(assignment.policy)) {
+        else
+            hit.policy <- NA
+        if(!is.na(assignment.policy)) {
             assignment.report <- xmlChildren(xpathApply(xml.parsed, 
                 "//AssignmentReviewReport")[[1]])
-            if (!is.null(assignment.report) && length(assignment.report) >= 
-                1) {
-                AssignmentReviewResult <- data.frame(matrix(nrow = sum(names(assignment.report) == 
-                  "ReviewResult"), ncol = 7))
-                names(AssignmentReviewResult) <- c("AssignmentReviewPolicy", 
-                  "ActionId", "SubjectId", "ObjectType", "QuestionId", 
-                  "Key", "Value")
-                AssignmentReviewAction <- data.frame(matrix(nrow = sum(names(assignment.report) == 
-                  "ReviewAction"), ncol = 9))
-                names(AssignmentReviewAction) <- c("AssignmentReviewPolicy", 
-                  "ActionId", "ActionName", "ObjectId", "ObjectType", 
-                  "Status", "CompleteTime", "Result", "ErrorCode")
+            if(!is.null(assignment.report) && length(assignment.report) >= 1) {
+                AssignmentReviewResult <- setNames(data.frame(matrix(
+                    nrow=sum(names(assignment.report) == "ReviewResult"), ncol=7)),
+                    c("AssignmentReviewPolicy", "ActionId", "SubjectId",
+                    "ObjectType", "QuestionId", "Key", "Value"))
+                AssignmentReviewAction <- setNames(data.frame(matrix(
+                    nrow = sum(names(assignment.report) == "ReviewAction"), ncol = 9)),
+                    c("AssignmentReviewPolicy", "ActionId", "ActionName", "ObjectId",
+                    "ObjectType", "Status", "CompleteTime", "Result", "ErrorCode"))
                 r <- 1
                 a <- 1
-                for (i in 1:length(assignment.report)) {
-                  if (xmlName(assignment.report[[i]]) == "ReviewResult") {
+                for(i in 1:length(assignment.report)) {
+                  if(xmlName(assignment.report[[i]]) == "ReviewResult") {
                     AssignmentReviewResult$AssignmentReviewPolicy[r] <- assignment.policy
                     AssignmentReviewResult$ActionId[r] <- xmlValue(xmlChildren(assignment.report[[i]])$ActionId)
                     AssignmentReviewResult$SubjectId[r] <- xmlValue(xmlChildren(assignment.report[[i]])$SubjectId)
@@ -58,25 +54,22 @@ function (xml = NULL, xml.parsed = NULL)
                 }
             }
         }
-        if (!is.na(hit.policy)) {
+        if(!is.na(hit.policy)) {
             hit.report <- xmlChildren(xpathApply(xml.parsed, 
                 "//HITReviewReport")[[1]])
-            if (!is.null(hit.report) && length(hit.report) >= 
-                1) {
-                HITReviewResult <- data.frame(matrix(nrow = sum(names(hit.report) == 
-                  "ReviewResult"), ncol = 7))
-                names(HITReviewResult) <- c("HITReviewPolicy", 
-                  "ActionId", "SubjectId", "ObjectType", "QuestionId", 
-                  "Key", "Value")
-                HITReviewAction <- data.frame(matrix(nrow = sum(names(hit.report) == 
-                  "ReviewAction"), ncol = 9))
-                names(HITReviewAction) <- c("HITReviewPolicy", 
-                  "ActionId", "ActionName", "ObjectId", "ObjectType", 
-                  "Status", "CompleteTime", "Result", "ErrorCode")
+            if(!is.null(hit.report) && length(hit.report) >= 1) {
+                HITReviewResult <- setNames(data.frame(matrix(
+                    nrow = sum(names(hit.report) == "ReviewResult"), ncol = 7)),
+                    c("HITReviewPolicy", "ActionId", "SubjectId", "ObjectType",
+                    "QuestionId", "Key", "Value"))
+                HITReviewAction <- setNames(data.frame(matrix(
+                    nrow = sum(names(hit.report) == "ReviewAction"), ncol = 9)),
+                    c("HITReviewPolicy", "ActionId", "ActionName", "ObjectId",
+                    "ObjectType", "Status", "CompleteTime", "Result", "ErrorCode"))
                 r <- 1
                 a <- 1
-                for (i in 1:length(hit.report)) {
-                  if (xmlName(hit.report[[i]]) == "ReviewResult") {
+                for(i in 1:length(hit.report)) {
+                  if(xmlName(hit.report[[i]]) == "ReviewResult") {
                     HITReviewResult$HITReviewPolicy[r] <- hit.policy
                     HITReviewResult$ActionId[r] <- xmlValue(xmlChildren(hit.report[[i]])$ActionId)
                     HITReviewResult$SubjectId[r] <- xmlValue(xmlChildren(hit.report[[i]])$SubjectId)
@@ -101,7 +94,7 @@ function (xml = NULL, xml.parsed = NULL)
                 }
             }
         }
-        if (is.na(hit.policy) & is.na(assignment.policy)) 
+        if(is.na(hit.policy) & is.na(assignment.policy)) 
             return(NULL)
         else {
             return.list <- list(AssignmentReviewResult = AssignmentReviewResult, 
