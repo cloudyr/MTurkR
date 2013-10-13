@@ -1,13 +1,13 @@
 \name{request}
 \alias{request}
 \title{Execute an MTurk API Request}
-\description{This is the workhorse function that makes authenticated HTTP requests to the MTurk API. It is only provided for advanced users.}
+\description{This is the workhorse function that makes authenticated HTTP requests to the MTurk API. It is only exported for advanced users.}
 \usage{
 request(keyid, operation, signature, timestamp, GETparameters, 
-		version = "2012-03-25", service = "AWSMechanicalTurkRequester", 
-		browser = getOption('MTurkR.browser'),
+        version = "2012-03-25", service = "AWSMechanicalTurkRequester", 
+        browser = getOption('MTurkR.browser'),
         log.requests = getOption('MTurkR.log'), sandbox = getOption('MTurkR.sandbox'), 
-		xml.parse = FALSE, print.errors = TRUE, validation.test = getOption('MTurkR.test'))
+        xml.parse = FALSE, print.errors = TRUE, validation.test = getOption('MTurkR.test'))
 }
 \arguments{
   \item{keyid}{An AWS Access Key ID.}
@@ -25,7 +25,13 @@ request(keyid, operation, signature, timestamp, GETparameters,
   \item{validation.test}{Currently a logical that causes \code{request} to return the URL of the specified REST request. Default is \code{FALSE}. May additionally validate the request (and supply information about that validation) in the future.}
 }
 \details{This is a mostly internal function that executes MTurk API requests. It is made available for use by advanced users to execute custom API requests (in tandem with \code{\link{authenticate}}). Even advanced users, however, should be satisfied with the functionality provided by \code{\link{genericmturkr}}.}
-\value{A list containing the URL of the MTurk API REST request (\code{request.url}), the Request ID created by the API request (\code{request.id}), a logical indicating whether or not the request was valid and thus executed as intended (\code{valid}), and a character string containing the XML-formatted API response (\code{xml}).}
+\value{A list of class \dQuote{MTurkResponse} containing:
+  \item{request.url}{The URL of the MTurk API REST request.}
+  \item{request.id}{The Request ID created by the API request.}
+  \item{valid}{A logical indicating whether or not the request was valid and thus executed as intended.}
+  \item{xml}{A character string containing the XML API response.}
+  \item{xml.parsed}{The parsed XML response, if requested.}
+}
 \references{
 \href{http://docs.amazonwebservices.com/AWSMechTurk/latest/AWSMechanicalTurkRequester/MakingRequestsArticle.html}{API Reference}
 }
@@ -36,4 +42,3 @@ request(keyid, operation, signature, timestamp, GETparameters,
 
 \code{\link{ParseErrorCodes}}
 }
-%\examples{}
