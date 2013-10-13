@@ -8,9 +8,9 @@ ghurl: https://github.com/leeper/MTurkR/blob/gh-pages
 
 Amazon Mechanical Turk (MTurk) is a crowdsourcing platform that provides researchers and developers with the ability to leverage human intelligence for tasks that cannot easily be automated. The **MTurkR** package provides access to the [MTurk](https://requester.mturk.com/) [Requester API](http://docs.aws.amazon.com/AWSMechTurk/latest/AWSMturkAPI/Welcome.html) via authenticated HTTP requests executed with [RCurl](http://cran.r-project.org/web/packages/RCurl/index.html) and a number of functions to translate API calls into R data structures (using the [XML package](http://cran.r-project.org/web/packages/XML/index.html)).
 
-You can [download the latest package release from CRAN](http://cran.r-project.org/web/packages/MTurkR/index.html) and find [a PDF of the package manual here](http://cran.r-project.org/web/packages/MTurkR/MTurkR.pdf)
+You can [download the latest package release from CRAN](http://cran.r-project.org/web/packages/MTurkR/index.html) and find [a PDF of the package manual here](http://cran.r-project.org/web/packages/MTurkR/MTurkR.pdf).
 
-If can also find [the latest development version of the package on GitHub](https://github.com/leeper/MTurkR).
+You can also find [the latest development version of the package on GitHub](https://github.com/leeper/MTurkR).
 
 Comments, feedback, bug reports, and suggestions on MTurkR are also welcome [via email](mailto:thosjleeper@gmail.com?subject=MTurkR) and [on GitHub](https://github.com/leeper/MTurkR/issues)
 
