@@ -93,11 +93,14 @@ function (keyid, operation, signature, timestamp, GETparameters,
             }
             if (xml.parse == TRUE) {
                 xml.parsed <- xmlParse(response)
-                invisible(list(request.url = request.url, request.id = request.id, 
-                  valid = valid, xml = response, xml.parsed = xml.parsed))
+                out <- list(request.url = request.url, request.id = request.id, 
+                            valid = valid, xml = response, xml.parsed = xml.parsed)
             }
-            else invisible(list(request.url = request.url, request.id = request.id, 
-                valid = valid, xml = response))
+            else
+                out <- list(request.url = request.url, request.id = request.id, 
+                            valid = valid, xml = response)
+            class(out) <- c('MTurkResponse',class(out))
+            invisible(out)
         }
     }
 }
