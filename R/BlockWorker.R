@@ -29,8 +29,10 @@ function (workers, reasons, keypair = credentials(), print = getOption('MTurkR.p
             request <- request(keyid, auth$operation, auth$signature, 
                 auth$timestamp, GETparameters, browser = browser, 
                 sandbox = sandbox, validation.test = validation.test)
-			if(validation.test)
-				invisible(request)
+			if(validation.test){
+				message('Returning validation test for first worker.')
+                invisible(request)
+            }
         }
         else {
             request <- request(keyid, auth$operation, auth$signature, 
