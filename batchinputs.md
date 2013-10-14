@@ -1,4 +1,10 @@
-# Mimicking the Batch Features of the Requester UI #
+---
+layout: default
+title: MTurkR
+ghurl: https://github.com/leeper/MTurkR/blob/gh-pages
+---
+
+# Mimicking the Requester UI Batch Features #
 
 **MTurkR** supplies many features that the Requester UI does not offer. But the Requester UI also has a few features that are hard to emulate in R. This page describes some techniques for mimicking a couple of those features.
 
