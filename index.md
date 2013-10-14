@@ -44,7 +44,7 @@ Comments, feedback, bug reports, and suggestions on MTurkR are also welcome [via
 * Examples in an introductory article: "[Crowdsourcing with R and the MTurk API](http://polmeth.wustl.edu/methodologist/tpm_v20_n2.pdf)" in *The Political Methodologist* 20(1):2-7.
 * Examples from a blog post by Solomon Messing: "[Streamline Your Mechanical Turk Workflow with MTurkR](http://solomonmessing.wordpress.com/2013/06/24/streamline-your-mechanical-turk-workflow-with-mturkr/)
 * Sample code to [create and manage qualifications]({{ page.ghurl }}/qualification_test_example.r), with associated xml files for [QuestionForm]({{ page.ghurl }}/questionform_example.xml) and [AnswerKey]({{ page.ghurl }}/answerkey_example.xml)
-* Workflow and sample code to [mimic the Requester UI's display of input HITLayout parameters with assignment results](/batchinputs).
+* Workflow and sample code to [mimic the Requester UI's display of input HITLayout parameters with assignment results](batchinputs.html).
 
 ---
 ## JavaScript-enhanced HTML code for MTurk ##
