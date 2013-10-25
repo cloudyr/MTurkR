@@ -5,10 +5,10 @@
 \title{Contact Worker(s)}
 \description{Contact one or more workers. This sends an email with specified subject line and body text to one or more workers. This can be used to recontact workers in panel/longitudinal research or to send follow-up work. Most likely will need to be used in tandem with \code{\link{GrantBonus}} to implement panels.}
 \usage{
-ContactWorker(	subjects, msgs, workers, batch = FALSE, keypair = credentials(), 
-				print = getOption('MTurkR.print'), browser = getOption('MTurkR.browser'),
-                log.requests = getOption('MTurkR.log'), sandbox = getOption('MTurkR.sandbox'),
-                validation.test = getOption('MTurkR.test'))
+ContactWorker(subjects, msgs, workers, batch = FALSE, keypair = credentials(), 
+              print = getOption('MTurkR.print'), browser = getOption('MTurkR.browser'),
+              log.requests = getOption('MTurkR.log'), sandbox = getOption('MTurkR.sandbox'),
+              validation.test = getOption('MTurkR.test'))
 }
 \arguments{
   \item{subjects}{A character string containing subject line of an email, or a vector of character strings of of length equal to the number of workers to be contacted containing the subject line of the email for each worker. Maximum of 200 characters.}
@@ -26,6 +26,8 @@ ContactWorker(	subjects, msgs, workers, batch = FALSE, keypair = credentials(),
 Send an email to one or more workers, either with a common subject and body text or subject and body customized for each worker.
 
 In batch mode, workers are contacted in batches of 100. If one email fails (e.g., for one worker) the other emails should be sent successfully. That is to say, the request as a whole will be valid but will return additional information about which workers were not contacted. This information can be found in the MTurkR log file, or by calling the request with \code{browser=TRUE} and viewing the XML responses directly.
+
+Note: It is only possible to contact workers who have performed work for you previously. When attempting to contact a worker who has not worked for you before, this function will indicate that the request was successful even though the email is not sent.
 
 \code{ContactWorkers()} and \code{contact()} are aliases.
 }
