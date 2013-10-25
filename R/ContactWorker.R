@@ -112,15 +112,15 @@ function (subjects, msgs, workers, batch = FALSE, keypair = credentials(),
                 request <- request(keyid, auth$operation, auth$signature, 
 					auth$timestamp, GETparameters, browser = browser, 
 					sandbox = sandbox, validation.test = validation.test)
-				if(validation.test)
-					invisible(request)
+                if(validation.test)
+		    return(request)
             }
             else {
                 request <- request(keyid, auth$operation, auth$signature, 
 					auth$timestamp, GETparameters, log.requests = log.requests, 
 					sandbox = sandbox, validation.test = validation.test)
-				if(validation.test)
-					invisible(request)
+                if(validation.test)
+		    return(request)
                 Notifications[i, ] <- c(workers[i], subjects[i], msgs[i], request$valid)
                 if(request$valid == TRUE) {
 					if(print == TRUE) 
