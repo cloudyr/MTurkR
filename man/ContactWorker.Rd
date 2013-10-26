@@ -12,7 +12,7 @@ ContactWorker(subjects, msgs, workers, batch = FALSE, keypair = credentials(),
 }
 \arguments{
   \item{subjects}{A character string containing subject line of an email, or a vector of character strings of of length equal to the number of workers to be contacted containing the subject line of the email for each worker. Maximum of 200 characters.}
-  \item{msgs}{A character string containing body text of an email, or a vector of character strings of of length equal to the number of workers to be contacted containing the body text of the email for each worker. Maximum of 4096 characters.}
+  \item{msgs}{A character string containing body text of an email, or a vector of character strings of of length equal to the number of workers to be contacted containing the body text of the email for each worker. Maximum of 4096 characters. Newlines can be specified with \code{\n} and tabs can be specified with \code{\t} in the message body.}
   \item{workers}{A character string containing a WorkerId, or a vector of character strings containing multiple WorkerIds.}
   \item{batch}{A logical (default is \code{FALSE}), indicating whether workers should be contacted in batches of 100 (the maximum allowed by the API). This significantly reduces the time required to contact workers, but eliminates the ability to send customized messages to each worker.}
   \item{keypair}{A two-item character vector containing an AWS Access Key ID in the first position and the corresponding Secret Access Key in the second position. Set default with \code{\link{credentials}}.}
@@ -25,7 +25,7 @@ ContactWorker(subjects, msgs, workers, batch = FALSE, keypair = credentials(),
 \details{
 Send an email to one or more workers, either with a common subject and body text or subject and body customized for each worker.
 
-In batch mode, workers are contacted in batches of 100. If one email fails (e.g., for one worker) the other emails should be sent successfully. That is to say, the request as a whole will be valid but will return additional information about which workers were not contacted. This information can be found in the MTurkR log file, or by calling the request with \code{browser=TRUE} and viewing the XML responses directly.
+In batch mode (when \code{batch=TRUE}), workers are contacted in batches of 100 with a single identical email. If one email fails (e.g., for one worker) the other emails should be sent successfully. That is to say, the request as a whole will be valid but will return additional information about which workers were not contacted. This information can be found in the MTurkR log file, or by calling the request with \code{browser=TRUE} and viewing the XML responses directly.
 
 Note: It is only possible to contact workers who have performed work for you previously. When attempting to contact a worker who has not worked for you before, this function will indicate that the request was successful even though the email is not sent.
 
