@@ -21,8 +21,8 @@ function (keyid, operation, signature, timestamp, GETparameters,
             browseURL(request.url)
         }
         else {
-            response <- getURL(request.url, followlocation = TRUE, 
-                ssl.verifypeer = TRUE, ssl.verifyhost = TRUE, 
+            response <- getURL(request.url, followlocation = 1L, 
+                ssl.verifypeer = 1L, ssl.verifyhost = 2L, 
                 cainfo = system.file("CurlSSL", "cacert.pem", package = "RCurl"))
 			
 			# Additional filters, added by Solomon Messing 6/9/2013:
