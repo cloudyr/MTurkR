@@ -13,7 +13,7 @@ SetHITAsReviewing(	hit = NULL, hit.type = NULL, revert = FALSE,
 }
 \arguments{
   \item{hit}{An optional chracter character string containing a HITId, or a vector character strings containing HITIds, whose status are to be changed.}
-  \item{hit.type}{An optional character string specifying a HITTypeId, all the HITs of which should be set as \dQuote{Reviewing} (or the reverse).}
+  \item{hit.type}{An optional character string specifying a HITTypeId (or a vector of HITTypeIds), all the HITs of which should be set as \dQuote{Reviewing} (or the reverse).}
   \item{revert}{An optional logical to revert the HIT from \dQuote{Reviewing} to \dQuote{Reviewable}.}
   \item{keypair}{A two-item character vector containing an AWS Access Key ID in the first position and the corresponding Secret Access Key in the second position. Set default with \code{\link{credentials}}.}
   \item{print}{Optionally print the results of the API request to the standard output. Default is \code{TRUE}.}

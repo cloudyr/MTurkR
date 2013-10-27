@@ -16,9 +16,11 @@ function (hit = NULL, hit.type = NULL, feedback = NULL, keypair = credentials(),
             keypair = keypair, log.requests = log.requests, sandbox = sandbox)$AssignmentId
     }
     else if(!is.null(hit.type)) {
+        if(is.factor(hit.type))
+            hit.type <- as.character(hit.type)
         hitsearch <- SearchHITs(keypair = keypair, print = print, 
                                 sandbox = sandbox, return.qual.dataframe = FALSE)
-        hitlist <- hitsearch$HITs[hitsearch$HITs$HITTypeId == hit.type, ]$HITId
+        hitlist <- hitsearch$HITs$HITId[hitsearch$HITs$HITTypeId %in% hit.type]
         if(length(hitlist) == 0) 
             stop("No HITs found for HITType")
         assignments <- sapply(hitlist, function(i){

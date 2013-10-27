@@ -15,7 +15,7 @@ GetBonuses(assignment = NULL, hit = NULL, hit.type = NULL, return.all = TRUE,
 \arguments{
   \item{assignment}{An optional character string containing an AssignmentId whose bonuses should be returned.}
   \item{hit}{An optional character string containing a HITId whose bonuses should be returned.}
-  \item{hit.type}{An optional character string containing a HITTypeId whose bonuses should be returned.}
+  \item{hit.type}{An optional character string containing a HITTypeId (or a vector of HITTypeIds) whose bonuses should be returned.}
   \item{return.all}{A logical indicating whether all HITs (as opposed to a specified page of the search results) should be returned. Default is \code{TRUE}.}
   \item{pagenumber}{An optional character string indicating which page of search results should be returned. Most users can ignore this.}
   \item{pagesize}{An optional character string indicating how many search results should be returned by each request, between 1 and 100. Most users can ignore this.}

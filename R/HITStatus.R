@@ -25,7 +25,7 @@ function (hit = NULL, hit.type = NULL, keypair = credentials(),
     else if(!is.null(hit.type)) {
         if(is.factor(hit.type))
             hit <- as.character(hit.type)
-        HITs <- HITs[HITs$HITTypeId == hit.type, ]
+        HITs <- HITs[HITs$HITTypeId %in% hit.type, ]
         if(dim(HITs)[1] == 0) {
             message("No HITs found for HITType")
             invisible(HITs)

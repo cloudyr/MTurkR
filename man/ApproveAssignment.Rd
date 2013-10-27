@@ -23,7 +23,7 @@ ApproveAllAssignments(	hit = NULL, hit.type = NULL, feedback = NULL,
 \arguments{
   \item{assignments}{A character string containing an AssignmentId, or a vector of multiple character strings containing multiple AssignmentIds, to approve.}
   \item{hit}{A character string containing a HITId all of whom's assignments are to be approved.}
-  \item{hit.type}{A character string containing a HITTypeId all of whom's HITs' assignments are to be approved.}
+  \item{hit.type}{A character string containing a HITTypeId (or a vector of HITTypeIds) all of whom's HITs' assignments are to be approved.}
   \item{feedback}{An optional character string containing any feedback for a worker. This must have length 1 or length equal to the number of workers. Maximum of 1024 characters. For \code{ApproveAllAssignments}, must be length 1.}
   \item{rejected}{A logical indicating whether the assignment(s) had previously been rejected (default \code{FALSE}). Approval of previously rejected assignments must be conducted separately from other approvals.}
   \item{keypair}{A two-item character vector containing an AWS Access Key ID in the first position and the corresponding Secret Access Key in the second position. Set default with \code{\link{credentials}}.}

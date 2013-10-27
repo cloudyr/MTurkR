@@ -12,7 +12,7 @@ ExtendHIT(hit = NULL, hit.type = NULL, add.assignments = NULL, add.seconds = NUL
 }
 \arguments{
   \item{hit}{An optional character string containing a HITId or a vector of character strings containing multiple HITIds.}
-  \item{hit.type}{An optional character string containing a HITTypeId.}
+  \item{hit.type}{An optional character string containing a HITTypeId (or a vector of HITTypeIds).}
   \item{add.assignments}{An optional character string containing the number of assignmetns to add to the HIT. Must be between 1 and 1000000000.}
   \item{add.seconds}{An optional character string containing the amount of time to extend the HIT, in seconds (for example, returned by \code{\link{seconds}}). Must be between 1 hour (3600 seconds) and 365 days.}
   \item{unique.request.token}{An optional character string, included only for advanced users.}

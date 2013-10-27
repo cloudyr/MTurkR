@@ -13,7 +13,7 @@ ChangeHITType(	hit = NULL, old.hit.type = NULL, new.hit.type = NULL,
 }
 \arguments{
   \item{hit}{An optional character string containing the HITId whose HITTypeId is to be changed, or a vector of character strings containing each of multiple HITIds to be changed.}
-  \item{old.hit.type}{An optional character string containing the HITTypeId whose HITs are to be changed to the new HITTypeId.}
+  \item{old.hit.type}{An optional character string containing the HITTypeId (or a vector of HITTypeIds) whose HITs are to be changed to the new HITTypeId.}
   \item{new.hit.type}{An optional character string specifying the new HITTypeId that this HIT should be visibly grouped with (and whose properties, e.g. reward amount, this HIT should inherit).}
   \item{title}{An optional character string containing the title for the HITType. All HITs of this HITType will be visibly grouped to workers according to this title.}
   \item{description}{An optional character string containing a description of the HITType. This is visible to workers.}

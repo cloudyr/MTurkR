@@ -16,7 +16,7 @@ A lightweight menu-based Wizard (called by \code{\link{MTurkR.Wizard}}) is also 
 \tabular{ll}{
 Package: \tab MTurkR\cr
 Type: \tab Package\cr
-Version: \tab 0.3.74\cr
+Version: \tab 0.3.75\cr
 Date: \tab 2013-10-27\cr
 License: \tab GPL-2\cr
 }

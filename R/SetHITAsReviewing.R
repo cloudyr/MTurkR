@@ -15,8 +15,7 @@ function (hit = NULL, hit.type = NULL, revert = FALSE, keypair = credentials(),
         revert <- "true"
     else
         revert <- "false"
-    if((is.null(hit) & is.null(hit.type)) | (!is.null(hit) & 
-        !is.null(hit.type))) 
+    if((is.null(hit) & is.null(hit.type)) | (!is.null(hit) & !is.null(hit.type))) 
         stop("Must provide 'hit' xor 'hit.type'")
     else if(!is.null(hit)){
         if(is.factor(hit))
@@ -28,12 +27,12 @@ function (hit = NULL, hit.type = NULL, revert = FALSE, keypair = credentials(),
             hit.type <- as.character(hit.type)
         hitsearch <- SearchHITs(keypair = keypair, print = FALSE, 
             log.requests = log.requests, sandbox = sandbox, return.qual.dataframe = FALSE)
-        hitlist <- hitsearch$HITs[hitsearch$HITs$HITTypeId == hit.type, ]$HITId
+        hitlist <- hitsearch$HITs$HITId[hitsearch$HITs$HITTypeId %in% hit.type]
         if(length(hitlist) == 0) 
             stop("No HITs found for HITType")
     }
-    GETparameters = paste("&Revert=", revert, sep = "")
-    HITs <- data.frame(matrix(ncol = 3))
+    GETparameters <- paste("&Revert=", revert, sep = "")
+    HITs <- data.frame(matrix(ncol = 3, nrow=length(hitlist)))
     names(HITs) <- c("HITId", "Status", "Valid")
     for(i in 1:length(hitlist)) {
         GETiteration <- paste(GETparameters, "&HITId=", hitlist[i], sep = "")

@@ -18,7 +18,7 @@ GetAssignment(	assignment = NULL, hit = NULL, hit.type = NULL, status = NULL,
 \arguments{
   \item{assignment}{An optional character string specifying the AssignmentId of an assignment to return.}
   \item{hit}{An optional character string specifying the HITId whose assignments are to be returned, or a vector of character strings specifying multiple HITIds all of whose assignments are to be returned.}
-  \item{hit.type}{An optional character string specifying the HITTypeId of one or more HITs whose assignments are to be returned.}
+  \item{hit.type}{An optional character string specifying the HITTypeId (or a vector of HITTypeIds) of one or more HITs whose assignments are to be returned.}
   \item{status}{An optional character string (of \dQuote{Approved},\dQuote{Rejected},\dQuote{Submitted}), specifying whether only a subset of assignments should be returned. If \code{NULL}, all assignments are returned (the default). Only applies when \code{hit} or \code{hit.type} are specified; ignored otherwise.}
   \item{return.all}{If \code{TRUE}, all available assignments are returned. Otherwise, only assignments falling within the specified \code{pagenumber} and \code{pagesize} search results are returned.}
   \item{pagenumber}{An optional character string indicating which page of search results should be returned (only appropriate when specifying a single HITId). Most users can ignore this.}

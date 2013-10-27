@@ -87,10 +87,12 @@ function (assignment = NULL, hit = NULL, hit.type = NULL, status = NULL,
             hitlist <- hit
         }
         else if(!is.null(hit.type)) {
+            if(is.factor(hit.type))
+                hit.type <- as.character(hit.type)
             hitsearch <- SearchHITs(keypair = keypair, print = FALSE, 
                                     log.requests = log.requests, sandbox = sandbox, 
                                     return.qual.dataframe = FALSE)
-            hitlist <- hitsearch$HITs$HITId[hitsearch$HITs$HITTypeId==hit.type]
+            hitlist <- hitsearch$HITs$HITId[hitsearch$HITs$HITTypeId %in% hit.type]
             if(length(hitlist) == 0)
                 stop("No HITs found for HITType")
         }

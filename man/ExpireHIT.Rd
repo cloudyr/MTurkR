@@ -11,7 +11,7 @@ ExpireHIT(hit = NULL, hit.type = NULL, keypair = credentials(),
 }
 \arguments{
   \item{hit}{A character string containing a HITId or a vector of character strings containing multiple HITIds.}
-  \item{hit.type}{An optional character string containing a HITTypeId.}
+  \item{hit.type}{An optional character string containing a HITTypeId (or a vector of HITTypeIds).}
   \item{keypair}{A two-item character vector containing an AWS Access Key ID in the first position and the corresponding Secret Access Key in the second position. Set default with \code{\link{credentials}}.}
   \item{print}{Optionally print the results of the API request to the standard output. Default is \code{TRUE}.}
   \item{browser}{Optionally open the request in the default web browser, rather than opening in R. Default is \code{FALSE}.}

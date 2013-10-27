@@ -49,10 +49,12 @@ function (hit = NULL, hit.type = NULL, add.assignments = NULL,
         hitlist <- hit
     }
     else if(!is.null(hit.type)) {
+        if(is.factor(hit.type))
+            hit.type <- as.character(hit.type)
         hitsearch <- SearchHITs(keypair = keypair, print = FALSE, 
             log.requests = log.requests, sandbox = sandbox, return.qual.dataframe = FALSE)
-        hitlist <- hitsearch$HITs[hitsearch$HITs$HITTypeId == hit.type, ]$HITId
-        if(length(hitlist) == 0 || is.null(hitlist)) 
+        hitlist <- hitsearch$HITs$HITId[hitsearch$HITs$HITTypeId %in% hit.type]
+        if(length(hitlist) == 0 || is.null(hitlist))
             stop("No HITs found for HITType")
     }
     HITs <- setNames(data.frame(matrix(ncol=4, nrow=length(hitlist))), 
