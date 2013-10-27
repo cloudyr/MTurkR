@@ -1,6 +1,5 @@
 ViewAvailableHITs <-
-function(query = NULL, requester = NULL, min.reward = NULL, 
-    qualified = NULL) {
+function(query = NULL, requester = NULL, min.reward = NULL, qualified = NULL) {
     parameters <- ""
     if(!is.null(query)) 
         parameters <- paste(parameters, "searchWords=", query, "&", sep = "")
