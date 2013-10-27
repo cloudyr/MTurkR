@@ -68,14 +68,23 @@ function (subjects, msgs, workers, batch = FALSE, keypair = credentials(),
             else {
                 request <- request(keyid, auth$operation, auth$signature, 
 					auth$timestamp, GETparameters, log.requests = log.requests, 
-					sandbox = sandbox, validation.test = validation.test)
+					sandbox = sandbox, xml.parse=TRUE, validation.test = validation.test)
 				if(validation.test)
 					invisible(request)
                 Notifications[j, ] <- c(nbatches, firstworker, lastworker,
 										subjects, msgs, request$valid)
                 if(request$valid == TRUE) {
-					if (print == TRUE) 
+                    if(print == TRUE){
 						message(j, ": Workers ", firstworker, " to ",lastworker, " Notified")
+                    parsed <- request$xml.parsed
+                    if(length(getNodeSet(parsed, '//NotifyWorkersFailureStatus'))>0){
+                        xpathApply(parsed, '//NotifyWorkersFailureStatus', function(x)
+                            message(paste(  "Problem with worker ",
+                                            xmlValue(xmlChildren(x)$WorkerId), ": ",
+                                            xmlValue(xmlChildren(x)$NotifyWorkersFailureMessage),
+                                            sep="")) )
+                        }
+                    }
                 }
                 else if(request$valid == FALSE) {
 					if(print == TRUE) 
@@ -119,17 +128,26 @@ function (subjects, msgs, workers, batch = FALSE, keypair = credentials(),
 					auth$timestamp, GETparameters, browser = browser, 
 					sandbox = sandbox, validation.test = validation.test)
                 if(validation.test)
-		    return(request)
+                    return(request)
             }
             else {
                 request <- request(keyid, auth$operation, auth$signature, 
 					auth$timestamp, GETparameters, log.requests = log.requests, 
-					sandbox = sandbox, validation.test = validation.test)
+					sandbox = sandbox, xml.parse=TRUE, validation.test = validation.test)
                 if(validation.test)
-		    return(request)
+                    return(request)
+                parsed <- request$xml.parsed
+                if(length(getNodeSet(parsed,'//NotifyWorkersFailureStatus'))>0){
+                    request$valid <- xmlValue(getNodeSet(parsed,'//NotifyWorkersFailureCode')[[1]])
+                }
                 Notifications[i, ] <- c(workers[i], subjects[i], msgs[i], request$valid)
+                if(request$valid == 'HardFailure'){
+                    if(print == TRUE) 
+						message(i, ": Worker (", workers[i], ") not contacted: ",
+                        xmlValue(getNodeSet(parsed,'//NotifyWorkersFailureMessage')[[1]]))
+                }
                 if(request$valid == TRUE) {
-					if(print == TRUE) 
+                    if(print == TRUE) 
 						message(i, ": Worker (", workers[i], ") Notified")
                 }
                 else if(request$valid == FALSE) {

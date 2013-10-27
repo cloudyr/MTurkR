@@ -27,7 +27,7 @@ Send an email to one or more workers, either with a common subject and body text
 
 In batch mode (when \code{batch=TRUE}), workers are contacted in batches of 100 with a single identical email. If one email fails (e.g., for one worker) the other emails should be sent successfully. That is to say, the request as a whole will be valid but will return additional information about which workers were not contacted. This information can be found in the MTurkR log file, or by calling the request with \code{browser=TRUE} and viewing the XML responses directly.
 
-Note: It is only possible to contact workers who have performed work for you previously. When attempting to contact a worker who has not worked for you before, this function will indicate that the request was successful even though the email is not sent.
+Note: It is only possible to contact workers who have performed work for you previously. When attempting to contact a worker who has not worked for you before, this function will indicate that the request was successful even though the email is not sent. The function will return a value of \dQuote{HardFailure} for \code{Valid} when this occurs. The printed results may therefore appear contradictory because MTurk reports that requests to contact these workers are \code{Valid}, but they are not actually contacted. In batch, this means that a batch will be valid but individual ineligible workers will be reported as not contacted.
 
 \code{ContactWorkers()} and \code{contact()} are aliases.
 }
