@@ -12,6 +12,12 @@ function (subjects, msgs, workers, batch = FALSE, keypair = credentials(),
     else
         stop("No keypair provided or 'credentials' object not stored")
     operation <- "NotifyWorkers"
+    if(is.factor(subjects))
+        subjects <- as.character(subjects)
+    if(is.factor(msgs))
+        msgs <- as.character(msgs)
+    if(is.factor(workers))
+        workers <- as.character(workers)
     if(batch == TRUE) {
         if(length(msgs) > 1) 
             stop("If 'batch'==TRUE, only one message can be used")

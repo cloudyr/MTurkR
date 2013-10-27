@@ -12,8 +12,11 @@ function (qual, keypair = credentials(), print = getOption('MTurkR.print'),
     operation <- "DisposeQualificationType"
     if(is.null(qual)) 
         stop("Must specify QualificationTypeId")
-    else GETparameters <- paste("&QualificationTypeId=", qual, 
-        sep = "")
+    else {
+        if(is.factor(qual))
+            qual <- as.character(qual)
+        GETparameters <- paste("&QualificationTypeId=", qual, sep = "")
+    }
     auth <- authenticate(operation, secret)
     if(browser == TRUE) {
         request <- request(keyid, auth$operation, auth$signature, 

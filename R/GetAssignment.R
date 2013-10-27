@@ -45,7 +45,7 @@ function (assignment = NULL, hit = NULL, hit.type = NULL, status = NULL,
     if (!is.null(assignment)) {
         operation <- "GetAssignment"
         for(i in 1:length(assignment)) {
-            GETparameters = paste("&AssignmentId=", assignment[i], GETresponsegroup, sep = "")
+            GETparameters <- paste("&AssignmentId=", assignment[i], GETresponsegroup, sep = "")
             auth <- authenticate(operation, secret)
             if(browser == TRUE) {
                 request <- request(keyid, auth$operation, auth$signature, 
@@ -81,8 +81,11 @@ function (assignment = NULL, hit = NULL, hit.type = NULL, status = NULL,
         operation <- "GetAssignmentsForHIT"
         if((is.null(hit) & is.null(hit.type)) | (!is.null(hit) & !is.null(hit.type))) 
             stop("Must provide 'assignment' xor 'hit' xor 'hit.type'")
-        else if(!is.null(hit))
+        else if(!is.null(hit)){
+            if(is.factor(hit))
+                hit <- as.character(hit)
             hitlist <- hit
+        }
         else if(!is.null(hit.type)) {
             hitsearch <- SearchHITs(keypair = keypair, print = FALSE, 
                                     log.requests = log.requests, sandbox = sandbox, 

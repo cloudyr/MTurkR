@@ -13,13 +13,15 @@ function (hit = NULL, hit.type = NULL, keypair = credentials(),
     operation <- "ForceExpireHIT"
     if((is.null(hit) & is.null(hit.type)) | (!is.null(hit) & !is.null(hit.type))) 
         stop("Must provide 'hit' xor 'hit.type'")
-    else if(!is.null(hit))
+    else if(!is.null(hit)){
+        if(is.factor(hit))
+            hit <- as.character(hit)
         hitlist <- hit
+    }
     else if(!is.null(hit.type)) {
         hitsearch <- SearchHITs(keypair = keypair, print = FALSE, 
             log.requests = log.requests, sandbox = sandbox, return.qual.dataframe = FALSE)
-        hitlist <- hitsearch$HITs[hitsearch$HITs$HITTypeId == 
-            hit.type, ]$HITId
+        hitlist <- hitsearch$HITs[hitsearch$HITs$HITTypeId == hit.type, ]$HITId
         if(length(hitlist) == 0) 
             stop("No HITs found for HITType")
     }

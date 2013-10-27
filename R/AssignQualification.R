@@ -16,9 +16,15 @@ function (qual, workers, value = "1", notify = FALSE, name = NULL,
     else
         stop("No keypair provided or 'credentials' object not stored")
     operation <- "AssignQualification"
+    if(is.factor(qual))
+        qual <- as.character(qual)
+    if(is.factor(workers))
+        workers <- as.character(workers)
+    if(is.factor(value))
+        value <- as.character(value)
     for(i in 1:length(value)) {
-        if(is.null(value[i])) {
-            warning("No value assigned; value assumed to be 1")
+        if(is.null(value[i]) || is.na(value[i]) || value[i]=='') {
+            warning("Value ",i," not assigned; value assumed to be 1")
             value[i] <- "1"
         }
         else if(is.na(as.numeric(value[i])))

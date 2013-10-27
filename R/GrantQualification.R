@@ -11,6 +11,10 @@ function (qual.requests, values, keypair = credentials(), print = getOption('MTu
     else
         stop("No keypair provided or 'credentials' object not stored")
     operation <- "GrantQualification"
+    if(is.factor(qual.requests))
+        qual.requests <- as.character(qual.requests)
+    if(is.factor(values))
+        values <- as.character(values)
     if(!length(qual.requests) == length(values)) {
         if(length(values) == 1) 
             values <- rep(values[1], length(qual.requests))

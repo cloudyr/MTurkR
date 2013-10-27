@@ -19,6 +19,8 @@ function (qual, status = NULL, return.all = TRUE, pagenumber = 1,
         stop("'pagesize' must be range (1,100)")
     if(as.numeric(pagenumber) < 1) 
         stop("'pagenumber' must be > 1")
+    if(is.factor(qual))
+        qual <- as.character(qual)
     GETparameters <- paste("&QualificationTypeId=", qual, sep = "")
     if(!is.null(status)) {
         if(!status %in% c("Granted", "Revoked")) 

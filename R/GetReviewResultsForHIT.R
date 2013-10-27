@@ -6,7 +6,11 @@ function (hit, assignment = NULL, policy.level = NULL, retrieve.results = TRUE,
     sandbox = getOption('MTurkR.sandbox'), validation.test = getOption('MTurkR.test')) {
     keyid <- keypair[1]
     secret <- keypair[2]
-    operation = "GetReviewResultsForHIT"
+    operation <- "GetReviewResultsForHIT"
+    if(is.null(hit))
+        stop("Must specify HITId as 'hit'")
+    if(is.factor(hit))
+        hit <- as.character(hit)
     GETparameters <- paste("&HITId=", hit, sep = "")
     if(!is.null(policy.level)) {
         if(!policy.level %in% c("HIT", "Assignments")) 
@@ -14,9 +18,12 @@ function (hit, assignment = NULL, policy.level = NULL, retrieve.results = TRUE,
         GETparameters <- paste(GETparameters, "&PolicyLevel=", 
             policy.level, sep = "")
     }
-    if(!is.null(assignment)) 
+    if(!is.null(assignment)) {
+        if(is.factor(assignment))
+            assignment <- as.character(assignment)
         GETparameters <- paste(GETparameters, "&AssignmentId=", 
             assignment, sep = "")
+    }
     if(!is.null(retrieve.actions)) {
         if(!retrieve.actions %in% c(TRUE, FALSE)) 
             stop("RetrieveActions must be TRUE or FALSE")

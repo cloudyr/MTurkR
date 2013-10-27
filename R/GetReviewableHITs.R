@@ -31,11 +31,13 @@ function (hit.type = NULL, status = NULL, response.group = "Minimal",
         pagesize <- "100"
         pagenumber <- "1"
     }
+    if(is.factor(hit.type))
+        hit.type <- as.character(hit.type)
     batch <- function(operation, pagenumber, pagesize) {
         GETparameters <- paste("&PageNumber=", pagenumber, "&PageSize=", 
             pagesize, "&SortProperty=", sortproperty, "&SortDirection=", 
             sortdirection, sep = "")
-        if(!is.null(hit.type)) 
+        if(!is.null(hit.type))
             GETparameters <- paste(GETparameters, "&HITTypeId=", hit.type, sep = "")
         if(!is.null(status) && (status %in% c("Reviewable", "Reviewing"))) 
             GETparameters <- paste(GETparameters, "&Status=", status, sep = "")

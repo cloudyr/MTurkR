@@ -12,7 +12,11 @@ function (assignments, feedback = NULL, keypair = credentials(),
     else
         stop("No keypair provided or 'credentials' object not stored")
     operation <- "RejectAssignment"
+    if(is.factor(assignments))
+        assignments <- as.character(assignments)
     if(!is.null(feedback)) {
+        if(is.factor(feedback))
+            feedback <- as.character(feedback)
         for(i in 1:length(feedback)) {
             if(!is.null(feedback[i]) && nchar(curlEscape(feedback[i])) > 1024) 
                 warning("Feedback ", i, " is too long (1024 char max)")

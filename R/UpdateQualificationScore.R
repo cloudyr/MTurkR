@@ -8,8 +8,13 @@ function (qual, workers, values = NULL, increment = NULL, keypair = credentials(
         keyid <- keypair[1]
         secret <- keypair[2]
     }
-    else stop("No keypair provided or 'credentials' object not stored")
+    else
+        stop("No keypair provided or 'credentials' object not stored")
     operation <- "UpdateQualificationScore"
+    if(is.factor(qual))
+        qual <- as.character(qual)
+    if(is.factor(workers))
+        workers <- as.character(workers)
     if(!is.null(increment)) {
         values <- NA
         score <- NA

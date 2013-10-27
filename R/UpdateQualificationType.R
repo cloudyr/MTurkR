@@ -9,8 +9,11 @@ function (qual, description = NULL, status = NULL, retry.delay = NULL,
         keyid <- keypair[1]
         secret <- keypair[2]
     }
-    else stop("No keypair provided or 'credentials' object not stored")
+    else
+        stop("No keypair provided or 'credentials' object not stored")
     operation <- "UpdateQualificationType"
+    if(is.factor(qual))
+        qual <- as.character(qual)
     GETparameters <- paste("&QualificationTypeId=", qual, sep = "")
     if(!is.null(description)) 
         GETparameters <- paste(GETparameters, "&Description=", curlEscape(description), sep = "")

@@ -12,7 +12,11 @@ function (qual.request, reason = NULL, keypair = credentials(),
     else
         stop("No keypair provided or 'credentials' object not stored")
     operation <- "RejectQualificationRequest"
+    if(is.factor(qual.request))
+        qual.request <- as.character(qual.request)
     if(!is.null(reason)) {
+        if(is.factor(reason))
+            reason <- as.character(reason)
         if(!length(qual.request) == length(reason)) {
             if(length(reason) == 1) 
                 reason <- rep(reason[1], length(qual.request))

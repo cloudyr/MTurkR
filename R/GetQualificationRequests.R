@@ -27,9 +27,11 @@ function (qual = NULL, return.all = TRUE, pagenumber = "1", pagesize = "10",
         pagenumber <- "1"
     }
     GETparameters <- ""
-    if(!is.null(qual)) 
-        GETparameters = paste("&QualificationTypeId=", qual, 
-            sep = "")
+    if(!is.null(qual)) {
+        if(is.factor(qual))
+            qual <- as.character(qual)
+        GETparameters <- paste("&QualificationTypeId=", qual, sep = "")
+    }
     else
         qual <- ""
     batch <- function(qual, pagenumber, pagesize, sortproperty, 

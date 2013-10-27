@@ -12,8 +12,12 @@ function (workers, reasons = NULL, keypair = credentials(), print = getOption('M
     else
 		stop("No keypair provided or 'credentials' object not stored")
     operation <- "UnblockWorker"
+    if(is.factor(workers))
+        workers <- as.character(workers)
     if (length(workers) > 1) {
         if (!is.null(reasons)) {
+            if(is.factor(reasons))
+                reasons <- as.character(reasons)
             if (length(reasons) == 1) 
                 reasons <- rep(reasons, length(workers))
             else if (!length(workers) == length(reasons)) 

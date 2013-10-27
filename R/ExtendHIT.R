@@ -43,8 +43,11 @@ function (hit = NULL, hit.type = NULL, add.assignments = NULL,
             curlEscape(unique.request.token), sep = "")
     if((is.null(hit) & is.null(hit.type)) | (!is.null(hit) & !is.null(hit.type))) 
         stop("Must provide 'hit' xor 'hit.type'")
-    else if(!is.null(hit))
+    else if(!is.null(hit)){
+        if(is.factor(hit))
+            hit <- as.character(hit)
         hitlist <- hit
+    }
     else if(!is.null(hit.type)) {
         hitsearch <- SearchHITs(keypair = keypair, print = FALSE, 
             log.requests = log.requests, sandbox = sandbox, return.qual.dataframe = FALSE)

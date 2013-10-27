@@ -15,6 +15,8 @@ function (hit = NULL, old.hit.type = NULL, new.hit.type = NULL,
     operation <- "ChangeHITTypeOfHIT"
     if((is.null(hit) & is.null(old.hit.type)) | (!is.null(hit) & !is.null(old.hit.type))) 
         stop("Must provide 'hit' xor 'old.hit.type'")
+    if(is.factor(hit))
+        hit <- as.character(hit)
     if(!is.null(new.hit.type)) {
         if(!is.null(new.hit.type) & (!is.null(title) || !is.null(description) || 
             !is.null(reward) || !is.null(duration))) 

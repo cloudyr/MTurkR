@@ -10,6 +10,10 @@ function (qual, workers, keypair = credentials(), print = getOption('MTurkR.prin
     else
         stop("No keypair provided or 'credentials' object not stored")
     operation <- "GetQualificationScore"
+    if(is.factor(qual))
+        qual <- as.character(qual)
+    if(is.factor(workers))
+        workers <- as.character(workers)
     Qualifications <- NA
     for(i in 1:length(workers)) {
         GETparameters <- paste("&QualificationTypeId=", qual, 

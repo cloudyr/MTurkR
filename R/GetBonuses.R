@@ -28,13 +28,18 @@ function (assignment = NULL, hit = NULL, hit.type = NULL, return.all = TRUE,
         stop("'pagenumber' must be > 1")
     if(xor(is.null(hit), is.null(assignment))) {
         if(!is.null(hit)) {
+            if(is.factor(hit))
+                hit <- as.character(hit)
             GETparameters <- paste("&HITId=", hit, "&PageNumber=", 
                 pagenumber, "&PageSize=", pagesize, sep = "")
         }
-        else
-			GETparameters <- paste(	"&AssignmentId=", assignment, 
+        else{
+			if(is.factor(assignment))
+                assignment <- as.character(assignment)
+            GETparameters <- paste(	"&AssignmentId=", assignment, 
 									"&PageNumber=", pagenumber,
 									"&PageSize=", pagesize, sep = "")
+        }
         auth <- authenticate(operation, secret)
         request <- request(keyid, auth$operation, auth$signature, 
             auth$timestamp, GETparameters, browser=browser,

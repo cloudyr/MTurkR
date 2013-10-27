@@ -11,8 +11,12 @@ function (workers, reasons, keypair = credentials(), print = getOption('MTurkR.p
     else
         stop("No keypair provided or 'credentials' object not stored")
     operation <- "BlockWorker"
+    if(is.factor(workers))
+        workers <- as.character(workers)
     if(is.null(reasons)) 
         stop("Must specify one reason for block for all workers or one reason per worker")
+    if(is.factor(reasons))
+        reasons <- as.character(reasons)
     if(length(workers) > 1) {
         if(length(reasons) == 1) 
             reasons <- rep(reasons, length(workers))

@@ -12,6 +12,8 @@ function (hit = NULL, hit.type = NULL, keypair = credentials(),
     if(is.null(HITs))
         return(HITs) # return if NULL
     if(!is.null(hit)){
+        if(is.factor(hit))
+            hit <- as.character(hit)
         HITs <- HITs[grep(hit, HITs$HITId), ]
         toprint <- HITs[, c("HITId", "HITReviewStatus", "NumberOfAssignmentsPending", 
                             "NumberOfAssignmentsAvailable",
@@ -21,6 +23,8 @@ function (hit = NULL, hit.type = NULL, keypair = credentials(),
                             "Expiration")
     }
     else if(!is.null(hit.type)) {
+        if(is.factor(hit.type))
+            hit <- as.character(hit.type)
         HITs <- HITs[HITs$HITTypeId == hit.type, ]
         if(dim(HITs)[1] == 0) {
             message("No HITs found for HITType")

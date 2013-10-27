@@ -12,6 +12,10 @@ function (qual, worker, reason = NULL, keypair = credentials(),
     else
         stop("No keypair provided or 'credentials' object not stored")
     operation <- "RevokeQualification"
+    if(is.factor(qual))
+        qual <- as.character(qual)
+    if(is.factor(worker))
+        worker <- as.character(worker)
     if(!is.null(reason) && length(reason) > 1) 
         stop("Reason must be NULL or length==1; other configurations not currently supported")
     batch <- function(qualbatch, workerbatch, reasonbatch) {
