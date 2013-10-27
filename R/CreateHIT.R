@@ -19,8 +19,10 @@ function (hit.type = NULL, question = NULL, validate.question = FALSE,
 		stop("No keypair provided or 'credentials' object not stored")
     operation <- "CreateHIT"
     if(!is.null(hit.type)) {
-        if(!is.null(hit.type) & (!is.null(title) || !is.null(description) || 
-            !is.null(reward) || !is.null(duration))) 
+        if(is.factor(hit.type))
+            hit.type <- as.character(hit.type)
+        if( !is.null(title) || !is.null(description) ||
+            !is.null(reward) || !is.null(duration))
             warning("HITType specified, HITType parameters (title, description, reward, duration) ignored")
         GETparameters <- paste("&HITTypeId=", hit.type, sep = "")
     }
