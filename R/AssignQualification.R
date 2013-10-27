@@ -15,14 +15,14 @@ function (qual, workers, value = "1", notify = FALSE, name = NULL,
     }
     else
         stop("No keypair provided or 'credentials' object not stored")
-    operation = "AssignQualification"
+    operation <- "AssignQualification"
     for(i in 1:length(value)) {
-        if(is.null(value)) {
+        if(is.null(value[i])) {
             warning("No value assigned; value assumed to be 1")
-            value <- "1"
+            value[i] <- "1"
         }
-        else if(is.na(as.numeric(value))) 
-            stop("value is not or cannot be coerced to numeric")
+        else if(is.na(as.numeric(value[i])))
+            stop("value ",i," is not or cannot be coerced to numeric")
     }
     worker <- NULL
     batch <- function(worker, value) {
