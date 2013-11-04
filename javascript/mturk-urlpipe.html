@@ -20,6 +20,7 @@
 				// SPLITS THE URL
 				var bits = new Array();
 				bits = fullurl.split("?");
+				var parameters = new Array();
 				parameters = bits[1].split("&");
 				// ASSIGNS THE URL PARAMETERS TO JAVASCRIPT VARIABLES
 				var assign = parameters[0].split("=")[1];
