@@ -1,1 +1,1 @@
-exclude: javascript/
+exclude: [javascript/]
