@@ -30,8 +30,9 @@ after_script:
 # Note that in general it is advisable to test (almost) all branches in order to
 # automatically test pending pull requests.
 branches:
-  except:
-    - /-expt$/
+  only:
+    - master
+    - gh-pages
 #
 # Options used for building or testing your R package can be
 # controlled by uncommenting one or both of the following; the values
