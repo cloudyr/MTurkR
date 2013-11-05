@@ -1,6 +1,6 @@
 ---
 layout: default
-title: MTurkR
+title: Turkopticon
 ghurl: https://github.com/leeper/MTurkR/blob/gh-pages
 ---
 
