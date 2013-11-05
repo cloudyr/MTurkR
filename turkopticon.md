@@ -14,7 +14,14 @@ I highly recommend that requesters regularly visit Turkopticon when they have ac
 
 ## Seeing reviews ##
 
-Recently, Turkopticon added a simple API to retrieve average evaluations for one or more requesters on the four Turkopticon evaluation criteria: fair, fast, pay, and communication (each is scored on a five-point scale). These details can be retrieved in your browser by visiting: `http://turkopticon.differenceengines.com/aves/WorkerId`, where `WorkerId` is an MTurk WorkerId (which is the same as a RequesterId). You can also see all review details by visiting: `http://turkopticon.differenceengines.com/WorkerId`.
+Recently, Turkopticon added a simple API to retrieve average evaluations for one or more requesters on the four Turkopticon evaluation criteria: fair, fast, pay, and communication (each is scored on a five-point scale). These details can be retrieved in your browser by visiting:
+```r
+http://turkopticon.differenceengines.com/aves/WorkerId
+```
+where `WorkerId` is an MTurk WorkerId (which is the same as a RequesterId). You can also see all review details by visiting:
+```r
+http://turkopticon.differenceengines.com/WorkerId
+```
 
 Obtaining your Turkopticon reviews in R is similarly easy, but relies on parsing the JSON response from the API rather than parsing the HTML pages just described. Here's some code to access requester ratings:
 
