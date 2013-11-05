@@ -1,51 +1,44 @@
-# it is not really python, but there is no R support on Travis CI yet
-language: python
+# Sample .travis.yml for R projects.
+#
+# See README.md for instructions.
 
-# environment variables
-env:
-  global:
-    - R_LIBS_USER=~/R
-  matrix:
-    - TARGET=travis
-    - TARGET=integration DISPLAY=:99.0
-
-# capturing state, early exit if no integration test is needed
+language: c
+# To build on OSX, switch the previous line to
+# language: objective-c
+script: ./travis-tool.sh run_tests
 before_install:
-  - env | sort
-  - if [ ${TARGET} = integration ]; then
-      if ! make integration-need; then
-        echo "NOTE:"" Integration test skipped. To enable, create a branch named ${TRAVIS_BRANCH} in ${TRAVIS_REPO_SLUG}-examples.";
-        exit 0;
-      fi;
-    fi
-
-# install dependencies
+  - curl -OL http://raw.github.com/craigcitro/r-travis/master/scripts/travis-tool.sh
+  - chmod 755 ./travis-tool.sh
+  - ./travis-tool.sh bootstrap
 install:
-  - echo "deb http://cran.rstudio.com/bin/linux/ubuntu `lsb_release -cs`/"
-      | sudo tee /etc/apt/sources.list.d/cran.list
-  - sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E084DAB9
-  - sudo apt-get update -o Dir::Etc::sourcelist="sources.list.d/cran.list"
-      -o Dir::Etc::sourceparts="-" -o APT::Get::List-Cleanup="0"
-  - sudo apt-get install r-base-dev r-cran-xml r-cran-rcurl r-cran-rgl r-recommended
-  - "[ ! -d ${R_LIBS_USER} ] && mkdir ${R_LIBS_USER}"
-  - R --version
-  - R -e '.libPaths(); sessionInfo()'
-
-# run tests
-script:
-  - make ${TARGET}
-
-# run check against R-devel
+  - ./travis-tool.sh install_deps
+  - ./travis-tool.sh github_package assertthat
+notifications:
+  email:
+    on_success: change
+    on_failure: change
+# Configuration options below this line are suggested options.
+#
+# One can also only dump logs on failure by using `after_failure`
+# instead of `after_script`.
 after_script:
-  - if [ ${TARGET} = travis ];
-      then
-        sudo add-apt-repository -y ppa:marutter/rdev;
-        sudo apt-get update
-          -o Dir::Etc::sourcelist="sources.list.d/marutter-rdev-precise.list"
-          -o Dir::Etc::sourceparts="-" -o APT::Get::List-Cleanup="0";
-        sudo apt-get dist-upgrade;
-        make ${TARGET};
-      fi
-  - if [ ${TARGET} = integration ]; then
-      make integration-verify;
-    fi
+  - ./travis-tool.sh dump_logs
+#
+# One can also restrict the branches to test, see
+#   http://about.travis-ci.org/docs/user/build-configuration/#Specify-branches-to-build
+# This example tests all branches except those with suffix -expt ("experimental").
+# Note that in general it is advisable to test (almost) all branches in order to
+# automatically test pending pull requests.
+branches:
+  except:
+    - /-expt$/
+#
+# Options used for building or testing your R package can be
+# controlled by uncommenting one or both of the following; the values
+# here are the defaults:
+# env:
+#   global:
+#     - R_BUILD_ARGS="--no-build-vignettes"
+#     - R_CHECK_ARGS="--no-manual --as-cran"
+# See the travis docs for more information:
+#   http://about.travis-ci.org/docs/user/build-configuration/#The-Build-Matrix
