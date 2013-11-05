@@ -22,6 +22,7 @@ We can mimick this using the following workflow:
  5. Then, merge your assignment dataframe with the original dataframe to combine input values and results.
 
 In **MTurkR**, we could obtain this as follows:
+
 ```
 # first load credentials with `credentials()`
 # create a dataframe of HITLayout parameters:
