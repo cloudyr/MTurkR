@@ -15,11 +15,14 @@ I highly recommend that requesters regularly visit Turkopticon when they have ac
 ## Seeing reviews ##
 
 Recently, Turkopticon added a simple API to retrieve average evaluations for one or more requesters on the four Turkopticon evaluation criteria: fair, fast, pay, and communication (each is scored on a five-point scale). These details can be retrieved in your browser by visiting:
-```r
+
+```
 http://turkopticon.differenceengines.com/aves/WorkerId
 ```
+
 where `WorkerId` is an MTurk WorkerId (which is the same as a RequesterId). You can also see all review details by visiting:
-```r
+
+```
 http://turkopticon.differenceengines.com/WorkerId
 ```
 
