@@ -3,7 +3,7 @@
 	<head>
 		<title>Research Study</title>
 
-		<script language="javascript">
+		<script type="text/javascript">
 		/* FUNCTION TO CREATE LOGINS: */
 		function LogIn(){
 		loggedin=false;
