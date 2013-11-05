@@ -55,30 +55,4 @@ assignmentresults <- GetAssignment(hit.type="ANEXAMPLEHITTYPEID",return.all=TRUE
 merge(inputvalues,assignmentresults,all=TRUE,by="HITId")
 ```
 
-## HIT Pay and Efficiency Statistics ##
 
-Another nice feature of the Requester UI is the ability to quickly see how long workers are spending on HITs and how that work translates into dollars/hour figures. The data necessary to calculate this is all returned by MTurkR, but it needs a little bit of simple wrapping to output it nicely. Here's a function that calculates all of the relevant information for a HIT:
-
-```
-hitstats <- function(hit){
-    info <- status(hit=hit)
-    assign <- assignments(hit=hit,return.all=TRUE)
-
-    out <- list(    HITId=info$HITId,
-                    HITTypeId=info$HITTypeId,
-                    CreationDate=info$CreationTime,
-                    Title=info$Title,
-                    Description=info$Description,
-                    RewardAmount=info$Amount,
-                    Assignments=info$NumberOfAssignmentsCompleted,
-                    MeanTimeOnHIT=mean(assign$SecondsOnHIT),
-                    MedianTimeOnHIT=median(assign$SecondsOnHIT))
-    out$MeanHourlyWage <- round(as.numeric(info$Amount)/(out$MeanTimeOnHIT/3600),2)
-    out$MedianHourlyWage <- round(as.numeric(info$Amount)/(out$MedianTimeOnHIT/3600),2)
-    return(out)
-}
-```
-
-The result is a list containing basic details of the HIT, along with the number of completed assignments, mean and median time spent on the HIT, and the translation of those times into average hourly wages. Obviously, the median time and median wage will be less influenced by outliers (e.g., individuals that take a very long time on a HIT).
-
-While minimizing hourly wage may be a strong business goal, in other settings it make be reasonable to use this information to target a "fair" wage for workers. For example, in academic research, it is probably ethical to design HITs that pay at least minimum wage for the target population in order to avoid compensation-related coercion.
