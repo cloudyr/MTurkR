@@ -17,3 +17,4 @@ Read more about the package:
 * Examples from a blog post by Solomon Messing: "[Streamline Your Mechanical Turk Workflow with MTurkR](http://solomonmessing.wordpress.com/2013/06/24/streamline-your-mechanical-turk-workflow-with-mturkr/)
 * Sample code to [create and manage qualifications](http://leeper.github.io/MTurkR/qualification_test_example.r), with associated xml files for [QuestionForm](http://leeper.github.io/MTurkR/questionform_example.xml) and [AnswerKey](http://leeper.github.io/MTurkR/answerkey_example.xml)
 * Workflow and sample code to [mimick the Requester UI's display of input HITLayout parameters with assignment results](https://github.com/leeper/MTurkR/blob/gh-pages/batchinputs.md).
+* [Access your Turkopticon requester ratings from R](https://github.com/leeper/MTurkR/blob/gh-pages/turkopticon.md).
