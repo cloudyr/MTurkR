@@ -13,7 +13,7 @@ ghurl: https://github.com/leeper/MTurkR/blob/gh-pages
 
 Through HITLayout parameters, **MTurkR** can mimick the batch HIT creation features of the Requester UI. But, because the MTurk application does not preserve HITLayout inputs (at least not in a way that is accessible via the API), it is not straightforward to match HITLayout parameter input values to the assignment results of HITs.
 
-We can mimick this using the following workflow:
+We can mimic this using the following workflow:
 
  1. Store the HITLayout parameters in a dataframe.
  2. Create each HIT with the HITLayoutID and HITLayout parameters and then store the HITId (from `CreateHIT`) for each new HIT into that dataframe.
