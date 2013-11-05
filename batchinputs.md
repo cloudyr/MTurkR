@@ -8,7 +8,7 @@ ghurl: https://github.com/leeper/MTurkR/blob/gh-pages
 
 **MTurkR** supplies many features that the Requester UI does not offer. But the Requester UI also has a few features that are hard to emulate in R. This page describes some techniques for mimicking a couple of those features.
 
-
+---
 ## HIT Layout Parameter Inputs and Outputs ##
 
 Through HITLayout parameters, **MTurkR** can mimick the batch HIT creation features of the Requester UI. But, because the MTurk application does not preserve HITLayout inputs (at least not in a way that is accessible via the API), it is not straightforward to match HITLayout parameter input values to the assignment results of HITs.
@@ -23,7 +23,7 @@ We can mimic this using the following workflow:
 
 In **MTurkR**, we could obtain this as follows:
 
-```
+```r
 # first load credentials with `credentials()`
 # create a dataframe of HITLayout parameters:
 inputvalues <- 
@@ -55,12 +55,12 @@ assignmentresults <- GetAssignment(hit.type="ANEXAMPLEHITTYPEID",return.all=TRUE
 merge(inputvalues,assignmentresults,all=TRUE,by="HITId")
 ```
 
-
+---
 ## HIT Pay and Efficiency Statistics ##
 
 Another nice feature of the Requester UI is the ability to quickly see how long workers are spending on HITs and how that work translates into dollars/hour figures. The data necessary to calculate this is all returned by MTurkR, but it needs a little bit of simple wrapping to output it nicely. Here's a function that calculates all of the relevant information for a HIT:
 
-```
+```r
 hitstats <- function(hit){
     info <- status(hit=hit)
     assign <- assignments(hit=hit,return.all=TRUE)
