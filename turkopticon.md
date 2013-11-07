@@ -28,7 +28,8 @@ http://turkopticon.differenceengines.com/WorkerId
 
 Obtaining your Turkopticon reviews in R is similarly easy, but relies on parsing the JSON response from the API rather than parsing the HTML pages just described. Here's some code to access requester ratings:
 
-```R
+{% highlight r %}
+```{r}
 turkopticon <- function(id){
     if(is.null(id))
         stop('Must supply id or vector of ids as character strings')
@@ -69,3 +70,4 @@ turkopticon('A35829O3SICVR1')
 # Here's an example with two requester ids:
 turkopticon(c('A35829O3SICVR1','A1WYUGIFUHQZW7'))
 ```
+{% endhighlight r %}
