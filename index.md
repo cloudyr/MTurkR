@@ -31,7 +31,7 @@ Comments, feedback, bug reports, and suggestions on MTurkR are also welcome [via
 ## Getting Help ##
 
 * Visit the [Amazon Mechanical Turk Blog](http://mechanicalturk.typepad.com/)
-* For help from workers or to advertise HITs/recruit workers, visit [MTurk Forum](http://mturkforum.com/)
+* For help from workers or to advertise HITs/recruit workers, visit [MTurk Forum](http://mturkforum.com/) or [the MTurk subreddit](http://www.reddit.com/r/mturk)
 * For feedback on you and your HITs from workers, visit [TurkOpticon](http://turkopticon.differenceengines.com/) or [retrieve your reviews directly in R](turkopticon).
 * Check out the [MTurkR documentation](http://cran.r-project.org/web/packages/MTurkR/MTurkR.pdf) on CRAN
 * Post your question on [Stack Exchange](http://stackoverflow.com/questions/tagged/mechanicalturk+r) or the [AWS Developer Forum](https://forums.aws.amazon.com/forum.jspa?forumID=11)
