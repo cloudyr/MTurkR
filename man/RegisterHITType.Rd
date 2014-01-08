@@ -5,10 +5,10 @@
 \description{Register a HITType on MTurk, in order to create one or more HITs to show up as a group to workers.}
 \usage{
 RegisterHITType(title, description, reward, duration, keywords = NULL, 
-				auto.approval.delay = NULL, qual.req = NULL, 
-				keypair = credentials(), print = getOption('MTurkR.print'),
+                auto.approval.delay = NULL, qual.req = NULL, 
+                keypair = credentials(), print = getOption('MTurkR.print'),
                 browser = getOption('MTurkR.browser'), 
-				log.requests = getOption('MTurkR.log'),
+                log.requests = getOption('MTurkR.log'),
                 sandbox = getOption('MTurkR.sandbox'),
                 validation.test = getOption('MTurkR.test'))
 }
@@ -46,7 +46,12 @@ RegisterHITType(title, description, reward, duration, keywords = NULL,
 }
 \examples{
 \dontrun{
-RegisterHITType(title="10 Question Survey", description="Complete a 10-question survey about news coverage and your opinions", reward=".20", duration=seconds(hours=1), keywords="survey, questionnaire, politics")
+RegisterHITType(title="10 Question Survey",
+                description=
+                "Complete a 10-question survey about news coverage and your opinions",
+                reward=".20", 
+                duration=seconds(hours=1), 
+                keywords="survey, questionnaire, politics")
 }
 }
 \keyword{HITs}

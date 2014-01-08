@@ -5,12 +5,12 @@
 \description{Retrieve workers' requests for a QualificationType.}
 \usage{
 GetQualificationRequests(qual = NULL, return.all = TRUE, 
-						pagenumber = "1", pagesize = "10", 
-						sortproperty = "SubmitTime", sortdirection = "Ascending", 
-						keypair = credentials(), print = getOption('MTurkR.print'), 
-						log.requests = getOption('MTurkR.log'),
+                        pagenumber = "1", pagesize = "10", 
+                        sortproperty = "SubmitTime", sortdirection = "Ascending", 
+                        keypair = credentials(), print = getOption('MTurkR.print'), 
+                        log.requests = getOption('MTurkR.log'),
                         sandbox = getOption('MTurkR.sandbox'),
-						return.qual.dataframe = TRUE,
+                        return.qual.dataframe = TRUE,
                         validation.test = getOption('MTurkR.test'))
 }
 \arguments{

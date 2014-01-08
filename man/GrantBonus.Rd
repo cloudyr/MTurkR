@@ -5,10 +5,10 @@
 \title{Pay Bonus to Worker}
 \description{Pay a bonus to one or more workers. This function spends money from your MTurk account and will fail if insufficient funds are available.}
 \usage{
-GrantBonus(	workers, assignments, amounts, reasons, 
-			keypair = credentials(), print = getOption('MTurkR.print'),
+GrantBonus(    workers, assignments, amounts, reasons, 
+            keypair = credentials(), print = getOption('MTurkR.print'),
             browser = getOption('MTurkR.browser'), 
-			log.requests = getOption('MTurkR.log'),
+            log.requests = getOption('MTurkR.log'),
             sandbox = getOption('MTurkR.sandbox'),
             validation.test = getOption('MTurkR.test'))
 }

@@ -4,14 +4,14 @@
 \title{Search your HITs}
 \description{Search for your HITs and return those HITs as R objects.}
 \usage{
-SearchHITs(	response.group = NULL, return.all = TRUE, 
-			pagenumber = "1", pagesize = "10", 
-			sortproperty = "Enumeration", sortdirection = "Ascending", 
-			keypair = credentials(), print = getOption('MTurkR.print'),
+SearchHITs(    response.group = NULL, return.all = TRUE, 
+            pagenumber = "1", pagesize = "10", 
+            sortproperty = "Enumeration", sortdirection = "Ascending", 
+            keypair = credentials(), print = getOption('MTurkR.print'),
             log.requests = getOption('MTurkR.log'),
             sandbox = getOption('MTurkR.sandbox'), 
-			return.hit.dataframe = TRUE, return.qual.dataframe = TRUE,
-			validation.test = getOption('MTurkR.test'))
+            return.hit.dataframe = TRUE, return.qual.dataframe = TRUE,
+            validation.test = getOption('MTurkR.test'))
 }
 \arguments{
   \item{response.group}{An optional character string (or vector of character strings) specifying what details of each HIT to return of: \dQuote{Request}, \dQuote{Minimal}, \dQuote{HITDetail}, \dQuote{HITQuestion}, \dQuote{HITAssignmentSummary}. For more information, see \url{http://docs.aws.amazon.com/AWSMechTurk/latest/AWSMturkAPI/ApiReference_CommonParametersArticle.html}.}

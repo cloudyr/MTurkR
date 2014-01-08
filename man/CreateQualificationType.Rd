@@ -5,14 +5,14 @@
 \description{Create a QualificationType. This creates a QualificationType, but does not assign it to any workers. All characteristics of the QualificationType (except name and keywords) can be changed later with \code{\link{UpdateQualificationType}}.}
 \usage{
 CreateQualificationType(name, description, status, keywords = NULL, 
-						retry.delay = NULL, test = NULL, answerkey = NULL, 
-						test.duration = NULL,
-						validate.test = FALSE, validate.answerkey = FALSE,
-						auto = NULL, auto.value = NULL, keypair = credentials(),
-						print = getOption('MTurkR.print'),
+                        retry.delay = NULL, test = NULL, answerkey = NULL, 
+                        test.duration = NULL,
+                        validate.test = FALSE, validate.answerkey = FALSE,
+                        auto = NULL, auto.value = NULL, keypair = credentials(),
+                        print = getOption('MTurkR.print'),
                         browser = getOption('MTurkR.browser'),
                         log.requests = getOption('MTurkR.log'),
-						sandbox = getOption('MTurkR.sandbox'),
+                        sandbox = getOption('MTurkR.sandbox'),
                         validation.test = getOption('MTurkR.test'))
 }
 \arguments{
@@ -60,8 +60,8 @@ Note that when \code{browser=TRUE}, specifying this operation with \code{test} (
 \examples{
 \dontrun{
 qual1 <- CreateQualificationType(name="Worked for me before",
-		description="This qualification is for people who have worked for me before",
-		keywords="Worked for me before",sandbox=TRUE)
+        description="This qualification is for people who have worked for me before",
+        keywords="Worked for me before",sandbox=TRUE)
 qual1
 }
 }

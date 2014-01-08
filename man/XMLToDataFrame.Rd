@@ -25,8 +25,9 @@ HITsToDataFrame(xml = NULL, xml.parsed = NULL, return.hit.xml = FALSE,
                 return.qual.list = TRUE, sandbox = getOption('MTurkR.sandbox'))
 HTMLQuestionToDataFrame(xml = NULL, xml.parsed = NULL)
 QualificationRequestsToDataFrame(xml = NULL, xml.parsed = NULL)
-QualificationRequirementsToDataFrame(	xml = NULL, xml.parsed = NULL, xmlnodeset = NULL,
-						hit = NULL, hit.number = NULL, sandbox = getOption('MTurkR.sandbox'))
+QualificationRequirementsToDataFrame(xml = NULL, xml.parsed = NULL, xmlnodeset = NULL,
+                                     hit = NULL, hit.number = NULL,
+                                     sandbox = getOption('MTurkR.sandbox'))
 QualificationsToDataFrame(xml = NULL, xml.parsed = NULL)
 QualificationTypesToDataFrame(xml = NULL, xml.parsed = NULL)
 QuestionFormAnswersToDataFrame(xml = NULL, xml.parsed = NULL)

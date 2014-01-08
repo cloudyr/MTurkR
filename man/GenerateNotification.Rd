@@ -4,7 +4,7 @@
 \description{Generate a HITType Notification data structure for use in \code{\link{SetHITTypeNotification}}.}
 \usage{
 GenerateNotification(destination, transport = "Email", event.type, 
-					version = "2006-05-05", event.number = "1", format = "REST")
+                    version = "2006-05-05", event.number = "1", format = "REST")
 }
 \arguments{
   \item{destination}{Currently, a character string containing a complete email address.}

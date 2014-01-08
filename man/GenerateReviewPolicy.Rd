@@ -23,17 +23,17 @@ GenerateReviewPolicy(hitpolicy = NULL, assignpolicy = NULL)
 %\seealso{}
 \examples{
 \dontrun{
-lista <- list(	QuestionIds=c("Question1","Question2","Question5"),
-				QuestionIdAgreementThreshold=8,
-				ExtendMinimumTimeInSeconds=3600)
+lista <- list(    QuestionIds=c("Question1","Question2","Question5"),
+                QuestionIdAgreementThreshold=8,
+                ExtendMinimumTimeInSeconds=3600)
 hpolicy <- GenerateReviewPolicy(hitpolicy=lista)
 }
 \dontrun{
-listb <- list(	AnswerKey=list(	list(Key="QuestionId3",Value="B"),
-								list(Key="QuestionId7",Value="A"),
-								list(Key="QuestionId15",Value="C")),
-				ExtendIfKnownAnswerScoreIsLessThan=80,
-				ExtendMaximumAssignments=3)
+listb <- list(    AnswerKey=list(    list(Key="QuestionId3",Value="B"),
+                                list(Key="QuestionId7",Value="A"),
+                                list(Key="QuestionId15",Value="C")),
+                ExtendIfKnownAnswerScoreIsLessThan=80,
+                ExtendMaximumAssignments=3)
 apolicy <- GenerateReviewPolicy(assignpolicy=listb)
 }
 }

@@ -5,10 +5,12 @@
 \description{Get the URL for a file uploaded by a worker as part of a HIT, or download the file(s) directly to the working directory.}
 \usage{
 GetFileUpload(assignment, questionIdentifier, download = FALSE, file.ext = NULL, 
-				open.file.in.browser = FALSE, keypair = credentials(),
-                print = getOption('MTurkR.print'), browser = getOption('MTurkR.browser'),
-                log.requests = getOption('MTurkR.log'), sandbox = getOption('MTurkR.sandbox'),
-				validation.test = getOption('MTurkR.test'))
+              open.file.in.browser = FALSE, keypair = credentials(),
+              print = getOption('MTurkR.print'),
+              browser = getOption('MTurkR.browser'),
+              log.requests = getOption('MTurkR.log'),
+              sandbox = getOption('MTurkR.sandbox'),
+              validation.test = getOption('MTurkR.test'))
 }
 \arguments{
   \item{assignment}{A character string containing an AssignmentId, or a vector of character strings each containing an AssignmentId.}

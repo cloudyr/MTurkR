@@ -5,11 +5,11 @@
 \description{Retrieve HITs according to the QualificationTypes that are required to complete those HITs.}
 \usage{
 GetHITsForQualificationType(qual, response.group = NULL, return.all = TRUE, 
-							pagenumber = 1, pagesize = 100, 
-							keypair = credentials(), print = getOption('MTurkR.print'), 
-							log.requests = getOption('MTurkR.log'),
+                            pagenumber = 1, pagesize = 100, 
+                            keypair = credentials(), print = getOption('MTurkR.print'), 
+                            log.requests = getOption('MTurkR.log'),
                             sandbox = getOption('MTurkR.sandbox'), 
-							return.hit.dataframe = TRUE,
+                            return.hit.dataframe = TRUE,
                             validation.test = getOption('MTurkR.test'))
 }
 \arguments{

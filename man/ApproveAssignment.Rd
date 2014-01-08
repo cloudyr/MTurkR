@@ -7,16 +7,16 @@
 \title{Approve Assignment(s)}
 \description{Approve one or more submitted assignments, or approve all assignments for a given HIT or HITType. Also allows you to approve a previously rejected assignment. This function spends money from your MTurk account.}
 \usage{
-ApproveAssignment(	assignments, feedback = NULL, rejected = FALSE, 
-					keypair = credentials(), print = getOption('MTurkR.print'),
+ApproveAssignment(    assignments, feedback = NULL, rejected = FALSE, 
+                    keypair = credentials(), print = getOption('MTurkR.print'),
                     browser = getOption('MTurkR.browser'), 
-					log.requests = getOption('MTurkR.log'),
+                    log.requests = getOption('MTurkR.log'),
                     sandbox = getOption('MTurkR.sandbox'),
                     validation.test = getOption('MTurkR.test'))
 
-ApproveAllAssignments(	hit = NULL, hit.type = NULL, feedback = NULL, 
-						keypair = credentials(), print = getOption('MTurkR.print'), 
-						log.requests = getOption('MTurkR.log'),
+ApproveAllAssignments(    hit = NULL, hit.type = NULL, feedback = NULL, 
+                        keypair = credentials(), print = getOption('MTurkR.print'), 
+                        log.requests = getOption('MTurkR.log'),
                         sandbox = getOption('MTurkR.sandbox'),
                         validation.test = getOption('MTurkR.test'))
 }

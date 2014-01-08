@@ -6,8 +6,10 @@
 request(keyid, operation, signature, timestamp, GETparameters, 
         version = "2012-03-25", service = "AWSMechanicalTurkRequester", 
         browser = getOption('MTurkR.browser'),
-        log.requests = getOption('MTurkR.log'), sandbox = getOption('MTurkR.sandbox'), 
-        xml.parse = FALSE, print.errors = TRUE, validation.test = getOption('MTurkR.test'))
+        log.requests = getOption('MTurkR.log'),
+        sandbox = getOption('MTurkR.sandbox'), 
+        xml.parse = FALSE, print.errors = TRUE,
+        validation.test = getOption('MTurkR.test'))
 }
 \arguments{
   \item{keyid}{An AWS Access Key ID.}

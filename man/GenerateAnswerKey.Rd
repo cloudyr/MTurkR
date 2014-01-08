@@ -6,7 +6,6 @@
 \usage{
 GenerateAnswerKey(questions, scoring = NULL)
 AnswerKeyTemplate(xml = NULL, xml.parsed = NULL)
-
 }
 \arguments{
   \item{questions}{A dataframe containing QuestionIdentifiers, AnswerOptions, AnswerScores, and DefaultScores. See MTurk API Documentation.}
@@ -30,18 +29,22 @@ AnswerKeyTemplate returns a list that can be used in the \code{questions} parame
 }
 \examples{
 \dontrun{
-qs <- list(	list(	QuestionIdentifier = "Question1",
-					AnswerOption = list(SelectionIdentifier="A", AnswerScore=15),
-					AnswerOption = list(SelectionIdentifier="B", AnswerScore=10),
-					DefaultScore = 5),
-			list(	QuestionIdentifier = "Question2",
-					AnswerOption = list(SelectionIdentifier="D", AnswerScore=10) ) )
+qs <- list(list(QuestionIdentifier = "Question1",
+                AnswerOption = list(SelectionIdentifier="A", AnswerScore=15),
+                AnswerOption = list(SelectionIdentifier="B", AnswerScore=10),
+                DefaultScore = 5),
+           list(QuestionIdentifier = "Question2",
+                AnswerOption = list(SelectionIdentifier="D", AnswerScore=10) ) )
 
-scoring1 <- list(	PercentageMapping=5 )
+scoring1 <- list(PercentageMapping=5)
 
-scoring2 <- list(	RangeMapping=list(	list(InclusiveLowerBound=0, InclusiveUpperBound=20, QualificationValue=5),
-										list(InclusiveLowerBound=21, InclusiveUpperBound=100, QualificationValue=10)),
-					OutOfRangeQualificationValue=0 )
+scoring2 <- list(RangeMapping=list(list(InclusiveLowerBound=0,
+                                        InclusiveUpperBound=20,
+                                        QualificationValue=5),
+                                   list(InclusiveLowerBound=21,
+                                        InclusiveUpperBound=100,
+                                        QualificationValue=10)),
+                 OutOfRangeQualificationValue=0)
 
 ak1 <- GenerateAnswerKey(qs, scoring1)
 ak2 <- GenerateAnswerKey(qs, scoring2)

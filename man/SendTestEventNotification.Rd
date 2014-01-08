@@ -4,10 +4,10 @@
 \title{Test a Notification}
 \description{Test a HITType Notification, for example, to try out a HITType Notification before creating a HIT.}
 \usage{
-SendTestEventNotification(	notification, test.event.type, 
-							keypair = credentials(), print = getOption('MTurkR.print'),
+SendTestEventNotification(    notification, test.event.type, 
+                            keypair = credentials(), print = getOption('MTurkR.print'),
                             browser = getOption('MTurkR.browser'), 
-							log.requests = getOption('MTurkR.log'),
+                            log.requests = getOption('MTurkR.log'),
                             sandbox = getOption('MTurkR.sandbox'),
                             validation.test = getOption('MTurkR.test'))
 }

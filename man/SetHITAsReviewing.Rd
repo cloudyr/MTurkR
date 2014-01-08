@@ -4,10 +4,10 @@
 \title{Set HIT as \dQuote{Reviewing}}
 \description{Update the status of a HIT, from \dQuote{Reviewable} to \dQuote{Reviewing} or the reverse.}
 \usage{
-SetHITAsReviewing(	hit = NULL, hit.type = NULL, revert = FALSE, 
-					keypair = credentials(), print = getOption('MTurkR.print'),
+SetHITAsReviewing(    hit = NULL, hit.type = NULL, revert = FALSE, 
+                    keypair = credentials(), print = getOption('MTurkR.print'),
                     browser = getOption('MTurkR.browser'), 
-					log.requests = getOption('MTurkR.log'),
+                    log.requests = getOption('MTurkR.log'),
                     sandbox = getOption('MTurkR.sandbox'),
                     validation.test = getOption('MTurkR.test'))
 }

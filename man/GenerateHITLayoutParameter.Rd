@@ -30,7 +30,8 @@ Analogous functionality for producing .html files on the local workstation (e.g.
 \dontrun{
 a <- GenerateHITLayoutParameter(names="hitvariable",values="Text for HIT 1")
 b <- GenerateHITLayoutParameter(names="hitvariable",values="Text for HIT 2")
-c <- GenerateHITLayoutParameter(names=c("hitvariable1","hitvariable2"),values=c("Headline for HIT1","Text for HIT 1"))
+c <- GenerateHITLayoutParameter(names=c("hitvariable1","hitvariable2"),
+                                values=c("Headline for HIT1","Text for HIT 1"))
 }
 }
 \keyword{HITs}

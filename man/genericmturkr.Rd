@@ -6,10 +6,10 @@
 \usage{
 genericmturkr(operation, parameters = NULL, keypair = credentials(),
             print = getOption('MTurkR.print'), 
-			browser = getOption('MTurkR.browser'),
+            browser = getOption('MTurkR.browser'),
             log.requests = getOption('MTurkR.log'),
             sandbox = getOption('MTurkR.sandbox'),
-			xml.parse = TRUE, validation.test = getOption('MTurkR.test'))
+            xml.parse = TRUE, validation.test = getOption('MTurkR.test'))
 
 makeGETparameters(parameter, value)
 }

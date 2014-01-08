@@ -4,12 +4,12 @@
 \title{Get Qualifications}
 \description{Get all Qualifications of a particular QualificationType assigned to Workers.}
 \usage{
-GetQualifications(	qual, status = NULL, return.all = TRUE, 
-					pagenumber = 1, pagesize = 100, keypair = credentials(),
-					print = getOption('MTurkR.print'),
+GetQualifications(    qual, status = NULL, return.all = TRUE, 
+                    pagenumber = 1, pagesize = 100, keypair = credentials(),
+                    print = getOption('MTurkR.print'),
                     log.requests = getOption('MTurkR.log'),
                     sandbox = getOption('MTurkR.sandbox'),
-					return.qual.dataframe = TRUE,
+                    return.qual.dataframe = TRUE,
                     validation.test = getOption('MTurkR.test'))
 }
 \arguments{

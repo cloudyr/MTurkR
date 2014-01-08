@@ -4,11 +4,12 @@
 \title{Dispose QualificationType}
 \description{Dispose of a QualificationType. This deletes the QualificationType, Qualification scores for all workers, and all records thereof.}
 \usage{
-DisposeQualificationType(qual, keypair = credentials(), print = getOption('MTurkR.print'), 
-						browser = getOption('MTurkR.browser'),
-                        log.requests = getOption('MTurkR.log'),
-                        sandbox = getOption('MTurkR.sandbox'),
-                        validation.test = getOption('MTurkR.test'))
+DisposeQualificationType(qual, keypair = credentials(),
+                         print = getOption('MTurkR.print'), 
+                         browser = getOption('MTurkR.browser'),
+                         log.requests = getOption('MTurkR.log'),
+                         sandbox = getOption('MTurkR.sandbox'),
+                         validation.test = getOption('MTurkR.test'))
 }
 \arguments{
   \item{qual}{A character string containing a QualificationTypeId.}

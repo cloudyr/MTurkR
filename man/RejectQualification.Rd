@@ -6,9 +6,9 @@
 \description{Reject a Worker's request for a Qualification.}
 \usage{
 RejectQualification(qual.request, reason = NULL, 
-					keypair = credentials(), print = getOption('MTurkR.print'),
+                    keypair = credentials(), print = getOption('MTurkR.print'),
                     browser = getOption('MTurkR.browser'), 
-					log.requests = getOption('MTurkR.log'),
+                    log.requests = getOption('MTurkR.log'),
                     sandbox = getOption('MTurkR.sandbox'),
                     validation.test = getOption('MTurkR.test'))
 }
@@ -39,7 +39,8 @@ RejectQualification(qual.request, reason = NULL,
 }
 \examples{
 \dontrun{
-RejectQualification("2YCIA0RYNJ9262B1D82MPTUEXAMPLE",reason="I am not currently granting this QualificationType.")
+RejectQualification("2YCIA0RYNJ9262B1D82MPTUEXAMPLE",
+                    reason="I am not currently granting this QualificationType.")
 }
 }
 \keyword{Qualifications}

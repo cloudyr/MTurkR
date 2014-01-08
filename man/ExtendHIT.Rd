@@ -5,7 +5,7 @@
 \description{Extend the time remaining on a HIT or the number of assignments available for the HIT.}
 \usage{
 ExtendHIT(hit = NULL, hit.type = NULL, add.assignments = NULL, add.seconds = NULL, 
-		unique.request.token = NULL, keypair = credentials(),
+        unique.request.token = NULL, keypair = credentials(),
         print = getOption('MTurkR.print'), browser = getOption('MTurkR.browser'),
         log.requests = getOption('MTurkR.log'), sandbox = getOption('MTurkR.sandbox'),
         validation.test = getOption('MTurkR.test'))

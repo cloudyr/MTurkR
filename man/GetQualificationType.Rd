@@ -6,7 +6,7 @@
 \usage{
 GetQualificationType(qual, keypair = credentials(), print = getOption('MTurkR.print'),
                     browser = getOption('MTurkR.browser'), 
-					log.requests = getOption('MTurkR.log'),
+                    log.requests = getOption('MTurkR.log'),
                     sandbox = getOption('MTurkR.sandbox'),
                     return.qual.dataframe = TRUE,
                     validation.test = getOption('MTurkR.test'))

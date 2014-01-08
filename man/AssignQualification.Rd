@@ -6,16 +6,16 @@
 \description{Assign a Qualification to one or more workers. The QualificationType should have already been created by \code{\link{CreateQualificationType}}, or the details of a new QualificationType can be specified atomically. This function also provides various options for automatically specifying the value of a worker's QualificationScore based upon a worker's statistics.}
 \usage{
 AssignQualification(qual, workers, value = "1", notify = FALSE, 
-					name = NULL, description = NULL, keywords = NULL, 
-					status = NULL, retry.delay = NULL, 
-					test = NULL, answerkey = NULL, test.duration = NULL, 
-					auto = NULL, auto.value = NULL, 
-					conditional.statistic = NULL, conditional.comparator = NULL, 
-					conditional.value = NULL, conditional.period = NULL, 
-					set.statistic.as.value = FALSE, 
-					keypair = credentials(), print = getOption('MTurkR.print'),
+                    name = NULL, description = NULL, keywords = NULL, 
+                    status = NULL, retry.delay = NULL, 
+                    test = NULL, answerkey = NULL, test.duration = NULL, 
+                    auto = NULL, auto.value = NULL, 
+                    conditional.statistic = NULL, conditional.comparator = NULL, 
+                    conditional.value = NULL, conditional.period = NULL, 
+                    set.statistic.as.value = FALSE, 
+                    keypair = credentials(), print = getOption('MTurkR.print'),
                     browser = getOption('MTurkR.browser'), 
-					log.requests = getOption('MTurkR.log'),
+                    log.requests = getOption('MTurkR.log'),
                     sandbox = getOption('MTurkR.sandbox'),
                     validation.test = getOption('MTurkR.test'))
 }

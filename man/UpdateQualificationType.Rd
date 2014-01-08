@@ -5,9 +5,9 @@
 \description{Update characteristics of a QualificationType.}
 \usage{
 UpdateQualificationType(qual, description = NULL, status = NULL, 
-						retry.delay = NULL, test = NULL, answerkey = NULL, 
-						test.duration = NULL, auto = NULL, auto.value = NULL, 
-						keypair = credentials(), print = getOption('MTurkR.print'),
+                        retry.delay = NULL, test = NULL, answerkey = NULL, 
+                        test.duration = NULL, auto = NULL, auto.value = NULL, 
+                        keypair = credentials(), print = getOption('MTurkR.print'),
                         browser = getOption('MTurkR.browser'),
                         log.requests = getOption('MTurkR.log'),
                         sandbox = getOption('MTurkR.sandbox'),
@@ -52,8 +52,12 @@ A function to update the characteristics of a QualificationType. Name and keywor
 }
 \examples{
 \dontrun{
-qual1 <- CreateQualificationType(title="Worked for me before",description="This qualification is for people who have worked for me before",keywords="Worked for me before",sandbox=TRUE)
-qual2 <- UpdateQualificationType(qual.test,description="This qualification is for everybody!",auto=TRUE,auto.value="5",sandbox=TRUE)
+qual1 <- CreateQualificationType(title="Worked for me before",
+            description="This qualification is for people who have worked for me before",
+            keywords="Worked for me before",sandbox=TRUE)
+qual2 <- UpdateQualificationType(qual.test,
+            description="This qualification is for everybody!",
+            auto=TRUE, auto.value="5", sandbox=TRUE)
 }
 }
 \keyword{Qualifications}

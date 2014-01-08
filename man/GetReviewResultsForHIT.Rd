@@ -4,12 +4,12 @@
 \title{Get ReviewPolicy Results for a HIT}
 \description{Get HIT- and/or Assignment-level ReviewPolicy Results for a HIT}
 \usage{
-GetReviewResultsForHIT(	hit, assignment = NULL, policy.level = NULL,
-						retrieve.results = TRUE, retrieve.actions = TRUE,
-						keypair = credentials(), print = getOption('MTurkR.print'),
-						browser = getOption('MTurkR.browser'),
+GetReviewResultsForHIT(    hit, assignment = NULL, policy.level = NULL,
+                        retrieve.results = TRUE, retrieve.actions = TRUE,
+                        keypair = credentials(), print = getOption('MTurkR.print'),
+                        browser = getOption('MTurkR.browser'),
                         log.requests = getOption('MTurkR.log'),
-						sandbox = getOption('MTurkR.sandbox'),
+                        sandbox = getOption('MTurkR.sandbox'),
                         validation.test = getOption('MTurkR.test'))
 }
 \arguments{

@@ -3,7 +3,8 @@
 \title{Authenticate an MTurk Request}
 \description{A (mostly internal) workhorse function to authenticate requests. This is only supplied for use by advanced users.}
 \usage{
-authenticate(operation, secret, service = "AWSMechanicalTurkRequester", version = "2012-03-25")
+authenticate(operation, secret,
+             service = "AWSMechanicalTurkRequester", version = "2012-03-25")
 }
 \arguments{
   \item{operation}{A character string containing the operation to be performed.}

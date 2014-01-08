@@ -6,14 +6,16 @@
 \title{Get Assignment(s)}
 \description{Get an assignment or multiple assignments for one or more HITs (or a HITType) as a dataframe.}
 \usage{
-GetAssignment(	assignment = NULL, hit = NULL, hit.type = NULL, status = NULL, 
-				return.all = FALSE, pagenumber = "1", pagesize = "10", 
-				sortproperty = "SubmitTime", sortdirection = "Ascending", 
-				response.group = NULL, keypair = credentials(), print = getOption('MTurkR.print'),
-                browser = getOption('MTurkR.browser'),
-				log.requests = getOption('MTurkR.log'),
-                sandbox = getOption('MTurkR.sandbox'), return.assignment.dataframe = TRUE,
-				validation.test = getOption('MTurkR.test'))
+GetAssignment(assignment = NULL, hit = NULL, hit.type = NULL, status = NULL, 
+              return.all = FALSE, pagenumber = "1", pagesize = "10", 
+              sortproperty = "SubmitTime", sortdirection = "Ascending", 
+              response.group = NULL, keypair = credentials(),
+              print = getOption('MTurkR.print'),
+              browser = getOption('MTurkR.browser'),
+              log.requests = getOption('MTurkR.log'),
+              sandbox = getOption('MTurkR.sandbox'),
+              return.assignment.dataframe = TRUE,
+              validation.test = getOption('MTurkR.test'))
 }
 \arguments{
   \item{assignment}{An optional character string specifying the AssignmentId of an assignment to return.}
@@ -58,8 +60,9 @@ GetAssignment(	assignment = NULL, hit = NULL, hit.type = NULL, status = NULL,
 \examples{
 \dontrun{
 GetAssignment(assignments="26XXH0JPPSI23H54YVG7BKLEXAMPLE")
-GetAssignment(hit="2MQB727M0IGF304GJ16S1F4VE3AYDQ",return.all=TRUE)
-GetAssignment(hit.type="2FFNCWYB49F9BBJWA4SJUNST5OFSOW",return.all=FALSE,pagenumber="1",pagesize="50")
+GetAssignment(hit="2MQB727M0IGF304GJ16S1F4VE3AYDQ", return.all=TRUE)
+GetAssignment(hit.type="2FFNCWYB49F9BBJWA4SJUNST5OFSOW",
+              return.all=FALSE, pagenumber="1", pagesize="50")
 }
 }
 \keyword{Assignments}
