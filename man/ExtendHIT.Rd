@@ -46,7 +46,7 @@ A useful function for adding time and/or additional assignments to a HIT. If the
 \examples{
 \dontrun{
 ExtendHIT(hit="2MQB727M0IGF304GJ16S1F4VE3AYDQ",add.assignments="20")
-ExtendHIT(hit="2MQB727M0IGF304GJ16S1F4VE3AYDQ",add.time=seconds(days=1)))
+ExtendHIT(hit="2MQB727M0IGF304GJ16S1F4VE3AYDQ",add.seconds=seconds(days=1)))
 }
 }
 \keyword{HITs}
