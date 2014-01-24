@@ -21,7 +21,7 @@ function (keyid, operation, signature=NULL, timestamp=NULL, GETparameters,
         "&Timestamp=", timestamp, "&Signature=", curlEscape(signature), 
         GETparameters, sep = "")
     if(validation.test){
-        message("Request URL: ",request.url)
+        message("Request URL: ",request.url,'\n')
         return(invisible(list(request.url=request.url)))
     }
     else {
