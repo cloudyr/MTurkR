@@ -1,3 +1,13 @@
+# CHANGES TO MTurkR 0.5 #
+
+## SIGNIFICANT USER-VISIBLE CHANGES ##
+* The `signature` argument to `request` now defaults to `NULL` and is generated automatically.
+
+## BUG FIXES ##
+
+## DOCUMENTATION ##
+* The `add.seconds` parameter was incorrectly called `add.time` in the `ExtendHIT` documentation.
+
 # CHANGES TO MTurkR 0.4 #
 
 ## SIGNIFICANT USER-VISIBLE CHANGES ##
