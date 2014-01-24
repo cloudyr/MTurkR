@@ -17,14 +17,14 @@ function (operation, parameters = NULL, keypair = credentials(),
 			auth$timestamp, GETparameters, browser = browser, log.requests = log.requests, 
 			sandbox = sandbox, xml.parse = xml.parse, validation.test = validation.test)
 		if(validation.test)
-			invisible(request)
+			return((request)
 	}
 	else{
 		request <- request(keyid, auth$operation, auth$signature, 
 			auth$timestamp, GETparameters, browser = browser, log.requests = log.requests, 
 			sandbox = sandbox, xml.parse = xml.parse, validation.test = validation.test)
 		if(validation.test)
-			invisible(request)
+			return(request)
 		if(request$valid == TRUE & print == TRUE) {
 			message("Operation (", operation, ") Successful")
 			return(request)
@@ -34,6 +34,6 @@ function (operation, parameters = NULL, keypair = credentials(),
 			return(request)
 		}
 		else
-			invisible(request)
+			return(request)
 	}
 }
