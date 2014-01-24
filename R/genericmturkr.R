@@ -17,7 +17,7 @@ function (operation, parameters = NULL, keypair = credentials(),
 			auth$timestamp, GETparameters, browser = browser, log.requests = log.requests, 
 			sandbox = sandbox, xml.parse = xml.parse, validation.test = validation.test)
 		if(validation.test)
-			return((request)
+			return(request)
 	}
 	else{
 		request <- request(keyid, auth$operation, auth$signature, 
