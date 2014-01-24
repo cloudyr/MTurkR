@@ -32,6 +32,7 @@ after_script:
 branches:
   only:
     - master
+    - develop
     - gh-pages
 #
 # Options used for building or testing your R package can be
