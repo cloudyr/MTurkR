@@ -1,5 +1,5 @@
 request <-
-function (keyid, operation, signature, timestamp, GETparameters, 
+function (keyid, operation, signature=NULL, timestamp, GETparameters, 
     version = "2012-03-25", service = "AWSMechanicalTurkRequester", 
     browser = getOption('MTurkR.browser'), log.requests = getOption('MTurkR.log'),
     sandbox = getOption('MTurkR.sandbox'), xml.parse = FALSE,
@@ -8,6 +8,11 @@ function (keyid, operation, signature, timestamp, GETparameters,
         host <- "https://mechanicalturk.sandbox.amazonaws.com/"
     else
     	host <- "https://mechanicalturk.amazonaws.com/"
+    if(is.null(signature)){
+        timestamp <- format(Sys.time(), format = "%Y-%m-%dT%H:%M:%SZ", tz = "UTC")
+        signature <- base64Encode(hmac(secret, paste(service, operation, 
+            timestamp, sep = ""), algo = "sha1", serialize = FALSE, raw = TRUE))[1]
+    }
     request.url <- paste(host, "?Service=", service, "&AWSAccessKeyId=", 
         keyid, "&Version=", version, "&Operation=", operation, 
         "&Timestamp=", timestamp, "&Signature=", curlEscape(signature), 
