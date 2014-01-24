@@ -2,6 +2,8 @@
 
 ## SIGNIFICANT USER-VISIBLE CHANGES ##
 * The `signature` argument to `request` now defaults to `NULL` and is generated automatically.
+* `request` now attempts to `tryCatch` any errors on writing the MTurkR log file. (#9)
+* `request` now returns an object of S3 class "MTurkResponse" and an associated print method has been added.
 
 ## BUG FIXES ##
 

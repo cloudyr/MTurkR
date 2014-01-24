@@ -1,5 +1,6 @@
 \name{request}
 \alias{request}
+\alias{print.MTurkResponse}
 \title{Execute an MTurk API Request}
 \description{This is the workhorse function that makes authenticated HTTP requests to the MTurk API. It is only exported for advanced users.}
 \usage{

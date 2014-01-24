@@ -127,3 +127,12 @@ function (keyid, operation, signature=NULL, timestamp, GETparameters,
         }
     }
 }
+
+print.dvStudyAtom <- function(x,...){
+    cat('RequestId:   ',x$request.id,'\n')
+    cat('Valid?       ',x$valid,'\n')
+    cat('Request URL: ',gsub('&','\n',curlUnescape(x$request.url),'\n')
+    cat('XML Response:\n')
+    print(xmlParse(x$response))
+    invisible(x)
+}
