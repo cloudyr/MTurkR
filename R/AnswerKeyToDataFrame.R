@@ -3,8 +3,8 @@ function (xml = NULL, xml.parsed = NULL) {
     if(!is.null(xml)) 
         xml.parsed <- xmlParse(xml)
     nodes <- xmlChildren(xmlChildren(xml.parsed)$AnswerKey)
-    answerkey <- data.frame(matrix(nrow = length(nodes[names(nodes) == 
-        "Question"]), ncol = 3))
+    answerkey <- data.frame(matrix(nrow = length(strsplit(xml,'/AnswerOption')[[1]])-1,
+                                   ncol = 3))
     names(answerkey) <- c("QuestionIdentifier", "SelectionIdentifier", 
         "AnswerScore")
     k <- 1

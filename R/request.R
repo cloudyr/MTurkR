@@ -1,5 +1,6 @@
 request <-
-function (keyid, operation, signature=NULL, timestamp, GETparameters, 
+function (keyid, operation, signature=NULL, timestamp=NULL, GETparameters, 
+    secret = NULL,
     version = "2012-03-25", service = "AWSMechanicalTurkRequester", 
     browser = getOption('MTurkR.browser'), log.requests = getOption('MTurkR.log'),
     sandbox = getOption('MTurkR.sandbox'), xml.parse = FALSE,
@@ -8,7 +9,9 @@ function (keyid, operation, signature=NULL, timestamp, GETparameters,
         host <- "https://mechanicalturk.sandbox.amazonaws.com/"
     else
     	host <- "https://mechanicalturk.amazonaws.com/"
-    if(is.null(signature)){
+    if(is.null(signature) & is.null(secret))
+        stop("Must supply 'secret' or 'signature'!")
+    else if(is.null(signature)){
         timestamp <- format(Sys.time(), format = "%Y-%m-%dT%H:%M:%SZ", tz = "UTC")
         signature <- base64Encode(hmac(secret, paste(service, operation, 
             timestamp, sep = ""), algo = "sha1", serialize = FALSE, raw = TRUE))[1]
@@ -18,17 +21,22 @@ function (keyid, operation, signature=NULL, timestamp, GETparameters,
         "&Timestamp=", timestamp, "&Signature=", curlEscape(signature), 
         GETparameters, sep = "")
     if(validation.test){
-        message("Request URL:",request.url)
+        message("Request URL: ",request.url)
         return(invisible(list(request.url=request.url)))
     }
     else {
         if(browser == TRUE)
             browseURL(request.url)
         else {
-            response <- getURL(request.url, followlocation = 1L, 
-                ssl.verifypeer = 1L, ssl.verifyhost = 2L, 
-                cainfo = system.file("CurlSSL", "cacert.pem", package = "RCurl"))
-			
+            h <- basicTextGatherer()
+            curlPerform(url=request.url,
+                        followlocation = 1L, ssl.verifypeer = 1L, ssl.verifyhost = 2L, 
+                        cainfo = system.file("CurlSSL",
+                                             "cacert.pem",
+                                             package = "RCurl"),
+                        writefunction=h$update)
+            response <- h$value()
+
             # Additional filters, added by Solomon Messing 6/9/2013:
 			clean <- function(x, pattern, replacement){
 				res <- gsub( iconv(pattern, "", "ASCII", "byte"), replacement, x, fixed=T)
@@ -108,10 +116,20 @@ function (keyid, operation, signature=NULL, timestamp, GETparameters,
             if(valid == FALSE) {
                 if(print.errors == TRUE) {
                     message("Request ", request.id, " not valid for API request:")
-                    message(strsplit(request.url, "&")[[1]], "\n                                     &")
-                    errors <- ParseErrorCodes(xml = response)
-                    for (i in 1:dim(errors)[1])
-                        message("Error (", errors[i, 1], "): ", errors[i,2])
+                    temp.url <- gsub('=',' = ',request.url)
+                    if(sandbox) {
+                        message(paste(paste(strsplit(temp.url, "&")[[1]],
+                          collapse="\n                                             &"),'\n\n'))
+                    } else {
+                        message(paste(paste(strsplit(temp.url, "&")[[1]],
+                          collapse="\n                                     &"),'\n\n'))
+                    }
+                    errors <- tryCatch(ParseErrorCodes(xml = response),
+                        error = function(e) e)
+                    if(!inherits(errors, 'error')){
+                        for (i in 1:dim(errors)[1])
+                            message("Error (", errors[i, 1], "): ", errors[i,2])
+                    }
                 }
             }
             if(xml.parse == TRUE) {
@@ -128,10 +146,10 @@ function (keyid, operation, signature=NULL, timestamp, GETparameters,
     }
 }
 
-print.dvStudyAtom <- function(x,...){
+print.MTurkResponse <- function(x,...){
     cat('RequestId:   ',x$request.id,'\n')
     cat('Valid?       ',x$valid,'\n')
-    cat('Request URL: ',gsub('&','\n',curlUnescape(x$request.url),'\n')
+    cat('Request URL: ',gsub('&','\n',curlUnescape(x$request.url),'\n'))
     cat('XML Response:\n')
     print(xmlParse(x$response))
     invisible(x)

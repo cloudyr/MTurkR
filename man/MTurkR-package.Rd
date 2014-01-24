@@ -12,15 +12,6 @@ There are five common parameters that can be specified in most MTurkR functions:
 
 A lightweight menu-based Wizard (called by \code{\link{MTurkR.Wizard}}) is also available for beginners to interactively connect with MTurk. The wizard is designed to quickly create HITs, approve and reject work, contact or bonus workers, grant Qualifications, and so forth. While helpful, the wizard is intended only to facilitate beginners and is not intended to mimic anything near the full functionality of individual MTurkR functions.
 }
-\details{
-\tabular{ll}{
-Package: \tab MTurkR\cr
-Type: \tab Package\cr
-Version: \tab 0.4\cr
-Date: \tab 2014-01-08\cr
-License: \tab GPL-2\cr
-}
-}
 \author{
 Thomas J. Leeper
 

@@ -9,5 +9,5 @@ function (xml = NULL, xml.parsed = NULL) {
         errors[i,] <- c(xmlValue(xpathApply(xml.errors[[i]], "//Code")[[1]]),
                         xmlValue(xpathApply(xml.errors[[i]], "//Message")[[1]]))
     }
-    invisible(errors)
+    return(invisible(errors))
 }

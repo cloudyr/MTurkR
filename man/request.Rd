@@ -4,7 +4,8 @@
 \title{Execute an MTurk API Request}
 \description{This is the workhorse function that makes authenticated HTTP requests to the MTurk API. It is only exported for advanced users.}
 \usage{
-request(keyid, operation, signature = NULL, timestamp, GETparameters, 
+request(keyid, operation, signature = NULL, timestamp=NULL, GETparameters, 
+        secret = NULL,
         version = "2012-03-25", service = "AWSMechanicalTurkRequester", 
         browser = getOption('MTurkR.browser'),
         log.requests = getOption('MTurkR.log'),
@@ -15,9 +16,10 @@ request(keyid, operation, signature = NULL, timestamp, GETparameters,
 \arguments{
   \item{keyid}{An AWS Access Key ID.}
   \item{operation}{The MTurk API operation to be performed.}
-  \item{signature}{A base64 encoded HMAC signature, as returned by \code{\link{authenticate}}. Default is \code{NULL}.}
-  \item{timestamp}{A timestamp, as returned by \code{\link{authenticate}}.}
+  \item{signature}{A base64 encoded HMAC signature, as returned by \code{\link{authenticate}}. Default is \code{NULL}. Must specify \code{secret} xor \code{signature} and \code{timestamp}.}
+  \item{timestamp}{A timestamp, as returned by \code{\link{authenticate}}. Default is \code{NULL}. Must specify \code{secret} xor \code{signature} and \code{timestamp}.}
   \item{GETparameters}{An optional character string containing URL query parameters that specify options for the request.}
+  \item{secret}{An AWS Secret Access Key. Default is \code{NULL}. Must specify \code{secret} xor \code{signature} and \code{timestamp}.}
   \item{version}{The version of the MTurk API to use. Default is \dQuote{2012-03-25}, under which the MTurkR package was built.}
   \item{service}{The MTurk service to which the authenticated request will be sent. Supplied only for advanced users.}
   \item{browser}{Optionally open the request in the default web browser, rather than opening in R. Default is \code{FALSE}.}
