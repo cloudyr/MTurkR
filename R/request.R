@@ -29,7 +29,7 @@ function (keyid, operation, signature=NULL, timestamp, GETparameters,
                 ssl.verifypeer = 1L, ssl.verifyhost = 2L, 
                 cainfo = system.file("CurlSSL", "cacert.pem", package = "RCurl"))
 			
-			# Additional filters, added by Solomon Messing 6/9/2013:
+            # Additional filters, added by Solomon Messing 6/9/2013:
 			clean <- function(x, pattern, replacement){
 				res <- gsub( iconv(pattern, "", "ASCII", "byte"), replacement, x, fixed=T)
 				return(res)
@@ -53,10 +53,12 @@ function (keyid, operation, signature=NULL, timestamp, GETparameters,
 			response <- clean(response, "\342\200\220" , '-')
 			response <- clean(response, "\342\200\223" , '-')
 			
-            request.id <- strsplit(strsplit(response, "<RequestId>")[[1]][2], 
-                "</RequestId>")[[1]][1]
-            valid.test <- strsplit(strsplit(response, "<Request><IsValid>")[[1]][2], 
-                "</IsValid>")[[1]][1]
+            request.id <-
+                strsplit(strsplit(response, "<RequestId>")[[1]][2],
+                    "</RequestId>")[[1]][1]
+            valid.test <-
+                strsplit(strsplit(response, "<Request><IsValid>")[[1]][2],
+                    "</IsValid>")[[1]][1]
             if(!is.na(valid.test) && valid.test == "True") 
                 valid <- TRUE
             else if(!is.na(valid.test) && valid.test == "False") 
@@ -64,11 +66,21 @@ function (keyid, operation, signature=NULL, timestamp, GETparameters,
             else
                 valid <- FALSE
             if(log.requests == TRUE) {
+                towrite <- paste("Timestamp\t",
+                                 "RequestId\t",
+                                 "Operation\t", 
+                                 "Sandbox\t",
+                                 "Parameters\t",
+                                 "Valid\t",
+                                 "URL\t", 
+                                 "Response", sep = "")
                 logfilename <- file.path(getOption('MTurkR.logdir'),"MTurkRlog.tsv")
-                if(!"MTurkRlog.tsv" %in% list.files(path=getOption('MTurkR.logdir'))) 
-                  write(paste("Timestamp\t", "RequestId\t", "Operation\t", 
-                    "Sandbox\t", "Parameters\t", "Valid\t", "URL\t", 
-                    "Response", sep = ""), logfilename)
+                if(!"MTurkRlog.tsv" %in% list.files(path=getOption('MTurkR.logdir'))) {
+                    tryCatch(write(towrite, logfilename),
+                        error=function(e){
+                            warning('Writing to new MTurkR log failed!')
+                        })
+                }
                 response.xml <- response
                 response.xml <- gsub(" ", "#!SPACE!#", response.xml, fixed = TRUE)
                 response.xml <- gsub("[[:space:]]", "", response.xml)
@@ -79,10 +91,19 @@ function (keyid, operation, signature=NULL, timestamp, GETparameters,
                 response.xml <- gsub("&#xD;", "", response.xml, fixed = TRUE)
                 response.xml <- gsub("&#x9;", "  ", response.xml, fixed = TRUE)
                 response.xml <- gsub("&#09;", "  ", response.xml, fixed = TRUE)
-                write(paste(timestamp, "\t", request.id, "\t", 
-                  operation, "\t", sandbox, "\t", GETparameters, 
-                  "\t", valid, "\t", request.url, "\t", response.xml, 
-                  sep = ""), logfilename, append = TRUE)
+                towrite2 <- paste(timestamp, "\t",
+                                  request.id, "\t", 
+                                  operation, "\t",
+                                  sandbox, "\t",
+                                  GETparameters, "\t",
+                                  valid, "\t",
+                                  request.url, "\t",
+                                  response.xml, sep = "")
+                tryCatch(write(towrite2, logfilename, append = TRUE),
+                        error=function(e){
+                            warning(paste('Writing to MTurkR log failed!\n',
+                                          'Log contents were:\n',towrite2))
+                        })
             }
             if(valid == FALSE) {
                 if(print.errors == TRUE) {
@@ -102,7 +123,7 @@ function (keyid, operation, signature=NULL, timestamp, GETparameters,
                 out <- list(request.url = request.url, request.id = request.id, 
                             valid = valid, xml = response)
             class(out) <- c('MTurkResponse',class(out))
-            invisible(out)
+            return(invisible(out))
         }
     }
 }
