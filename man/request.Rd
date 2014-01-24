@@ -3,7 +3,7 @@
 \title{Execute an MTurk API Request}
 \description{This is the workhorse function that makes authenticated HTTP requests to the MTurk API. It is only exported for advanced users.}
 \usage{
-request(keyid, operation, signature, timestamp, GETparameters, 
+request(keyid, operation, signature = NULL, timestamp, GETparameters, 
         version = "2012-03-25", service = "AWSMechanicalTurkRequester", 
         browser = getOption('MTurkR.browser'),
         log.requests = getOption('MTurkR.log'),
@@ -14,7 +14,7 @@ request(keyid, operation, signature, timestamp, GETparameters,
 \arguments{
   \item{keyid}{An AWS Access Key ID.}
   \item{operation}{The MTurk API operation to be performed.}
-  \item{signature}{A base64 encoded HMAC signature, as returned by \code{\link{authenticate}}.}
+  \item{signature}{A base64 encoded HMAC signature, as returned by \code{\link{authenticate}}. Default is \code{NULL}.}
   \item{timestamp}{A timestamp, as returned by \code{\link{authenticate}}.}
   \item{GETparameters}{An optional character string containing URL query parameters that specify options for the request.}
   \item{version}{The version of the MTurk API to use. Default is \dQuote{2012-03-25}, under which the MTurkR package was built.}

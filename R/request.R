@@ -19,12 +19,11 @@ function (keyid, operation, signature=NULL, timestamp, GETparameters,
         GETparameters, sep = "")
     if(validation.test){
         message("Request URL:",request.url)
-        invisible(list(request.url=request.url))
+        return(invisible(list(request.url=request.url)))
     }
     else {
-        if(browser == TRUE) {
+        if(browser == TRUE)
             browseURL(request.url)
-        }
         else {
             response <- getURL(request.url, followlocation = 1L, 
                 ssl.verifypeer = 1L, ssl.verifyhost = 2L, 
