@@ -9,6 +9,7 @@ function (keyid, operation, signature=NULL, timestamp=NULL, GETparameters,
         host <- "https://mechanicalturk.sandbox.amazonaws.com/"
     else
     	host <- "https://mechanicalturk.amazonaws.com/"
+    host <- paste(host, "?Service=", service, sep='')
     if(is.null(signature) & is.null(secret))
         stop("Must supply 'secret' or 'signature'!")
     else if(is.null(signature)){
@@ -16,10 +17,11 @@ function (keyid, operation, signature=NULL, timestamp=NULL, GETparameters,
         signature <- base64Encode(hmac(secret, paste(service, operation, 
             timestamp, sep = ""), algo = "sha1", serialize = FALSE, raw = TRUE))[1]
     }
-    request.url <- paste(host, "?Service=", service, "&AWSAccessKeyId=", 
+    urlparameters <- paste("&AWSAccessKeyId=", 
         keyid, "&Version=", version, "&Operation=", operation, 
         "&Timestamp=", timestamp, "&Signature=", curlEscape(signature), 
         GETparameters, sep = "")
+    request.url <- paste(host, urlparameters, sep='')
     if(validation.test){
         message("Request URL: ",request.url,'\n')
         return(invisible(list(request.url=request.url)))
@@ -30,9 +32,9 @@ function (keyid, operation, signature=NULL, timestamp=NULL, GETparameters,
         else {
             h <- basicTextGatherer()
             #curlPerform(url=request.url,
-            curlPerform(url='https://mechanicalturk.sandbox.amazonaws.com/?Service=AWSMechanicalTurkRequester',
+            curlPerform(url=host,
                         httpheader=c('Content-Type'='application/x-www-form-urlencoded'),
-                        postfields=strsplit(request.url,'amazonaws.com/?', fixed=TRUE)[[1]][2],
+                        postfields=urlparameters,
                         followlocation = 1L, ssl.verifypeer = 1L, ssl.verifyhost = 2L, 
                         cainfo = system.file("CurlSSL",
                                              "cacert.pem",
