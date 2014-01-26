@@ -29,9 +29,14 @@ function (subjects, msgs, workers, batch = FALSE, keypair = credentials(),
             stop("Message Text Too Long (4096 char max)")
         nbatches <- ceiling(length(workers)/100)
         lastbatch <- length(workers) - (100 * (nbatches - 1))
-        Notifications <- setNames(data.frame(matrix(nrow = nbatches, ncol = 6)),
-                            c("Batch", "FirstWorkerId", "LastWorkerId", 
-                            "Subject", "Message", "Valid"))
+        Notifications <- setNames(data.frame(matrix(nrow = length(workers), ncol = 4)),
+                            c("WorkerId", "Subject", "Message", "Valid"))
+        Notifications$WorkerId <- workers
+        Notifications$Subject <- subjects
+        Notifications$Message <- msgs
+        #Notifications <- setNames(data.frame(matrix(nrow = nbatches, ncol = 6)),
+        #                    c("Batch", "FirstWorkerId", "LastWorkerId", 
+        #                    "Subject", "Message", "Valid"))
         i <- 1
         j <- 1
         while(j <= nbatches) {
@@ -63,27 +68,30 @@ function (subjects, msgs, workers, batch = FALSE, keypair = credentials(),
 					auth$timestamp, GETparameters, browser = browser, 
 					sandbox = sandbox, validation.test = validation.test)
 				if(validation.test)
-					invisible(request)
+					return(invisible(request))
             }
             else {
                 request <- request(keyid, auth$operation, auth$signature, 
 					auth$timestamp, GETparameters, log.requests = log.requests, 
 					sandbox = sandbox, xml.parse=TRUE, validation.test = validation.test)
 				if(validation.test)
-					invisible(request)
-                Notifications[j, ] <- c(nbatches, firstworker, lastworker,
-										subjects, msgs, request$valid)
+					return(invisible(request))
+                Notifications$Valid[i:(i + (lastbatch - 1))] <- request$valid
+                #Notifications[j, ] <- c(nbatches, firstworker, lastworker,
+				#						subjects, msgs, request$valid)
                 if(request$valid == TRUE) {
-                    if(print == TRUE){
+                    if(print == TRUE)
 						message(j, ": Workers ", firstworker, " to ",lastworker, " Notified")
                     parsed <- request$xml.parsed
                     if(length(getNodeSet(parsed, '//NotifyWorkersFailureStatus'))>0){
-                        xpathApply(parsed, '//NotifyWorkersFailureStatus', function(x)
-                            message(paste(  "Problem with worker ",
-                                            xmlValue(xmlChildren(x)$WorkerId), ": ",
-                                            xmlValue(xmlChildren(x)$NotifyWorkersFailureMessage),
-                                            sep="")) )
-                        }
+                        x <- xpathApply(parsed, '//NotifyWorkersFailureStatus', function(x) {
+                            w <- xmlValue(xmlChildren(x)$WorkerId)
+                            f <- xmlValue(xmlChildren(x)$NotifyWorkersFailureMessage)
+                            message(paste("Invalid Request for worker ",w, ": ",f,sep=""))
+                            return(c(w,f))
+                        })
+                        for(i in 1:length(x))
+                            Notifications$Valid[Notifications$Worker==x[[i]][1]] <- 'HardFailure'
                     }
                 }
                 else if(request$valid == FALSE) {
@@ -94,10 +102,6 @@ function (subjects, msgs, workers, batch = FALSE, keypair = credentials(),
             i <- i + 100
             j <- j + 1
         }
-        if(print == TRUE) 
-            return(Notifications)
-        else
-            invisible(Notifications)
     }
     else {
         for(i in 1:length(subjects)) {
@@ -156,6 +160,6 @@ function (subjects, msgs, workers, batch = FALSE, keypair = credentials(),
                 }
             }
         }
-        return(Notifications)
     }
+    return(Notifications)
 }
