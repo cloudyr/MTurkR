@@ -72,10 +72,11 @@ function (assignment = NULL, hit = NULL, hit.type = NULL, return.all = TRUE,
         hitlist <- hitsearch$HITs$HITId[hitsearch$HITs$HITTypeId %in% hit.type]
         if(length(hitlist) == 0) 
             stop("No HITs found for HITType")
-        z <- data.frame(matrix(ncol = 3, nrow = length(hitlist)))
-        names(z) <- c("HITs", "Number", "Amount")
-        for(i in 1:length(z$HITId)) {
-            GETparameters <- paste(	"&HITId=", z$HITId[i],
+        z <- setNames(data.frame(matrix(ncol = 3, nrow = length(hitlist))),
+                c("HITId", "Number", "Amount"))
+        z$HITId <- hitlist
+        for(i in 1:length(hitlist)) {
+            GETparameters <- paste(	"&HITId=", hitlist[i],
 									"&PageNumber=", pagenumber,
 									"&PageSize=", pagesize, sep = "")
             auth <- authenticate(operation, secret)
@@ -97,7 +98,7 @@ function (assignment = NULL, hit = NULL, hit.type = NULL, return.all = TRUE,
             }
             else {
                 if(print == TRUE) 
-                    warning("Invalid Request for HIT ", z$HITId[i])
+                    warning("Invalid Request for HIT ", hitlist[i])
             }
         }
         if(print == TRUE) 
