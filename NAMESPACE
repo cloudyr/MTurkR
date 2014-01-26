@@ -1,6 +1,7 @@
 exportPattern("^[[:alpha:]]+")
 importFrom(digest, hmac)
-importFrom(RCurl, base64Encode, curlEscape, curlUnescape, curlPerform)
+importFrom(RCurl, base64Encode, curlEscape, curlUnescape,
+                  curlPerform, basicTextGatherer, getURL)
 importFrom(XML, xmlParse, xmlChildren, xpathApply, xmlValue, xmlName,
 				xmlNamespace, xmlSchemaValidate, removeXMLNamespaces,
 				newXMLNode, addChildren, toString.XMLNode, getNodeSet)

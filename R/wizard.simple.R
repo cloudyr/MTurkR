@@ -496,8 +496,9 @@ function (graphics = FALSE, sandbox = NULL)
                 wizard.menu()
             else {
                 statistics <- try(RequesterReport(period = periods[period.choice], 
-                  keypair = keypair, print = TRUE, log.requests = log.requests, 
+                  keypair = keypair, log.requests = log.requests, 
                   sandbox = sandbox), silent = TRUE)
+                print(statistics)
                 if (class(statistics) == "try-error") 
                   warning("An error occurred: ", statistics)
                 message()
@@ -514,8 +515,9 @@ function (graphics = FALSE, sandbox = NULL)
             else {
                 statistics <- try(WorkerReport(worker = workerid, 
                   period = periods[period.choice], keypair = keypair, 
-                  print = TRUE, log.requests = log.requests, 
+                  log.requests = log.requests, 
                   sandbox = sandbox), silent = TRUE)
+                print(statistics)
                 if (class(statistics) == "try-error") 
                   warning("An error occurred: ", statistics)
                 message()

@@ -46,7 +46,7 @@ function (hit.type = NULL, status = NULL, response.group = "Minimal",
 			auth$timestamp, GETparameters, log.requests = log.requests, 
 			sandbox = sandbox, validation.test = validation.test)
 		if(validation.test)
-			reeturn(invisible(batch))
+			return(invisible(batch))
         batch$HITs <- NA
         batch$total <- as.numeric(strsplit(strsplit(batch$xml, 
             "<TotalNumResults>")[[1]][2], "</TotalNumResults>")[[1]][1])

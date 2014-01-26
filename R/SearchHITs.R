@@ -68,7 +68,7 @@ function (response.group = NULL, return.all = TRUE, pagenumber = "1",
     }
     request <- batch(pagenumber)
 	if(validation.test)
-		retrun(invisible(request))
+		return(invisible(request))
     runningtotal <- request$batch.total
     if(return.all){
         pagenumber <- 2
