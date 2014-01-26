@@ -56,5 +56,6 @@ function (hit.type, notification = NULL, active = NULL, keypair = credentials(),
         else if(request$valid == FALSE & print == TRUE)
             warning("Invalid Request")
     }
+    Notification$Valid <- factor(Notification$Valid, levels=c('TRUE','FALSE'))
     return(Notification)
 }

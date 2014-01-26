@@ -1,6 +1,7 @@
 # CHANGES TO MTurkR 0.5 #
 
 ## SIGNIFICANT USER-VISIBLE CHANGES ##
+* In many functions that return a dataframe with a `Valid` column (e.g., `ContactWorkers`, etc.), `Valid` is now a factor. (#28)
 * Using `ContactWorkers` in batch mode now returns a dataframe identical in structure to using it in regular mode, with one row per worker. (#32)
 * The `signature` argument to `request` now defaults to `NULL` and is generated automatically.
 * `HITsToDataFrame` now returns, for the QualificationRequirements list element, an empty dataframe rather a single NA missing value if a given HIT does not have any QualificationRequirements attached to it.

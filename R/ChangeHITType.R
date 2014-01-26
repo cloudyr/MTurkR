@@ -81,5 +81,6 @@ function (hit = NULL, old.hit.type = NULL, new.hit.type = NULL,
             }
         }
     }
+    HITs$Valid <- factor(HITs$Valid, levels=c('TRUE','FALSE'))
     return(HITs)
 }

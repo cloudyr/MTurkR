@@ -73,5 +73,6 @@ function (hit = NULL, hit.type = NULL, response.group = NULL,
                 warning(i, ": Invalid Request for HIT ", hitlist[i])
         }
     }
+    HITs$Valid <- factor(HITs$Valid, levels=c('TRUE','FALSE'))
     return(HITs)
 }

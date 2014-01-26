@@ -54,5 +54,6 @@ function (assignment, questionIdentifier, download = FALSE, file.ext = NULL,
             }
         }
     }
+    FileUploadURL$Valid <- factor(FileUploadURL$Valid, levels=c('TRUE','FALSE'))
     return(FileUploadURL)
 }

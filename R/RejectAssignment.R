@@ -62,5 +62,6 @@ function (assignments, feedback = NULL, keypair = credentials(),
             }
         }
     }
+    Assignments$Valid <- factor(Assignments$Valid, levels=c('TRUE','FALSE'))
     return(Assignments)
 }

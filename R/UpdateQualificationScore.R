@@ -69,5 +69,6 @@ function (qual, workers, values = NULL, increment = NULL, keypair = credentials(
     }
     if(print == TRUE) 
         message(i, " Qualification Scores Updated")
+    Qualifications$Valid <- factor(Qualifications$Valid, levels=c('TRUE','FALSE'))
     return(Qualifications)
 }

@@ -37,6 +37,7 @@ function (notification, test.event.type = "HITExpired", keypair = credentials(),
                 message("TestEventNotification ", test.event.type," Sent")
         else if(request$valid == FALSE & print == TRUE)
             warning("Invalid Request")
+        TestEvent$Valid <- factor(TestEvent$Valid, levels=c('TRUE','FALSE'))
         return(TestEvent)
     }
 }

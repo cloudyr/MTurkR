@@ -161,5 +161,6 @@ function (subjects, msgs, workers, batch = FALSE, keypair = credentials(),
             }
         }
     }
+    Notifications$Valid <- factor(Notifications$Valid, levels=c('TRUE','FALSE','HardFailure'))
     return(Notifications)
 }

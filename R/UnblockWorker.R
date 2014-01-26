@@ -57,5 +57,6 @@ function (workers, reasons = NULL, keypair = credentials(), print = getOption('M
                 warning(i, ": Invalid Request for worker ", workers[i])
         }
     }
+    Workers$Valid <- factor(Workers$Valid, levels=c('TRUE','FALSE'))
     return(Workers)
 }

@@ -73,5 +73,6 @@ function (qual, worker, reason = NULL, keypair = credentials(),
             }
         }
     }
+    Qualifications$Valid <- factor(Qualifications$Valid, levels=c('TRUE','FALSE'))
     return(Qualifications)
 }

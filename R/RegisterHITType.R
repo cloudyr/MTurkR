@@ -66,6 +66,7 @@ function (title, description, reward, duration, keywords = NULL,
             if(print == TRUE) 
                 warning("Invalid Request")
         }
+        HITType$Valid <- factor(HITType$Valid, levels=c('TRUE','FALSE'))
         return(HITType)
     }
 }

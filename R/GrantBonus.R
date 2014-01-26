@@ -68,5 +68,6 @@ function (workers, assignments, amounts, reasons, keypair = credentials(),
             }
         }
     }
+    Bonuses$Valid <- factor(Bonuses$Valid, levels=c('TRUE','FALSE'))
     return(Bonuses)
 }

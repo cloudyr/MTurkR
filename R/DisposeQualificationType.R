@@ -37,6 +37,8 @@ function (qual, keypair = credentials(), print = getOption('MTurkR.print'),
             QualificationTypes[1, ] <- c(qual, request$valid)
             if(print == TRUE)
                 message("QualificationType ", qual, " Disposed")
+            QualificationTypes$Valid <-
+                factor(QualificationTypes$Valid, levels=c('TRUE','FALSE'))
             return(QualificationTypes)
         }
         else if(request$valid == FALSE) {

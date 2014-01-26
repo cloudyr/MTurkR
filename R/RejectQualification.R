@@ -55,6 +55,8 @@ function (qual.request, reason = NULL, keypair = credentials(),
                 if(print == TRUE)
 					warning(i, ": Invalid Request for QualificationRequestId ", qual.request)
             }
+            QualificationRequests$Valid <-
+                factor(QualificationRequests$Valid, levels=c('TRUE','FALSE'))
             return(QualificationRequests)
         }
     }

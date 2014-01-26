@@ -69,6 +69,7 @@ function (assignments, feedback = NULL, rejected = FALSE, keypair = credentials(
         else
             Assignments[i, ] <- c(assignments[i], "", x$valid)
     }
+    Assignments$Valid <- factor(Assignments$Valid, levels=c('TRUE','FALSE'))
     if(print == TRUE) 
         message(sum(x$valid), " Assignments Approved")
     return(Assignments)

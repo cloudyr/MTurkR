@@ -58,5 +58,7 @@ function (qual.requests, values, keypair = credentials(), print = getOption('MTu
             }
         }
     }
+    QualificationRequests$Valid <-
+        factor(QualificationRequests$Valid, levels=c('TRUE','FALSE'))
     return(QualificationRequests)
 }

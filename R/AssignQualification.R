@@ -170,5 +170,6 @@ function (qual, workers, value = "1", notify = FALSE, name = NULL,
             value <- qual.value
         }
     }
+    Qualifications$Valid <- factor(Qualifications$Valid, levels=c('TRUE','FALSE'))
     return(Qualifications)
 }
