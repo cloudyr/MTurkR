@@ -61,7 +61,7 @@ function (response.group = NULL, return.all = TRUE, pagenumber = "1",
                                             sandbox = sandbox)
                 batch$HITs <- hitlist$HITs
                 if(return.qual.dataframe == TRUE) 
-                  batch$QualificationRequirements <- hitlist$QualificationRequirements
+                    batch$QualificationRequirements <- hitlist$QualificationRequirements
             }
         }
         return(batch)
@@ -102,7 +102,7 @@ function (response.group = NULL, return.all = TRUE, pagenumber = "1",
     if(return.qual.dataframe==TRUE){
         if(!is.null(request$QualificationRequirements) && length(request$QualificationRequirements)>0){
             tmpdf <- do.call(rbind,request$QualificationRequirements)
-            allQuals <- unique(tmpdf['QualificationTypeId'])
+            allQuals <- unique(tmpdf$QualificationTypeId)
             allQuals <- allQuals[!allQuals %in% ListQualificationTypes()$QualificationTypeId]
             if(length(allQuals)>0){
                 allNames <- character(length=length(allQuals))

@@ -43,11 +43,20 @@ function (xml = NULL, xml.parsed = NULL, return.hit.xml = FALSE,
                     "]/QualificationRequirement", sep = ""))
                 if(!is.null(quals.nodeset) && length(quals.nodeset) > 0) {
                     quals[[i]] <- QualificationRequirementsToDataFrame(xmlnodeset = quals.nodeset, 
-                        hit.number = i, sandbox = sandbox)
-                    quals[[i]]$HITId <- HITs$HITId[i]
+                                hit.number = i, sandbox = sandbox)
+                    if(is.null(quals[[i]]) || is.na(quals[[i]])) {
+                        quals[[i]] <- setNames(data.frame(matrix(ncol=6, nrow=0)),
+                                    c('HITId','QualificationTypeId','Name',
+                                    'Comparator','Value','RequiredToPreview'))
+                    }
+                    else
+                        quals[[i]]$HITId <- HITs$HITId[i]
                 }
-                else
-                    quals[[i]] <- NA
+                else {
+                    quals[[i]] <- setNames(data.frame(matrix(ncol=6, nrow=0)),
+                                    c('HITId','QualificationTypeId','Name',
+                                    'Comparator','Value','RequiredToPreview'))
+                }
             }
         }
         if(!is.null(quals))
