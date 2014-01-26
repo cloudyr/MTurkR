@@ -29,7 +29,10 @@ function (keyid, operation, signature=NULL, timestamp=NULL, GETparameters,
             browseURL(request.url)
         else {
             h <- basicTextGatherer()
-            curlPerform(url=request.url,
+            #curlPerform(url=request.url,
+            curlPerform(url='https://mechanicalturk.sandbox.amazonaws.com/?Service=AWSMechanicalTurkRequester',
+                        httpheader=c('Content-Type'='application/x-www-form-urlencoded'),
+                        postfields=strsplit(request.url,'amazonaws.com/?', fixed=TRUE)[[1]][2],
                         followlocation = 1L, ssl.verifypeer = 1L, ssl.verifyhost = 2L, 
                         cainfo = system.file("CurlSSL",
                                              "cacert.pem",
