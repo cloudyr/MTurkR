@@ -25,7 +25,7 @@ function (operation, parameters = NULL, keypair = credentials(),
 			sandbox = sandbox, xml.parse = xml.parse, validation.test = validation.test)
 		if(validation.test)
 			return(invisible(request))
-		if(request$valid == TRUE & print == TRUE
+		if(request$valid == TRUE & print == TRUE)
 			message("Operation (", operation, ") Successful")
 		else if(request$valid == FALSE & print==TRUE)
             warning("Invalid Request")
