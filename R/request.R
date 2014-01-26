@@ -132,6 +132,7 @@ function (keyid, operation, signature=NULL, timestamp=NULL, GETparameters,
                     errors <- tryCatch(ParseErrorCodes(xml = response),
                         error = function(e) e)
                     if(!inherits(errors, 'error')){
+                        cat('\n')
                         for (i in 1:dim(errors)[1])
                             message("Error (", errors[i, 1], "): ", errors[i,2])
                     }
