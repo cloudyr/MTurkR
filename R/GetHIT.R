@@ -34,14 +34,14 @@ function (hit, response.group = NULL, keypair = credentials(),
             auth$timestamp, GETparameters, browser = browser, 
             sandbox = sandbox, validation.test = validation.test)
 		if(validation.test)
-			invisible(request)
+			return(invisible(request))
     }
     else {
         request <- request(keyid, auth$operation, auth$signature, 
             auth$timestamp, GETparameters, log.requests = log.requests, 
             sandbox = sandbox, validation.test = validation.test)
 		if(validation.test)
-			invisible(request)
+			return(invisible(request))
         if(request$valid == TRUE) {
             z <- HITsToDataFrame(xml = request$xml, sandbox = sandbox)
             if(print == TRUE) 
@@ -60,6 +60,6 @@ function (hit, response.group = NULL, keypair = credentials(),
                 message("No HITs Retrieved")
             return.list <- NULL
         }
-        invisible(return.list)
+        return(return.list)
     }
 }

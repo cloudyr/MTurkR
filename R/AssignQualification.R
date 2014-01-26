@@ -42,18 +42,18 @@ function (qual, workers, value = "1", notify = FALSE, name = NULL,
                 auth$timestamp, GETparameters, browser = browser, 
                 sandbox = sandbox, validation.test = validation.test)
 			if(validation.test)
-				invisible(request)
+				return(invisible(request))
         }
         else {
             request = request(keyid, auth$operation, auth$signature, 
                 auth$timestamp, GETparameters, log.requests = log.requests, 
                 sandbox = sandbox, validation.test = validation.test)
 			if(validation.test)
-				invisible(request)
+				return(invisible(request))
             if(print == TRUE) {
                 if(request$valid == TRUE) {
                     message("Qualification (", qual, ") Assigned to worker ", worker)
-                    invisible(request)
+                    return(invisible(request))
                 }
                 else if(request$valid == FALSE) {
                     warning("Invalid Request for worker ",worker)
@@ -61,7 +61,7 @@ function (qual, workers, value = "1", notify = FALSE, name = NULL,
                 }
             }
             else
-				invisible(request)
+				return(invisible(request))
         }
     }
     if (!is.null(name)) {
@@ -90,14 +90,14 @@ function (qual, workers, value = "1", notify = FALSE, name = NULL,
         for(i in 1:length(workers)) {
             x <- batch(workers[i], value)
 			if(validation.test)
-				invisible(x)
+				return(invisible(x))
             Qualifications[i, ] = c(workers[i], value, qual, notify, x$valid)
         }
     }
     else {
 		if(validation.test){
 			warning("validation.test not available for conditional qualification assignment")
-			invisible(NULL)
+			return(invisible(NULL))
 		}
         if(is.null(conditional.comparator)) 
             stop("No comparator specified for conditional")
@@ -170,5 +170,5 @@ function (qual, workers, value = "1", notify = FALSE, name = NULL,
             value <- qual.value
         }
     }
-    invisible(Qualifications)
+    return(Qualifications)
 }

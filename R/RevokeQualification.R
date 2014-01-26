@@ -30,24 +30,21 @@ function (qual, worker, reason = NULL, keypair = credentials(),
                 auth$timestamp, GETparameters, browser = browser,
 				sandbox = sandbox, validation.test = validation.test)
 			if(validation.test)
-				invisible(request)
+				return(invisible(request))
         }
         else {
             request <- request(keyid, auth$operation, auth$signature, 
                 auth$timestamp, GETparameters, log.requests = log.requests, 
                 sandbox = sandbox, validation.test = validation.test)
 			if(validation.test)
-				invisible(request)
-            if (request$valid == TRUE) {
-                if (print == TRUE) 
-                    message(i, ": Qualification (", qualbatch, ") for worker ", 
+				return(invisible(request))
+            if (request$valid == TRUE & print == TRUE) {
+                message(i, ": Qualification (", qualbatch, ") for worker ", 
                     workerbatch, " Revoked")
             }
-            else if(request$valid == FALSE) {
-                if(print == TRUE) 
+            else if(request$valid == FALSE & print == TRUE)
                     warning(i, ": Invalid Request for worker ", workerbatch)
-            }
-            invisible(request)
+            return(request)
         }
     }
     Qualifications <- setNames(data.frame(matrix(ncol=4)),
@@ -76,8 +73,5 @@ function (qual, worker, reason = NULL, keypair = credentials(),
             }
         }
     }
-    if(print == TRUE) 
-        return(Qualifications)
-    else
-		invisible(Qualifications)
+    return(Qualifications)
 }

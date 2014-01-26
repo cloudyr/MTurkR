@@ -46,14 +46,14 @@ function (hit, assignment = NULL, policy.level = NULL, retrieve.results = TRUE,
             auth$timestamp, GETparameters, browser = browser, 
             sandbox = sandbox, validation.test = validation.test)
 		if(validation.test)
-			invisible(request)
+			return(invisible(request))
     }
     else {
         request <- request(keyid, auth$operation, auth$signature, 
             auth$timestamp, GETparameters, log.requests = log.requests, 
             sandbox = sandbox, validation.test = validation.test)
 		if(validation.test)
-			invisible(request)
+			return(invisible(request))
         if(request$valid == TRUE) {
             ReviewResults <- ReviewResultsToDataFrame(xml = request$xml)
             if(print == TRUE) {
@@ -73,16 +73,11 @@ function (hit, assignment = NULL, policy.level = NULL, retrieve.results = TRUE,
                   if("HITReviewAction" %in% names(ReviewResults)) 
                     message(length(ReviewResults$AssignmentReviewResults), 
                       " HIT ReviewActions Retrieved")
-                  return(ReviewResults)
                 }
             }
-            else
-				invisible(ReviewResults)
         }
-        else if(request$valid == FALSE) {
-            if(print == TRUE) 
-                warning("Invalid Request")
-            invisible(request)
-        }
+        else if(request$valid == FALSE & print == TRUE)
+            warning("Invalid Request")
+        return(ReviewResults)
     }
 }

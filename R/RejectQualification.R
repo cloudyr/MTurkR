@@ -35,14 +35,14 @@ function (qual.request, reason = NULL, keypair = credentials(),
                 auth$timestamp, GETparameters, browser = browser, 
                 sandbox = sandbox, validation.test = validation.test)
 			if(validation.test)
-				invisible(request)
+				return(invisible(request))
         }
         else {
             request <- request(keyid, auth$operation, auth$signature, 
                 auth$timestamp, GETparameters, log.requests = log.requests, 
                 sandbox = sandbox, validation.test = validation.test)
 			if(validation.test)
-				invisible(request)
+				return(invisible(request))
             if(request$valid == TRUE) {
                 if(is.null(reason[i])) 
 					reason[i] <- NA
@@ -50,14 +50,12 @@ function (qual.request, reason = NULL, keypair = credentials(),
 					reason[i], request$valid)
                 if(print == TRUE) 
 					message(i, ": Qualification (", qual.request[i],") Rejected")
-                invisible(QualificationRequests)
             }
             else if(request$valid == FALSE) {
-                if(print == TRUE) {
+                if(print == TRUE)
 					warning(i, ": Invalid Request for QualificationRequestId ", qual.request)
-					return(QualificationRequests)
-                }
             }
+            return(QualificationRequests)
         }
     }
 }

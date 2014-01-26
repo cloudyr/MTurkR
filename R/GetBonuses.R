@@ -46,9 +46,9 @@ function (assignment = NULL, hit = NULL, hit.type = NULL, return.all = TRUE,
             log.requests = log.requests, sandbox = sandbox,
             validation.test = validation.test)
 		if(validation.test)
-			invisible(request)
+			return(invisible(request))
         if(browser == TRUE)
-            invisible(NULL)
+            return(invisible(NULL))
         request$operation <- operation
         if(request$valid == TRUE) {
             request$total.bonuses <- strsplit(strsplit(request$xml, 
@@ -59,8 +59,7 @@ function (assignment = NULL, hit = NULL, hit.type = NULL, return.all = TRUE,
                 Bonuses <- BonusPaymentsToDataFrame(xml = request$xml)
                 if(!is.null(hit)) 
                     Bonuses$HITId <- hit
-                if(print == TRUE) 
-                    invisible(Bonuses)
+                return(Bonuses)
             }
         }
         else if(request$valid == FALSE)
@@ -101,14 +100,11 @@ function (assignment = NULL, hit = NULL, hit.type = NULL, return.all = TRUE,
                     warning("Invalid Request for HIT ", z$HITId[i])
             }
         }
-        if(return.bonus.dataframe == TRUE) {
-            if(print == TRUE) 
-                message(sum(z$Number), " Bonuses Retrieved")
-            invisible(z)
-        }
-        else {
-            if(print == TRUE) 
-                message(sum(z$Number), " Bonuses Retrieved")
-        }
+        if(print == TRUE) 
+            message(sum(z$Number), " Bonuses Retrieved")
+        if(return.bonus.dataframe == TRUE)
+            return(z)
+        else
+            return(invisible(NULL))
     }
 }

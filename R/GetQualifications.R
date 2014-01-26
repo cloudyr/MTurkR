@@ -50,7 +50,7 @@ function (qual, status = NULL, return.all = TRUE, pagenumber = 1,
     }
     request <- batch(qual, pagenumber)
 	if(validation.test)
-		invisible(request)
+		return(invisible(request))
     runningtotal <- request$batch.total
     pagenumber <- 2
     while(request$total > runningtotal) {
@@ -66,13 +66,10 @@ function (qual, status = NULL, return.all = TRUE, pagenumber = 1,
         pagenumber <- pagenumber + 1
     }
     request$batch.total <- NULL
-    if(print == TRUE) {
+    if(print == TRUE)
         message(request$total, " Qualifications Retrieved")
-        if(request$total > 0)
-            return(request$Qualifications)
-    }
-    else {
-        if(request$total > 0) 
-            invisible(request$Qualifications)
-    }
+    if(request$total > 0)
+        return(request$Qualifications)
+    else
+        return(NULL)
 }

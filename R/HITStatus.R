@@ -28,7 +28,7 @@ function (hit = NULL, hit.type = NULL, keypair = credentials(),
         HITs <- HITs[HITs$HITTypeId %in% hit.type, ]
         if(dim(HITs)[1] == 0) {
             message("No HITs found for HITType")
-            invisible(HITs)
+            return(invisible(NULL))
         }
         if(dim(HITs)[1] > 1) {
             toprint <- HITs[,c( "HITId","HITReviewStatus","NumberOfAssignmentsPending",
@@ -48,7 +48,6 @@ function (hit = NULL, hit.type = NULL, keypair = credentials(),
     }
     if(print == TRUE){
         print(toprint, row.names = FALSE)
-        message()
     }
-    invisible(HITs)
+    return(invisible(HITs))
 }

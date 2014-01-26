@@ -68,7 +68,7 @@ function (response.group = NULL, return.all = TRUE, pagenumber = "1",
     }
     request <- batch(pagenumber)
 	if(validation.test)
-		invisible(request)
+		retrun(invisible(request))
     runningtotal <- request$batch.total
     if(return.all){
         pagenumber <- 2
@@ -102,7 +102,7 @@ function (response.group = NULL, return.all = TRUE, pagenumber = "1",
     if(return.qual.dataframe==TRUE){
         if(!is.null(request$QualificationRequirements) && length(request$QualificationRequirements)>0){
             tmpdf <- do.call(rbind,request$QualificationRequirements)
-            allQuals <- unique(tmpdf$QualificationTypeId)
+            allQuals <- unique(tmpdf['QualificationTypeId'])
             allQuals <- allQuals[!allQuals %in% ListQualificationTypes()$QualificationTypeId]
             if(length(allQuals)>0){
                 allNames <- character(length=length(allQuals))
@@ -128,10 +128,7 @@ function (response.group = NULL, return.all = TRUE, pagenumber = "1",
         else
             return.list <- NULL
     }
-    if(print == TRUE) {
+    if(print == TRUE)
         message(runningtotal, " HITs Retrieved")
-        return(return.list)
-    }
-    else
-        invisible(return.list)
+    return(return.list)
 }

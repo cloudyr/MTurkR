@@ -1,7 +1,6 @@
 RequesterReport <-
 function (period = "LifeToDate", keypair = credentials(),
-    log.requests = getOption('MTurkR.log'), sandbox = getOption('MTurkR.sandbox'),
-    print = getOption('MTurkR.print')) 
+    log.requests = getOption('MTurkR.log'), sandbox = getOption('MTurkR.sandbox')) 
 {
     if(!period %in% c("OneDay", "SevenDays", "ThirtyDays", "LifeToDate")) 
         stop("Period not valid")
@@ -27,7 +26,5 @@ function (period = "LifeToDate", keypair = credentials(),
             keypair = keypair, print = FALSE, log.requests = log.requests, 
             sandbox = sandbox)
     }
-    if(print == TRUE) 
-        print(z)
-    invisible(z)
+    return(z)
 }

@@ -39,14 +39,14 @@ function (statistic, period = "LifeToDate", count = NULL, response.group = NULL,
             auth$timestamp, GETparameters, browser = browser, 
             sandbox = sandbox, validation.test = validation.test)
 		if(validation.test)
-			invisible(request)
+			return(invisible(request))
     }
     else {
         request <- request(keyid, auth$operation, auth$signature, 
             auth$timestamp, GETparameters, log.requests = log.requests, 
             sandbox = sandbox, validation.test = validation.test)
 		if(validation.test)
-			invisible(request)
+			return(invisible(request))
         request$statistic <- statistic
         request$period <- period
         if(request$valid == TRUE) {
@@ -82,12 +82,12 @@ function (statistic, period = "LifeToDate", count = NULL, response.group = NULL,
                 if(print == TRUE) 
                     message(statistic, " (", period, "): ", request$value)
             }
-            invisible(request$value)
+            return(request$value)
         }
-        else if(request$valid == FALSE) {
-            if(print == TRUE) 
+        else if(request$valid == FALSE){
+            if(print == TRUE)
                 warning("Invalid Request")
-            invisible(NA)
+            return(NULL)
         }
     }
 }

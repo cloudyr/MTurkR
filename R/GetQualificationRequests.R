@@ -59,7 +59,7 @@ function (qual = NULL, return.all = TRUE, pagenumber = "1", pagesize = "10",
     request <- batch(qual, pagenumber, pagesize, sortproperty, 
         sortdirection, sandbox = sandbox)
 	if(validation.test)
-		invisible(request)
+		return(invisible(request))
     runningtotal <- request$batch.total
     pagenumber <- 2
     while(request$total > runningtotal) {
@@ -76,13 +76,10 @@ function (qual = NULL, return.all = TRUE, pagenumber = "1", pagesize = "10",
         pagenumber <- pagenumber + 1
     }
     request$batch.total <- NULL
-    if(print == TRUE) {
+    if(print == TRUE)
         message(request$total, " Requests Retrieved")
-        if(request$total > 0) 
-            return(request$QualificationRequests)
-    }
-    else {
-        if(request$total > 0) 
-            invisible(request$QualificationRequests)
-    }
+    if(request$total > 0) 
+        return(request$QualificationRequests)
+    else
+        return(NULL)
 }

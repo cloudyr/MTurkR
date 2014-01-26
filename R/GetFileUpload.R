@@ -22,18 +22,19 @@ function (assignment, questionIdentifier, download = FALSE, file.ext = NULL,
                 auth$timestamp, GETparameters, browser = browser, 
                 sandbox = sandbox, validation.test = validation.test)
 			if(validation.test)
-				invisible(request)
+				return(invisible(request))
             if(open.file.in.browser == TRUE) 
                 warning("Request to open file in browser ignored")
             if(download == TRUE) 
                 warning("Request to download file ignored")
+            return(invisible(NULL))
         }
         else {
             request <- request(keyid, auth$operation, auth$signature, 
                 auth$timestamp, GETparameters, log.requests = log.requests, 
                 sandbox = sandbox, validation.test = validation.test)
 			if(validation.test)
-				invisible(request)
+				return(invisible(request))
             if(request$valid == TRUE) {
                 url <- strsplit(strsplit(request$xml, "<FileUploadURL>")[[1]][2], "</FileUploadURL>")[[1]][1]
                 FileUploadURL[i, ] <- c(assignment[i], url, request$valid)
@@ -53,10 +54,5 @@ function (assignment, questionIdentifier, download = FALSE, file.ext = NULL,
             }
         }
     }
-    if(browser == FALSE) {
-        if(print == TRUE) 
-            return(FileUploadURL)
-        else
-			invisible(FileUploadURL)
-    }
+    return(FileUploadURL)
 }

@@ -17,8 +17,7 @@ GetStatistic(    statistic, period = "LifeToDate", count = NULL,
                 validation.test = getOption('MTurkR.test'))
 RequesterReport(period = "LifeToDate", keypair = credentials(), 
                 log.requests = getOption('MTurkR.log'),
-                sandbox = getOption('MTurkR.sandbox'),
-                print = getOption('MTurkR.print'))
+                sandbox = getOption('MTurkR.sandbox'))
 
 GetWorkerStatistic(    worker, statistic, period = "LifeToDate", count = NULL,
                     response.group = NULL, keypair = credentials(),
@@ -29,7 +28,7 @@ GetWorkerStatistic(    worker, statistic, period = "LifeToDate", count = NULL,
                     validation.test = getOption('MTurkR.test'))
 WorkerReport(    worker, period = "LifeToDate", 
                 keypair = credentials(), log.requests = getOption('MTurkR.log'), 
-                sandbox = getOption('MTurkR.sandbox'), print = getOption('MTurkR.print'))
+                sandbox = getOption('MTurkR.sandbox'))
 }
 \arguments{
   \item{worker}{A character string containing a WorkerId.}

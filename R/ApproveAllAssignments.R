@@ -30,5 +30,5 @@ function (hit = NULL, hit.type = NULL, feedback = NULL, keypair = credentials(),
     request <- ApproveAssignments(keypair, assignments, feedback = feedback,
                 print = print, log.requests = log.requests, 
                 sandbox = sandbox, validation.test = validation.test)
-    invisible(request)
+    return(request)
 }

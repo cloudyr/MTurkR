@@ -45,16 +45,15 @@ function (title, description, reward, duration, keywords = NULL,
             auth$timestamp, GETparameters, browser = browser, 
             sandbox = sandbox, validation.test = validation.test)
 		if(validation.test)
-			invisible(request)
-    }
-    else {
+			return(invisible(request))
+    } else {
         HITType <- setNames(data.frame(matrix(ncol=2,nrow=1)),
                     c("HITTypeId", "Valid"))
         request <- request(keyid, auth$operation, auth$signature, 
             auth$timestamp, GETparameters, log.requests = log.requests, 
             sandbox = sandbox, validation.test = validation.test)
 		if(validation.test)
-			invisible(request)
+			return(invisible(request))
         if(request$valid == TRUE) {
             hit.type <- strsplit(strsplit(request$xml, "<HITTypeId>")[[1]][2], 
                 "</HITTypeId>")[[1]][1]
@@ -67,9 +66,6 @@ function (title, description, reward, duration, keywords = NULL,
             if(print == TRUE) 
                 warning("Invalid Request")
         }
-        if(print == TRUE) 
-            return(HITType)
-        else
-			invisible(HITType)
+        return(HITType)
     }
 }

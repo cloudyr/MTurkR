@@ -37,43 +37,37 @@ function (qual, workers, values = NULL, increment = NULL, keypair = credentials(
         if(!length(workers) == length(values)) 
             stop("!length(workers)==length(values)")
     }
-    else stop("Value(s) is/are missing")
-    Qualifications <- data.frame(matrix(nrow = length(workers), 
-        ncol = 4))
-    names(Qualifications) <- c("QualificationTypeId", "WorkerId", 
-        "Value", "Valid")
+    else
+        stop("Value(s) is/are missing")
+    Qualifications <- data.frame(matrix(nrow = length(workers), ncol = 4))
+    names(Qualifications) <- c("QualificationTypeId", "WorkerId", "Value", "Valid")
     for(i in 1:length(workers)) {
         GETparameters <- paste("&QualificationTypeId=", qual, 
-            "&SubjectId=", workers[i], "&IntegerValue=", values[i], 
-            sep = "")
+            "&SubjectId=", workers[i], "&IntegerValue=", values[i], sep = "")
         auth <- authenticate(operation, secret)
         if(browser == TRUE){
             request <- request(keyid, auth$operation, auth$signature, 
                 auth$timestamp, GETparameters, browser = browser, 
                 sandbox = sandbox, validation.test = validation.test)
 			if(validation.test)
-				invisible(request)
+				return(invisible(request))
         }
         else {
             request <- request(keyid, auth$operation, auth$signature, 
                 auth$timestamp, GETparameters, log.requests = log.requests, 
                 sandbox = sandbox, validation.test = validation.test)
             if(validation.test)
-				invisible(request)
-			Qualifications[i, ] <- c(qual, workers[i], values[i], 
-                request$valid)
-            if(request$valid == TRUE) {
-                if(print == TRUE) 
-                    message(i, ": Qualification Score for Worker ", 
-                        workers[i], " updated to ", values[i])
+				return(invisible(request))
+			Qualifications[i, ] <- c(qual, workers[i], values[i], request$valid)
+            if(request$valid == TRUE & print == TRUE) {
+                message(i, ": Qualification Score for Worker ", 
+                    workers[i], " updated to ", values[i])
             }
-            else if(request$valid == FALSE){
-                if(print == TRUE) 
-                    warning(i, ": Invalid Request for worker ", workers[i])
-            }
+            else if(request$valid == FALSE & print == TRUE)
+                warning(i, ": Invalid Request for worker ", workers[i])
         }
     }
     if(print == TRUE) 
         message(i, " Qualification Scores Updated")
-    invisible(Qualifications)
+    return(Qualifications)
 }

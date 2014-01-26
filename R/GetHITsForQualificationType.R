@@ -42,7 +42,7 @@ function (qual, response.group = NULL, return.all = TRUE, pagenumber = 1,
             auth$timestamp, GETiteration, log.requests = log.requests, 
             sandbox = sandbox, validation.test = validation.test)
 		if(validation.test)
-			invisible(batch)
+			return(invisible(batch))
         batch$total <- as.numeric(strsplit(strsplit(batch$xml, 
             "<TotalNumResults>")[[1]][2], "</TotalNumResults>")[[1]][1])
         batch$batch.total <- length(xpathApply(xmlParse(batch$xml), "//HIT"))
@@ -57,7 +57,7 @@ function (qual, response.group = NULL, return.all = TRUE, pagenumber = 1,
     }
     request <- batch(pagenumber)
 	if(validation.test)
-		invisible(request)
+		return(invisible(request))
     runningtotal <- request$batch.total
     pagenumber <- 2
     while(request$total > runningtotal) {
@@ -79,13 +79,8 @@ function (qual, response.group = NULL, return.all = TRUE, pagenumber = 1,
     request$batch.total <- NULL
     return.list <- list(HITs = request$HITs,
 						QualificationRequirements = request$QualificationRequirements)
-    if(print == TRUE) {
+    if(print == TRUE)
         message(request$total, " HITs Retrieved")
-        if(request$total > 0) 
-            return(return.list)
-    }
-    else {
-        if(request$total > 0) 
-            invisible(return.list)
-    }
+    if(request$total > 0) 
+        return(return.list)
 }

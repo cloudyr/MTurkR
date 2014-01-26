@@ -74,7 +74,7 @@ function (assignment = NULL, hit = NULL, hit.type = NULL, status = NULL,
                 }
             }
         }
-        invisible(Assignments)#, HITs = HITs, 
+        return(Assignments)#, HITs = HITs, 
 			#QualificationRequirements = QualificationRequirements))
     }
     else {
@@ -121,7 +121,7 @@ function (assignment = NULL, hit = NULL, hit.type = NULL, status = NULL,
                                 auth$timestamp, GETiteration, log.requests = log.requests, 
                                 sandbox = sandbox, validation.test = validation.test)
             if(validation.test)
-                invisible(batch)
+                return(invisible(batch))
             batch$total <- as.numeric(strsplit(strsplit(batch$xml, 
                             "<TotalNumResults>")[[1]][2], "</TotalNumResults>")[[1]][1])
             batch$batch.total <- length(xpathApply(xmlParse(batch$xml), "//Assignment"))
@@ -140,7 +140,7 @@ function (assignment = NULL, hit = NULL, hit.type = NULL, status = NULL,
             if(i == 1){
                 request <- batch(hitlist[i], pagenumber)
                 if(validation.test)
-                    invisible(request)
+                    return(invisible(request))
                 runningtotal <- request$batch.total
              }
              else{
@@ -160,7 +160,7 @@ function (assignment = NULL, hit = NULL, hit.type = NULL, status = NULL,
                 while (request$total > runningtotal) {
                     nextbatch <- batch(hitlist[i], pagenumber)
                     if(validation.test)
-                         invisible(nextbatch)
+                         return(invisible(nextbatch))
                     if(return.assignment.dataframe == TRUE) 
                          request$assignments <- merge(request$assignments, 
                                                       nextbatch$assignments, all=TRUE)
@@ -176,6 +176,6 @@ function (assignment = NULL, hit = NULL, hit.type = NULL, status = NULL,
         }
         if(print == TRUE) 
             message(cumulative, " of ", request$total, " Assignments Retrieved")
-        invisible(request$assignments)
+        return(request$assignments)
     }
 }

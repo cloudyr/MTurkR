@@ -32,4 +32,5 @@ function (template, input, filenames = NULL, write.files = FALSE) {
         else
             HITs[[j]] <- newhit
     }
+    return(HITs)
 }

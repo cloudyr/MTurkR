@@ -33,14 +33,14 @@ function (pagenumber = NULL, pagesize = NULL, keypair = credentials(),
             auth$timestamp, GETparameters, browser = browser, 
             sandbox = sandbox, validation.test = validation.test)
 		if(validation.test)
-			invisible(request)
+			return(invisible(request))
     }
     else {
         request <- request(keyid, auth$operation, auth$signature, 
             auth$timestamp, GETparameters, log.requests = log.requests, 
             sandbox = sandbox, validation.test = validation.test)
 		if(validation.test)
-			invisible(request)
+			return(invisible(request))
         if(request$valid == TRUE) {
             Workers <- WorkerBlockToDataFrame(xml = request$xml)
             if(print == TRUE) {
@@ -49,9 +49,9 @@ function (pagenumber = NULL, pagesize = NULL, keypair = credentials(),
                 else
 					message("No Blocked Workers Retrieved")
             }
-            invisible(Workers)
+            return(Workers)
         }
         else
-            invisible(NULL)
+            return(NULL)
     }
 }

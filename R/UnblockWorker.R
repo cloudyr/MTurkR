@@ -37,30 +37,25 @@ function (workers, reasons = NULL, keypair = credentials(), print = getOption('M
                 auth$timestamp, GETparameters, browser = browser, 
                 sandbox = sandbox, validation.test = validation.test)
 			if(validation.test)
-				invisible(request)
+				return(invisible(request))
         }
         else {
             request <- request(keyid, auth$operation, auth$signature, 
                 auth$timestamp, GETparameters, log.requests = log.requests, 
                 sandbox = sandbox, validation.test = validation.test)
             if(validation.test)
-				invisible(request)
+				return(invisible(request))
 			if (request$valid == TRUE) {
                 if (print == TRUE) 
-                  message(i, ": Worker ", workers[i], " Unblocked")
+                    message(i, ": Worker ", workers[i], " Unblocked")
                 if (is.null(reasons)) 
-                  Workers[i, ] = c(workers[i], NA, request$valid)
-                else Workers[i, ] = c(workers[i], reasons[i], 
-                  request$valid)
+                    Workers[i, ] = c(workers[i], NA, request$valid)
+                else
+                    Workers[i, ] = c(workers[i], reasons[i], request$valid)
             }
-            else if (request$valid == FALSE) {
-                if (print == TRUE) 
-                  warning(i, ": Invalid Request for worker ", workers[i])
-            }
+            else if (request$valid == FALSE & print == TRUE)
+                warning(i, ": Invalid Request for worker ", workers[i])
         }
     }
-    if (print == TRUE) 
-        return(Workers)
-    else
-		invisible(Workers)
+    return(Workers)
 }

@@ -42,35 +42,28 @@ function (hit = NULL, hit.type = NULL, revert = FALSE, keypair = credentials(),
                 auth$timestamp, GETiteration, browser = browser, 
                 sandbox = sandbox, validation.test = validation.test)
 			if(validation.test)
-				invisible(request)
+				return(invisible(request))
         }
         else {
             request <- request(keyid, auth$operation, auth$signature, 
                 auth$timestamp, GETiteration, log.requests = log.requests, 
                 sandbox = sandbox, validation.test = validation.test)
 			if(validation.test)
-				invisible(request)
+				return(invisible(request))
             if(revert == "false") 
                 status <- "Reviewing"
             else if(revert == "true") 
                 status <- "Reviewable"
-            HITs[i, ] = c(hitlist[i], status, request$valid)
-            if(request$valid == TRUE) {
-                if(print == TRUE) {
-                    if(revert == "false") 
-                        message(i, ": HIT (", hitlist[i], ") set as Reviewing")
-                    if(revert == "true") 
-                        message(i, ": HIT (", hitlist[i], ") set as Reviewable")
-                }
+            HITs[i, ] <- c(hitlist[i], status, request$valid)
+            if(request$valid == TRUE & print == TRUE) {
+                if(revert == "false") 
+                    message(i, ": HIT (", hitlist[i], ") set as Reviewing")
+                if(revert == "true") 
+                    message(i, ": HIT (", hitlist[i], ") set as Reviewable")
             }
-            else if(request$valid == FALSE) {
-                if(print == TRUE)
-                    warning(i, ": Invalid Request for HIT ", hitlist[i])
-            }
+            else if(request$valid == FALSE & print == TRUE)
+                warning(i, ": Invalid Request for HIT ", hitlist[i])
         }
     }
-    if(print == TRUE) 
-        return(HITs)
-    else
-		invisible(HITs)
+    return(HITs)
 }

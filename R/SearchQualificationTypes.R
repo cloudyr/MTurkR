@@ -41,7 +41,7 @@ function (query = NULL, only.mine = TRUE, only.requestable = FALSE,
             auth$timestamp, GETparameters, log.requests = log.requests, 
             sandbox = sandbox, validation.test = validation.test)
 		if(validation.test)
-			invisible(batch)
+			return(invisible(batch))
         batch$total <- as.numeric(strsplit(strsplit(batch$xml, 
 							"<TotalNumResults>")[[1]][2], "</TotalNumResults>")[[1]][1])
         batch$batch.total <- length(xpathApply(xmlParse(batch$xml), "//QualificationTypeId"))
@@ -54,7 +54,7 @@ function (query = NULL, only.mine = TRUE, only.requestable = FALSE,
     request <- batch(operation, keyid, secret, GETparameters, 
         pagenumber, pagesize, sandbox = sandbox, validation.test = validation.test)
     if(validation.test)
-		invisible(request)
+		return(invisible(request))
 	runningtotal <- request$batch.total
     pagenumber = 2
     if(return.all == TRUE) {
@@ -66,7 +66,7 @@ function (query = NULL, only.mine = TRUE, only.requestable = FALSE,
             nextbatch <- batch(operation, keyid, secret, GETparameters, 
                 pagenumber, pagesize, sandbox = sandbox, validation.test = validation.test)
 			if(validation.test)
-				invisible(nextbatch)
+				return(invisible(nextbatch))
             request$request.id <- c(request$request.id, nextbatch$request.id)
             request$valid <- c(request$valid, nextbatch$valid)
             request$xml.response <- c(request$xml, nextbatch$xml)
@@ -78,14 +78,9 @@ function (query = NULL, only.mine = TRUE, only.requestable = FALSE,
         }
     }
     request$batch.total <- NULL
-    if(request$valid[1] == TRUE & print == TRUE) {
+    if(request$valid[1] == TRUE & print == TRUE)
         message(dim(request$quals)[1], " of ", request$total, " QualificationTypes Retrieved")
-        return(invisible(request$quals))
-    }
-    else if(request$valid == FALSE & print == TRUE) {
+    else if(request$valid == FALSE & print == TRUE)
         warning("Invalid Request")
-        return(request$quals)
-    }
-    else
-	return(invisible(request$quals))
+    return(request$quals)
 }

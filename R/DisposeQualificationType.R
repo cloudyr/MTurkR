@@ -23,7 +23,7 @@ function (qual, keypair = credentials(), print = getOption('MTurkR.print'),
             auth$timestamp, GETparameters, browser = browser, 
             sandbox = sandbox, validation.test = validation.test)
 		if(validation.test)
-			invisible(request)
+			return(invisible(request))
     }
     else {
         QualificationTypes <- setNames(data.frame(matrix(ncol = 2)),
@@ -32,20 +32,17 @@ function (qual, keypair = credentials(), print = getOption('MTurkR.print'),
             auth$timestamp, GETparameters, log.requests = log.requests, 
             sandbox = sandbox, validation.test = validation.test)
 		if(validation.test)
-			invisible(request)
+			return(invisible(request))
         if(request$valid == TRUE) {
             QualificationTypes[1, ] <- c(qual, request$valid)
-            if(print == TRUE) {
+            if(print == TRUE)
                 message("QualificationType ", qual, " Disposed")
-                return(QualificationTypes)
-            }
-            else
-				invisible(QualificationTypes)
+            return(QualificationTypes)
         }
         else if(request$valid == FALSE) {
             if(print == TRUE) 
                 warning("Invalid Request\n")
-            invisible(NULL)
+            return(NULL)
         }
     }
 }

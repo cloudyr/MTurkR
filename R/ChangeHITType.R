@@ -31,7 +31,7 @@ function (hit = NULL, old.hit.type = NULL, new.hit.type = NULL,
                 qual.req = qual.req, print = print, log.requests = log.requests, 
                 sandbox = sandbox, validation.test = validation.test)
 			if(validation.test)
-				invisible(request)
+				return(invisible(request))
             if(register$valid == FALSE) 
                 stop("Could not RegisterHITType(), check parameters")
             else
@@ -61,14 +61,14 @@ function (hit = NULL, old.hit.type = NULL, new.hit.type = NULL,
                 auth$timestamp, GETparameters, browser = browser, 
                 sandbox = sandbox, validation.test = validation.test)
 			if(validation.test)
-				invisible(x)
+				return(invisible(x))
         }
         else{
             x <- request(keyid, auth$operation, auth$signature, 
                 auth$timestamp, GETparameters, log.requests = log.requests, 
                 sandbox = sandbox, validation.test = validation.test)
 			if(validation.test)
-				invisible(x)
+				return(invisible(x))
             if(is.null(old.hit.type)) 
                 HITs[i, ] <- c(hitlist[i], NA, new.hit.type, x$valid)
             else
@@ -81,8 +81,5 @@ function (hit = NULL, old.hit.type = NULL, new.hit.type = NULL,
             }
         }
     }
-    if(print == TRUE) 
-        return(HITs)
-    else
-		invisible(HITs)
+    return(HITs)
 }

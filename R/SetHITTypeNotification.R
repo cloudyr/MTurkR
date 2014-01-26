@@ -30,14 +30,14 @@ function (hit.type, notification = NULL, active = NULL, keypair = credentials(),
             auth$timestamp, GETparameters, browser = browser, 
             sandbox = sandbox, validation.test = validation.test)
 		if(validation.test)
-			invisible(request)
+			return(invisible(request))
     }
     else {
         request <- request(keyid, auth$operation, auth$signature, 
             auth$timestamp, GETparameters, log.requests = log.requests, 
             sandbox = sandbox, validation.test = validation.test)
         if(validation.test)
-			invisible(request)
+			return(invisible(request))
 		Notification[1, ] <- c(hit.type, notification, active, request$valid)
         if(request$valid == TRUE) {
             if(print == TRUE) {
@@ -53,13 +53,8 @@ function (hit.type, notification = NULL, active = NULL, keypair = credentials(),
                     message("HITTypeNotification ", hit.type, " Inactive")
             }
         }
-        else if(request$valid == FALSE) {
-            if(print == TRUE) 
-                warning("Invalid Request")
-        }
+        else if(request$valid == FALSE & print == TRUE)
+            warning("Invalid Request")
     }
-    if(print == TRUE) 
-        return(Notification)
-    else
-		invisible(Notification)
+    return(Notification)
 }

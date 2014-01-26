@@ -39,14 +39,14 @@ function (assignments, feedback = NULL, keypair = credentials(),
                 auth$timestamp, GETparameters, browser = browser, 
                 sandbox = sandbox, validation.test = validation.test)
 			if(validation.test)
-				invisible(request)
+				return(invisible(request))
         }
         else {
             request <- request(keyid, auth$operation, auth$signature, 
                 auth$timestamp, GETparameters, log.requests = log.requests, 
                 sandbox = sandbox, validation.test = validation.test)
 			if(validation.test)
-				invisible(request)
+				return(invisible(request))
             if(!is.null(feedback)) 
                 Assignments[i, ] <- c(assignments[i], feedback[i], 
                   request$valid)
@@ -62,8 +62,5 @@ function (assignments, feedback = NULL, keypair = credentials(),
             }
         }
     }
-    if(print == TRUE)
-        return(Assignments)
-    else
-		invisible(Assignments)
+    return(Assignments)
 }

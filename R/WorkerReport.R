@@ -1,7 +1,6 @@
 WorkerReport <-
 function (worker, period = "LifeToDate", keypair = credentials(), 
-    log.requests = getOption('MTurkR.log'), sandbox = getOption('MTurkR.sandbox'),
-    print = getOption('MTurkR.print')) 
+    log.requests = getOption('MTurkR.log'), sandbox = getOption('MTurkR.sandbox')) 
 {
     if(is.na(pmatch(period,c("OneDay", "SevenDays", "ThirtyDays", "LifeToDate")))) 
         stop("Period not valid. Must be 'OneDay', 'SevenDays', 'ThirtyDays', or 'LifeToDate'.   ")
@@ -15,7 +14,5 @@ function (worker, period = "LifeToDate", keypair = credentials(),
         sapply(statistics, function(i) GetWorkerStatistic(worker, i, 
                 period = period, keypair = keypair, print = FALSE, 
                 log.requests = log.requests, sandbox = sandbox)), row.names=1:length(statistics) )
-    if (print == TRUE) 
-        print(z)
-    invisible(z)
+    return(z)
 }

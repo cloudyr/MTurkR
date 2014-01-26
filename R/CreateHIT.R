@@ -35,7 +35,7 @@ function (hit.type = NULL, question = NULL, validate.question = FALSE,
                 qual.req = qual.req, keypair = keypair, print = print, 
                 log.requests = log.requests, sandbox = sandbox, validation.test = validation.test)
 			if(validation.test)
-				invisible(register)
+				return(invisible(register))
             if(register$Valid == FALSE) 
                 stop("Could not RegisterHITType(), check parameters")
             else
@@ -121,14 +121,14 @@ function (hit.type = NULL, question = NULL, validate.question = FALSE,
             auth$timestamp, GETparameters, browser = browser, 
             sandbox = sandbox, validation.test = validation.test)
 		if(validation.test)
-			invisible(request)
+			return(invisible(request))
     }
     else {
         request <- request(keyid, auth$operation, auth$signature, 
             auth$timestamp, GETparameters, log.requests = log.requests, 
             sandbox = sandbox, validation.test = validation.test)
 		if(validation.test)
-			invisible(request)
+			return(invisible(request))
         if(request$valid == TRUE) {
             hit <- strsplit(strsplit(request$xml, "<HITId>")[[1]][2], "</HITId>")[[1]][1]
             if(is.null(hit.type)) 
@@ -141,13 +141,8 @@ function (hit.type = NULL, question = NULL, validate.question = FALSE,
 					message("HIT ", hit, " created (of type ", type,")")
             }
         }
-        else if(request$valid == FALSE) {
-            if(print == TRUE) 
+        else if(request$valid == FALSE && print == TRUE)
                 warning("Invalid Request")
-        }
-        if(print == TRUE) 
-            return(HITs)
-        else
-			invisible(HITs)
+        return(HITs)
     }
 }

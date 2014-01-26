@@ -35,14 +35,14 @@ function (worker, statistic, period = "LifeToDate", count = NULL,
             auth$timestamp, GETparameters, browser = browser, 
             sandbox = sandbox, validation.test = validation.test)
 		if(validation.test)
-			invisible(request)
+			return(invisible(request))
     }
     else {
         request <- request(keyid, auth$operation, auth$signature, 
             auth$timestamp, GETparameters, log.requests = log.requests, 
             sandbox = sandbox, validation.test = validation.test)
 		if(validation.test)
-			invisible(request)
+			return(invisible(request))
         request$statistic <- statistic
         request$period <- period
         if(request$valid == TRUE) {
@@ -64,7 +64,7 @@ function (worker, statistic, period = "LifeToDate", count = NULL,
                 if(print == TRUE) 
                     message("Statistic (", statistic, ", past ", count, 
                         " days) for ", worker, " Retrieved: ", request$value)
-                invisible(request$value)
+                return(invisible(request$value))
             }
             else {
                 request$date <- strsplit(strsplit(request$xml, 
@@ -77,15 +77,16 @@ function (worker, statistic, period = "LifeToDate", count = NULL,
                     "<DoubleValue>")[[1]][2], "</DoubleValue>")[[1]][1]
                 else
                     warning("Cannot print statistic value")
-                if(print == TRUE) 
+                if(print == TRUE)
                   message("Statistic (", statistic, ",", period, 
                         ") for ", worker, " Retrieved: ", request$value)
-                invisible(request$value)
+                return(invisible(request$value))
             }
         }
         else if(request$valid == FALSE) {
             if(print == TRUE) 
                 warning("Invalid Request")
+            return(NULL)
         }
     }
 }

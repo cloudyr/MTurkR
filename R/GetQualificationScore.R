@@ -24,14 +24,14 @@ function (qual, workers, keypair = credentials(), print = getOption('MTurkR.prin
                 auth$timestamp, GETparameters, browser = browser, 
                 sandbox = sandbox, validation.test = validation.test)
 			if(validation.test)
-				invisible(request)
+				return(invisible(request))
         }
         else {
             request <- request(keyid, auth$operation, auth$signature, 
                 auth$timestamp, GETparameters, log.requests = log.requests, 
                 sandbox = sandbox, validation.test = validation.test)
 			if(validation.test)
-				invisible(request)
+				return(invisible(request))
             if(request$valid == TRUE) {
                 x <- QualificationsToDataFrame(xml = request$xml)
                 x$WorkerId <- workers[i]
@@ -43,16 +43,12 @@ function (qual, workers, keypair = credentials(), print = getOption('MTurkR.prin
                             workers[i], ": ", Qualifications$Value[i])
                 }
             }
-            else if(request$valid == FALSE) {
-                if(print == TRUE) 
+            else if(request$valid == FALSE & print == TRUE)
                   warning("Invalid Request for worker ", workers[i])
-            }
         }
     }
-    if(browser == FALSE) {
-        if(print == TRUE) 
-            return(Qualifications)
-        else
-			invisible(Qualifications)
-    }
+    if(browser == FALSE)
+        return(Qualifications)
+    else
+        return(NULL)
 }

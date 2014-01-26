@@ -27,7 +27,7 @@ function (about, helptype = NULL, keypair = credentials(), print = getOption('MT
         request <- request(keyid, auth$operation, auth$signature, 
              auth$timestamp, GETparameters, browser = browser, validation.test = validation.test)
         if(validation.test)
-            invisible(request)
+            return(invisible(request))
     }
     else {
         request <- request(keyid, auth$operation, auth$signature, 
@@ -49,5 +49,6 @@ function (about, helptype = NULL, keypair = credentials(), print = getOption('MT
         }
         else if(request$valid == FALSE)
             warning("Invalid Request")
+        return(request)
     }
 }

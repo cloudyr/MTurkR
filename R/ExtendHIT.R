@@ -67,7 +67,7 @@ function (hit = NULL, hit.type = NULL, add.assignments = NULL,
                 auth$timestamp, GETiteration, browser = browser, 
                 sandbox = sandbox, validation.test = validation.test)
 			if(validation.test)
-				invisible(request)
+				return(invisible(request))
         }
         else {
             request <- request(keyid, auth$operation, auth$signature, 
@@ -75,7 +75,7 @@ function (hit = NULL, hit.type = NULL, add.assignments = NULL,
                 sandbox = sandbox, validation.test = validation.test)
 			if(validation.test)
 				invisible(request)
-            HITs[i, ] = c(hitlist[i], add.assignments, add.seconds, request$valid)
+            HITs[i, ] <- c(hitlist[i], add.assignments, add.seconds, request$valid)
             if(request$valid == TRUE & print == TRUE) {
                 if(!is.null(add.assignments) & !is.null(add.seconds)) 
 					message(i, ": HIT (", hitlist[i], ") Extended by ", 
@@ -92,5 +92,5 @@ function (hit = NULL, hit.type = NULL, add.assignments = NULL,
             }
         }
     }
-    invisible(HITs)
+    return(HITs)
 }

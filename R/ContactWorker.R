@@ -128,14 +128,14 @@ function (subjects, msgs, workers, batch = FALSE, keypair = credentials(),
 					auth$timestamp, GETparameters, browser = browser, 
 					sandbox = sandbox, validation.test = validation.test)
                 if(validation.test)
-                    return(request)
+                    return(invisible(request))
             }
             else {
                 request <- request(keyid, auth$operation, auth$signature, 
 					auth$timestamp, GETparameters, log.requests = log.requests, 
 					sandbox = sandbox, xml.parse=TRUE, validation.test = validation.test)
                 if(validation.test)
-                    return(request)
+                    return(invisible(request))
                 parsed <- request$xml.parsed
                 if(length(getNodeSet(parsed,'//NotifyWorkersFailureStatus'))>0){
                     request$valid <- xmlValue(getNodeSet(parsed,'//NotifyWorkersFailureCode')[[1]])
@@ -156,9 +156,6 @@ function (subjects, msgs, workers, batch = FALSE, keypair = credentials(),
                 }
             }
         }
-        if(print == TRUE) 
-            return(Notifications)
-        else
-			invisible(Notifications)
+        return(Notifications)
     }
 }

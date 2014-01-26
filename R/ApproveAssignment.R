@@ -48,16 +48,14 @@ function (assignments, feedback = NULL, rejected = FALSE, keypair = credentials(
                 auth$timestamp, GETparameters, log.requests = log.requests, 
                 sandbox = sandbox, validation.test = validation.test)
 			if(validation.test)
-				invisible(request)
+				return(invisible(request))
             if(print == TRUE) {
                 if (request$valid == TRUE) 
 					message("Assignment ", assignment, " Approved", sep = "")
                 else if (request$valid == FALSE) 
 					warning("Invalid Request for ", assignment)
-                return(request)
             }
-            else
-                invisible(request)
+            return(request)
         }
     }
     Assignments <- setNames(data.frame(matrix(nrow=length(assignments), ncol=3)),
@@ -65,7 +63,7 @@ function (assignments, feedback = NULL, rejected = FALSE, keypair = credentials(
     for(i in 1:length(assignments)) {
         x <- batch(assignments[i], feedback[i])
 		if(validation.test)
-			invisible(x)
+			return(invisible(x))
         if (!is.null(feedback)) 
             Assignments[i, ] <- c(assignments[i], feedback[i], x$valid)
         else
@@ -73,5 +71,5 @@ function (assignments, feedback = NULL, rejected = FALSE, keypair = credentials(
     }
     if(print == TRUE) 
         message(sum(x$valid), " Assignments Approved")
-    invisible(Assignments)
+    return(Assignments)
 }

@@ -87,27 +87,24 @@ function (qual, description = NULL, status = NULL, retry.delay = NULL,
             auth$timestamp, GETparameters, browser = browser, 
             sandbox = sandbox, validation.test = validation.test)
 		if(validation.test)
-			invisible(request)
+			return(invisible(request))
     }
     else {
         request <- request(keyid, auth$operation, auth$signature, 
             auth$timestamp, GETparameters, log.requests = log.requests, 
             sandbox = sandbox, validation.test = validation.test)
         if(validation.test)
-			invisible(request)
+			return(invisible(request))
 		if(request$valid == TRUE) {
             QualificationType <- QualificationTypesToDataFrame(xml = request$xml)
             if(print == TRUE) {
-                message("QualificationType ", QualificationType$QualificationTypeId[1]," Updated")
-                return(QualificationType)
+                message("QualificationType ", QualificationType$QualificationTypeId[1],
+                        " Updated")
             }
-            else invisible(QualificationType)
+            return(QualificationType)
         }
-        else if(request$valid == FALSE) {
-            if(print == TRUE) {
-                warning("Invalid Request")
-            }
-            invisible(NULL)
-        }
+        else if(request$valid == FALSE & print == TRUE)
+            warning("Invalid Request")
+        return(NULL)
     }
 }

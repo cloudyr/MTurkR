@@ -45,12 +45,13 @@ function (amount, assignments = NULL, hits = NULL, bonus.ct = NULL,
     }
     balchar <- AccountBalance(print = FALSE, validation.test = validation.test)
 	if(validation.test)
-		invisible(balchar)
+		return(invisible(balchar))
     oldbalance <- as.numeric(substring(balchar, 1, nchar(balchar)))
     newbalance <- oldbalance - total
     if (newbalance >= 0) 
         sufficient <- TRUE
-    else sufficient <- FALSE
+    else
+        sufficient <- FALSE
     if (print == TRUE) {
         message("Total Payments:  $", round(payments, 2))
         message("Payment Fee:     $", round(payment.fee, 2))

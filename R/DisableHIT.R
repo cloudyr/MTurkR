@@ -52,20 +52,20 @@ function (hit = NULL, hit.type = NULL, response.group = NULL,
                 auth$timestamp, GETiteration, browser = browser, 
                 sandbox = sandbox, validation.test = validation.test)
 			if(validation.test)
-				invisible(request)
+				return(invisible(request))
         }
         else {
             request <- request(keyid, auth$operation, auth$signature, 
                 auth$timestamp, GETiteration, log.requests = log.requests, 
                 sandbox = sandbox, validation.test = validation.test)
 			if(validation.test)
-				invisible(request)
+				return(invisible(request))
             if(request$valid == TRUE) {
                 if(is.null(response.group)) 
 					request$ResponseGroup <- c("Minimal")
                 else
                     request$ResponseGroup <- response.group
-                HITs[i, ] = c(hitlist[i], request$valid)
+                HITs[i, ] <- c(hitlist[i], request$valid)
                 if(print == TRUE) 
 					message(i, ": HIT ", hitlist[i], " Disabled")
             }
@@ -73,8 +73,5 @@ function (hit = NULL, hit.type = NULL, response.group = NULL,
                 warning(i, ": Invalid Request for HIT ", hitlist[i])
         }
     }
-    if(print == TRUE) 
-        return(HITs)
-    else
-        invisible(HITs)
+    return(HITs)
 }

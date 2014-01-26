@@ -10,5 +10,5 @@ function (names, values) {
                             "&HITLayoutParameter.", i, 
                             ".Value=", curlEscape(values[i]), sep = "")
     }
-    invisible(parameter)
+    return(parameter)
 }

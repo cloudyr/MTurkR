@@ -76,15 +76,15 @@ function (hitpolicy = NULL, assignpolicy = NULL) {
         assignencoded <- curlEscape(assignstring)
     }
     if(is.null(assignpolicy) & !is.null(hitpolicy)) {
-        invisible(list(HITReviewPolicy = list(xml.parsed = hitreviewpolicy, 
+        return(list(HITReviewPolicy = list(xml.parsed = hitreviewpolicy, 
             string = hitstring, url.encoded = hitencoded)))
     }
     else if(!is.null(assignpolicy) & is.null(hitpolicy)) {
-        invisible(list(AssignmentReviewPolicy = list(xml.parsed = assignreviewpolicy, 
+        return(list(AssignmentReviewPolicy = list(xml.parsed = assignreviewpolicy, 
             string = assignstring, url.encoded = assignencoded)))
     }
     else {
-        invisible(list(HITReviewPolicy = list(xml.parsed = hitreviewpolicy, 
+        return(list(HITReviewPolicy = list(xml.parsed = hitreviewpolicy, 
             string = hitstring, url.encoded = hitencoded), AssignmentReviewPolicy = list(xml.parsed = assignreviewpolicy, 
             string = assignstring, url.encoded = assignencoded)))
     }

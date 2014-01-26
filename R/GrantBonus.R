@@ -47,14 +47,14 @@ function (workers, assignments, amounts, reasons, keypair = credentials(),
                 auth$timestamp, GETparameters, browser = browser, 
                 sandbox = sandbox, validation.test = validation.test)
 			if(validation.test)
-				invisible(request)
+				return(invisible(request))
         }
         else {
             request <- request(keyid, auth$operation, auth$signature, 
                 auth$timestamp, GETparameters, log.requests = log.requests, 
                 sandbox = sandbox, validation.test = validation.test)
 			if(validation.test)
-				invisible(request)
+				return(invisible(request))
             Bonuses[i, ] <- c(workers[i], assignments[i], amounts[i], 
                 reasons[i], request$valid)
             if(request$valid == TRUE) {
@@ -68,8 +68,5 @@ function (workers, assignments, amounts, reasons, keypair = credentials(),
             }
         }
     }
-    if(print == TRUE) 
-        return(Bonuses)
-    else
-		invisible(Bonuses)
+    return(Bonuses)
 }
