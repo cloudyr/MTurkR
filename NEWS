@@ -4,6 +4,7 @@
 * Using `ContactWorkers` in batch mode now returns a dataframe identical in structure to using it in regular mode, with one row per worker. (#32)
 * The `signature` argument to `request` now defaults to `NULL` and is generated automatically.
 * `HITsToDataFrame` now returns, for the QualificationRequirements list element, an empty dataframe rather a single NA missing value if a given HIT does not have any QualificationRequirements attached to it.
+* `request` now generates the API authentication signature automatically, eliminating the need for `authenticate`.
 * `request` now uses `curlPerform` instead `getURL` to gain finer control over API requests.
 * `request` now attempts to `tryCatch` any errors on writing the MTurkR log file. (#9)
 * `request` now returns an object of S3 class "MTurkResponse" and an associated print method has been added.
