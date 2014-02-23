@@ -7,9 +7,9 @@ GenerateNotification(destination, transport = "Email", event.type,
                     version = "2006-05-05", event.number = "1", format = "REST")
 }
 \arguments{
-  \item{destination}{Currently, a character string containing a complete email address.}
-  \item{transport}{Currently only \dQuote{\code{Email}} is supported.}
-  \item{event.type}{A character string containing one of: \code{AssignmentAccepted}, \code{AssignmentAbandoned}, \code{AssignmentReturned}, \code{AssignmentSubmitted}, \code{HITReviewable}, \code{HITExpired}, \code{Ping}.}
+  \item{destination}{Currently, a character string containing a complete email address (if \code{transport="Email"} or the SQS URL (if \code{transport="SQS"}.}
+  \item{transport}{Currently only \dQuote{\code{Email}} and \dQuote{\code{SQS}} are supported. AWS recommends the use of the SQS transport.}
+  \item{event.type}{A character string containing one of: \code{AssignmentAccepted}, \code{AssignmentAbandoned}, \code{AssignmentReturned}, \code{AssignmentSubmitted}, \code{HITReviewable}, \code{HITExpired}, or \code{Ping}.}
   \item{version}{Version of the HITType Notification API to use. Intended only for advanced users.}
   \item{event.number}{Intended only for advanced users to construct custom Notifications.}
   \item{format}{Format of QualificationRequirement (SOAP or REST). Currently only REST is supported (as is the default).}
