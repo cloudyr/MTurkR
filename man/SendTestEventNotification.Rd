@@ -4,7 +4,7 @@
 \title{Test a Notification}
 \description{Test a HITType Notification, for example, to try out a HITType Notification before creating a HIT.}
 \usage{
-SendTestEventNotification(    notification, test.event.type, 
+SendTestEventNotification(  notification, test.event.type, 
                             keypair = credentials(), print = getOption('MTurkR.print'),
                             browser = getOption('MTurkR.browser'), 
                             log.requests = getOption('MTurkR.log'),
@@ -22,13 +22,11 @@ SendTestEventNotification(    notification, test.event.type,
   \item{validation.test}{A logical specifying whether only the pre-request checks should be conducted and the request URL returned (without executing the request). Default is \code{FALSE}.}
 }
 \details{
-Test a Notification configuration. The test mimics whatever the Notification configuration will do when the event described in \code{test.event.type} occurs.
+Test a Notification configuration. The test mimics whatever the Notification configuration will do when the event described in \code{test.event.type} occurs. For example, if a Notification has been configured to send an email anytime an Assignment is Submitted, testing for an AssignmentSubmitted event should trigger an email. Similarly, testing for an AssignmentReturned event should do nothing.
 
-Note: The API operation underlying \code{\link{SetHITTypeNotification}} and \code{SendTestEventNotification} has been deprecated by Amazon is not receiving ongoing development, but remains available for backward compatibility.
-
-\code{notificationtest()} is an alias.
+\code{notificationtest} is an alias.
 }
-\value{Potentially an email sent to the email address specified in the \code{notification} parameter. Otherwise, nothing}
+\value{Potentially either an email sent to the email address specified in the \code{notification} parameter, or an AWS Simple Queue Service event. Otherwise, nothing.}
 \references{
 \href{http://docs.amazonwebservices.com/AWSMechTurk/latest/AWSMturkAPI/ApiReference_SendTestEventNotificationOperation.html}{API Reference}
 }
