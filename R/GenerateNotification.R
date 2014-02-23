@@ -5,10 +5,10 @@ function (destination, transport = "Email", event.type, version = "2006-05-05",
         stop("No Destination specified; must be Email address or URL")
     if(is.null(transport)) 
         stop("No Transport specified")
-    else if(!transport %in% c("Email", "REST", "SOAP")) 
-        stop("Transport must be 'Email' | 'REST' (GET) | 'SOAP' (XML)")
+    else if(!transport %in% c("Email", "SQS")) 
+        stop("Transport must be 'Email' or 'SQS'")
     EVENTS <- c("AssignmentAccepted", "AssignmentAbandoned", "AssignmentReturned",
-                "AssignmentSubmitted", "HITReviewable", "HITExpired")
+                "AssignmentSubmitted", "HITReviewable", "HITExpired", "Ping")
     if(is.null(event.type)) 
         stop("No EventType specified")
     else if(length(event.type) == 1) {
