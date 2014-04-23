@@ -11,6 +11,7 @@
 * `request` now returns an object of S3 class "MTurkResponse" and an associated print method has been added.
 
 ## BUG FIXES ##
+* Corrected the API operation name in `SendTestEventNotification`.
 * Fixed a bug in `GetBonuses` using a HITTypeId that caused the function to fail catastrophically.
 
 ## DOCUMENTATION ##

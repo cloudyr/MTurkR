@@ -10,7 +10,7 @@ function (notification, test.event.type = "HITExpired", keypair = credentials(),
     }
     else
         stop("No keypair provided or 'credentials' object not stored")
-    operation <- "SendTestEventNotificaiton"
+    operation <- "SendTestEventNotification"
     if(!test.event.type %in% c("AssignmentAccepted", "AssignmentAbandoned", 
         "AssignmentReturned", "AssignmentSubmitted", "HITReviewable", "HITExpired")) 
         stop("Inappropriate TestEventType specified")
