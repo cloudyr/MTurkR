@@ -6,7 +6,7 @@
 \description{Reject a Worker's assignment (or multiple assignments) submitted for a HIT. Feedback should be provided for why an assignment was rejected.}
 \usage{
 RejectAssignment(    assignments, feedback = NULL, 
-                    keypair = credentials(), print = getOption('MTurkR.print'),
+                    keypair = getOption('MTurkR.keypair'), print = getOption('MTurkR.print'),
                     browser = getOption('MTurkR.browser'), 
                     log.requests = getOption('MTurkR.log'),
                     sandbox = getOption('MTurkR.sandbox'),

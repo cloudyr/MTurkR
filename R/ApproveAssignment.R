@@ -1,15 +1,15 @@
 approve <-
 ApproveAssignment <-
 ApproveAssignments <-
-function (assignments, feedback = NULL, rejected = FALSE, keypair = credentials(), 
+function (assignments, feedback = NULL, rejected = FALSE,
+    keypair = getOption('MTurkR.keypair'), 
     print = getOption('MTurkR.print'), browser = getOption('MTurkR.browser'),
     log.requests = getOption('MTurkR.log'), sandbox = getOption('MTurkR.sandbox'),
-	validation.test = getOption('MTurkR.test')) {
+    validation.test = getOption('MTurkR.test')) {
     if(!is.null(keypair)) {
         keyid <- keypair[1]
         secret <- keypair[2]
-    }
-    else
+    } else
         stop("No keypair provided or 'credentials' object not stored")
     if(is.factor(assignments))
         assignments <- as.character(assignments)
@@ -40,20 +40,20 @@ function (assignments, feedback = NULL, rejected = FALSE, keypair = credentials(
             request <- request(keyid, auth$operation, auth$signature, 
                 auth$timestamp, GETparameters, browser = browser, 
                 sandbox = sandbox, validation.test = validation.test)
-			if(validation.test)
-				invisible(request)
+            if(validation.test)
+                invisible(request)
         }
         else {
             request <- request(keyid, auth$operation, auth$signature, 
                 auth$timestamp, GETparameters, log.requests = log.requests, 
                 sandbox = sandbox, validation.test = validation.test)
-			if(validation.test)
-				return(invisible(request))
+            if(validation.test)
+                return(invisible(request))
             if(print == TRUE) {
                 if (request$valid == TRUE) 
-					message("Assignment ", assignment, " Approved", sep = "")
+                    message("Assignment ", assignment, " Approved", sep = "")
                 else if (request$valid == FALSE) 
-					warning("Invalid Request for ", assignment)
+                    warning("Invalid Request for ", assignment)
             }
             return(request)
         }
@@ -62,8 +62,8 @@ function (assignments, feedback = NULL, rejected = FALSE, keypair = credentials(
                     c("AssignmentId", "Feedback", "Valid"))
     for(i in 1:length(assignments)) {
         x <- batch(assignments[i], feedback[i])
-		if(validation.test)
-			return(invisible(x))
+        if(validation.test)
+            return(invisible(x))
         if (!is.null(feedback)) 
             Assignments[i, ] <- c(assignments[i], feedback[i], x$valid)
         else

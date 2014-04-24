@@ -1,6 +1,6 @@
 request <-
-function (keyid, operation, signature=NULL, timestamp=NULL, GETparameters, 
-    secret = NULL,
+function (keyid = getOption('MTurkR.keypair')[1], operation, signature=NULL, timestamp=NULL, GETparameters, 
+    secret = getOption('MTurkR.keypair')[2],
     version = "2012-03-25", service = "AWSMechanicalTurkRequester", 
     browser = getOption('MTurkR.browser'), log.requests = getOption('MTurkR.log'),
     sandbox = getOption('MTurkR.sandbox'), xml.parse = FALSE,
@@ -8,7 +8,7 @@ function (keyid, operation, signature=NULL, timestamp=NULL, GETparameters,
     if(sandbox == TRUE) 
         host <- "https://mechanicalturk.sandbox.amazonaws.com/"
     else
-    	host <- "https://mechanicalturk.amazonaws.com/"
+        host <- "https://mechanicalturk.amazonaws.com/"
     host <- paste(host, "?Service=", service, sep='')
     if(is.null(signature) & is.null(secret))
         stop("Must supply 'secret' or 'signature'!")
@@ -43,29 +43,29 @@ function (keyid, operation, signature=NULL, timestamp=NULL, GETparameters,
             response <- h$value()
 
             # Additional filters, added by Solomon Messing 6/9/2013:
-			clean <- function(x, pattern, replacement){
-				res <- gsub( iconv(pattern, "", "ASCII", "byte"), replacement, x, fixed=T)
-				return(res)
-			}
-			response <- clean(response, "\342\200\235", "'")
-			response <- clean(response, "\342\200\234", "'")
-			response <- clean(response, "\342\200\176" , "'")
-			response <- clean(response, "\342\200\177" , "'")
-			response <- clean(response, "\342\200\230" , "'")
-			response <- clean(response, "\342\200\231" , "'")
-			response <- clean(response, "\342\200\232" , ',')
-			response <- clean(response, "\342\200\233" , "'")
-			response <- clean(response, "\342\200\234" , '"')
-			response <- clean(response, "\342\200\235" , '"')
-			response <- clean(response, "\342\200\224" , '--')
-			response <- clean(response, "\342\200\225" , '--')
-			response <- clean(response, "\342\200\042" , '--')
-			response <- clean(response, "\342\200\246" , '...')
-			response <- clean(response, "\342\200\041" , '-')
-			response <- clean(response, "\342\200\174" , '-')
-			response <- clean(response, "\342\200\220" , '-')
-			response <- clean(response, "\342\200\223" , '-')
-			
+            clean <- function(x, pattern, replacement){
+                res <- gsub( iconv(pattern, "", "ASCII", "byte"), replacement, x, fixed=T)
+                return(res)
+            }
+            response <- clean(response, "\342\200\235", "'")
+            response <- clean(response, "\342\200\234", "'")
+            response <- clean(response, "\342\200\176" , "'")
+            response <- clean(response, "\342\200\177" , "'")
+            response <- clean(response, "\342\200\230" , "'")
+            response <- clean(response, "\342\200\231" , "'")
+            response <- clean(response, "\342\200\232" , ',')
+            response <- clean(response, "\342\200\233" , "'")
+            response <- clean(response, "\342\200\234" , '"')
+            response <- clean(response, "\342\200\235" , '"')
+            response <- clean(response, "\342\200\224" , '--')
+            response <- clean(response, "\342\200\225" , '--')
+            response <- clean(response, "\342\200\042" , '--')
+            response <- clean(response, "\342\200\246" , '...')
+            response <- clean(response, "\342\200\041" , '-')
+            response <- clean(response, "\342\200\174" , '-')
+            response <- clean(response, "\342\200\220" , '-')
+            response <- clean(response, "\342\200\223" , '-')
+            
             request.id <-
                 strsplit(strsplit(response, "<RequestId>")[[1]][2],
                     "</RequestId>")[[1]][1]

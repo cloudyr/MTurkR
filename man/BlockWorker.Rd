@@ -10,21 +10,21 @@
 \title{Block/Unblock Worker(s)}
 \description{Block or unblock a worker. This prevents a worker from completing any HITs for you while they are blocked, but does not affect their ability to complete work for other requesters or affect their worker statistics. \code{GetBlockedWorkers} retrieves your list of currently blocked workers.}
 \usage{
-BlockWorker(workers, reasons, keypair = credentials(), 
+BlockWorker(workers, reasons, keypair = getOption('MTurkR.keypair'), 
             print = getOption('MTurkR.print'),
             browser = getOption('MTurkR.browser'),
             log.requests = getOption('MTurkR.log'),
             sandbox = getOption('MTurkR.sandbox'),
             validation.test = getOption('MTurkR.test'))
 
-UnblockWorker(  workers, reasons = NULL, keypair = credentials(), 
+UnblockWorker(  workers, reasons = NULL, keypair = getOption('MTurkR.keypair'), 
                 print = getOption('MTurkR.print'),
                 browser = getOption('MTurkR.browser'),
                 log.requests = getOption('MTurkR.log'),
                 sandbox = getOption('MTurkR.sandbox'),
                 validation.test = getOption('MTurkR.test'))
 
-GetBlockedWorkers(pagenumber = NULL, pagesize = NULL, keypair = credentials(), 
+GetBlockedWorkers(pagenumber = NULL, pagesize = NULL, keypair = getOption('MTurkR.keypair'), 
                   print = getOption('MTurkR.print'), 
                   browser = getOption('MTurkR.browser'),
                   log.requests = getOption('MTurkR.log'),

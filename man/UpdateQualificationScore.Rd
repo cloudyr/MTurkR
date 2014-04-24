@@ -5,7 +5,7 @@
 \description{Update a worker's score for a QualificationType that you created. Scores for built-in QualificationTypes (e.g., location, worker statistics) cannot be updated.}
 \usage{
 UpdateQualificationScore(qual, workers, values = NULL, increment = NULL, 
-                        keypair = credentials(), print = getOption('MTurkR.print'),
+                        keypair = getOption('MTurkR.keypair'), print = getOption('MTurkR.print'),
                         browser = getOption('MTurkR.browser'), 
                         log.requests = getOption('MTurkR.log'),
                         sandbox = getOption('MTurkR.sandbox'),

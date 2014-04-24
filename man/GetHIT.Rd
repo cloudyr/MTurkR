@@ -7,7 +7,7 @@
 \title{Get HIT}
 \description{Retrieve various details of a HIT as a dataframe. What details are returned depend upon the requested ResponseGroup.}
 \usage{
-GetHIT(hit, response.group = NULL, keypair = credentials(),
+GetHIT(hit, response.group = NULL, keypair = getOption('MTurkR.keypair'),
        print = getOption('MTurkR.print'), 
        browser = getOption('MTurkR.browser'),
        log.requests = getOption('MTurkR.log'),
@@ -15,7 +15,7 @@ GetHIT(hit, response.group = NULL, keypair = credentials(),
        return.hit.dataframe = TRUE, return.qual.dataframe = TRUE,
        validation.test = getOption('MTurkR.test'))
 
-HITStatus(hit = NULL, hit.type = NULL, keypair = credentials(),
+HITStatus(hit = NULL, hit.type = NULL, keypair = getOption('MTurkR.keypair'),
           print = getOption('MTurkR.print'), 
           log.requests = getOption('MTurkR.log'),
           sandbox = getOption('MTurkR.sandbox'))

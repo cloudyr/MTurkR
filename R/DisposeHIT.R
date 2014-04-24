@@ -1,15 +1,14 @@
 DisposeHIT <-
 disposehit <-
 function (hit = NULL, hit.type = NULL, response.group = NULL, 
-    keypair = credentials(), print = getOption('MTurkR.print'),
+    keypair = getOption('MTurkR.keypair'), print = getOption('MTurkR.print'),
     browser = getOption('MTurkR.browser'), log.requests = getOption('MTurkR.log'), 
     sandbox = getOption('MTurkR.sandbox'), validation.test = getOption('MTurkR.test')) 
 {
     if(!is.null(keypair)) {
         keyid <- keypair[1]
         secret <- keypair[2]
-    }
-    else
+    } else
         stop("No keypair provided or 'credentials' object not stored")
     operation <- "DisposeHIT"
     if((is.null(hit) & is.null(hit.type)) | (!is.null(hit) & 
@@ -37,16 +36,16 @@ function (hit = NULL, hit.type = NULL, response.group = NULL,
             request <- request(keyid, auth$operation, auth$signature, 
                 auth$timestamp, GETiteration, browser = browser, 
                 sandbox = sandbox, validation.test = validation.test)
-			if(validation.test)
-				return(invisible(request))
+            if(validation.test)
+                return(invisible(request))
         }
         else {
             request <- request(keyid, auth$operation, auth$signature, 
                 auth$timestamp, GETiteration, log.requests = log.requests, 
                 sandbox = sandbox, validation.test = validation.test)
             if(validation.test)
-				return(invisible(request))
-			HITs[i, ] <- c(hitlist[i], request$valid)
+                return(invisible(request))
+            HITs[i, ] <- c(hitlist[i], request$valid)
             if(request$valid == TRUE & print == TRUE) 
                 message(i, ": HIT ", hitlist[i], " Disposed")
             else if(request$valid == FALSE & print == TRUE)

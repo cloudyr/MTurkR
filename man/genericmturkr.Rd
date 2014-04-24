@@ -4,7 +4,7 @@
 \title{Make Arbitrary MTurk API Requests}
 \description{A function designed for advanced users to be able to make arbitrary requests to the MTurk API. Most users do not need this.}
 \usage{
-genericmturkr(operation, parameters = NULL, keypair = credentials(),
+genericmturkr(operation, parameters = NULL, keypair = getOption('MTurkR.keypair'),
             print = getOption('MTurkR.print'), 
             browser = getOption('MTurkR.browser'),
             log.requests = getOption('MTurkR.log'),

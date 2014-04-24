@@ -1,14 +1,13 @@
 GetStatistic <-
 statistic <-
 function (statistic, period = "LifeToDate", count = NULL, response.group = NULL, 
-    keypair = credentials(), print = getOption('MTurkR.print'),
+    keypair = getOption('MTurkR.keypair'), print = getOption('MTurkR.print'),
     browser = getOption('MTurkR.browser'), log.requests = getOption('MTurkR.log'), 
     sandbox = getOption('MTurkR.sandbox'), validation.test = getOption('MTurkR.test')) {
     if(!is.null(keypair)) {
         keyid <- keypair[1]
         secret <- keypair[2]
-    }
-    else
+    } else
         stop("No keypair provided or 'credentials' object not stored")
     operation <- "GetRequesterStatistic"
     value.long <- c("NumberAssignmentsAvailable", "NumberAssignmentsAccepted", 
@@ -38,15 +37,15 @@ function (statistic, period = "LifeToDate", count = NULL, response.group = NULL,
         request <- request(keyid, auth$operation, auth$signature, 
             auth$timestamp, GETparameters, browser = browser, 
             sandbox = sandbox, validation.test = validation.test)
-		if(validation.test)
-			return(invisible(request))
+        if(validation.test)
+            return(invisible(request))
     }
     else {
         request <- request(keyid, auth$operation, auth$signature, 
             auth$timestamp, GETparameters, log.requests = log.requests, 
             sandbox = sandbox, validation.test = validation.test)
-		if(validation.test)
-			return(invisible(request))
+        if(validation.test)
+            return(invisible(request))
         request$statistic <- statistic
         request$period <- period
         if(request$valid == TRUE) {

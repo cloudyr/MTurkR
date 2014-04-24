@@ -1,5 +1,5 @@
 WorkerReport <-
-function (worker, period = "LifeToDate", keypair = credentials(), 
+function (worker, period = "LifeToDate", keypair = getOption('MTurkR.keypair'), 
     log.requests = getOption('MTurkR.log'), sandbox = getOption('MTurkR.sandbox')) 
 {
     if(is.na(pmatch(period,c("OneDay", "SevenDays", "ThirtyDays", "LifeToDate")))) 

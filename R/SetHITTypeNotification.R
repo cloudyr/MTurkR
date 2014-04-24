@@ -1,6 +1,7 @@
 SetHITTypeNotification <-
 setnotification <-
-function (hit.type, notification = NULL, active = NULL, keypair = credentials(), 
+function (hit.type, notification = NULL, active = NULL, 
+    keypair = getOption('MTurkR.keypair'), 
     print = getOption('MTurkR.print'), browser = getOption('MTurkR.browser'),
     log.requests = getOption('MTurkR.log'), sandbox = getOption('MTurkR.sandbox'),
     validation.test = getOption('MTurkR.test')){
@@ -29,16 +30,16 @@ function (hit.type, notification = NULL, active = NULL, keypair = credentials(),
         request <- request(keyid, auth$operation, auth$signature, 
             auth$timestamp, GETparameters, browser = browser, 
             sandbox = sandbox, validation.test = validation.test)
-		if(validation.test)
-			return(invisible(request))
+        if(validation.test)
+            return(invisible(request))
     }
     else {
         request <- request(keyid, auth$operation, auth$signature, 
             auth$timestamp, GETparameters, log.requests = log.requests, 
             sandbox = sandbox, validation.test = validation.test)
         if(validation.test)
-			return(invisible(request))
-		Notification[1, ] <- c(hit.type, notification, active, request$valid)
+            return(invisible(request))
+        Notification[1, ] <- c(hit.type, notification, active, request$valid)
         if(request$valid == TRUE) {
             if(print == TRUE) {
                 if(!is.null(notification) & is.null(active)) 

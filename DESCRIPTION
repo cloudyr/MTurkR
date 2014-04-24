@@ -1,10 +1,10 @@
 Package: MTurkR
-Version: 0.4.2
-Date: 2014-01-26
+Version: 0.4.3
+Date: 2014-04-24
 Title: Access to Amazon Mechanical Turk Requester API via R
-Authors@R: c(	person("Thomas J.", "Leeper", role = c("aut", "cre"),
-					email = "thosjleeper@gmail.com"),
-				person("Solomon", "Messing", role = "ctb"))
+Authors@R: c(person("Thomas J.", "Leeper", role = c("aut", "cre"),
+                    email = "thosjleeper@gmail.com"),
+             person("Solomon", "Messing", role = "ctb"))
 Imports: RCurl, digest, XML
 Suggests: tcltk
 Description: Provides access to the Amazon Mechanical Turk (MTurk) Requester API via authenticated HTTP requests executed with the RCurl package and a number of functions to translate API calls into R data structures (using the XML package).

@@ -1,6 +1,7 @@
 # CHANGES TO MTurkR 0.5 #
 
 ## SIGNIFICANT USER-VISIBLE CHANGES ##
+* The `credentials` function has now been changed to create and/or retrieve a global option `MTurkR.keypair`. This is a backwards compatible change that allows users to specify `options(MTurkR.keypair=c(accesskey, secretkey))` directly without using `credentials`. All functions now point directly to the global option, so that `credentials` can be deprecated in a future release.
 * In many functions that return a dataframe with a `Valid` column (e.g., `ContactWorkers`, etc.), `Valid` is now a factor. (#28)
 * Using `ContactWorkers` in batch mode now returns a dataframe identical in structure to using it in regular mode, with one row per worker. (#32)
 * The `signature` argument to `request` now defaults to `NULL` and is generated automatically.
@@ -11,6 +12,7 @@
 * `request` now returns an object of S3 class "MTurkResponse" and an associated print method has been added.
 
 ## BUG FIXES ##
+* Fixed a bug in `GetBonuses` whereby the default `return.all=TRUE` argument overwrote manually specified `pagenumber` and `pagesize` arguments. (h/t Dane Wendell)
 * Corrected the API operation name in `SendTestEventNotification`.
 * Fixed a bug in `GetBonuses` using a HITTypeId that caused the function to fail catastrophically.
 

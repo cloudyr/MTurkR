@@ -4,15 +4,15 @@ GetAssignment <-
 GetAssignments <-
 function (assignment = NULL, hit = NULL, hit.type = NULL, status = NULL, 
     return.all = FALSE, pagenumber = "1", pagesize = "10", sortproperty = "SubmitTime", 
-    sortdirection = "Ascending", response.group = NULL, keypair = credentials(), 
+    sortdirection = "Ascending", response.group = NULL,
+    keypair = getOption('MTurkR.keypair'),
     print = getOption('MTurkR.print'), browser = getOption('MTurkR.browser'),
     log.requests = getOption('MTurkR.log'), sandbox = getOption('MTurkR.sandbox'), 
     return.assignment.dataframe = TRUE, validation.test = getOption('MTurkR.test')) {
     if(!is.null(keypair)) {
         keyid <- keypair[1]
         secret <- keypair[2]
-    }
-    else
+    } else
         stop("No keypair provided or 'credentials' object not stored")
     if(!sortproperty %in% c("AcceptTime", "SubmitTime", "AssignmentStatus")) 
         stop("'sortproperty' must be 'AcceptTime' | 'SubmitTime' | 'AssignmentStatus'")
@@ -37,8 +37,8 @@ function (assignment = NULL, hit = NULL, hit.type = NULL, status = NULL,
             GETresponsegroup <- paste("&ResponseGroup=", response.group, sep = "")
         else {
             for(i in 1:length(response.group)){
-                GETresponsegroup <- paste(	"&ResponseGroup", i-1,
-											"=", response.group[i], sep = "")
+                GETresponsegroup <- paste(    "&ResponseGroup", i-1,
+                                            "=", response.group[i], sep = "")
             }
         }
     }
@@ -75,7 +75,7 @@ function (assignment = NULL, hit = NULL, hit.type = NULL, status = NULL,
             }
         }
         return(Assignments)#, HITs = HITs, 
-			#QualificationRequirements = QualificationRequirements))
+            #QualificationRequirements = QualificationRequirements))
     }
     else {
         operation <- "GetAssignmentsForHIT"

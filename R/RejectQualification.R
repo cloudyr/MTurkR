@@ -1,7 +1,7 @@
 RejectQualification <-
 RejectQualifications <-
 rejectrequest <-
-function (qual.request, reason = NULL, keypair = credentials(), 
+function (qual.request, reason = NULL, keypair = getOption('MTurkR.keypair'), 
     print = getOption('MTurkR.print'), browser = getOption('MTurkR.browser'),
     log.requests = getOption('MTurkR.log'), sandbox = getOption('MTurkR.sandbox'),
     validation.test = getOption('MTurkR.test')) {
@@ -21,7 +21,7 @@ function (qual.request, reason = NULL, keypair = credentials(),
             if(length(reason) == 1) 
                 reason <- rep(reason[1], length(qual.request))
             else
-				stop("Number of QualificationRequests is not 1 or number of Reasons")
+                stop("Number of QualificationRequests is not 1 or number of Reasons")
         }
     }
     QualificationRequests <- setNames(data.frame(matrix(ncol=3, nrow=length(qual.request))),
@@ -34,26 +34,26 @@ function (qual.request, reason = NULL, keypair = credentials(),
             request <- request(keyid, auth$operation, auth$signature, 
                 auth$timestamp, GETparameters, browser = browser, 
                 sandbox = sandbox, validation.test = validation.test)
-			if(validation.test)
-				return(invisible(request))
+            if(validation.test)
+                return(invisible(request))
         }
         else {
             request <- request(keyid, auth$operation, auth$signature, 
                 auth$timestamp, GETparameters, log.requests = log.requests, 
                 sandbox = sandbox, validation.test = validation.test)
-			if(validation.test)
-				return(invisible(request))
+            if(validation.test)
+                return(invisible(request))
             if(request$valid == TRUE) {
                 if(is.null(reason[i])) 
-					reason[i] <- NA
+                    reason[i] <- NA
                 QualificationRequests[1, ] <- c(qual.request[i], 
-					reason[i], request$valid)
+                    reason[i], request$valid)
                 if(print == TRUE) 
-					message(i, ": Qualification (", qual.request[i],") Rejected")
+                    message(i, ": Qualification (", qual.request[i],") Rejected")
             }
             else if(request$valid == FALSE) {
                 if(print == TRUE)
-					warning(i, ": Invalid Request for QualificationRequestId ", qual.request)
+                    warning(i, ": Invalid Request for QualificationRequestId ", qual.request)
             }
             QualificationRequests$Valid <-
                 factor(QualificationRequests$Valid, levels=c('TRUE','FALSE'))

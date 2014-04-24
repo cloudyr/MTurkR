@@ -1,15 +1,15 @@
 ExtendHIT <-
 extend <-
 function (hit = NULL, hit.type = NULL, add.assignments = NULL, 
-    add.seconds = NULL, unique.request.token = NULL, keypair = credentials(), 
+    add.seconds = NULL, unique.request.token = NULL,
+    keypair = getOption('MTurkR.keypair'), 
     print = getOption('MTurkR.print'), browser = getOption('MTurkR.browser'),
     log.requests = getOption('MTurkR.log'), sandbox = getOption('MTurkR.sandbox'),
-	validation.test = getOption('MTurkR.test')) {
+    validation.test = getOption('MTurkR.test')) {
     if(!is.null(keypair)) {
         keyid <- keypair[1]
         secret <- keypair[2]
-    }
-    else
+    } else
         stop("No keypair provided or 'credentials' object not stored")
     operation <- "ExtendHIT"
     GETparameters <- ""
@@ -21,7 +21,7 @@ function (hit = NULL, hit.type = NULL, add.assignments = NULL,
         else if(as.numeric(add.assignments) < 1 | as.numeric(add.assignments) > 1e+09) 
             stop("Assignment increment must be between 1 and 1000000000")
         else GETparameters <- paste(GETparameters, "&MaxAssignmentsIncrement=", 
-									add.assignments, sep = "")
+                                    add.assignments, sep = "")
     }
     else if(!is.null(add.seconds)) {
         if(!is.numeric(add.seconds) & !is.numeric(as.numeric(add.seconds))) 
@@ -30,7 +30,7 @@ function (hit = NULL, hit.type = NULL, add.assignments = NULL,
             stop("Expiration increment must be between 3600 and 31536000")
         else
             GETparameters <- paste(GETparameters,"&ExpirationIncrementInSeconds=",
-									add.seconds, sep = "")
+                                    add.seconds, sep = "")
     }
     if(is.null(add.assignments)) 
         add.assignments <- 0
@@ -66,26 +66,26 @@ function (hit = NULL, hit.type = NULL, add.assignments = NULL,
             request <- request(keyid, auth$operation, auth$signature, 
                 auth$timestamp, GETiteration, browser = browser, 
                 sandbox = sandbox, validation.test = validation.test)
-			if(validation.test)
-				return(invisible(request))
+            if(validation.test)
+                return(invisible(request))
         }
         else {
             request <- request(keyid, auth$operation, auth$signature, 
                 auth$timestamp, GETiteration, log.requests = log.requests, 
                 sandbox = sandbox, validation.test = validation.test)
-			if(validation.test)
-				invisible(request)
+            if(validation.test)
+                invisible(request)
             HITs[i, ] <- c(hitlist[i], add.assignments, add.seconds, request$valid)
             if(request$valid == TRUE & print == TRUE) {
                 if(!is.null(add.assignments) & !is.null(add.seconds)) 
-					message(i, ": HIT (", hitlist[i], ") Extended by ", 
-							add.assignments, " Assignments & ", add.seconds, " Seconds")
+                    message(i, ": HIT (", hitlist[i], ") Extended by ", 
+                            add.assignments, " Assignments & ", add.seconds, " Seconds")
                 else if(!is.null(add.assignments)) 
-					message(i, ": HIT (", hitlist[i], ") Extended by ", 
-							add.assignments, " Assignments")
+                    message(i, ": HIT (", hitlist[i], ") Extended by ", 
+                            add.assignments, " Assignments")
                 else if(!is.null(add.seconds)) 
-					message(i, ": HIT (", hitlist[i], ") Extended by ", 
-							add.seconds, " Seconds")
+                    message(i, ": HIT (", hitlist[i], ") Extended by ", 
+                            add.seconds, " Seconds")
             }
             else if(request$valid == FALSE & print == TRUE) {
                 warning(i, ": Invalid Request for HIT ", hitlist[i])

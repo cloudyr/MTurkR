@@ -1,5 +1,6 @@
 mturkhelp <-
-function (about, helptype = NULL, keypair = credentials(), print = getOption('MTurkR.print'), 
+function (about, helptype = NULL, keypair = getOption('MTurkR.keypair'),
+    print = getOption('MTurkR.print'), 
     browser = getOption('MTurkR.browser'), log.requests = getOption('MTurkR.log'),
     validation.test = getOption('MTurkR.test')) {
     if(!is.null(keypair)) {
@@ -32,9 +33,9 @@ function (about, helptype = NULL, keypair = credentials(), print = getOption('MT
     else {
         request <- request(keyid, auth$operation, auth$signature, 
             auth$timestamp, GETparameters, log.requests = log.requests,
-			validation.test = validation.test)
-		if(validation.test)
-			invisible(request)
+            validation.test = validation.test)
+        if(validation.test)
+            invisible(request)
         if(request$valid == TRUE) {
             request$operation <- strsplit(strsplit(request$xml, 
                 "<MessageText>")[[1]][2], "</MessageText>")[[1]][1]

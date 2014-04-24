@@ -2,14 +2,13 @@ GetReviewableHITs <-
 reviewable <-
 function (hit.type = NULL, status = NULL, response.group = "Minimal", 
     return.all = TRUE, pagenumber = "1", pagesize = "10", sortproperty = "Enumeration", 
-    sortdirection = "Ascending", keypair = credentials(), print = getOption('MTurkR.print'), 
+    sortdirection = "Ascending", keypair = getOption('MTurkR.keypair'), print = getOption('MTurkR.print'), 
     log.requests = getOption('MTurkR.log'), sandbox = getOption('MTurkR.sandbox'),
     validation.test = getOption('MTurkR.test')) {
     if(!is.null(keypair)) {
         keyid <- keypair[1]
         secret <- keypair[2]
-    }
-    else
+    } else
         stop("No keypair provided or 'credentials' object not stored")
     operation <- "GetReviewableHITs"
     if(!sortproperty %in% c("Title", "Reward", "Expiration", 
@@ -43,10 +42,10 @@ function (hit.type = NULL, status = NULL, response.group = "Minimal",
             GETparameters <- paste(GETparameters, "&Status=", status, sep = "")
         auth <- authenticate(operation, secret)
         batch <- request(keyid, auth$operation, auth$signature, 
-			auth$timestamp, GETparameters, log.requests = log.requests, 
-			sandbox = sandbox, validation.test = validation.test)
-		if(validation.test)
-			return(invisible(batch))
+            auth$timestamp, GETparameters, log.requests = log.requests, 
+            sandbox = sandbox, validation.test = validation.test)
+        if(validation.test)
+            return(invisible(batch))
         batch$HITs <- NA
         batch$total <- as.numeric(strsplit(strsplit(batch$xml, 
             "<TotalNumResults>")[[1]][2], "</TotalNumResults>")[[1]][1])

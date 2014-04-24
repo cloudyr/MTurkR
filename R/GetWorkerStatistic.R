@@ -1,7 +1,8 @@
 GetWorkerStatistic <-
 workerstatistic <-
 function (worker, statistic, period = "LifeToDate", count = NULL, 
-    response.group = NULL, keypair = credentials(), print = getOption('MTurkR.print'), 
+    response.group = NULL, keypair = getOption('MTurkR.keypair'),
+    print = getOption('MTurkR.print'), 
     browser = getOption('MTurkR.browser'), log.requests = getOption('MTurkR.log'),
     sandbox = getOption('MTurkR.sandbox'), validation.test = getOption('MTurkR.test')) {
     if(!is.null(keypair)) {
@@ -34,15 +35,15 @@ function (worker, statistic, period = "LifeToDate", count = NULL,
         request <- request(keyid, auth$operation, auth$signature, 
             auth$timestamp, GETparameters, browser = browser, 
             sandbox = sandbox, validation.test = validation.test)
-		if(validation.test)
-			return(invisible(request))
+        if(validation.test)
+            return(invisible(request))
     }
     else {
         request <- request(keyid, auth$operation, auth$signature, 
             auth$timestamp, GETparameters, log.requests = log.requests, 
             sandbox = sandbox, validation.test = validation.test)
-		if(validation.test)
-			return(invisible(request))
+        if(validation.test)
+            return(invisible(request))
         request$statistic <- statistic
         request$period <- period
         if(request$valid == TRUE) {

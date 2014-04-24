@@ -5,7 +5,7 @@
 \title{Grant Qualification Request}
 \description{Grant a Worker's request for a Qualification.}
 \usage{
-GrantQualification(    qual.requests, values, keypair = credentials(),
+GrantQualification(    qual.requests, values, keypair = getOption('MTurkR.keypair'),
                     print = getOption('MTurkR.print'),
                     browser = getOption('MTurkR.browser'), 
                     log.requests = getOption('MTurkR.log'),

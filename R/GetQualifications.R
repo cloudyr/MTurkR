@@ -1,14 +1,14 @@
 GetQualifications <-
 getquals <-
 function (qual, status = NULL, return.all = TRUE, pagenumber = 1, 
-    pagesize = 100, keypair = credentials(), print = getOption('MTurkR.print'),
+    pagesize = 100, keypair = getOption('MTurkR.keypair'),
+    print = getOption('MTurkR.print'),
     log.requests = getOption('MTurkR.log'), sandbox = getOption('MTurkR.sandbox'),
     return.qual.dataframe = TRUE, validation.test = getOption('MTurkR.test')) {
     if(!is.null(keypair)) {
         keyid <- keypair[1]
         secret <- keypair[2]
-    }
-    else
+    } else
         stop("No keypair provided or 'credentials' object not stored")
     operation <- "GetQualificationsForQualificationType"
     if(return.all == TRUE) {
@@ -35,8 +35,8 @@ function (qual, status = NULL, return.all = TRUE, pagenumber = 1,
         batch <- request(keyid, auth$operation, auth$signature, 
             auth$timestamp, GETiteration, log.requests = log.requests, 
             sandbox = sandbox, validation.test = validation.test)
-		if(validation.test)
-			invisible(batch)
+        if(validation.test)
+            invisible(batch)
         batch$Qualifications <- NA
         batch$total <- as.numeric(strsplit(strsplit(batch$xml, 
             "<TotalNumResults>")[[1]][2], "</TotalNumResults>")[[1]][1])
@@ -49,8 +49,8 @@ function (qual, status = NULL, return.all = TRUE, pagenumber = 1,
         return(batch)
     }
     request <- batch(qual, pagenumber)
-	if(validation.test)
-		return(invisible(request))
+    if(validation.test)
+        return(invisible(request))
     runningtotal <- request$batch.total
     pagenumber <- 2
     while(request$total > runningtotal) {

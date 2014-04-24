@@ -1,13 +1,12 @@
 DisposeQualificationType <-
 disposequal <-
-function (qual, keypair = credentials(), print = getOption('MTurkR.print'),
+function (qual, keypair = getOption('MTurkR.keypair'), print = getOption('MTurkR.print'),
     browser = getOption('MTurkR.browser'), log.requests = getOption('MTurkR.log'),
     sandbox = getOption('MTurkR.sandbox'), validation.test = getOption('MTurkR.test')) {
     if(!is.null(keypair)) {
         keyid <- keypair[1]
         secret <- keypair[2]
-    }
-    else
+    } else
         stop("No keypair provided or 'credentials' object not stored")
     operation <- "DisposeQualificationType"
     if(is.null(qual)) 
@@ -22,8 +21,8 @@ function (qual, keypair = credentials(), print = getOption('MTurkR.print'),
         request <- request(keyid, auth$operation, auth$signature, 
             auth$timestamp, GETparameters, browser = browser, 
             sandbox = sandbox, validation.test = validation.test)
-		if(validation.test)
-			return(invisible(request))
+        if(validation.test)
+            return(invisible(request))
     }
     else {
         QualificationTypes <- setNames(data.frame(matrix(ncol = 2)),
@@ -31,8 +30,8 @@ function (qual, keypair = credentials(), print = getOption('MTurkR.print'),
         request <- request(keyid, auth$operation, auth$signature, 
             auth$timestamp, GETparameters, log.requests = log.requests, 
             sandbox = sandbox, validation.test = validation.test)
-		if(validation.test)
-			return(invisible(request))
+        if(validation.test)
+            return(invisible(request))
         if(request$valid == TRUE) {
             QualificationTypes[1, ] <- c(qual, request$valid)
             if(print == TRUE)

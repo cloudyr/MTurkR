@@ -5,7 +5,7 @@
 \description{Get all Qualifications of a particular QualificationType assigned to Workers.}
 \usage{
 GetQualifications(    qual, status = NULL, return.all = TRUE, 
-                    pagenumber = 1, pagesize = 100, keypair = credentials(),
+                    pagenumber = 1, pagesize = 100, keypair = getOption('MTurkR.keypair'),
                     print = getOption('MTurkR.print'),
                     log.requests = getOption('MTurkR.log'),
                     sandbox = getOption('MTurkR.sandbox'),

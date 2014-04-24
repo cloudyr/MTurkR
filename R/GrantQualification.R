@@ -1,7 +1,8 @@
 GrantQualification <-
 GrantQualifications <-
 grantqual <-
-function (qual.requests, values, keypair = credentials(), print = getOption('MTurkR.print'), 
+function (qual.requests, values, keypair = getOption('MTurkR.keypair'),
+    print = getOption('MTurkR.print'), 
     browser = getOption('MTurkR.browser'), log.requests = getOption('MTurkR.log'),
     sandbox = getOption('MTurkR.sandbox'), validation.test = getOption('MTurkR.test')) {
     if(!is.null(keypair)) {
@@ -36,15 +37,15 @@ function (qual.requests, values, keypair = credentials(), print = getOption('MTu
             request <- request(keyid, auth$operation, auth$signature, 
                 auth$timestamp, GETparameters, browser = browser, 
                 sandbox = sandbox, validation.test = validation.test)
-			if(validation.test)
-				return(invisible(request))
+            if(validation.test)
+                return(invisible(request))
         }
         else {
             request <- request(keyid, auth$operation, auth$signature, 
                 auth$timestamp, GETparameters, log.requests = log.requests, 
                 sandbox = sandbox, validation.test = validation.test)
-			if(validation.test)
-				return(invisible(request))
+            if(validation.test)
+                return(invisible(request))
             QualificationRequests[i, ] <- c(qual.requests[i], 
                 values[i], request$valid)
             if(request$valid == TRUE) {

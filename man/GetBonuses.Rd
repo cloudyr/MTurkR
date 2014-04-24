@@ -5,7 +5,7 @@
 \description{Get details of bonuses paid to workers, by HIT, HITType, or Assignment.}
 \usage{
 GetBonuses(assignment = NULL, hit = NULL, hit.type = NULL, return.all = TRUE, 
-            pagenumber = "1", pagesize = "100", keypair = credentials(), 
+            pagenumber = "1", pagesize = "100", keypair = getOption('MTurkR.keypair'), 
             print = getOption('MTurkR.print'), browser = getOption('MTurkR.browser'), 
             log.requests = getOption('MTurkR.log'),
             sandbox = getOption('MTurkR.sandbox'), 
@@ -16,7 +16,7 @@ GetBonuses(assignment = NULL, hit = NULL, hit.type = NULL, return.all = TRUE,
   \item{assignment}{An optional character string containing an AssignmentId whose bonuses should be returned.}
   \item{hit}{An optional character string containing a HITId whose bonuses should be returned.}
   \item{hit.type}{An optional character string containing a HITTypeId (or a vector of HITTypeIds) whose bonuses should be returned.}
-  \item{return.all}{A logical indicating whether all HITs (as opposed to a specified page of the search results) should be returned. Default is \code{TRUE}.}
+  \item{return.all}{A logical indicating whether all HITs (as opposed to a specified page of the search results) should be returned. Default is \code{TRUE}. Note: This is (temporarily) ignored.}
   \item{pagenumber}{An optional character string indicating which page of search results should be returned. Most users can ignore this.}
   \item{pagesize}{An optional character string indicating how many search results should be returned by each request, between 1 and 100. Most users can ignore this.}
   \item{keypair}{A two-item character vector containing an AWS Access Key ID in the first position and the corresponding Secret Access Key in the second position. Set default with \code{\link{credentials}}.}

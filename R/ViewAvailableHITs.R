@@ -12,5 +12,5 @@ function(query = NULL, requester = NULL, min.reward = NULL, qualified = NULL) {
     if(nchar(parameters) == 0) 
         browseURL("https://www.mturk.com/mturk/searchbar?")
     else
-		browseURL(paste("https://www.mturk.com/mturk/searchbar?", parameters, sep = ""))
+        browseURL(paste("https://www.mturk.com/mturk/searchbar?", parameters, sep = ""))
 }

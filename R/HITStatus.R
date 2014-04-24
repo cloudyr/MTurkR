@@ -1,6 +1,6 @@
 HITStatus <-
 status <-
-function (hit = NULL, hit.type = NULL, keypair = credentials(), 
+function (hit = NULL, hit.type = NULL, keypair = getOption('MTurkR.keypair'), 
     print = getOption('MTurkR.print'), log.requests = getOption('MTurkR.log'),
     sandbox = getOption('MTurkR.sandbox')){
     if((is.null(hit) & is.null(hit.type)) | (!is.null(hit) & !is.null(hit.type))) 

@@ -2,7 +2,8 @@ SearchQualificationTypes <-
 searchquals <-
 function (query = NULL, only.mine = TRUE, only.requestable = FALSE, 
     return.all = FALSE, pagenumber = "1", pagesize = "10", sortproperty = "Name", 
-    sortdirection = "Ascending", keypair = credentials(), print = getOption('MTurkR.print'), 
+    sortdirection = "Ascending", keypair = getOption('MTurkR.keypair'),
+    print = getOption('MTurkR.print'), 
     log.requests = getOption('MTurkR.log'), sandbox = getOption('MTurkR.sandbox'),
     return.qual.dataframe = TRUE, validation.test = getOption('MTurkR.test')) {
     if(!is.null(keypair)) {
@@ -40,10 +41,10 @@ function (query = NULL, only.mine = TRUE, only.requestable = FALSE,
         batch <- request(keyid, auth$operation, auth$signature, 
             auth$timestamp, GETparameters, log.requests = log.requests, 
             sandbox = sandbox, validation.test = validation.test)
-		if(validation.test)
-			return(invisible(batch))
+        if(validation.test)
+            return(invisible(batch))
         batch$total <- as.numeric(strsplit(strsplit(batch$xml, 
-							"<TotalNumResults>")[[1]][2], "</TotalNumResults>")[[1]][1])
+                            "<TotalNumResults>")[[1]][2], "</TotalNumResults>")[[1]][1])
         batch$batch.total <- length(xpathApply(xmlParse(batch$xml), "//QualificationTypeId"))
         if(return.qual.dataframe == TRUE) {
             if(batch$total > 0) 
@@ -54,8 +55,8 @@ function (query = NULL, only.mine = TRUE, only.requestable = FALSE,
     request <- batch(operation, keyid, secret, GETparameters, 
         pagenumber, pagesize, sandbox = sandbox, validation.test = validation.test)
     if(validation.test)
-		return(invisible(request))
-	runningtotal <- request$batch.total
+        return(invisible(request))
+    runningtotal <- request$batch.total
     pagenumber = 2
     if(return.all == TRUE) {
         sortproperty <- "Name"
@@ -65,8 +66,8 @@ function (query = NULL, only.mine = TRUE, only.requestable = FALSE,
         while(request$total > runningtotal) {
             nextbatch <- batch(operation, keyid, secret, GETparameters, 
                 pagenumber, pagesize, sandbox = sandbox, validation.test = validation.test)
-			if(validation.test)
-				return(invisible(nextbatch))
+            if(validation.test)
+                return(invisible(nextbatch))
             request$request.id <- c(request$request.id, nextbatch$request.id)
             request$valid <- c(request$valid, nextbatch$valid)
             request$xml.response <- c(request$xml, nextbatch$xml)

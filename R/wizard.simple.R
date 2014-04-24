@@ -7,7 +7,7 @@ function (graphics = FALSE, sandbox = NULL)
     if (class(internet.test) == "try-error") {
         message("An internet connection does not appear to be available!\n")
     }
-    keypair <- credentials()
+    keypair <- getOption('MTurkR.keypair')
     if (is.null(keypair)) {
         message("Retrieve your AWS access keys from https://aws-portal.amazon.com/gp/aws/securityCredentials")
         accesskey <- readline(prompt = "AWS/MTurk Access Key ID: ")
@@ -24,7 +24,7 @@ function (graphics = FALSE, sandbox = NULL)
         "1", TRUE)) 
         sandbox <- TRUE
     else
-		sandbox <- FALSE
+        sandbox <- FALSE
     wizard.menu <- function() {
         menu.opts <- c("Check Account Balance", "Check Sufficient Funds", 
             "Create HIT", "Check HIT Status", "Get Assignment(s)", 
@@ -84,19 +84,19 @@ function (graphics = FALSE, sandbox = NULL)
             quals <- menu(c("Yes", "No"), "Do you want to restrict the HIT with a QualificationRequirement?")
             if (quals == 1) {
                 qual.types <- as.data.frame(rbind(
-					c("Worker_PercentAssignmentsSubmitted", "00000000000000000000"),
-					c("Worker_PercentAssignmentsAbandoned", "00000000000000000070"),
-					c("Worker_PercentAssignmentsReturned", "000000000000000000E0"), 
-					c("Worker_PercentAssignmentsApproved", "000000000000000000L0"), 
-					c("Worker_PercentAssignmentsRejected", "000000000000000000S0"), 
-					c("Worker_NumberHITsApproved", "00000000000000000040"), 
-					c("Worker_Locale", "00000000000000000071"),
-					c("Worker_Adult", "00000000000000000060"), 
-					c("Categorization Masters (Sandbox)", "2F1KVCNHMVHV8E9PBUB2A4J79LU20F"),
-					c("Categorization Masters (Production)", "2NDP2L92HECWY8NS8H3CK0CP5L9GHO"),
-					c("Photo Moderation Masters (Sandbox)", "2TGBB6BFMFFOM08IBMAFGGESC1UWJX"),
-					c("Photo Moderation Masters (Production)", "21VZU98JHSTLZ5BPP4A9NOBJEK3DPG"),
-					c("Other", "")))
+                    c("Worker_PercentAssignmentsSubmitted", "00000000000000000000"),
+                    c("Worker_PercentAssignmentsAbandoned", "00000000000000000070"),
+                    c("Worker_PercentAssignmentsReturned", "000000000000000000E0"), 
+                    c("Worker_PercentAssignmentsApproved", "000000000000000000L0"), 
+                    c("Worker_PercentAssignmentsRejected", "000000000000000000S0"), 
+                    c("Worker_NumberHITsApproved", "00000000000000000040"), 
+                    c("Worker_Locale", "00000000000000000071"),
+                    c("Worker_Adult", "00000000000000000060"), 
+                    c("Categorization Masters (Sandbox)", "2F1KVCNHMVHV8E9PBUB2A4J79LU20F"),
+                    c("Categorization Masters (Production)", "2NDP2L92HECWY8NS8H3CK0CP5L9GHO"),
+                    c("Photo Moderation Masters (Sandbox)", "2TGBB6BFMFFOM08IBMAFGGESC1UWJX"),
+                    c("Photo Moderation Masters (Production)", "21VZU98JHSTLZ5BPP4A9NOBJEK3DPG"),
+                    c("Other", "")))
                 names(quals) <- c("Qualification", "QualificationTypeId")
                 qual.to.add <- menu(qual.types$Qualification, 
                   title = "Which QualificationRequirement would you like to add?")
@@ -113,7 +113,7 @@ function (graphics = FALSE, sandbox = NULL)
             if (class(hit) == "try-error") 
                 warning("An error occurred: ", hit)
             else
-				print(hit)
+                print(hit)
             message()
             wizard.menu()
         }
@@ -125,7 +125,7 @@ function (graphics = FALSE, sandbox = NULL)
             if (class(status) == "try-error") 
                 warning("An error occurred: ", status)
             else
-				print(status)
+                print(status)
             message()
             wizard.menu()
         }
@@ -204,7 +204,7 @@ function (graphics = FALSE, sandbox = NULL)
             if (class(approve) == "try-error") 
                 warning("An error occurred: ", approve)
             else
-				print(approve)
+                print(approve)
             message()
             wizard.menu()
         }
@@ -286,7 +286,7 @@ function (graphics = FALSE, sandbox = NULL)
             if (class(notify) == "try-error") 
                 warning("An error occurred: ", notify)
             else
-				print(notify)
+                print(notify)
             message()
             wizard.menu()
         }
@@ -332,9 +332,9 @@ function (graphics = FALSE, sandbox = NULL)
                   print = TRUE, log.requests = log.requests, 
                   sandbox = sandbox), silent = TRUE)
                 if (class(getqual) == "try-error") 
-					warning("An error occurred: ", getqual)
+                    warning("An error occurred: ", getqual)
                 else
-					print(getqual)
+                    print(getqual)
             }
             else if (qual.choice == 2) {
                 message("For which QualificationType do you want to retrieve workers?")
@@ -347,9 +347,9 @@ function (graphics = FALSE, sandbox = NULL)
                   keypair = keypair, print = TRUE, log.requests = log.requests, 
                   sandbox = sandbox), silent = TRUE)
                 if (class(getqual) == "try-error") 
-					warning("An error occurred: ", getqual)
+                    warning("An error occurred: ", getqual)
                 else
-					print(getqual)
+                    print(getqual)
             }
             else if (qual.choice == 3) {
                 message("For which QualificationType do you want to retrieve workers?")
@@ -365,9 +365,9 @@ function (graphics = FALSE, sandbox = NULL)
                   log.requests = log.requests, sandbox = sandbox), 
                   silent = TRUE)
                 if (class(getqual) == "try-error") 
-					warning("An error occurred: ", getqual)
+                    warning("An error occurred: ", getqual)
                 else
-					print(getqual)
+                    print(getqual)
             }
             else if (qual.choice == 4) {
                 message("Please enter information for QualificationType below")
@@ -385,9 +385,9 @@ function (graphics = FALSE, sandbox = NULL)
                   print = TRUE, log.requests = log.requests, 
                   sandbox = sandbox), silent = TRUE)
                 if (class(getqual) == "try-error") 
-					warning("An error occurred: ", getqual)
+                    warning("An error occurred: ", getqual)
                 else
-					print(getqual)
+                    print(getqual)
             }
             else if (qual.choice == 5) {
                 message("Which QualificationType do you want to update?")
@@ -403,10 +403,10 @@ function (graphics = FALSE, sandbox = NULL)
                     log.requests = log.requests, sandbox = sandbox), 
                     silent = TRUE)
                   if (class(getqual) == "try-error") 
-					warning("An error occurred: ", getqual)
+                    warning("An error occurred: ", getqual)
                   else
-					print(getqual)
-				  message()
+                    print(getqual)
+                  message()
                   wizard.menu()
                 }
                 else if (update.choice == 2) {
