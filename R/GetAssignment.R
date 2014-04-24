@@ -37,8 +37,8 @@ function (assignment = NULL, hit = NULL, hit.type = NULL, status = NULL,
             GETresponsegroup <- paste("&ResponseGroup=", response.group, sep = "")
         else {
             for(i in 1:length(response.group)){
-                GETresponsegroup <- paste(	"&ResponseGroup", i-1,
-											"=", response.group[i], sep = "")
+                GETresponsegroup <- paste(    "&ResponseGroup", i-1,
+                                            "=", response.group[i], sep = "")
             }
         }
     }
@@ -75,7 +75,7 @@ function (assignment = NULL, hit = NULL, hit.type = NULL, status = NULL,
             }
         }
         return(Assignments)#, HITs = HITs, 
-			#QualificationRequirements = QualificationRequirements))
+            #QualificationRequirements = QualificationRequirements))
     }
     else {
         operation <- "GetAssignmentsForHIT"

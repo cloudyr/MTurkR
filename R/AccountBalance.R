@@ -17,15 +17,15 @@ function (keypair = credentials(), print = getOption('MTurkR.print'),
         request <- request(keyid, auth$operation, auth$signature, 
             auth$timestamp, GETparameters, browser = browser, 
             sandbox = sandbox, validation.test = validation.test)
-		if(validation.test)
-			return(invisible(request))
+        if(validation.test)
+            return(invisible(request))
     }
     else {
         request <- request(keyid, auth$operation, auth$signature, 
             auth$timestamp, GETparameters, log.requests = log.requests, 
             sandbox = sandbox, validation.test = validation.test)
-		if(validation.test)
-			return(invisible(request))
+        if(validation.test)
+            return(invisible(request))
         if (request$valid == TRUE) {
             balance <- strsplit(strsplit(request$xml, "<Amount>")[[1]][2], "</Amount>")[[1]][1]
             balanceformatted <- strsplit(strsplit(request$xml, 

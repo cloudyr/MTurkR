@@ -6,15 +6,15 @@ function (questions, scoring = NULL) {
         id <- newXMLNode("QuestionIdentifier", questions[[i]]$QuestionIdentifier,
             parent = question)
         addChildren(question, id)
-		answeropts <- questions[[i]][!names(questions[[i]]) %in% c("QuestionIdentifier","DefaultScore")]
-		for(j in 1:length(answeropts)){
-			opt <- newXMLNode("AnswerOption", parent = question)
-			selid <- newXMLNode("SelectionIdentifier", answeropts[[j]]$SelectionIdentifier,
-				parent = opt)
-			score <- newXMLNode("AnswerScore", answeropts[[j]]$AnswerScore,
-				parent = opt)
-			addChildren(opt, c(selid, score))
-		}
+        answeropts <- questions[[i]][!names(questions[[i]]) %in% c("QuestionIdentifier","DefaultScore")]
+        for(j in 1:length(answeropts)){
+            opt <- newXMLNode("AnswerOption", parent = question)
+            selid <- newXMLNode("SelectionIdentifier", answeropts[[j]]$SelectionIdentifier,
+                parent = opt)
+            score <- newXMLNode("AnswerScore", answeropts[[j]]$AnswerScore,
+                parent = opt)
+            addChildren(opt, c(selid, score))
+        }
         if(!is.null(questions[[i]]$DefaultScore)) {
             default <- newXMLNode("DefaultScore", questions[[i]]$DefaultScore,
                 parent = question)
@@ -69,22 +69,22 @@ function (questions, scoring = NULL) {
 
 AnswerKeyTemplate <-
 function(xml = NULL, xml.parsed = NULL){
-	if(!is.null(xml)) 
+    if(!is.null(xml)) 
         xml.parsed <- xmlParse(xml)
     qformdf <- QuestionFormToDataFrame(xml.parsed = xml.parsed)$Questions
-	answerkey <- list(NULL)
-	for(i in 1:dim(qformdf)[1]){
-		answerkey[[i]]$QuestionIdentifier <- qformdf$QuestionIdentifier[i]
-		answerspecification <- xmlChildren(xmlChildren(xmlParse(qformdf$AnswerSpecification[i]))$AnswerSpecification)
-		if(!names(answerspecification)=="SelectionAnswer")
-			stop("Question",answerkey[[i]]$QuestionIdentifier,"is not a SelectionAnswer. AnswerKey cannot be generated.")
-		opts <- xmlChildren(xmlChildren(answerspecification$SelectionAnswer)$Selections)
-		for(j in 1:length(opts)){
-			answerkey[[i]][[j+1]] <- list(
-				Text = xmlValue(xmlChildren(opts[[j]])$Text),
-				SelectionIdentifier = xmlValue(xmlChildren(opts[[j]])$SelectionIdentifier),
-				AnswerScore = NULL ) 
-		}
-	}
-	return(answerkey)
+    answerkey <- list(NULL)
+    for(i in 1:dim(qformdf)[1]){
+        answerkey[[i]]$QuestionIdentifier <- qformdf$QuestionIdentifier[i]
+        answerspecification <- xmlChildren(xmlChildren(xmlParse(qformdf$AnswerSpecification[i]))$AnswerSpecification)
+        if(!names(answerspecification)=="SelectionAnswer")
+            stop("Question",answerkey[[i]]$QuestionIdentifier,"is not a SelectionAnswer. AnswerKey cannot be generated.")
+        opts <- xmlChildren(xmlChildren(answerspecification$SelectionAnswer)$Selections)
+        for(j in 1:length(opts)){
+            answerkey[[i]][[j+1]] <- list(
+                Text = xmlValue(xmlChildren(opts[[j]])$Text),
+                SelectionIdentifier = xmlValue(xmlChildren(opts[[j]])$SelectionIdentifier),
+                AnswerScore = NULL ) 
+        }
+    }
+    return(answerkey)
 }

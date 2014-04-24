@@ -34,15 +34,15 @@ function (worker, statistic, period = "LifeToDate", count = NULL,
         request <- request(keyid, auth$operation, auth$signature, 
             auth$timestamp, GETparameters, browser = browser, 
             sandbox = sandbox, validation.test = validation.test)
-		if(validation.test)
-			return(invisible(request))
+        if(validation.test)
+            return(invisible(request))
     }
     else {
         request <- request(keyid, auth$operation, auth$signature, 
             auth$timestamp, GETparameters, log.requests = log.requests, 
             sandbox = sandbox, validation.test = validation.test)
-		if(validation.test)
-			return(invisible(request))
+        if(validation.test)
+            return(invisible(request))
         request$statistic <- statistic
         request$period <- period
         if(request$valid == TRUE) {

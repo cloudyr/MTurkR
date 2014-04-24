@@ -23,16 +23,16 @@ function (notification, test.event.type = "HITExpired", keypair = credentials(),
         request <- request(keyid, auth$operation, auth$signature, 
             auth$timestamp, GETparameters, browser = browser, 
             sandbox = sandbox, validation.test = validation.test)
-		if(validation.test)
-			return(invisible(request))
+        if(validation.test)
+            return(invisible(request))
     }
     else {
         request <- request(keyid, auth$operation, auth$signature, 
             auth$timestamp, GETparameters, log.requests = log.requests, 
             sandbox = sandbox, validation.test = validation.test)
         if(validation.test)
-			return(invisible(request))
-		TestEvent[1, ] <- c(test.event.type, notification, request$valid)
+            return(invisible(request))
+        TestEvent[1, ] <- c(test.event.type, notification, request$valid)
         if(request$valid == TRUE & print == TRUE)
                 message("TestEventNotification ", test.event.type," Sent")
         else if(request$valid == FALSE & print == TRUE)

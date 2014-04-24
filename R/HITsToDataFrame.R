@@ -27,7 +27,7 @@ function (xml = NULL, xml.parsed = NULL, return.hit.xml = FALSE,
             HITs[i, 7] <- xmlValue(xmlChildren(q)$HITStatus)
             HITs[i, 8] <- xmlValue(xmlChildren(q)$MaxAssignments)
             if(!is.null(xmlChildren(q)$Reward))
-            	HITs[i, 9] <- xmlValue(xmlChildren(xmlChildren(q)$Reward)$Amount)
+                HITs[i, 9] <- xmlValue(xmlChildren(xmlChildren(q)$Reward)$Amount)
             HITs[i, 10] <- xmlValue(xmlChildren(q)$AutoApprovalDelayInSeconds)
             HITs[i, 11] <- xmlValue(xmlChildren(q)$Expiration)
             HITs[i, 12] <- xmlValue(xmlChildren(q)$AssignmentDurationInSeconds)
@@ -65,5 +65,5 @@ function (xml = NULL, xml.parsed = NULL, return.hit.xml = FALSE,
             return(list(HITs = HITs))
     }
     else
-		return(list(HITs = NULL))
+        return(list(HITs = NULL))
 }

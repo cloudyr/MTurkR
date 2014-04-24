@@ -49,16 +49,16 @@ function (qual, workers, values = NULL, increment = NULL, keypair = credentials(
             request <- request(keyid, auth$operation, auth$signature, 
                 auth$timestamp, GETparameters, browser = browser, 
                 sandbox = sandbox, validation.test = validation.test)
-			if(validation.test)
-				return(invisible(request))
+            if(validation.test)
+                return(invisible(request))
         }
         else {
             request <- request(keyid, auth$operation, auth$signature, 
                 auth$timestamp, GETparameters, log.requests = log.requests, 
                 sandbox = sandbox, validation.test = validation.test)
             if(validation.test)
-				return(invisible(request))
-			Qualifications[i, ] <- c(qual, workers[i], values[i], request$valid)
+                return(invisible(request))
+            Qualifications[i, ] <- c(qual, workers[i], values[i], request$valid)
             if(request$valid == TRUE & print == TRUE) {
                 message(i, ": Qualification Score for Worker ", 
                     workers[i], " updated to ", values[i])

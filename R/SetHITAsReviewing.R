@@ -41,15 +41,15 @@ function (hit = NULL, hit.type = NULL, revert = FALSE, keypair = credentials(),
             request <- request(keyid, auth$operation, auth$signature, 
                 auth$timestamp, GETiteration, browser = browser, 
                 sandbox = sandbox, validation.test = validation.test)
-			if(validation.test)
-				return(invisible(request))
+            if(validation.test)
+                return(invisible(request))
         }
         else {
             request <- request(keyid, auth$operation, auth$signature, 
                 auth$timestamp, GETiteration, log.requests = log.requests, 
                 sandbox = sandbox, validation.test = validation.test)
-			if(validation.test)
-				return(invisible(request))
+            if(validation.test)
+                return(invisible(request))
             if(revert == "false") 
                 status <- "Reviewing"
             else if(revert == "true") 

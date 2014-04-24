@@ -30,12 +30,12 @@ function (hit = NULL, old.hit.type = NULL, new.hit.type = NULL,
                 reward, duration, keywords = keywords, auto.approval.delay = auto.approval.delay, 
                 qual.req = qual.req, print = print, log.requests = log.requests, 
                 sandbox = sandbox, validation.test = validation.test)
-			if(validation.test)
-				return(invisible(request))
+            if(validation.test)
+                return(invisible(request))
             if(register$valid == FALSE) 
                 stop("Could not RegisterHITType(), check parameters")
             else
-				new.hit.type <- register$HITTypeId
+                new.hit.type <- register$HITTypeId
         }
     }
     if(!is.null(hit))
@@ -44,8 +44,8 @@ function (hit = NULL, old.hit.type = NULL, new.hit.type = NULL,
         if(is.factor(old.hit.type))
             old.hit.type <- as.character(old.hit.type)
         hitsearch <- SearchHITs(keypair = keypair, print = FALSE,
-								log.requests = log.requests, sandbox = sandbox,
-								return.qual.dataframe = FALSE)
+                                log.requests = log.requests, sandbox = sandbox,
+                                return.qual.dataframe = FALSE)
         hitlist <- hitsearch$HITs$HITId[hitsearch$HITs$HITTypeId %in% old.hit.type]
         if(length(hitlist) == 0) 
             stop("No HITs found for HITType")
@@ -53,31 +53,31 @@ function (hit = NULL, old.hit.type = NULL, new.hit.type = NULL,
     HITs <- setNames(data.frame(matrix(ncol = 4, nrow=length(hitlist))),
                 c("HITId", "oldHITTypeId", "newHITTypeId", "Valid"))
     for(i in 1:length(hitlist)) {
-        GETparameters <- paste(	"&HITId=", hitlist[i],
-								"&HITTypeId=", new.hit.type, sep = "")
+        GETparameters <- paste(    "&HITId=", hitlist[i],
+                                "&HITTypeId=", new.hit.type, sep = "")
         auth <- authenticate(operation, secret)
         if(browser == TRUE) {
             x <- request(keyid, auth$operation, auth$signature, 
                 auth$timestamp, GETparameters, browser = browser, 
                 sandbox = sandbox, validation.test = validation.test)
-			if(validation.test)
-				return(invisible(x))
+            if(validation.test)
+                return(invisible(x))
         }
         else{
             x <- request(keyid, auth$operation, auth$signature, 
                 auth$timestamp, GETparameters, log.requests = log.requests, 
                 sandbox = sandbox, validation.test = validation.test)
-			if(validation.test)
-				return(invisible(x))
+            if(validation.test)
+                return(invisible(x))
             if(is.null(old.hit.type)) 
                 HITs[i, ] <- c(hitlist[i], NA, new.hit.type, x$valid)
             else
                 HITs[i, ] <- c(hitlist[i], old.hit.type, new.hit.type, x$valid)
             if(print == TRUE) {
                 if(x$valid == TRUE)
-					message(i, ": HITType of HIT ", hitlist[i], " Changed to: ",new.hit.type)
+                    message(i, ": HITType of HIT ", hitlist[i], " Changed to: ",new.hit.type)
                 else if(x$valid == FALSE)
-					warning(i,": Invalid Request for HIT ",hitlist[i])
+                    warning(i,": Invalid Request for HIT ",hitlist[i])
             }
         }
     }

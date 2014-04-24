@@ -23,14 +23,14 @@ function (qual, response.group = NULL, return.all = TRUE, pagenumber = 1,
         pagesize, sep = "")
     if(!is.null(response.group)) {
         #if(!response.group %in% c("Minimal", "HITQuestion", "HITDetail", "HITAssignmentSummary")) 
-		if(!response.group %in% c("Minimal", "Request")) 
+        if(!response.group %in% c("Minimal", "Request")) 
             stop("ResponseGroup must be in c(Minimal,Request)")
         if(length(response.group) == 1) 
             GETparameters <- paste(GETparameters, "&ResponseGroup=", response.group, sep = "")
         else {
             for(i in 1:length(response.group)) {
                 GETparameters <- paste(GETparameters, "&ResponseGroup", i - 1,
-										"=", response.group[i], sep = "")
+                                        "=", response.group[i], sep = "")
             }
         }
     }
@@ -41,8 +41,8 @@ function (qual, response.group = NULL, return.all = TRUE, pagenumber = 1,
         batch <- request(keyid, auth$operation, auth$signature, 
             auth$timestamp, GETiteration, log.requests = log.requests, 
             sandbox = sandbox, validation.test = validation.test)
-		if(validation.test)
-			return(invisible(batch))
+        if(validation.test)
+            return(invisible(batch))
         batch$total <- as.numeric(strsplit(strsplit(batch$xml, 
             "<TotalNumResults>")[[1]][2], "</TotalNumResults>")[[1]][1])
         batch$batch.total <- length(xpathApply(xmlParse(batch$xml), "//HIT"))
@@ -56,8 +56,8 @@ function (qual, response.group = NULL, return.all = TRUE, pagenumber = 1,
         return(batch)
     }
     request <- batch(pagenumber)
-	if(validation.test)
-		return(invisible(request))
+    if(validation.test)
+        return(invisible(request))
     runningtotal <- request$batch.total
     pagenumber <- 2
     while(request$total > runningtotal) {
@@ -78,7 +78,7 @@ function (qual, response.group = NULL, return.all = TRUE, pagenumber = 1,
     }
     request$batch.total <- NULL
     return.list <- list(HITs = request$HITs,
-						QualificationRequirements = request$QualificationRequirements)
+                        QualificationRequirements = request$QualificationRequirements)
     if(print == TRUE)
         message(request$total, " HITs Retrieved")
     if(request$total > 0) 

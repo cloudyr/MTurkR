@@ -49,8 +49,8 @@ function (response.group = NULL, return.all = TRUE, pagenumber = "1",
         batch <- request(keyid, auth$operation, auth$signature, 
                         auth$timestamp, GETiteration, log.requests = log.requests, 
                         sandbox = sandbox, validation.test = validation.test)
-		if(validation.test)
-			invisible(batch)
+        if(validation.test)
+            invisible(batch)
         batch$total <- as.numeric(strsplit(strsplit(batch$xml, 
             "<TotalNumResults>")[[1]][2], "</TotalNumResults>")[[1]][1])
         batch$batch.total <- length(xpathApply(xmlParse(batch$xml), "//HIT"))
@@ -67,8 +67,8 @@ function (response.group = NULL, return.all = TRUE, pagenumber = "1",
         return(batch)
     }
     request <- batch(pagenumber)
-	if(validation.test)
-		return(invisible(request))
+    if(validation.test)
+        return(invisible(request))
     runningtotal <- request$batch.total
     if(return.all){
         pagenumber <- 2

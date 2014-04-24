@@ -21,8 +21,8 @@ function (assignment, questionIdentifier, download = FALSE, file.ext = NULL,
             request <- request(keyid, auth$operation, auth$signature, 
                 auth$timestamp, GETparameters, browser = browser, 
                 sandbox = sandbox, validation.test = validation.test)
-			if(validation.test)
-				return(invisible(request))
+            if(validation.test)
+                return(invisible(request))
             if(open.file.in.browser == TRUE) 
                 warning("Request to open file in browser ignored")
             if(download == TRUE) 
@@ -33,8 +33,8 @@ function (assignment, questionIdentifier, download = FALSE, file.ext = NULL,
             request <- request(keyid, auth$operation, auth$signature, 
                 auth$timestamp, GETparameters, log.requests = log.requests, 
                 sandbox = sandbox, validation.test = validation.test)
-			if(validation.test)
-				return(invisible(request))
+            if(validation.test)
+                return(invisible(request))
             if(request$valid == TRUE) {
                 url <- strsplit(strsplit(request$xml, "<FileUploadURL>")[[1]][2], "</FileUploadURL>")[[1]][1]
                 FileUploadURL[i, ] <- c(assignment[i], url, request$valid)
@@ -43,14 +43,14 @@ function (assignment, questionIdentifier, download = FALSE, file.ext = NULL,
                 if(open.file.in.browser == TRUE) 
                   browseURL(url)
                 if(download.file == TRUE) {
-					if(is.null(file.ext)) 
-						file.ext = ""
-					download.file(url, paste(assignment, "file", file.ext, sep = ""), mode = "wb")
+                    if(is.null(file.ext)) 
+                        file.ext = ""
+                    download.file(url, paste(assignment, "file", file.ext, sep = ""), mode = "wb")
                 }
             }
             else if(request$valid == FALSE) {
                 if(print == TRUE) 
-					message("Request for Assignment ", assignment[i], " failed")
+                    message("Request for Assignment ", assignment[i], " failed")
             }
         }
     }

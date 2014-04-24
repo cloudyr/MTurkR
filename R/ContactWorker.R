@@ -4,7 +4,7 @@ ContactWorkers <-
 function (subjects, msgs, workers, batch = FALSE, keypair = credentials(), 
     print = getOption('MTurkR.print'), browser = getOption('MTurkR.browser'),
     log.requests = getOption('MTurkR.log'), sandbox = getOption('MTurkR.sandbox'),
-	validation.test = getOption('MTurkR.test')) {
+    validation.test = getOption('MTurkR.test')) {
     if(!is.null(keypair)) {
         keyid <- keypair[1]
         secret <- keypair[2]
@@ -53,35 +53,35 @@ function (subjects, msgs, workers, batch = FALSE, keypair = credentials(),
             }
             for(k in 1:upper) {
                 GETworkers <- paste(GETworkers, "&WorkerId.", k,
-									"=", workerbatch[k], sep = "")
+                                    "=", workerbatch[k], sep = "")
                 if(k == 1) 
-					firstworker <- workerbatch[k]
+                    firstworker <- workerbatch[k]
                 else if(k == upper) 
-					lastworker <- workerbatch[k]
+                    lastworker <- workerbatch[k]
             }
-            GETparameters <- paste(	"&Subject=", curlEscape(subjects), 
-									"&MessageText=", curlEscape(msgs), GETworkers, 
-									sep = "")
+            GETparameters <- paste(    "&Subject=", curlEscape(subjects), 
+                                    "&MessageText=", curlEscape(msgs), GETworkers, 
+                                    sep = "")
             auth <- authenticate(operation, secret)
             if(browser == TRUE) {
                 request <- request(keyid, auth$operation, auth$signature, 
-					auth$timestamp, GETparameters, browser = browser, 
-					sandbox = sandbox, validation.test = validation.test)
-				if(validation.test)
-					return(invisible(request))
+                    auth$timestamp, GETparameters, browser = browser, 
+                    sandbox = sandbox, validation.test = validation.test)
+                if(validation.test)
+                    return(invisible(request))
             }
             else {
                 request <- request(keyid, auth$operation, auth$signature, 
-					auth$timestamp, GETparameters, log.requests = log.requests, 
-					sandbox = sandbox, xml.parse=TRUE, validation.test = validation.test)
-				if(validation.test)
-					return(invisible(request))
+                    auth$timestamp, GETparameters, log.requests = log.requests, 
+                    sandbox = sandbox, xml.parse=TRUE, validation.test = validation.test)
+                if(validation.test)
+                    return(invisible(request))
                 Notifications$Valid[i:(i + (lastbatch - 1))] <- request$valid
                 #Notifications[j, ] <- c(nbatches, firstworker, lastworker,
-				#						subjects, msgs, request$valid)
+                #                        subjects, msgs, request$valid)
                 if(request$valid == TRUE) {
                     if(print == TRUE)
-						message(j, ": Workers ", firstworker, " to ",lastworker, " Notified")
+                        message(j, ": Workers ", firstworker, " to ",lastworker, " Notified")
                     parsed <- request$xml.parsed
                     if(length(getNodeSet(parsed, '//NotifyWorkersFailureStatus'))>0){
                         x <- xpathApply(parsed, '//NotifyWorkersFailureStatus', function(x) {
@@ -95,8 +95,8 @@ function (subjects, msgs, workers, batch = FALSE, keypair = credentials(),
                     }
                 }
                 else if(request$valid == FALSE) {
-					if(print == TRUE) 
-						warning(j,": Invalid Request for workers ",firstworker," to ",lastworker)
+                    if(print == TRUE) 
+                        warning(j,": Invalid Request for workers ",firstworker," to ",lastworker)
                 }
             }
             i <- i + 100
@@ -124,20 +124,20 @@ function (subjects, msgs, workers, batch = FALSE, keypair = credentials(),
                             c("WorkerId", "Subject", "Message", "Valid"))
         for (i in 1:length(workers)) {
             GETparameters <- paste("&Subject=", curlEscape(subjects[i]), 
-									"&MessageText=", curlEscape(msgs[i]),
-									"&WorkerId.1=", workers[i], sep = "")
+                                    "&MessageText=", curlEscape(msgs[i]),
+                                    "&WorkerId.1=", workers[i], sep = "")
             auth <- authenticate(operation, secret)
             if(browser == TRUE) {
                 request <- request(keyid, auth$operation, auth$signature, 
-					auth$timestamp, GETparameters, browser = browser, 
-					sandbox = sandbox, validation.test = validation.test)
+                    auth$timestamp, GETparameters, browser = browser, 
+                    sandbox = sandbox, validation.test = validation.test)
                 if(validation.test)
                     return(invisible(request))
             }
             else {
                 request <- request(keyid, auth$operation, auth$signature, 
-					auth$timestamp, GETparameters, log.requests = log.requests, 
-					sandbox = sandbox, xml.parse=TRUE, validation.test = validation.test)
+                    auth$timestamp, GETparameters, log.requests = log.requests, 
+                    sandbox = sandbox, xml.parse=TRUE, validation.test = validation.test)
                 if(validation.test)
                     return(invisible(request))
                 parsed <- request$xml.parsed
@@ -147,15 +147,15 @@ function (subjects, msgs, workers, batch = FALSE, keypair = credentials(),
                 Notifications[i, ] <- c(workers[i], subjects[i], msgs[i], request$valid)
                 if(request$valid == 'HardFailure'){
                     if(print == TRUE) 
-						message(i, ": Worker (", workers[i], ") not contacted: ",
+                        message(i, ": Worker (", workers[i], ") not contacted: ",
                         xmlValue(getNodeSet(parsed,'//NotifyWorkersFailureMessage')[[1]]))
                 }
                 if(request$valid == TRUE) {
                     if(print == TRUE) 
-						message(i, ": Worker (", workers[i], ") Notified")
+                        message(i, ": Worker (", workers[i], ") Notified")
                 }
                 else if(request$valid == FALSE) {
-					if(print == TRUE) 
+                    if(print == TRUE) 
                         warning(i,": Invalid Request for worker ", workers[i])
                 }
             }

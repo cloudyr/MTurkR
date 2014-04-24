@@ -14,7 +14,7 @@ function (qual, keypair = credentials(), print = getOption('MTurkR.print'),
     if(is.null(qual)) 
         stop("Must specify QualificationTypeId")
     else {
-		if(is.factor(qual))
+        if(is.factor(qual))
             qual <- as.character(qual)
         GETparameters <- paste("&QualificationTypeId=", qual, sep = "")
     }
@@ -23,15 +23,15 @@ function (qual, keypair = credentials(), print = getOption('MTurkR.print'),
         request <- request(keyid, auth$operation, auth$signature, 
             auth$timestamp, GETparameters, browser = browser, 
             sandbox = sandbox, validation.test = validation.test)
-		if(validation.test)
-			return(invisible(request))
+        if(validation.test)
+            return(invisible(request))
     }
     else {
         request <- request(keyid, auth$operation, auth$signature, 
             auth$timestamp, GETparameters, log.requests = log.requests, 
             sandbox = sandbox, validation.test = validation.test)
-		if(validation.test)
-			return(invisible(request))
+        if(validation.test)
+            return(invisible(request))
         if(request$valid == TRUE) {
             Qualifications <- QualificationTypesToDataFrame(xml = request$xml)
             if(print == TRUE) 

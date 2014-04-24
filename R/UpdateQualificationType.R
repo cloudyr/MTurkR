@@ -23,15 +23,15 @@ function (qual, description = NULL, status = NULL, retry.delay = NULL,
         GETparameters <- paste(GETparameters, "&QualificationTypeStatus=", status, sep = "")
     if(!is.null(test)) {
         if(validate.test==TRUE){
-			if(!is.null(xmlChildren(xmlParse(test))$QuestionForm))
-				namespace <- xmlNamespace(xmlChildren(xmlParse(test))$QuestionForm)[1]
-			else
-				stop("No Namespace specified in 'test'")
-			validation <- xmlSchemaValidate(namespace, test)
-			if(!validation$status==0){
-				warning("'test' object does not validate against MTurk schema")
-				return(validation)
-			}
+            if(!is.null(xmlChildren(xmlParse(test))$QuestionForm))
+                namespace <- xmlNamespace(xmlChildren(xmlParse(test))$QuestionForm)[1]
+            else
+                stop("No Namespace specified in 'test'")
+            validation <- xmlSchemaValidate(namespace, test)
+            if(!validation$status==0){
+                warning("'test' object does not validate against MTurk schema")
+                return(validation)
+            }
         }
         GETparameters <- paste(GETparameters, "&Test=", curlEscape(test), "&TestDurationInSeconds=", test.duration, sep = "")
     }
@@ -86,16 +86,16 @@ function (qual, description = NULL, status = NULL, retry.delay = NULL,
         request <- request(keyid, auth$operation, auth$signature, 
             auth$timestamp, GETparameters, browser = browser, 
             sandbox = sandbox, validation.test = validation.test)
-		if(validation.test)
-			return(invisible(request))
+        if(validation.test)
+            return(invisible(request))
     }
     else {
         request <- request(keyid, auth$operation, auth$signature, 
             auth$timestamp, GETparameters, log.requests = log.requests, 
             sandbox = sandbox, validation.test = validation.test)
         if(validation.test)
-			return(invisible(request))
-		if(request$valid == TRUE) {
+            return(invisible(request))
+        if(request$valid == TRUE) {
             QualificationType <- QualificationTypesToDataFrame(xml = request$xml)
             if(print == TRUE) {
                 message("QualificationType ", QualificationType$QualificationTypeId[1],

@@ -46,5 +46,5 @@ function (stat = NULL, value.type = NULL, type = NULL) {
     if(is.null(stat) & (!is.null(type) & !is.null(value.type))) 
         return(stats[stats$Type == type & stats$ValueType == value.type,])
     else
-		return(stats)
+        return(stats)
 }

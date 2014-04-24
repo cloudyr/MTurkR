@@ -27,15 +27,15 @@ function (title, description, reward, duration, keywords = NULL,
             GETparameters <- paste(GETparameters, "&Keywords=", 
                 curlEscape(keywords), sep = "")
         else
-			stop("Keywords too long (1000 char max)")
+            stop("Keywords too long (1000 char max)")
     }
     if(!is.null(auto.approval.delay)) {
         if(as.numeric(auto.approval.delay) > 0 &
-			as.numeric(auto.approval.delay) <= 2592000) 
+            as.numeric(auto.approval.delay) <= 2592000) 
             GETparameters <- paste(GETparameters, "&AutoApprovalDelayInSeconds=", 
                 auto.approval.delay, sep = "")
         else
-			warning("AutoApprovalDelayInSeconds must be between 0 (0 seconds) and 2592000 (30 days); defaults to 30 days")
+            warning("AutoApprovalDelayInSeconds must be between 0 (0 seconds) and 2592000 (30 days); defaults to 30 days")
     }
     if(!is.null(qual.req)) 
         GETparameters <- paste(GETparameters, qual.req, sep = "")
@@ -44,16 +44,16 @@ function (title, description, reward, duration, keywords = NULL,
         request <- request(keyid, auth$operation, auth$signature, 
             auth$timestamp, GETparameters, browser = browser, 
             sandbox = sandbox, validation.test = validation.test)
-		if(validation.test)
-			return(invisible(request))
+        if(validation.test)
+            return(invisible(request))
     } else {
         HITType <- setNames(data.frame(matrix(ncol=2,nrow=1)),
                     c("HITTypeId", "Valid"))
         request <- request(keyid, auth$operation, auth$signature, 
             auth$timestamp, GETparameters, log.requests = log.requests, 
             sandbox = sandbox, validation.test = validation.test)
-		if(validation.test)
-			return(invisible(request))
+        if(validation.test)
+            return(invisible(request))
         if(request$valid == TRUE) {
             hit.type <- strsplit(strsplit(request$xml, "<HITTypeId>")[[1]][2], 
                 "</HITTypeId>")[[1]][1]

@@ -38,7 +38,7 @@ function (xml = NULL, xml.parsed = NULL, xmlnodeset = NULL, hit = NULL,
         if(!is.null(xmlnodeset)) 
             return(batch(xmlnodeset))
         else
-			return(NULL)
+            return(NULL)
     }
     else if(!is.null(hit)) {
         xmlnodeset <- xpathApply(xmlParse(GetHIT(hit = hit, keypair = credentials, sandbox = sandbox)$xml), 
@@ -46,5 +46,5 @@ function (xml = NULL, xml.parsed = NULL, xmlnodeset = NULL, hit = NULL,
         return(batch(xmlnodeset))
     }
     else
-		return(NULL)
+        return(NULL)
 }

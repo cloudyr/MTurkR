@@ -22,8 +22,8 @@ function (qual, keypair = credentials(), print = getOption('MTurkR.print'),
         request <- request(keyid, auth$operation, auth$signature, 
             auth$timestamp, GETparameters, browser = browser, 
             sandbox = sandbox, validation.test = validation.test)
-		if(validation.test)
-			return(invisible(request))
+        if(validation.test)
+            return(invisible(request))
     }
     else {
         QualificationTypes <- setNames(data.frame(matrix(ncol = 2)),
@@ -31,8 +31,8 @@ function (qual, keypair = credentials(), print = getOption('MTurkR.print'),
         request <- request(keyid, auth$operation, auth$signature, 
             auth$timestamp, GETparameters, log.requests = log.requests, 
             sandbox = sandbox, validation.test = validation.test)
-		if(validation.test)
-			return(invisible(request))
+        if(validation.test)
+            return(invisible(request))
         if(request$valid == TRUE) {
             QualificationTypes[1, ] <- c(qual, request$valid)
             if(print == TRUE)

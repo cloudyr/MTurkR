@@ -32,24 +32,24 @@ function (qual, workers, value = "1", notify = FALSE, name = NULL,
     }
     worker <- NULL
     batch <- function(worker, value) {
-        GETparameters <- paste(	"&QualificationTypeId=", qual, 
-								"&WorkerId=", worker,
-								"&IntegerValue=", value,
-								"&SendNotification=", tolower(notify), sep = "")
+        GETparameters <- paste(    "&QualificationTypeId=", qual, 
+                                "&WorkerId=", worker,
+                                "&IntegerValue=", value,
+                                "&SendNotification=", tolower(notify), sep = "")
         auth <- authenticate(operation, secret)
         if(browser == TRUE) {
             request <- request(keyid, auth$operation, auth$signature, 
                 auth$timestamp, GETparameters, browser = browser, 
                 sandbox = sandbox, validation.test = validation.test)
-			if(validation.test)
-				return(invisible(request))
+            if(validation.test)
+                return(invisible(request))
         }
         else {
             request = request(keyid, auth$operation, auth$signature, 
                 auth$timestamp, GETparameters, log.requests = log.requests, 
                 sandbox = sandbox, validation.test = validation.test)
-			if(validation.test)
-				return(invisible(request))
+            if(validation.test)
+                return(invisible(request))
             if(print == TRUE) {
                 if(request$valid == TRUE) {
                     message("Qualification (", qual, ") Assigned to worker ", worker)
@@ -61,7 +61,7 @@ function (qual, workers, value = "1", notify = FALSE, name = NULL,
                 }
             }
             else
-				return(invisible(request))
+                return(invisible(request))
         }
     }
     if (!is.null(name)) {
@@ -89,16 +89,16 @@ function (qual, workers, value = "1", notify = FALSE, name = NULL,
     if(is.null(conditional.statistic)) {
         for(i in 1:length(workers)) {
             x <- batch(workers[i], value)
-			if(validation.test)
-				return(invisible(x))
+            if(validation.test)
+                return(invisible(x))
             Qualifications[i, ] = c(workers[i], value, qual, notify, x$valid)
         }
     }
     else {
-		if(validation.test){
-			warning("validation.test not available for conditional qualification assignment")
-			return(invisible(NULL))
-		}
+        if(validation.test){
+            warning("validation.test not available for conditional qualification assignment")
+            return(invisible(NULL))
+        }
         if(is.null(conditional.comparator)) 
             stop("No comparator specified for conditional")
         value.integer <- c("NumberAssignmentsApproved", "NumberAssignmentsRejected", 
@@ -124,8 +124,8 @@ function (qual, workers, value = "1", notify = FALSE, name = NULL,
                 conditional.comparator = "EqualTo"
             else if(conditional.comparator == "!=") 
                 conditional.comparator = "NotEqualTo"
-            if(!conditional.comparator %in% c(	"LessThan", "LessThanOrEqualTo", "GreaterThan",
-												"GreaterThanOrEqualTo", "EqualTo", "NotEqualTo")) 
+            if(!conditional.comparator %in% c(    "LessThan", "LessThanOrEqualTo", "GreaterThan",
+                                                "GreaterThanOrEqualTo", "EqualTo", "NotEqualTo")) 
                 stop("Inappropriate comparator specified for conditional")
         }
         if(is.null(conditional.period) || !conditional.period %in% 
@@ -144,15 +144,15 @@ function (qual, workers, value = "1", notify = FALSE, name = NULL,
                 value <- x$value
             if(conditional.comparator == "LessThan") {
                 if(as.numeric(x$value) < conditional.value) 
-					temp <- batch(workers[i], value)
+                    temp <- batch(workers[i], value)
             }
             else if(conditional.comparator == "LessThanOrEqualTo") {
                 if(as.numeric(x$value) <= conditional.value) 
-					temp <- batch(workers[i], value)
+                    temp <- batch(workers[i], value)
             }
             else if(conditional.comparator == "GreaterThan") {
                 if(as.numeric(x$value) > conditional.value) 
-					temp <- batch(workers[i], value)
+                    temp <- batch(workers[i], value)
             }
             else if(conditional.comparator == "GreaterThanOrEqualTo") {
                 if(as.numeric(x$value) >= conditional.value) 

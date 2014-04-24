@@ -10,7 +10,7 @@ function (workers, reasons = NULL, keypair = credentials(), print = getOption('M
         secret <- keypair[2]
     }
     else
-		stop("No keypair provided or 'credentials' object not stored")
+        stop("No keypair provided or 'credentials' object not stored")
     operation <- "UnblockWorker"
     if(is.factor(workers))
         workers <- as.character(workers)
@@ -36,16 +36,16 @@ function (workers, reasons = NULL, keypair = credentials(), print = getOption('M
             request <- request(keyid, auth$operation, auth$signature, 
                 auth$timestamp, GETparameters, browser = browser, 
                 sandbox = sandbox, validation.test = validation.test)
-			if(validation.test)
-				return(invisible(request))
+            if(validation.test)
+                return(invisible(request))
         }
         else {
             request <- request(keyid, auth$operation, auth$signature, 
                 auth$timestamp, GETparameters, log.requests = log.requests, 
                 sandbox = sandbox, validation.test = validation.test)
             if(validation.test)
-				return(invisible(request))
-			if (request$valid == TRUE) {
+                return(invisible(request))
+            if (request$valid == TRUE) {
                 if (print == TRUE) 
                     message(i, ": Worker ", workers[i], " Unblocked")
                 if (is.null(reasons)) 
