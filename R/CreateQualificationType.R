@@ -3,15 +3,14 @@ createqual <-
 function (name, description, status, keywords = NULL, retry.delay = NULL, 
     test = NULL, answerkey = NULL, test.duration = NULL,
     validate.test = FALSE, validate.answerkey = FALSE,
-    auto = NULL, auto.value = NULL, keypair = credentials(),
+    auto = NULL, auto.value = NULL, keypair = getOption('MTurkR.keypair'),
     print = getOption('MTurkR.print'), browser = getOption('MTurkR.browser'),
     log.requests = getOption('MTurkR.log'), sandbox = getOption('MTurkR.sandbox'),
     validation.test = getOption('MTurkR.test')) {
     if(!is.null(keypair)) {
         keyid <- keypair[1]
         secret <- keypair[2]
-    }
-    else
+    } else
         stop("No keypair provided or 'credentials' object not stored")
     operation <- "CreateQualificationType"
     if(!status %in% c("Active", "Inactive")) 

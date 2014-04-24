@@ -1,5 +1,5 @@
 genericmturkr <-
-function (operation, parameters = NULL, keypair = credentials(), 
+function (operation, parameters = NULL, keypair = getOption('MTurkR.keypair'), 
     print = getOption('MTurkR.print'), browser = getOption('MTurkR.browser'),
     log.requests = getOption('MTurkR.log'), sandbox = getOption('MTurkR.sandbox'), 
     xml.parse = TRUE, validation.test = getOption('MTurkR.test')){

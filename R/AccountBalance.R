@@ -1,15 +1,15 @@
 AccountBalance <-
 accountbalance <-
 getbalance <-
-function (keypair = credentials(), print = getOption('MTurkR.print'),
+function (keypair = getOption('MTurkR.keypair'), print = getOption('MTurkR.print'),
     browser = getOption('MTurkR.browser'), log.requests = getOption('MTurkR.log'),
     sandbox = getOption('MTurkR.sandbox'), validation.test = getOption('MTurkR.test')) 
 {
     if (!is.null(keypair)) {
         keyid <- keypair[1]
         secret <- keypair[2]
-    }
-    else stop("No keypair provided or 'credentials' object not stored")
+    } else
+        stop("No keypair provided or 'credentials' object not stored")
     operation <- "GetAccountBalance"
     GETparameters = ""
     auth <- authenticate(operation, secret)

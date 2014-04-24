@@ -5,7 +5,7 @@
 \description{Get details of bonuses paid to workers, by HIT, HITType, or Assignment.}
 \usage{
 GetBonuses(assignment = NULL, hit = NULL, hit.type = NULL, return.all = TRUE, 
-            pagenumber = "1", pagesize = "100", keypair = credentials(), 
+            pagenumber = "1", pagesize = "100", keypair = getOption('MTurkR.keypair'), 
             print = getOption('MTurkR.print'), browser = getOption('MTurkR.browser'), 
             log.requests = getOption('MTurkR.log'),
             sandbox = getOption('MTurkR.sandbox'), 

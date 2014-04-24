@@ -1,14 +1,13 @@
 GetQualificationType <-
 qualtype <-
-function (qual, keypair = credentials(), print = getOption('MTurkR.print'),
+function (qual, keypair = getOption('MTurkR.keypair'), print = getOption('MTurkR.print'),
     browser = getOption('MTurkR.browser'), log.requests = getOption('MTurkR.log'),
     sandbox = getOption('MTurkR.sandbox'), return.qual.dataframe = TRUE,
     validation.test = getOption('MTurkR.test')) {
     if(!is.null(keypair)) {
         keyid <- keypair[1]
         secret <- keypair[2]
-    }
-    else
+    } else
         stop("No keypair provided or 'credentials' object not stored")
     operation <- "GetQualificationType"
     if(is.null(qual)) 

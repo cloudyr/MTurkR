@@ -4,7 +4,7 @@
 \title{Dispose QualificationType}
 \description{Dispose of a QualificationType. This deletes the QualificationType, Qualification scores for all workers, and all records thereof.}
 \usage{
-DisposeQualificationType(qual, keypair = credentials(),
+DisposeQualificationType(qual, keypair = getOption('MTurkR.keypair'),
                          print = getOption('MTurkR.print'), 
                          browser = getOption('MTurkR.browser'),
                          log.requests = getOption('MTurkR.log'),

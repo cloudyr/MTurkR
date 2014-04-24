@@ -1,7 +1,7 @@
 GetReviewResultsForHIT <-
 reviewresults <-
 function (hit, assignment = NULL, policy.level = NULL, retrieve.results = TRUE, 
-    retrieve.actions = TRUE, keypair = credentials(), print = getOption('MTurkR.print'), 
+    retrieve.actions = TRUE, keypair = getOption('MTurkR.keypair'), print = getOption('MTurkR.print'), 
     browser = getOption('MTurkR.browser'), log.requests = getOption('MTurkR.log'),
     sandbox = getOption('MTurkR.sandbox'), validation.test = getOption('MTurkR.test')) {
     keyid <- keypair[1]

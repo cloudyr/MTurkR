@@ -4,7 +4,7 @@ function (qual, description = NULL, status = NULL, retry.delay = NULL,
     test = NULL, answerkey = NULL, test.duration = NULL,
     validate.test = FALSE, validate.answerkey = FALSE,
     auto = NULL, auto.value = NULL,
-    keypair = credentials(), print = getOption('MTurkR.print'), 
+    keypair = getOption('MTurkR.keypair'), print = getOption('MTurkR.print'), 
     browser = getOption('MTurkR.browser'), log.requests = getOption('MTurkR.log'),
     sandbox = getOption('MTurkR.sandbox'), validation.test = getOption('MTurkR.test')) {
     if(!is.null(keypair)) {

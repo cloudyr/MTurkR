@@ -1,5 +1,5 @@
 RequesterReport <-
-function (period = "LifeToDate", keypair = credentials(),
+function (period = "LifeToDate", keypair = getOption('MTurkR.keypair'),
     log.requests = getOption('MTurkR.log'), sandbox = getOption('MTurkR.sandbox')) 
 {
     if(!period %in% c("OneDay", "SevenDays", "ThirtyDays", "LifeToDate")) 

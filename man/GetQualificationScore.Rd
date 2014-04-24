@@ -4,7 +4,7 @@
 \title{Get a Worker's Qualification Score}
 \description{Get a Worker's score for a specific Qualification. You can only retrieve scores for custom QualificationTypes. Scores for built-in QualificationTypes should be retrieved with \code{\link{GetWorkerStatistic}}.}
 \usage{
-GetQualificationScore(    qual, workers, keypair = credentials(), 
+GetQualificationScore(    qual, workers, keypair = getOption('MTurkR.keypair'), 
                         print = getOption('MTurkR.print'),
                         browser = getOption('MTurkR.browser'), 
                         log.requests = getOption('MTurkR.log'),

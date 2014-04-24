@@ -9,7 +9,7 @@
 GetAssignment(assignment = NULL, hit = NULL, hit.type = NULL, status = NULL, 
               return.all = FALSE, pagenumber = "1", pagesize = "10", 
               sortproperty = "SubmitTime", sortdirection = "Ascending", 
-              response.group = NULL, keypair = credentials(),
+              response.group = NULL, keypair = getOption('MTurkR.keypair'),
               print = getOption('MTurkR.print'),
               browser = getOption('MTurkR.browser'),
               log.requests = getOption('MTurkR.log'),

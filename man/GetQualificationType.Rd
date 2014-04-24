@@ -4,7 +4,7 @@
 \title{Get QualificationType}
 \description{Get the details of a Qualification Type.}
 \usage{
-GetQualificationType(qual, keypair = credentials(), print = getOption('MTurkR.print'),
+GetQualificationType(qual, keypair = getOption('MTurkR.keypair'), print = getOption('MTurkR.print'),
                     browser = getOption('MTurkR.browser'), 
                     log.requests = getOption('MTurkR.log'),
                     sandbox = getOption('MTurkR.sandbox'),

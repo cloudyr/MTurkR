@@ -1,7 +1,7 @@
 GetHIT <-
 gethit <-
 hit <-
-function (hit, response.group = NULL, keypair = credentials(), 
+function (hit, response.group = NULL, keypair = getOption('MTurkR.keypair'), 
     print = getOption('MTurkR.print'), browser = getOption('MTurkR.browser'),
     log.requests = getOption('MTurkR.log'), sandbox = getOption('MTurkR.sandbox'), 
     return.hit.dataframe = TRUE, return.qual.dataframe = TRUE,
@@ -9,8 +9,7 @@ function (hit, response.group = NULL, keypair = credentials(),
     if(!is.null(keypair)) {
         keyid <- keypair[1]
         secret <- keypair[2]
-    }
-    else
+    } else
         stop("No keypair provided or 'credentials' object not stored")
     operation <- "GetHIT"
     GETparameters <- paste("&HITId=", hit, sep = "")

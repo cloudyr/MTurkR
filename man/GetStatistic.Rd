@@ -9,25 +9,25 @@
 \description{Get a requester statistic or a statistic for a particular worker. \code{RequesterReport} and \code{WorkerReport} provide wrappers that return all available statistics.}
 \usage{
 GetStatistic(    statistic, period = "LifeToDate", count = NULL,
-                response.group = NULL, keypair = credentials(),
+                response.group = NULL, keypair = getOption('MTurkR.keypair'),
                 print = getOption('MTurkR.print'), 
                 browser = getOption('MTurkR.browser'),
                 log.requests = getOption('MTurkR.log'),
                 sandbox = getOption('MTurkR.sandbox'),
                 validation.test = getOption('MTurkR.test'))
-RequesterReport(period = "LifeToDate", keypair = credentials(), 
+RequesterReport(period = "LifeToDate", keypair = getOption('MTurkR.keypair'), 
                 log.requests = getOption('MTurkR.log'),
                 sandbox = getOption('MTurkR.sandbox'))
 
 GetWorkerStatistic(    worker, statistic, period = "LifeToDate", count = NULL,
-                    response.group = NULL, keypair = credentials(),
+                    response.group = NULL, keypair = getOption('MTurkR.keypair'),
                     print = getOption('MTurkR.print'),
                     browser = getOption('MTurkR.browser'),
                     log.requests = getOption('MTurkR.log'),
                     sandbox = getOption('MTurkR.sandbox'),
                     validation.test = getOption('MTurkR.test'))
 WorkerReport(    worker, period = "LifeToDate", 
-                keypair = credentials(), log.requests = getOption('MTurkR.log'), 
+                keypair = getOption('MTurkR.keypair'), log.requests = getOption('MTurkR.log'), 
                 sandbox = getOption('MTurkR.sandbox'))
 }
 \arguments{

@@ -6,14 +6,13 @@ function (qual, workers, value = "1", notify = FALSE, name = NULL,
     test = NULL, answerkey = NULL, test.duration = NULL, auto = NULL, 
     auto.value = NULL, conditional.statistic = NULL, conditional.comparator = NULL, 
     conditional.value = NULL, conditional.period = NULL, set.statistic.as.value = FALSE, 
-    keypair = credentials(), print = getOption('MTurkR.print'),
+    keypair = getOption('MTurkR.keypair'), print = getOption('MTurkR.print'),
     browser = getOption('MTurkR.browser'), log.requests = getOption('MTurkR.log'),
     sandbox = getOption('MTurkR.sandbox'), validation.test = getOption('MTurkR.test')) {
     if(!is.null(keypair)) {
         keyid <- keypair[1]
         secret <- keypair[2]
-    }
-    else
+    } else
         stop("No keypair provided or 'credentials' object not stored")
     operation <- "AssignQualification"
     if(is.factor(qual))

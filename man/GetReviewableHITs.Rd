@@ -7,7 +7,7 @@
 GetReviewableHITs(    hit.type = NULL, status = NULL, response.group = "Minimal", 
                     return.all = TRUE, pagenumber = "1", pagesize = "10", 
                     sortproperty = "Enumeration", sortdirection = "Ascending", 
-                    keypair = credentials(), print = getOption('MTurkR.print'), 
+                    keypair = getOption('MTurkR.keypair'), print = getOption('MTurkR.print'), 
                     log.requests = getOption('MTurkR.log'),
                     sandbox = getOption('MTurkR.sandbox'),
                     validation.test = getOption('MTurkR.test'))

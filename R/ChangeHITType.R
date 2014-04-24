@@ -3,14 +3,13 @@ changehittype <-
 function (hit = NULL, old.hit.type = NULL, new.hit.type = NULL, 
     title = NULL, description = NULL, reward = NULL, duration = NULL, 
     keywords = NULL, auto.approval.delay = NULL, qual.req = NULL, 
-    keypair = credentials(), print = getOption('MTurkR.print'),
+    keypair = getOption('MTurkR.keypair'), print = getOption('MTurkR.print'),
     browser = getOption('MTurkR.browser'), log.requests = getOption('MTurkR.log'), 
     sandbox = getOption('MTurkR.sandbox'), validation.test = getOption('MTurkR.test')) {
     if(!is.null(keypair)) {
         keyid <- keypair[1]
         secret <- keypair[2]
-    }
-    else
+    } else
         stop("No keypair provided or 'credentials' object not stored")
     operation <- "ChangeHITTypeOfHIT"
     if((is.null(hit) & is.null(old.hit.type)) | (!is.null(hit) & !is.null(old.hit.type))) 

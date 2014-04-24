@@ -1,7 +1,8 @@
 GetWorkerStatistic <-
 workerstatistic <-
 function (worker, statistic, period = "LifeToDate", count = NULL, 
-    response.group = NULL, keypair = credentials(), print = getOption('MTurkR.print'), 
+    response.group = NULL, keypair = getOption('MTurkR.keypair'),
+    print = getOption('MTurkR.print'), 
     browser = getOption('MTurkR.browser'), log.requests = getOption('MTurkR.log'),
     sandbox = getOption('MTurkR.sandbox'), validation.test = getOption('MTurkR.test')) {
     if(!is.null(keypair)) {

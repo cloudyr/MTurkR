@@ -1,15 +1,15 @@
 ExtendHIT <-
 extend <-
 function (hit = NULL, hit.type = NULL, add.assignments = NULL, 
-    add.seconds = NULL, unique.request.token = NULL, keypair = credentials(), 
+    add.seconds = NULL, unique.request.token = NULL,
+    keypair = getOption('MTurkR.keypair'), 
     print = getOption('MTurkR.print'), browser = getOption('MTurkR.browser'),
     log.requests = getOption('MTurkR.log'), sandbox = getOption('MTurkR.sandbox'),
     validation.test = getOption('MTurkR.test')) {
     if(!is.null(keypair)) {
         keyid <- keypair[1]
         secret <- keypair[2]
-    }
-    else
+    } else
         stop("No keypair provided or 'credentials' object not stored")
     operation <- "ExtendHIT"
     GETparameters <- ""

@@ -1,7 +1,8 @@
 UnblockWorker <-
 UnblockWorkers <-
 unblock <-
-function (workers, reasons = NULL, keypair = credentials(), print = getOption('MTurkR.print'), 
+function (workers, reasons = NULL, keypair = getOption('MTurkR.keypair'),
+    print = getOption('MTurkR.print'), 
     browser = getOption('MTurkR.browser'), log.requests = getOption('MTurkR.log'),
     sandbox = getOption('MTurkR.sandbox'), validation.test = getOption('MTurkR.test')) 
 {

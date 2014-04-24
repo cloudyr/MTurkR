@@ -1,7 +1,7 @@
 RegisterHITType <-
 hittype <-
 function (title, description, reward, duration, keywords = NULL, 
-    auto.approval.delay = NULL, qual.req = NULL, keypair = credentials(), 
+    auto.approval.delay = NULL, qual.req = NULL, keypair = getOption('MTurkR.keypair'), 
     print = getOption('MTurkR.print'), browser = getOption('MTurkR.browser'),
     log.requests = getOption('MTurkR.log'), sandbox = getOption('MTurkR.sandbox'),
     validation.test = getOption('MTurkR.test')) {

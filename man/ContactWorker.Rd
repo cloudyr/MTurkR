@@ -5,7 +5,7 @@
 \title{Contact Worker(s)}
 \description{Contact one or more workers. This sends an email with specified subject line and body text to one or more workers. This can be used to recontact workers in panel/longitudinal research or to send follow-up work. Most likely will need to be used in tandem with \code{\link{GrantBonus}} to implement panels.}
 \usage{
-ContactWorker(subjects, msgs, workers, batch = FALSE, keypair = credentials(), 
+ContactWorker(subjects, msgs, workers, batch = FALSE, keypair = getOption('MTurkR.keypair'), 
               print = getOption('MTurkR.print'), 
               browser = getOption('MTurkR.browser'),
               log.requests = getOption('MTurkR.log'), 

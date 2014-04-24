@@ -1,13 +1,12 @@
 DisposeQualificationType <-
 disposequal <-
-function (qual, keypair = credentials(), print = getOption('MTurkR.print'),
+function (qual, keypair = getOption('MTurkR.keypair'), print = getOption('MTurkR.print'),
     browser = getOption('MTurkR.browser'), log.requests = getOption('MTurkR.log'),
     sandbox = getOption('MTurkR.sandbox'), validation.test = getOption('MTurkR.test')) {
     if(!is.null(keypair)) {
         keyid <- keypair[1]
         secret <- keypair[2]
-    }
-    else
+    } else
         stop("No keypair provided or 'credentials' object not stored")
     operation <- "DisposeQualificationType"
     if(is.null(qual)) 

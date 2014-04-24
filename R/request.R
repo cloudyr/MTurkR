@@ -1,6 +1,6 @@
 request <-
-function (keyid, operation, signature=NULL, timestamp=NULL, GETparameters, 
-    secret = NULL,
+function (keyid = getOption('MTurkR.keypair')[1], operation, signature=NULL, timestamp=NULL, GETparameters, 
+    secret = getOption('MTurkR.keypair')[2],
     version = "2012-03-25", service = "AWSMechanicalTurkRequester", 
     browser = getOption('MTurkR.browser'), log.requests = getOption('MTurkR.log'),
     sandbox = getOption('MTurkR.sandbox'), xml.parse = FALSE,

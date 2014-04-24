@@ -2,14 +2,13 @@ GetReviewableHITs <-
 reviewable <-
 function (hit.type = NULL, status = NULL, response.group = "Minimal", 
     return.all = TRUE, pagenumber = "1", pagesize = "10", sortproperty = "Enumeration", 
-    sortdirection = "Ascending", keypair = credentials(), print = getOption('MTurkR.print'), 
+    sortdirection = "Ascending", keypair = getOption('MTurkR.keypair'), print = getOption('MTurkR.print'), 
     log.requests = getOption('MTurkR.log'), sandbox = getOption('MTurkR.sandbox'),
     validation.test = getOption('MTurkR.test')) {
     if(!is.null(keypair)) {
         keyid <- keypair[1]
         secret <- keypair[2]
-    }
-    else
+    } else
         stop("No keypair provided or 'credentials' object not stored")
     operation <- "GetReviewableHITs"
     if(!sortproperty %in% c("Title", "Reward", "Expiration", 

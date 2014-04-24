@@ -1,6 +1,7 @@
 SetHITAsReviewing <-
 reviewing <-
-function (hit = NULL, hit.type = NULL, revert = FALSE, keypair = credentials(), 
+function (hit = NULL, hit.type = NULL, revert = FALSE, 
+    keypair = getOption('MTurkR.keypair'), 
     print = getOption('MTurkR.print'), browser = getOption('MTurkR.browser'),
     log.requests = getOption('MTurkR.log'), sandbox = getOption('MTurkR.sandbox'),
     validation.test = getOption('MTurkR.test')) {

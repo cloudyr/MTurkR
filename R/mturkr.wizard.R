@@ -43,7 +43,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
         # enter credentials
         credentialsWiz <- function() {
             credOK <- function() {
-                credentials(c(tclvalue(accesskey),tclvalue(secretkey)))
+                options(MTurkR.keypair = c(tclvalue(accesskey),tclvalue(secretkey)))
                 tkdestroy(credDialog)
                 tkfocus(wizard)
             }
@@ -51,13 +51,12 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
             credDialog <- tktoplevel()
             tkwm.title(credDialog, "Enter/Confirm MTurk Requester Credentials")
             tkfocus(credDialog)
-            if(is.null(credentials())){
+            if(is.null(getOption('MTurkR.keypair'))){
                 accesskey <- tclVar("")
                 secretkey <- tclVar("")
-            }
-            else {
-                accesskey <- tclVar(credentials()[1])
-                secretkey <- tclVar(credentials()[2])
+            } else {
+                accesskey <- tclVar(getOption('MTurkR.keypair')[1])
+                secretkey <- tclVar(getOption('MTurkR.keypair')[2])
             }
             entryform <- tkframe(credDialog, relief="groove", borderwidth=2)
                 accesskey.entry <- tkentry(credDialog, width = 50, textvariable=accesskey)

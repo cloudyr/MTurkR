@@ -1,6 +1,7 @@
 UpdateQualificationScore <-
 updatequalscore <-
-function (qual, workers, values = NULL, increment = NULL, keypair = credentials(), 
+function (qual, workers, values = NULL, increment = NULL,
+    keypair = getOption('MTurkR.keypair'),
     print = getOption('MTurkR.print'), browser = getOption('MTurkR.browser'),
     log.requests = getOption('MTurkR.log'), sandbox = getOption('MTurkR.sandbox'),
     validation.test = getOption('MTurkR.test')) {

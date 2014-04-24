@@ -7,7 +7,7 @@ function (graphics = FALSE, sandbox = NULL)
     if (class(internet.test) == "try-error") {
         message("An internet connection does not appear to be available!\n")
     }
-    keypair <- credentials()
+    keypair <- getOption('MTurkR.keypair')
     if (is.null(keypair)) {
         message("Retrieve your AWS access keys from https://aws-portal.amazon.com/gp/aws/securityCredentials")
         accesskey <- readline(prompt = "AWS/MTurk Access Key ID: ")

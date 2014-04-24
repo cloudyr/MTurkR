@@ -5,7 +5,7 @@
 \description{Disabling a HIT is probably not what you want to do. DisableHIT automatically removes the HIT from the MTurk server, approves (and thus pays for) all submitted and pending assignments, and then permanently deletes all assignment data.}
 \usage{
 DisableHIT(    hit = NULL, hit.type = NULL, response.group = NULL, 
-            keypair = credentials(), print = getOption('MTurkR.print'),
+            keypair = getOption('MTurkR.keypair'), print = getOption('MTurkR.print'),
             browser = getOption('MTurkR.browser'), 
             log.requests = getOption('MTurkR.log'),
             sandbox = getOption('MTurkR.sandbox'),

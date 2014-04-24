@@ -6,7 +6,7 @@
 \description{Pay a bonus to one or more workers. This function spends money from your MTurk account and will fail if insufficient funds are available.}
 \usage{
 GrantBonus(    workers, assignments, amounts, reasons, 
-            keypair = credentials(), print = getOption('MTurkR.print'),
+            keypair = getOption('MTurkR.keypair'), print = getOption('MTurkR.print'),
             browser = getOption('MTurkR.browser'), 
             log.requests = getOption('MTurkR.log'),
             sandbox = getOption('MTurkR.sandbox'),

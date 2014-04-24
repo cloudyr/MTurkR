@@ -1,14 +1,14 @@
 GetQualifications <-
 getquals <-
 function (qual, status = NULL, return.all = TRUE, pagenumber = 1, 
-    pagesize = 100, keypair = credentials(), print = getOption('MTurkR.print'),
+    pagesize = 100, keypair = getOption('MTurkR.keypair'),
+    print = getOption('MTurkR.print'),
     log.requests = getOption('MTurkR.log'), sandbox = getOption('MTurkR.sandbox'),
     return.qual.dataframe = TRUE, validation.test = getOption('MTurkR.test')) {
     if(!is.null(keypair)) {
         keyid <- keypair[1]
         secret <- keypair[2]
-    }
-    else
+    } else
         stop("No keypair provided or 'credentials' object not stored")
     operation <- "GetQualificationsForQualificationType"
     if(return.all == TRUE) {

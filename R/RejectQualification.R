@@ -1,7 +1,7 @@
 RejectQualification <-
 RejectQualifications <-
 rejectrequest <-
-function (qual.request, reason = NULL, keypair = credentials(), 
+function (qual.request, reason = NULL, keypair = getOption('MTurkR.keypair'), 
     print = getOption('MTurkR.print'), browser = getOption('MTurkR.browser'),
     log.requests = getOption('MTurkR.log'), sandbox = getOption('MTurkR.sandbox'),
     validation.test = getOption('MTurkR.test')) {

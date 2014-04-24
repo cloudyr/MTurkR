@@ -1,6 +1,7 @@
 SendTestEventNotification <-
 notificationtest <-
-function (notification, test.event.type = "HITExpired", keypair = credentials(), 
+function (notification, test.event.type = "HITExpired",
+    keypair = getOption('MTurkR.keypair'), 
     print = getOption('MTurkR.print'), browser = getOption('MTurkR.browser'),
     log.requests = getOption('MTurkR.log'), sandbox = getOption('MTurkR.sandbox'),
     validation.test = getOption('MTurkR.test')) {

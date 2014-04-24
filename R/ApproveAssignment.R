@@ -1,15 +1,15 @@
 approve <-
 ApproveAssignment <-
 ApproveAssignments <-
-function (assignments, feedback = NULL, rejected = FALSE, keypair = credentials(), 
+function (assignments, feedback = NULL, rejected = FALSE,
+    keypair = getOption('MTurkR.keypair'), 
     print = getOption('MTurkR.print'), browser = getOption('MTurkR.browser'),
     log.requests = getOption('MTurkR.log'), sandbox = getOption('MTurkR.sandbox'),
     validation.test = getOption('MTurkR.test')) {
     if(!is.null(keypair)) {
         keyid <- keypair[1]
         secret <- keypair[2]
-    }
-    else
+    } else
         stop("No keypair provided or 'credentials' object not stored")
     if(is.factor(assignments))
         assignments <- as.character(assignments)
