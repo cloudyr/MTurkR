@@ -30,14 +30,15 @@ function (assignment = NULL, hit = NULL, hit.type = NULL, return.all = TRUE,
         if(!is.null(hit)) {
             if(is.factor(hit))
                 hit <- as.character(hit)
-            GETparameters <- paste("&HITId=", hit, "&PageNumber=", 
-                pagenumber, "&PageSize=", pagesize, sep = "")
+            GETparameters <- paste("&HITId=", hit,
+                                   "&PageSize=", pagesize, 
+                                   "&PageNumber=", pagenumber, sep = "")
         } else{
             if(is.factor(assignment))
                 assignment <- as.character(assignment)
             GETparameters <- paste( "&AssignmentId=", assignment, 
-                                    "&PageNumber=", pagenumber,
-                                    "&PageSize=", pagesize, sep = "")
+                                    "&PageSize=", pagesize, 
+                                    "&PageNumber=", pagenumber, sep = "")
         }
         auth <- authenticate(operation, secret)
         request <- request(keyid, auth$operation, auth$signature, 
