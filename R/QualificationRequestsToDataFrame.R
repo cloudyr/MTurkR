@@ -2,7 +2,15 @@ QualificationRequestsToDataFrame <-
 function (xml = NULL, xml.parsed = NULL){
     if(!is.null(xml)) 
         xml.parsed <- xmlParse(xml)
-    requests.xml <- xpathApply(xml.parsed, "//QualificationRequest")
+    requests.xml <- xpathApply(xml.parsed, "//QualificationRequest", function(x){
+        children <- xmlChildren(x)
+        return(list(
+            QualificationRequestId = xmlValue(children$QualificationRequestId),
+            
+        ))
+    })
+    return(do.call(rbind.data.frame,out))
+    
     if(length(requests.xml) > 0) {
         requests <- setNames(data.frame(matrix(nrow = length(requests.xml), ncol = 5)),
                         c("QualificationRequestId", "QualificationTypeId",
