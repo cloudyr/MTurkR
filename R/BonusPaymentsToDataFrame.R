@@ -15,5 +15,5 @@ function (xml = NULL, xml.parsed = NULL){
             GrantTime = xmlValue(children$GrantTime)
         ))
     })
-    return(out)
+    return(do.call(rbind.data.frame,out))
 }
