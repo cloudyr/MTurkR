@@ -2,19 +2,19 @@
 
 [![Build Status](https://travis-ci.org/leeper/MTurkR.png?branch=master)](https://travis-ci.org/leeper/MTurkR)
 
-The **MTurkR** package provides access to the [Amazon Mechanical Turk](https://requester.mturk.com/) (MTurk) [Requester API](http://docs.aws.amazon.com/AWSMechTurk/latest/AWSMturkAPI/Welcome.html), with a number of functions to translate API calls into R data structures (using the [XML package](http://cran.r-project.org/web/packages/XML/index.html)).
+**MTurkR** provides access to the [Amazon Mechanical Turk](https://requester.mturk.com/) (MTurk) [Requester API](http://docs.aws.amazon.com/AWSMechTurk/latest/AWSMturkAPI/Welcome.html), with a number of functions to translate API calls into R data structures (using the [XML package](http://cran.r-project.org/web/packages/XML/index.html)).
 
 Obvious applications of the package include:
-* Survey or experimental research using MTurk workers as subjects
-* Large-scale human coding or categorization of text, images, video, audio, or other files
-* Collection of unstructured data from the web
-* Audio and video transcription
-* Preprocessing of "messy" prior to statistical procedures
+ * Survey or experimental research using MTurk workers as subjects
+ * Large-scale human coding or categorization of text, images, video, audio, or other files
+ * Collection of unstructured data from the web
+ * Audio and video transcription
+ * Preprocessing of "messy" data prior to statistical procedures
 
 Read more about the package:
-* [On CRAN](http://cran.r-project.org/web/packages/MTurkR/index.html)
-* [On the MTurkR website](http://leeper.github.io/MTurkR)
-* [On the MTurkR wiki](http://github.com/leeper/MTurkR/wiki)
+ * [On CRAN](http://cran.r-project.org/web/packages/MTurkR/index.html)
+ * [On the MTurkR website](http://leeper.github.io/MTurkR)
+ * [On the MTurkR wiki](http://github.com/leeper/MTurkR/wiki)
 
 ---
 ## Install latest version ##
