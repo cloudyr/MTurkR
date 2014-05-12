@@ -1,5 +1,5 @@
 request <-
-function (keyid = getOption('MTurkR.keypair')[1], operation, signature=NULL, timestamp=NULL, GETparameters, 
+function (keyid = getOption('MTurkR.keypair')[1], operation, GETparameters, 
     secret = getOption('MTurkR.keypair')[2],
     version = "2012-03-25", service = "AWSMechanicalTurkRequester", 
     browser = getOption('MTurkR.browser'), log.requests = getOption('MTurkR.log'),
@@ -10,13 +10,9 @@ function (keyid = getOption('MTurkR.keypair')[1], operation, signature=NULL, tim
     else
         host <- "https://mechanicalturk.amazonaws.com/"
     host <- paste(host, "?Service=", service, sep='')
-    if(is.null(signature) & is.null(secret))
-        stop("Must supply 'secret' or 'signature'!")
-    else if(is.null(signature)){
-        timestamp <- format(Sys.time(), format = "%Y-%m-%dT%H:%M:%SZ", tz = "UTC")
-        signature <- base64Encode(hmac(secret, paste(service, operation, 
+    timestamp <- format(Sys.time(), format = "%Y-%m-%dT%H:%M:%SZ", tz = "UTC")
+    signature <- base64Encode(hmac(secret, paste(service, operation, 
             timestamp, sep = ""), algo = "sha1", serialize = FALSE, raw = TRUE))[1]
-    }
     urlparameters <- paste("&AWSAccessKeyId=", 
         keyid, "&Version=", version, "&Operation=", operation, 
         "&Timestamp=", timestamp, "&Signature=", curlEscape(signature), 
