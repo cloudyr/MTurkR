@@ -50,7 +50,7 @@ function (query = NULL, only.mine = TRUE, only.requestable = FALSE,
     if(validation.test)
         return(invisible(request))
     runningtotal <- request$batch.total
-    pagenumber = 2
+    pagenumber <- 2
     if(return.all == TRUE) {
         sortproperty <- "Name"
         sortdirection <- "Ascending"
