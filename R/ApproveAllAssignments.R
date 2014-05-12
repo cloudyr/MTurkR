@@ -5,7 +5,7 @@ function (hit = NULL, hit.type = NULL, feedback = NULL,
     print = getOption('MTurkR.print'), log.requests = getOption('MTurkR.log'),
     sandbox = getOption('MTurkR.sandbox'), validation.test = getOption('MTurkR.test')){
     if(!is.null(feedback)) {
-        if(length(feedback) > 0) 
+        if(length(feedback) > 1) 
             stop("Can only specify one feedback message; no assignments approved")
         else if(nchar(curlEscape(feedback)) > 1024) 
             stop(paste("Feedback is too long (1024 char max); no assignments approved", sep = ""))
