@@ -1,11 +1,9 @@
 GetQualificationScore <-
 qualscore <-
-function (qual, workers, keypair = getOption('MTurkR.keypair'),
-    print = getOption('MTurkR.print'), 
-    log.requests = getOption('MTurkR.log'),
-    sandbox = getOption('MTurkR.sandbox'), validation.test = getOption('MTurkR.test')) {
-    if(is.null(keypair))
-        stop("No keypair provided or 'credentials' object not stored")
+function (qual, workers, verbose = getOption('MTurkR.verbose'), ...) {
+    # temporary check for `print` argument (remove after v1.0)
+    if('print' %in% names(list(...)) && is.null(verbose))
+        verbose <- list(...)$print
     operation <- "GetQualificationScore"
     if(is.factor(qual))
         qual <- as.character(qual)
@@ -15,19 +13,16 @@ function (qual, workers, keypair = getOption('MTurkR.keypair'),
     for(i in 1:length(workers)) {
         GETparameters <- paste("&QualificationTypeId=", qual, 
             "&SubjectId=", workers[i], sep = "")
-        
-        request <- request(keypair[1], operation, secret=keypair[2],
-        GETparameters = GETparameters, log.requests = log.requests, 
-            sandbox = sandbox, validation.test = validation.test)
-        if(validation.test)
-            return(invisible(request))
+        request <- request(operation, GETparameters = GETparameters, ...)
+        if(is.null(request$valid))
+            return(request)
         if(request$valid == TRUE) {
             x <- QualificationsToDataFrame(xml = request$xml)
             x$WorkerId <- workers[i]
             if(i == 1) 
                 Qualifications <- x
             else Qualifications <- rbind(Qualifications, x)
-            if(print == TRUE) {
+            if(verbose) {
                 message("Qualification (", qual, ") Score for ", 
                         workers[i], ": ", Qualifications$Value[i])
             }

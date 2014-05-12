@@ -1,13 +1,10 @@
 GetBonuses <-
 bonuses <-
 function (assignment = NULL, hit = NULL, hit.type = NULL, return.all = TRUE, 
-    pagenumber = "1", pagesize = "100", keypair = getOption('MTurkR.keypair'), 
-    print = getOption('MTurkR.print'), 
-    log.requests = getOption('MTurkR.log'),
-    sandbox = getOption('MTurkR.sandbox'),
-    validation.test = getOption('MTurkR.test')) {
-    if(is.null(keypair))
-        stop("No keypair provided or 'credentials' object not stored")
+    pagenumber = "1", pagesize = "100", verbose = getOption('MTurkR.verbose'), ...) {
+    # temporary check for `print` argument (remove after v1.0)
+    if('print' %in% names(list(...)) && is.null(verbose))
+        verbose <- list(...)$print
     operation <- "GetBonusPayments"
     if(is.null(hit) & is.null(hit.type) & is.null(assignment)) 
         stop("Specify HITId xor AssignmentId xor HITType")
@@ -27,10 +24,7 @@ function (assignment = NULL, hit = NULL, hit.type = NULL, return.all = TRUE,
                                    "&PageNumber=", page, 
                                    "&PageSize=100", sep = "")
         }       
-        out <- request(keypair[1], operation, secret=keypair[2],
-            GETparameters = GETparameters, 
-            log.requests = log.requests, sandbox = sandbox,
-            validation.test = validation.test)
+        out <- request(operation, GETparameters = GETparameters, ...)
         return(out)
     }
     
@@ -43,8 +37,8 @@ function (assignment = NULL, hit = NULL, hit.type = NULL, return.all = TRUE,
             type <- 'assign'
         }
         request <- batch(type, obj, pagenumber)
-        if(validation.test)
-            return(invisible(request))
+        if(is.null(request$valid))
+            return(request)
         if(request$valid == TRUE) {
             runningtotal <- strsplit(strsplit(request$xml, 
                     "<NumResults>")[[1]][2], "</NumResults>")[[1]][1]
@@ -62,11 +56,11 @@ function (assignment = NULL, hit = NULL, hit.type = NULL, return.all = TRUE,
                     runningtotal <- runningtotal + batch_total
                     pagenumber <- pagenumber + 1
                 }
-                if(print == TRUE)
+                if(verbose)
                     message(runningtotal, " Bonuses Retrieved")
                 return(do.call('rbind',Bonuses))
             } else {
-                if(print == TRUE)
+                if(verbose)
                     message(runningtotal, " Bonuses Retrieved")
                 Bonuses <- BonusPaymentsToDataFrame(xml = request$xml)
                 if(!is.null(hit)) 
@@ -78,22 +72,17 @@ function (assignment = NULL, hit = NULL, hit.type = NULL, return.all = TRUE,
             return(request)
         }
     } else if(!is.null(hit.type)) {
-        hitsearch <- SearchHITs(keypair = keypair, print = FALSE, 
-                                log.requests = log.requests, sandbox = sandbox,
-                                return.qual.dataframe = FALSE)
+        hitsearch <- SearchHITs(verbose = FALSE, return.qual.dataframe = FALSE, ...)
         hitlist <- hitsearch$HITs$HITId[hitsearch$HITs$HITTypeId %in% hit.type]
         if(length(hitlist) == 0) 
             stop("No HITs found for HITType")
         Bonuses <- list()
         for(i in 1:length(hitlist)) {
-            b <- GetBonuses(hit = hitlist[i], return.all = return.all, 
-                            keypair = keypair, print = print,
-                            log.requests = log.requests, sandbox = sandbox,
-                            validation.test = validation.test)
+            b <- GetBonuses(hit = hitlist[i], return.all = return.all, ...)
             Bonuses[[i]] <- BonusPaymentsToDataFrame(xml = b$xml)
         }
         out <- do.call('rbind',Bonuses)
-        if(print == TRUE) 
+        if(verbose) 
             message(nrow(Bonuses), " Bonuses Retrieved")
         return(out)
     }

@@ -2,12 +2,11 @@ SearchQualificationTypes <-
 searchquals <-
 function (query = NULL, only.mine = TRUE, only.requestable = FALSE, 
     return.all = FALSE, pagenumber = "1", pagesize = "10", sortproperty = "Name", 
-    sortdirection = "Ascending", keypair = getOption('MTurkR.keypair'),
-    print = getOption('MTurkR.print'), 
-    log.requests = getOption('MTurkR.log'), sandbox = getOption('MTurkR.sandbox'),
-    return.qual.dataframe = TRUE, validation.test = getOption('MTurkR.test')) {
-    if(is.null(keypair))
-        stop("No keypair provided or 'credentials' object not stored")
+    sortdirection = "Ascending", return.qual.dataframe = TRUE, 
+    verbose = getOption('MTurkR.verbose'), ...) {
+    # temporary check for `print` argument (remove after v1.0)
+    if('print' %in% names(list(...)) && is.null(verbose))
+        verbose <- list(...)$print
     operation <- "SearchQualificationTypes"
     if(!sortproperty %in% c("Name")) 
         stop("'sortproperty' must be 'Name'")
@@ -28,15 +27,13 @@ function (query = NULL, only.mine = TRUE, only.requestable = FALSE,
         GETparameters <- paste(GETparameters, "&MustBeRequestable=", "true", sep = "")
     else if(only.requestable == FALSE) 
         GETparameters <- paste(GETparameters, "&MustBeRequestable=", "false", sep = "")
-    batch <- function(operation, GETparameters, pagenumber, pagesize) {
+    batch <- function(GETparameters, pagenumber, pagesize) {
         GETparameters <- paste(GETparameters, "&PageNumber=", 
             pagenumber, "&PageSize=", pagesize, "&SortProperty=", 
             sortproperty, "&SortDirection=", sortdirection, sep = "")
-        batch <- request(keypair[1], operation, secret=keypair[2],
-                GETparameters = GETparameters, log.requests = log.requests, 
-            sandbox = sandbox, validation.test = validation.test)
-        if(validation.test)
-            return(invisible(batch))
+        batch <- request(operation, GETparameters = GETparameters, ...)
+        if(is.null(batch$valid))
+            return(batch)
         batch$total <- as.numeric(strsplit(strsplit(batch$xml, 
                             "<TotalNumResults>")[[1]][2], "</TotalNumResults>")[[1]][1])
         batch$batch.total <- length(xpathApply(xmlParse(batch$xml), "//QualificationTypeId"))
@@ -46,9 +43,9 @@ function (query = NULL, only.mine = TRUE, only.requestable = FALSE,
         }
         return(batch)
     }
-    request <- batch(operation, GETparameters, pagenumber, pagesize)
-    if(validation.test)
-        return(invisible(request))
+    request <- batch(GETparameters, pagenumber, pagesize)
+    if(is.null(request$valid))
+        return(request)
     runningtotal <- request$batch.total
     pagenumber <- 2
     if(return.all == TRUE) {
@@ -57,9 +54,9 @@ function (query = NULL, only.mine = TRUE, only.requestable = FALSE,
         pagesize <- "100"
         pagenumber <- "1"
         while(request$total > runningtotal) {
-            nextbatch <- batch(operation, GETparameters, pagenumber, pagesize)
-            if(validation.test)
-                return(invisible(nextbatch))
+            nextbatch <- batch(GETparameters, pagenumber, pagesize)
+            if(is.null(nextbatch$valid))
+                return(nextbatch)
             request$request.id <- c(request$request.id, nextbatch$request.id)
             request$valid <- c(request$valid, nextbatch$valid)
             request$xml.response <- c(request$xml, nextbatch$xml)

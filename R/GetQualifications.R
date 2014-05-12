@@ -1,12 +1,10 @@
 GetQualifications <-
 getquals <-
 function (qual, status = NULL, return.all = TRUE, pagenumber = 1, 
-    pagesize = 100, keypair = getOption('MTurkR.keypair'),
-    print = getOption('MTurkR.print'),
-    log.requests = getOption('MTurkR.log'), sandbox = getOption('MTurkR.sandbox'),
-    return.qual.dataframe = TRUE, validation.test = getOption('MTurkR.test')) {
-    if(is.null(keypair))
-        stop("No keypair provided or 'credentials' object not stored")
+    pagesize = 100, verbose = getOption('MTurkR.verbose'), ...) {
+    # temporary check for `print` argument (remove after v1.0)
+    if('print' %in% names(list(...)) && is.null(verbose))
+        verbose <- list(...)$print
     operation <- "GetQualificationsForQualificationType"
     if(return.all == TRUE) {
         pagesize <- "100"
@@ -28,11 +26,9 @@ function (qual, status = NULL, return.all = TRUE, pagenumber = 1,
     batch <- function(qual, pagenumber) {
         GETiteration <- paste(GETparameters, "&PageNumber=", 
             pagenumber, "&PageSize=", pagesize, sep = "")
-        batch <- request(keypair[1], operation, secret=keypair[2],
-            GETparameters = GETiteration, log.requests = log.requests, 
-            sandbox = sandbox, validation.test = validation.test)
-        if(validation.test)
-            invisible(batch)
+        batch <- request(operation, GETparameters = GETiteration, ...)
+        if(is.null(batch$valid))
+            return(batch)
         batch$Qualifications <- NA
         batch$total <- as.numeric(strsplit(strsplit(batch$xml, 
             "<TotalNumResults>")[[1]][2], "</TotalNumResults>")[[1]][1])
@@ -45,8 +41,8 @@ function (qual, status = NULL, return.all = TRUE, pagenumber = 1,
         return(batch)
     }
     request <- batch(qual, pagenumber)
-    if(validation.test)
-        return(invisible(request))
+    if(is.null(request$valid))
+        return(request)
     runningtotal <- request$batch.total
     pagenumber <- 2
     while(request$total > runningtotal) {
@@ -62,7 +58,7 @@ function (qual, status = NULL, return.all = TRUE, pagenumber = 1,
         pagenumber <- pagenumber + 1
     }
     request$batch.total <- NULL
-    if(print == TRUE)
+    if(verbose)
         message(request$total, " Qualifications Retrieved")
     if(request$total > 0)
         return(request$Qualifications)

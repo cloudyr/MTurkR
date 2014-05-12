@@ -1,12 +1,11 @@
 RegisterHITType <-
 hittype <-
 function (title, description, reward, duration, keywords = NULL, 
-    auto.approval.delay = NULL, qual.req = NULL, keypair = getOption('MTurkR.keypair'), 
-    print = getOption('MTurkR.print'),
-    log.requests = getOption('MTurkR.log'), sandbox = getOption('MTurkR.sandbox'),
-    validation.test = getOption('MTurkR.test')) {
-    if(is.null(keypair))
-        stop("No keypair provided or 'credentials' object not stored")
+    auto.approval.delay = NULL, qual.req = NULL,
+    verbose = getOption('MTurkR.verbose'), ...){
+    # temporary check for `print` argument (remove after v1.0)
+    if('print' %in% names(list(...)) && is.null(verbose))
+        verbose <- list(...)$print
     operation <- "RegisterHITType"
     if(nchar(curlEscape(title)) > 128) 
         stop("Title too long (128 char max)")
@@ -38,21 +37,19 @@ function (title, description, reward, duration, keywords = NULL,
     
     HITType <- setNames(data.frame(matrix(ncol=2,nrow=1)),
                 c("HITTypeId", "Valid"))
-    request <- request(keypair[1], operation, secret=keypair[2],
-        GETparameters = GETparameters, log.requests = log.requests, 
-        sandbox = sandbox, validation.test = validation.test)
-    if(validation.test)
-        return(invisible(request))
+    request <- request(operation, GETparameters = GETparameters, ...)
+    if(is.null(request$valid))
+        return(request)
     if(request$valid == TRUE) {
         hit.type <- strsplit(strsplit(request$xml, "<HITTypeId>")[[1]][2], 
             "</HITTypeId>")[[1]][1]
         HITType[1, ] <- c(hit.type, request$valid)
-        if(print == TRUE) 
+        if(verbose) 
             message("HITType Registered: ", HITType$HITTypeId[1])
     }
     else if(request$valid == FALSE) {
         HITType[1, ] <- c(NULL, request$valid)
-        if(print == TRUE) 
+        if(verbose) 
             warning("Invalid Request")
     }
     HITType$Valid <- factor(HITType$Valid, levels=c('TRUE','FALSE'))

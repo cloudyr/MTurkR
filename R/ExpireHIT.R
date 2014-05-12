@@ -1,11 +1,10 @@
 ExpireHIT <-
 expire <-
-function (hit = NULL, hit.type = NULL, keypair = getOption('MTurkR.keypair'), 
-    print = getOption('MTurkR.print'), 
-    log.requests = getOption('MTurkR.log'), sandbox = getOption('MTurkR.sandbox'),
-    validation.test = getOption('MTurkR.test')) {
-    if(!is.null(keypair))
-        stop("No keypair provided or 'credentials' object not stored")
+function (hit = NULL, hit.type = NULL, verbose = getOption('MTurkR.verbose'), ...)
+{
+    # temporary check for `print` argument (remove after v1.0)
+    if('print' %in% names(list(...)) && is.null(verbose))
+        verbose <- list(...)$print
     operation <- "ForceExpireHIT"
     if((is.null(hit) & is.null(hit.type)) | (!is.null(hit) & !is.null(hit.type))) 
         stop("Must provide 'hit' xor 'hit.type'")
@@ -17,8 +16,7 @@ function (hit = NULL, hit.type = NULL, keypair = getOption('MTurkR.keypair'),
     else if(!is.null(hit.type)) {
         if(is.factor(hit.type))
             hit.type <- as.character(hit.type)
-        hitsearch <- SearchHITs(keypair = keypair, print = FALSE, 
-            log.requests = log.requests, sandbox = sandbox, return.qual.dataframe = FALSE)
+        hitsearch <- SearchHITs(verbose = FALSE, return.qual.dataframe = FALSE, ...)
         hitlist <- hitsearch$HITs$HITId[hitsearch$HITs$HITTypeId %in% hit.type]
         if(length(hitlist) == 0) 
             stop("No HITs found for HITType")
@@ -26,14 +24,12 @@ function (hit = NULL, hit.type = NULL, keypair = getOption('MTurkR.keypair'),
     HITs <- setNames(data.frame(matrix(ncol=2, nrow=length(hitlist))), c("HITId", "Valid"))
     for(i in 1:length(hitlist)) {
         GETiteration <- paste("&HITId=", hitlist[i], sep = "")        
-        request <- request(keypair[1], operation, secret=keypair[2],
-            GETparameters = GETiteration, log.requests = log.requests, 
-            sandbox = sandbox, validation.test = validation.test)
-        if(validation.test)
-            return(invisible(request))
+        request <- request(operation, GETparameters = GETiteration, ...)
+        if(is.null(request$valid))
+            return(request)
         HITs[i, ] <- c(hitlist[i], request$valid)
         if(request$valid == TRUE) {
-            if(print == TRUE) 
+            if(verbose) 
                 message(i, ": HIT ", hitlist[i], " Expired")
         }
         else if(request$valid == FALSE & print == TRUE) 

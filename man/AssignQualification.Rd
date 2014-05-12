@@ -13,10 +13,7 @@ AssignQualification(qual, workers, value = "1", notify = FALSE,
                     conditional.statistic = NULL, conditional.comparator = NULL, 
                     conditional.value = NULL, conditional.period = NULL, 
                     set.statistic.as.value = FALSE, 
-                    keypair = getOption('MTurkR.keypair'), print = getOption('MTurkR.print'),
-                    log.requests = getOption('MTurkR.log'),
-                    sandbox = getOption('MTurkR.sandbox'),
-                    validation.test = getOption('MTurkR.test'))
+                    verbose = getOption('MTurkR.verbose'), ...)
 }
 \arguments{
   \item{qual}{A character string containing a QualificationTypeId.}
@@ -38,12 +35,8 @@ AssignQualification(qual, workers, value = "1", notify = FALSE,
   \item{conditional.value}{An optional numeric or character string value against which workers scores will be compared. The QualificationType will only be assigned to those whose score on the specified statistic meet the comparison to this value.}
   \item{conditional.period}{An optional character string specifying the period for the statistic. Must be one of: \dQuote{OneDay}, \dQuote{SevenDays}, \dQuote{ThirtyDays}, \dQuote{LifeToDate}. Default is \dQuote{LifeToDate}.}
   \item{set.statistic.as.value}{An optional logical specifying whether the worker's value of the statistic should be used as the value they are assigned for the QualificationType. Default is \code{FALSE} and \code{value} is used instead.}
-  \item{keypair}{A two-item character vector containing an AWS Access Key ID in the first position and the corresponding Secret Access Key in the second position. Set default with \code{\link{credentials}}.}
-  \item{print}{Optionally print the results of the API request to the standard output. Default is \code{TRUE}.}
-  
-  \item{log.requests}{A logical specifying whether API requests should be logged. Default is \code{TRUE}. See \code{\link{readlogfile}} for details.}
-  \item{sandbox}{Optionally execute the request in the MTurk sandbox rather than the live server.  Default is \code{FALSE}.}
-  \item{validation.test}{A logical specifying whether only the pre-request checks should be conducted and the request URL returned (without executing the request). Default is \code{FALSE}. This option is not available for conditional qualification assignment.}
+  \item{verbose}{Optionally print the results of the API request to the standard output. Default is taken from \code{getOption('MturkR.verbose')}.}
+  \item{...}{Additional arguments passed to \code{\link{request}}.}
 }
 \details{
 A very robust function to assign a Qualification to one or more workers. The simplest use of the function is to assign a Qualification of the specified value to one worker, but assignment to multiple workers is possible. Workers can be assigned a Qualification previously created by \code{\link{CreateQualificationType}} or with the characteristics of a new QualificationType specified atomically. Qualifications can also be assigned conditional on each worker's value of a specified statistic (including assigning the value of the specified statistic as the worker's score for the Qualification).

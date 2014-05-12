@@ -1,12 +1,10 @@
 SetHITAsReviewing <-
 reviewing <-
 function (hit = NULL, hit.type = NULL, revert = FALSE, 
-    keypair = getOption('MTurkR.keypair'), 
-    print = getOption('MTurkR.print'), 
-    log.requests = getOption('MTurkR.log'), sandbox = getOption('MTurkR.sandbox'),
-    validation.test = getOption('MTurkR.test')) {
-    if(is.null(keypair))
-        stop("No keypair provided or 'credentials' object not stored")
+    verbose = getOption('MTurkR.verbose'), ...){
+    # temporary check for `print` argument (remove after v1.0)
+    if('print' %in% names(list(...)) && is.null(verbose))
+        verbose <- list(...)$print
     operation <- "SetHITAsReviewing"
     if(revert == TRUE) 
         revert <- "true"
@@ -22,8 +20,7 @@ function (hit = NULL, hit.type = NULL, revert = FALSE,
     else if(!is.null(hit.type)) {
         if(is.factor(hit.type))
             hit.type <- as.character(hit.type)
-        hitsearch <- SearchHITs(keypair = keypair, print = FALSE, 
-            log.requests = log.requests, sandbox = sandbox, return.qual.dataframe = FALSE)
+        hitsearch <- SearchHITs(verbose = FALSE, return.qual.dataframe = FALSE, ...)
         hitlist <- hitsearch$HITs$HITId[hitsearch$HITs$HITTypeId %in% hit.type]
         if(length(hitlist) == 0) 
             stop("No HITs found for HITType")
@@ -33,11 +30,9 @@ function (hit = NULL, hit.type = NULL, revert = FALSE,
     names(HITs) <- c("HITId", "Status", "Valid")
     for(i in 1:length(hitlist)) {
         GETiteration <- paste(GETparameters, "&HITId=", hitlist[i], sep = "")        
-        request <- request(keypair[1], operation, secret=keypair[2],
-            GETparameters = GETiteration, log.requests = log.requests, 
-            sandbox = sandbox, validation.test = validation.test)
-        if(validation.test)
-            return(invisible(request))
+        request <- request(operation, GETparameters = GETiteration, ...)
+        if(is.null(request$valid))
+            return(request)
         if(revert == "false") 
             status <- "Reviewing"
         else if(revert == "true") 

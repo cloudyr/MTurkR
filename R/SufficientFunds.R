@@ -1,9 +1,7 @@
 SufficientFunds <-
 function (amount, assignments = NULL, hits = NULL, bonus.ct = NULL, 
     bonus.amount = NULL, masters = FALSE, turkfee = 0.1, turkmin = 0.005, 
-    mastersfee = 0.2, keypair = getOption('MTurkR.keypair'), print = getOption('MTurkR.print'), 
-    log.requests = getOption('MTurkR.log'), sandbox = getOption('MTurkR.sandbox'),
-    validation.test = getOption('MTurkR.test'))
+    mastersfee = 0.2, ...)
 {
     total <- 0
     payments <- 0
@@ -43,10 +41,10 @@ function (amount, assignments = NULL, hits = NULL, bonus.ct = NULL,
         else bonus.fee <- turkfee * bonuses
         total <- total + bonuses + bonus.fee
     }
-    balchar <- AccountBalance(print = FALSE, validation.test = validation.test)
-    if(validation.test)
-        return(invisible(balchar))
-    oldbalance <- as.numeric(substring(balchar, 1, nchar(balchar)))
+    request <- AccountBalance(verbose = FALSE, ...)
+    if(!is.null(request$valid))
+        return(request)
+    oldbalance <- as.numeric(substring(request$balance, 1, nchar(request$balance)))
     newbalance <- oldbalance - total
     if (newbalance >= 0) 
         sufficient <- TRUE
@@ -67,5 +65,5 @@ function (amount, assignments = NULL, hits = NULL, bonus.ct = NULL,
             message("  New Balance:   $", round(newbalance, 2), " < INSUFFICIENT\n")
     }
     invisible(list(Total = round(total, 3), OldBalance = round(oldbalance, 3),
-                    NewBalance = round(newbalance, 3), SufficientFunds = sufficient))
+                   NewBalance = round(newbalance, 3), SufficientFunds = sufficient))
 }

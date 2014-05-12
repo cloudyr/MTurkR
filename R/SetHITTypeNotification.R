@@ -1,14 +1,12 @@
 SetHITTypeNotification <-
 setnotification <-
 function (hit.type, notification = NULL, active = NULL, 
-    keypair = getOption('MTurkR.keypair'), 
-    print = getOption('MTurkR.print'),
-    log.requests = getOption('MTurkR.log'), sandbox = getOption('MTurkR.sandbox'),
-    validation.test = getOption('MTurkR.test')){
+    verbose = getOption('MTurkR.keypair'), ...){
+    # temporary check for `print` argument (remove after v1.0)
+    if('print' %in% names(list(...)) && is.null(verbose))
+        verbose <- list(...)$print
     if(is.null(notification) & is.null(active)) 
         stop("Must specify either 'notification' and/or 'active'")
-    if(is.null(keypair))
-        stop("No keypair provided or 'credentials' object not stored")
     operation <- "SetHITTypeNotification"
     GETparameters <- paste("&HITTypeId=", hit.type, sep = "")
     if(is.null(notification) & is.null(active)) 
@@ -21,14 +19,12 @@ function (hit.type, notification = NULL, active = NULL,
         GETparameters <- paste(GETparameters, "&Active=false", sep = "")
     Notification <- setNames(data.frame(matrix(ncol=4, nrow=1)),
                     c("HITTypeId", "Notification", "Active", "Valid"))
-    request <- request(keypair[1], operation, secret=keypair[2],
-            GETparameters = GETparameters, log.requests = log.requests, 
-        sandbox = sandbox, validation.test = validation.test)
-    if(validation.test)
-        return(invisible(request))
+    request <- request(operation, GETparameters = GETparameters, ...)
+    if(is.null(request$valid))
+        return(request)
     Notification[1, ] <- c(hit.type, notification, active, request$valid)
     if(request$valid == TRUE) {
-        if(print == TRUE) {
+        if(verbose) {
             if(!is.null(notification) & is.null(active)) 
                 message("HITTypeNotification for ", hit.type, " Created")
             else if(!is.null(notification) & !is.null(active) && active == TRUE) 

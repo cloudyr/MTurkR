@@ -1,11 +1,10 @@
 GetReviewResultsForHIT <-
 reviewresults <-
 function (hit, assignment = NULL, policy.level = NULL, retrieve.results = TRUE, 
-    retrieve.actions = TRUE, keypair = getOption('MTurkR.keypair'), print = getOption('MTurkR.print'), 
-    log.requests = getOption('MTurkR.log'),
-    sandbox = getOption('MTurkR.sandbox'), validation.test = getOption('MTurkR.test')) {
-    if(is.null(keypair))
-        stop("No keypair provided or 'credentials' object not stored")
+    retrieve.actions = TRUE, verbose = getOption('MTurkR.verbose'), ...) {
+    # temporary check for `print` argument (remove after v1.0)
+    if('print' %in% names(list(...)) && is.null(verbose))
+        verbose <- list(...)$print
     operation <- "GetReviewResultsForHIT"
     if(is.null(hit))
         stop("Must specify HITId as 'hit'")
@@ -41,14 +40,12 @@ function (hit, assignment = NULL, policy.level = NULL, retrieve.results = TRUE,
             GETparameters <- paste(GETparameters, "&RetrieveResults=F", sep = "")
     }
     
-    request <- request(keypair[1], operation, secret=keypair[2],
-        GETparameters = GETparameters, log.requests = log.requests, 
-        sandbox = sandbox, validation.test = validation.test)
-    if(validation.test)
-        return(invisible(request))
+    request <- request(operation, GETparameters = GETparameters, ...)
+    if(is.null(request$valid))
+        return(request)
     if(request$valid == TRUE) {
         ReviewResults <- ReviewResultsToDataFrame(xml = request$xml)
-        if(print == TRUE) {
+        if(verbose) {
             message("ReviewResults Retrieved: ", appendLF=FALSE)
             if(is.null(ReviewResults)) 
                 message("0\n")

@@ -1,11 +1,10 @@
 DisableHIT <-
 disable <-
 function (hit = NULL, hit.type = NULL, response.group = NULL, 
-    keypair = getOption('MTurkR.keypair'), print = getOption('MTurkR.print'),
-    log.requests = getOption('MTurkR.log'), 
-    sandbox = getOption('MTurkR.sandbox'), validation.test = getOption('MTurkR.test')) {
-    if(is.null(keypair))
-        stop("No keypair provided or 'credentials' object not stored")
+    verbose = getOption('MTurkR.verbose'), ...) {
+    # temporary check for `print` argument (remove after v1.0)
+    if('print' %in% names(list(...)) && is.null(verbose))
+        verbose <- list(...)$print
     operation <- "DisableHIT"
     if(!is.null(response.group)) {
         if(!response.group %in% c("Minimal", "HITQuestion", 
@@ -22,8 +21,7 @@ function (hit = NULL, hit.type = NULL, response.group = NULL,
     else if(!is.null(hit.type)) {
         if(is.factor(hit.type))
             hit.type <- as.character(hit.type)
-        hitsearch <- SearchHITs(keypair = keypair, print = FALSE, 
-            log.requests = log.requests, sandbox = sandbox, return.qual.dataframe = FALSE)
+        hitsearch <- SearchHITs(verbose = FALSE, return.qual.dataframe = FALSE, ...)
         hitlist <- hitsearch$HITs$HITId[hitsearch$HITs$HITTypeId %in% hit.type]
         if(length(hitlist) == 0) 
             stop("No HITs found for HITType")
@@ -33,8 +31,8 @@ function (hit = NULL, hit.type = NULL, response.group = NULL,
         GETiteration <- paste("&HITId=", hitlist[i], sep = "")
         if(!is.null(response.group)) {
             if(length(response.group) == 1) 
-                GETiteration <- paste(    GETiteration, "&ResponseGroup=", 
-                                        response.group, sep = "")
+                GETiteration <- paste(GETiteration, "&ResponseGroup=", 
+                                      response.group, sep = "")
             else {
                 for(i in 1:length(response.group)) {
                   GETiteration <- paste(GETiteration, "&ResponseGroup", i-1,
@@ -42,18 +40,16 @@ function (hit = NULL, hit.type = NULL, response.group = NULL,
                 }
             }
         }        
-        request <- request(keypair[1], operation, secret=keypair[2],
-            GETparameters = GETiteration, log.requests = log.requests, 
-            sandbox = sandbox, validation.test = validation.test)
-        if(validation.test)
-            return(invisible(request))
+        request <- request(operation, GETparameters = GETiteration, ...)
+        if(is.null(request$valid))
+            return(request)
         if(request$valid == TRUE) {
             if(is.null(response.group)) 
                 request$ResponseGroup <- c("Minimal")
             else
                 request$ResponseGroup <- response.group
             HITs[i, ] <- c(hitlist[i], request$valid)
-            if(print == TRUE) 
+            if(verbose) 
                 message(i, ": HIT ", hitlist[i], " Disabled")
         }
         else if(request$valid == FALSE & print == TRUE)

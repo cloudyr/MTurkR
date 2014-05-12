@@ -1,12 +1,10 @@
 GrantQualification <-
 GrantQualifications <-
 grantqual <-
-function (qual.requests, values, keypair = getOption('MTurkR.keypair'),
-    print = getOption('MTurkR.print'), 
-    log.requests = getOption('MTurkR.log'),
-    sandbox = getOption('MTurkR.sandbox'), validation.test = getOption('MTurkR.test')) {
-    if(is.null(keypair))
-        stop("No keypair provided or 'credentials' object not stored")
+function(qual.requests, values, verbose = getOption('MTurkR.verbose'), ...) {
+    # temporary check for `print` argument (remove after v1.0)
+    if('print' %in% names(list(...)) && is.null(verbose))
+        verbose <- list(...)$print
     operation <- "GrantQualification"
     if(is.factor(qual.requests))
         qual.requests <- as.character(qual.requests)
@@ -28,19 +26,17 @@ function (qual.requests, values, keypair = getOption('MTurkR.keypair'),
     for (i in 1:length(qual.requests)) {
         GETparameters <- paste("&QualificationRequestId=", qual.requests[i], 
             "&IntegerValue=", values[i], sep = "")
-        request <- request(keypair[1], operation, secret=keypair[2],
-            GETparameters = GETparameters, log.requests = log.requests, 
-            sandbox = sandbox, validation.test = validation.test)
-        if(validation.test)
-            return(invisible(request))
+        request <- request(operation, GETparameters = GETparameters, ...)
+        if(is.null(request$valid))
+            return(request)
         QualificationRequests[i, ] <- c(qual.requests[i], 
             values[i], request$valid)
         if(request$valid == TRUE) {
-            if(print == TRUE) 
+            if(verbose) 
                 message(i, ": Qualification (", qual.requests[i],") Granted")
         }
         else if (request$valid == FALSE) {
-            if(print == TRUE) 
+            if(verbose) 
                 warning(i, ": Invalid Request for QualificationRequest ", 
                 qual.requests[i])
         }

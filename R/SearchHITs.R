@@ -2,12 +2,11 @@ SearchHITs <-
 searchhits <-
 function (response.group = NULL, return.all = TRUE, pagenumber = "1", 
     pagesize = "10", sortproperty = "Enumeration", sortdirection = "Ascending", 
-    keypair = getOption('MTurkR.keypair'), print = getOption('MTurkR.print'),
-    log.requests = getOption('MTurkR.log'), 
-    sandbox = getOption('MTurkR.sandbox'), return.hit.dataframe = TRUE,
-    return.qual.dataframe = TRUE, validation.test = getOption('MTurkR.test')) {
-    if(is.null(keypair))
-        stop("No keypair provided or 'credentials' object not stored")
+    return.hit.dataframe = TRUE, return.qual.dataframe = TRUE
+    verbose = getOption('MTurkR.verbose'), ...) {
+    # temporary check for `print` argument (remove after v1.0)
+    if('print' %in% names(list(...)) && is.null(verbose))
+        verbose <- list(...)$print
     operation <- "SearchHITs"
     if(!sortproperty %in% c("Title", "Reward", "Expiration", 
         "CreationTime", "Enumeration")) 
@@ -42,11 +41,9 @@ function (response.group = NULL, return.all = TRUE, pagenumber = "1",
         GETiteration <- paste(GETparameters, "&PageNumber=", 
                         pagenumber, "&PageSize=", pagesize, "&SortProperty=", 
                         sortproperty, "&SortDirection=", sortdirection, sep = "")
-        batch <- request(keypair[1], operation, secret=keypair[2],
-                        GETparameters = GETiteration, log.requests = log.requests, 
-                        sandbox = sandbox, validation.test = validation.test)
-        if(validation.test)
-            invisible(batch)
+        batch <- request(operation, GETparameters = GETiteration, ...)
+        if(is.null(batch$valid))
+            return(batch)
         batch$total <- as.numeric(strsplit(strsplit(batch$xml, 
             "<TotalNumResults>")[[1]][2], "</TotalNumResults>")[[1]][1])
         batch$batch.total <- length(xpathApply(xmlParse(batch$xml), "//HIT"))
@@ -63,15 +60,15 @@ function (response.group = NULL, return.all = TRUE, pagenumber = "1",
         return(batch)
     }
     request <- batch(pagenumber)
-    if(validation.test)
-        return(invisible(request))
+    if(is.null(request$valid))
+        return(request)
     runningtotal <- request$batch.total
     if(return.all){
         pagenumber <- 2
         while(request$total > runningtotal) {
             nextbatch <- batch(pagenumber)
-            if(validation.test)
-                invisible(nextbatch)
+            if(is.null(nextbatch$valid))
+                return(nextbatch)
             request$request.id <- c(request$request.id, nextbatch$request.id)
             request$valid <- c(request$valid, nextbatch$valid)
             request$xml.response <- c(request$xml, nextbatch$xml)
@@ -114,17 +111,15 @@ function (response.group = NULL, return.all = TRUE, pagenumber = "1",
         if(return.hit.dataframe==TRUE){
             return.list <- list(HITs = request$HITs,
                             QualificationRequirements = request$QualificationRequirements)
-        }
-        else
+        } else
             return.list <- list(QualificationRequirements = request$QualificationRequirements)
-    }
-    else{
+    } else{
         if(return.hit.dataframe == TRUE) 
             return.list <- list(HITs = request$HITs)        
         else
             return.list <- NULL
     }
-    if(print == TRUE)
+    if(verbose)
         message(runningtotal, " HITs Retrieved")
     return(return.list)
 }

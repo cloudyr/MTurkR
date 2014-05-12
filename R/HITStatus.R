@@ -1,13 +1,12 @@
 HITStatus <-
 status <-
-function (hit = NULL, hit.type = NULL, keypair = getOption('MTurkR.keypair'), 
-    print = getOption('MTurkR.print'), log.requests = getOption('MTurkR.log'),
-    sandbox = getOption('MTurkR.sandbox')){
+function (hit = NULL, hit.type = NULL, verbose = getOption('MTurkR.verbose'), ...){
+    # temporary check for `print` argument (remove after v1.0)
+    if('print' %in% names(list(...)) && is.null(verbose))
+        verbose <- list(...)$print
     if((is.null(hit) & is.null(hit.type)) | (!is.null(hit) & !is.null(hit.type))) 
         stop("Must provide 'hit' xor 'hit.type'")
-    hitsearch <- SearchHITs(keypair = keypair, print = TRUE, 
-                            log.requests = log.requests, sandbox = sandbox,
-                            return.qual.dataframe = FALSE)
+    hitsearch <- SearchHITs(verbose = TRUE, return.qual.dataframe = FALSE, ...)
     HITs <- hitsearch$HITs
     if(is.null(HITs))
         return(HITs) # return if NULL
@@ -46,7 +45,7 @@ function (hit = NULL, hit.type = NULL, keypair = getOption('MTurkR.keypair'),
             toprint <- rbind(toprint,totals)
         }
     }
-    if(print == TRUE){
+    if(verbose){
         print(toprint, row.names = FALSE)
     }
     return(invisible(HITs))

@@ -1,11 +1,10 @@
 GetHITsForQualificationType <-
 gethitsbyqual <-
 function (qual, response.group = NULL, return.all = TRUE, pagenumber = 1, 
-    pagesize = 100, keypair = getOption('MTurkR.keypair'), print = getOption('MTurkR.print'),
-    log.requests = getOption('MTurkR.log'), sandbox = getOption('MTurkR.sandbox'),
-    return.hit.dataframe = TRUE, validation.test = getOption('MTurkR.test')) {
-    if(is.null(keypair))
-        stop("No keypair provided or 'credentials' object not stored")
+    pagesize = 100, verbose = getOption('MTurkR.verbose'), ...) {
+    # temporary check for `print` argument (remove after v1.0)
+    if('print' %in% names(list(...)) && is.null(verbose))
+        verbose <- list(...)$print
     operation <- "GetHITsForQualificationType"
     if(return.all == TRUE) {
         pagesize <- "100"
@@ -33,11 +32,9 @@ function (qual, response.group = NULL, return.all = TRUE, pagenumber = 1,
     batch <- function(pagenumber) {
         GETiteration <- paste(GETparameters, "&PageNumber=", 
             pagenumber, sep = "")
-        batch <- request(keypair[1], operation, secret=keypair[2],
-            GETparameters = GETiteration, log.requests = log.requests, 
-            sandbox = sandbox, validation.test = validation.test)
-        if(validation.test)
-            return(invisible(batch))
+        batch <- request(operation, GETparameters = GETiteration, ...)
+        if(is.null(batch$valid))
+            return(batch)
         batch$total <- as.numeric(strsplit(strsplit(batch$xml, 
             "<TotalNumResults>")[[1]][2], "</TotalNumResults>")[[1]][1])
         batch$batch.total <- length(xpathApply(xmlParse(batch$xml), "//HIT"))
@@ -51,8 +48,8 @@ function (qual, response.group = NULL, return.all = TRUE, pagenumber = 1,
         return(batch)
     }
     request <- batch(pagenumber)
-    if(validation.test)
-        return(invisible(request))
+    if(is.null(request$valid))
+        return(request)
     runningtotal <- request$batch.total
     pagenumber <- 2
     while(request$total > runningtotal) {
@@ -74,7 +71,7 @@ function (qual, response.group = NULL, return.all = TRUE, pagenumber = 1,
     request$batch.total <- NULL
     return.list <- list(HITs = request$HITs,
                         QualificationRequirements = request$QualificationRequirements)
-    if(print == TRUE)
+    if(verbose)
         message(request$total, " HITs Retrieved")
     if(request$total > 0) 
         return(return.list)

@@ -1,12 +1,10 @@
 RejectQualification <-
 RejectQualifications <-
 rejectrequest <-
-function (qual.request, reason = NULL, keypair = getOption('MTurkR.keypair'), 
-    print = getOption('MTurkR.print'),
-    log.requests = getOption('MTurkR.log'), sandbox = getOption('MTurkR.sandbox'),
-    validation.test = getOption('MTurkR.test')) {
-    if(is.null(keypair))
-        stop("No keypair provided or 'credentials' object not stored")
+function (qual.request, reason = NULL, verbose = getOption('MTurkR.verbose'), ...){
+    # temporary check for `print` argument (remove after v1.0)
+    if('print' %in% names(list(...)) && is.null(verbose))
+        verbose <- list(...)$print
     operation <- "RejectQualificationRequest"
     if(is.factor(qual.request))
         qual.request <- as.character(qual.request)
@@ -25,21 +23,19 @@ function (qual.request, reason = NULL, keypair = getOption('MTurkR.keypair'),
     for(i in 1:length(qual.request)) {
         GETparameters <- paste("&QualificationRequestId=", qual.request[i], 
             "&Reason=", curlEscape(reason[i]), sep = "")        
-        request <- request(keypair[1], operation, secret=keypair[2],
-            GETparameters = GETparameters, log.requests = log.requests, 
-            sandbox = sandbox, validation.test = validation.test)
-        if(validation.test)
-            return(invisible(request))
+        request <- request(operation, GETparameters = GETparameters, ...)
+        if(is.null(request$valid))
+            return(request)
         if(request$valid == TRUE) {
             if(is.null(reason[i])) 
                 reason[i] <- NA
             QualificationRequests[1, ] <- c(qual.request[i], 
                 reason[i], request$valid)
-            if(print == TRUE) 
+            if(verbose) 
                 message(i, ": Qualification (", qual.request[i],") Rejected")
         }
         else if(request$valid == FALSE) {
-            if(print == TRUE)
+            if(verbose)
                 warning(i, ": Invalid Request for QualificationRequestId ", qual.request)
         }
         QualificationRequests$Valid <-

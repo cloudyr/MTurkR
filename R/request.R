@@ -1,5 +1,5 @@
 request <-
-function(operation, GETparameters,
+function(operation, GETparameters = NULL,
     keypair = getOption('MTurkR.keypair'),
     browser = getOption('MTurkR.browser'),
     log.requests = getOption('MTurkR.log'), 
@@ -9,10 +9,12 @@ function(operation, GETparameters,
     service = "AWSMechanicalTurkRequester",
     version = "2012-03-25")
 {
-    if(sandbox == TRUE) 
+    if(sandbox) 
         host <- "https://mechanicalturk.sandbox.amazonaws.com/"
     else
         host <- "https://mechanicalturk.amazonaws.com/"
+    if(is.null(keypair))
+        stop("No keypair provided or 'credentials' object not stored")
     keyid <- keypair[1]
     secret <- keypair[2]
     host <- paste(host, "?Service=", service, sep='')
@@ -26,12 +28,22 @@ function(operation, GETparameters,
     request.url <- paste(host, urlparameters, sep='')
     if(validation.test){
         message("Request URL: ",request.url,'\n')
-        return(invisible(list(request.url=request.url)))
+        return(structure(list(request.url = request.url,
+                              request.id = NULL,
+                              valid = NULL,
+                              xml = NULL,
+                              operation = operation),
+                         class='MTurkResponse'))
     }
     else {
         if(browser == TRUE) {
             browseURL(request.url)
-            return(structure(list(request.url = request.url), class='MTurkResponse', operation=operation))
+            return(structure(list(request.url = request.url,
+                                  request.id = NULL,
+                                  valid = NULL,
+                                  xml = NULL,
+                                  operation = operation),
+                             class='MTurkResponse'))
         } else {
             h <- basicTextGatherer()
             #curlPerform(url=request.url,
@@ -142,13 +154,15 @@ function(operation, GETparameters,
                 }
             }
             out <- list(request.url = request.url, request.id = request.id, 
-                        valid = valid, xml = response)
-            return(out, class='MTurkResponse', operation=operation)
+                        valid = valid, xml = response, operation = operation)
+            return(out, class='MTurkResponse')
         }
     }
 }
 
 print.MTurkResponse <- function(x,...){
+    if(!is.null(x$operation))
+        cat('RequestId:   ',x$operation,'\n')
     if(!is.null(x$request.id))
         cat('RequestId:   ',x$request.id,'\n')
     if(!is.null(x$valid))

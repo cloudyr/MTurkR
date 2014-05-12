@@ -1,28 +1,22 @@
 AccountBalance <-
 accountbalance <-
 getbalance <-
-function (keypair = getOption('MTurkR.keypair'), print = getOption('MTurkR.print'),
-    log.requests = getOption('MTurkR.log'),
-    sandbox = getOption('MTurkR.sandbox'), validation.test = getOption('MTurkR.test')) 
+function(verbose = getOption('MTurkR.verbose'), ...) 
 {
-    if (is.null(keypair))
-        stop("No keypair provided or 'credentials' object not stored")
+    # temporary check for `print` argument (remove after v1.0)
+    if('print' %in% names(list(...)) && is.null(verbose))
+        verbose <- list(...)$print
     operation <- "GetAccountBalance"
-    GETparameters = ""
-    request <- request(keypair[1], operation, secret=keypair[2],
-        GETparameters = GETparameters, log.requests = log.requests, 
-        sandbox = sandbox, validation.test = validation.test)
-    if(validation.test)
-        return(invisible(request))
-    if (request$valid == TRUE) {
+    request <- request(operation, verbose = verbose, ...)
+    if(!is.null(request$valid))
+        return(request)
+    else if(request$valid) {
         balance <- strsplit(strsplit(request$xml, "<Amount>")[[1]][2], "</Amount>")[[1]][1]
         balanceformatted <- strsplit(strsplit(request$xml, 
             "<FormattedPrice>")[[1]][2], "</FormattedPrice>")[[1]][1]
-        if (print == TRUE)
+        if(verbose == TRUE)
             message(paste("Balance: ", balanceformatted, "\n", sep = ""))
-        return(invisible(balance))
+        request$balance <- balance
     }
-    else if (request$valid == FALSE) {
-        return(NULL)
-    }
+    return(request)
 }

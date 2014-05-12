@@ -4,7 +4,8 @@
 \title{Execute an MTurk API Request}
 \description{This is the workhorse function that makes authenticated HTTP requests to the MTurk API. It is not exported as of v0.5.}
 \usage{
-request(operation, GETparameters, keypair = getOption('MTurkR.keypair'),
+request(operation, GETparameters = NULL,
+        keypair = getOption('MTurkR.keypair'),
         browser = getOption('MTurkR.browser'),
         log.requests = getOption('MTurkR.log'),
         sandbox = getOption('MTurkR.sandbox'), 
@@ -31,6 +32,7 @@ request(operation, GETparameters, keypair = getOption('MTurkR.keypair'),
   \item{request.id}{The Request ID created by the API request.}
   \item{valid}{A logical indicating whether or not the request was valid and thus executed as intended.}
   \item{xml}{A character string containing the XML API response.}
+  \item{operation}{A character string identifying the MTurk API operation performed.}
 }
 \references{
 \href{http://docs.amazonwebservices.com/AWSMechTurk/latest/AWSMechanicalTurkRequester/MakingRequestsArticle.html}{API Reference}

@@ -1,12 +1,10 @@
 block <-
 BlockWorker <-
 BlockWorkers <-
-function (workers, reasons, keypair = getOption('MTurkR.keypair'),
-    print = getOption('MTurkR.print'), 
-    log.requests = getOption('MTurkR.log'),
-    sandbox = getOption('MTurkR.sandbox'), validation.test = getOption('MTurkR.test')){
-    if(is.null(keypair))
-        stop("No keypair provided or 'credentials' object not stored")
+function (workers, reasons, verbose = getOption('MTurkR.verbose'), ...){
+    # temporary check for `print` argument (remove after v1.0)
+    if('print' %in% names(list(...)) && is.null(verbose))
+        verbose <- list(...)$print
     operation <- "BlockWorker"
     if(is.factor(workers))
         workers <- as.character(workers)
@@ -23,19 +21,15 @@ function (workers, reasons, keypair = getOption('MTurkR.keypair'),
     Workers <- setNames(data.frame(matrix(ncol = 3, nrow=length(workers))),
                         c("WorkerId", "Reason", "Valid"))
     for(i in 1:length(workers)) {
-        GETparameters <- paste(    "&WorkerId=", workers[i],
-                                "&Reason=", curlEscape(reasons[i]), sep = "")
-        request <- request(keypair[1], operation, secret=keypair[2],
-            GETparameters = GETparameters, log.requests = log.requests, 
-            sandbox = sandbox, validation.test = validation.test)
-        if(validation.test){
-            message('Returning validation test for first worker.')
-            return(invisible(request))
-        }
+        GETparameters <- paste("&WorkerId=", workers[i],
+                               "&Reason=", curlEscape(reasons[i]), sep = "")
+        request <- request(operation, GETparameters = GETparameters, ...)
+        if(is.null(request$valid))
+            return(request)
         Workers[i, ] = c(workers[i], reasons[i], request$valid)
-        if (request$valid == TRUE & print == TRUE)
+        if (request$valid == TRUE & verbose)
             message(i, ": Worker ", workers[i], " Blocked")
-        else if (request$valid == FALSE & print == TRUE)
+        else if (request$valid == FALSE & verbose)
             warning(i,": Invalid Request for worker ",workers[i])
     }
     Workers$Valid <- factor(Workers$Valid, levels=c('TRUE','FALSE'))

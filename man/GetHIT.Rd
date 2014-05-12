@@ -7,29 +7,20 @@
 \title{Get HIT}
 \description{Retrieve various details of a HIT as a dataframe. What details are returned depend upon the requested ResponseGroup.}
 \usage{
-GetHIT(hit, response.group = NULL, keypair = getOption('MTurkR.keypair'),
-       print = getOption('MTurkR.print'), 
-       log.requests = getOption('MTurkR.log'),
-       sandbox = getOption('MTurkR.sandbox'), 
+GetHIT(hit, response.group = NULL,
        return.hit.dataframe = TRUE, return.qual.dataframe = TRUE,
-       validation.test = getOption('MTurkR.test'))
+       verbose = getOption('MTurkR.verbose'), ...)
 
-HITStatus(hit = NULL, hit.type = NULL, keypair = getOption('MTurkR.keypair'),
-          print = getOption('MTurkR.print'), 
-          log.requests = getOption('MTurkR.log'),
-          sandbox = getOption('MTurkR.sandbox'))
+HITStatus(hit = NULL, hit.type = NULL, verbose = getOption('MTurkR.verbose'), ...)
 }
 \arguments{
   \item{hit}{An optional character string specifying the HITId of the HIT to be retrieved. Must specify \code{hit} xor \code{hit.type}.}
   \item{hit.type}{An optional character string specifying the HITTypeId (or a vector of HITTypeIds) of the HIT(s) to be retrieved. Must specify \code{hit} xor \code{hit.type}.}
   \item{response.group}{An optional character string (or vector of character strings) specifying what details of each HIT to return of: \dQuote{Request}, \dQuote{Minimal}, \dQuote{HITDetail}, \dQuote{HITQuestion}, \dQuote{HITAssignmentSummary}. For more information, see \url{http://docs.aws.amazon.com/AWSMechTurk/latest/AWSMturkAPI/ApiReference_CommonParametersArticle.html}.}
-  \item{keypair}{A two-item character vector containing an AWS Access Key ID in the first position and the corresponding Secret Access Key in the second position. Set default with \code{\link{credentials}}.}
-  \item{print}{Optionally print the results of the API request to the standard output. Default is \code{TRUE}.}
-  \item{log.requests}{A logical specifying whether API requests should be logged. Default is \code{TRUE}. See \code{\link{readlogfile}} for details.}
-  \item{sandbox}{Optionally execute the request in the MTurk sandbox rather than the live server.  Default is \code{FALSE}.}
   \item{return.hit.dataframe}{A logical indicating whether the dataframe of HITs should be returned. Default is \code{TRUE}.}
   \item{return.qual.dataframe}{A logical indicating whether the list of each HIT's QualificationRequirements (stored as dataframes in that list) should be returned. Default is \code{TRUE}.}
-  \item{validation.test}{A logical specifying whether only the pre-request checks should be conducted and the request URL returned (without executing the request). Default is \code{FALSE}.}
+  \item{verbose}{Optionally print the results of the API request to the standard output. Default is taken from \code{getOption('MturkR.verbose')}.}
+  \item{...}{Additional arguments passed to \code{\link{request}}.}
 }
 \details{
 \code{GetHIT} retrieves characteristics of a HIT. \code{HITStatus} is a wrapper that retrieves the Number of Assignments Pending, Number of Assignments Available, Number of Assignments Completed for the HIT(s), which is helpful for checking on the progress of currently available HITs. Specifying a \code{hit.type} causes the function to first search for avialable HITs of that HITType, then return the requested information for each HIT.

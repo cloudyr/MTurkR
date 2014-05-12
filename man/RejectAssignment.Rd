@@ -6,19 +6,13 @@
 \description{Reject a Worker's assignment (or multiple assignments) submitted for a HIT. Feedback should be provided for why an assignment was rejected.}
 \usage{
 RejectAssignment(assignments, feedback = NULL, 
-                 keypair = getOption('MTurkR.keypair'), print = getOption('MTurkR.print'),
-                 log.requests = getOption('MTurkR.log'),
-                 sandbox = getOption('MTurkR.sandbox'),
-                 validation.test = getOption('MTurkR.test'))
+                 verbose = getOption('MTurkR.verbose'), ...)
 }
 \arguments{
   \item{assignments}{A character string containing an AssignmentId, or a vector of multiple character strings containing multiple AssignmentIds, to reject.}
   \item{feedback}{An optional character string containing any feedback for a worker. This must have length 1 or length equal to the number of workers.}
-  \item{keypair}{A two-item character vector containing an AWS Access Key ID in the first position and the corresponding Secret Access Key in the second position. Set default with \code{\link{credentials}}.}
-  \item{print}{Optionally print the results of the API request to the standard output. Default is \code{TRUE}.}
-  \item{log.requests}{A logical specifying whether API requests should be logged. Default is \code{TRUE}. See \code{\link{readlogfile}} for details.}
-  \item{sandbox}{Optionally execute the request in the MTurk sandbox rather than the live server.  Default is \code{FALSE}.}
-  \item{validation.test}{A logical specifying whether only the pre-request checks should be conducted and the request URL returned (without executing the request). Default is \code{FALSE}.}
+  \item{verbose}{Optionally print the results of the API request to the standard output. Default is taken from \code{getOption('MturkR.verbose')}.}
+  \item{...}{Additional arguments passed to \code{\link{request}}.}
 }
 \details{Reject assignments, by AssignmentId (as returned by \code{\link{GetAssignment}}). More advanced functionality to quickly reject many or all assignments (ala \code{\link{ApproveAllAssignments}}) is intentionally not provided.
 

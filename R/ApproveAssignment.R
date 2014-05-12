@@ -2,12 +2,10 @@ approve <-
 ApproveAssignment <-
 ApproveAssignments <-
 function (assignments, feedback = NULL, rejected = FALSE,
-    keypair = getOption('MTurkR.keypair'), 
-    print = getOption('MTurkR.print'), 
-    log.requests = getOption('MTurkR.log'), sandbox = getOption('MTurkR.sandbox'),
-    validation.test = getOption('MTurkR.test')) {
-    if(is.null(keypair))
-        stop("No keypair provided or 'credentials' object not stored")
+    verbose = getOption('MTurkR.verbose'), ...) {
+    # temporary check for `print` argument (remove after v1.0)
+    if('print' %in% names(list(...)) && is.null(verbose))
+        verbose <- list(...)$print
     if(is.factor(assignments))
         assignments <- as.character(assignments)
     if(rejected == TRUE) 
@@ -32,15 +30,13 @@ function (assignments, feedback = NULL, rejected = FALSE,
             GETparameters <- paste(GETparameters, "&RequesterFeedback=", 
                 curlEscape(feedback.batch), sep = "")
         }
-        request <- request(keypair[1], operation, secret=keypair[2],
-            GETparameters = GETparameters, log.requests = log.requests, 
-            sandbox = sandbox, validation.test = validation.test)
-        if(validation.test)
-            return(invisible(request))
-        if(print == TRUE) {
-            if (request$valid == TRUE) 
+        request <- request(operation, GETparameters = GETparameters, ...)
+        if(is.null(request$valid))
+            return(request)
+        if(verbose) {
+            if(request$valid) 
                 message("Assignment ", assignment, " Approved", sep = "")
-            else if (request$valid == FALSE) 
+            else
                 warning("Invalid Request for ", assignment)
         }
         return(request)
@@ -49,15 +45,15 @@ function (assignments, feedback = NULL, rejected = FALSE,
                     c("AssignmentId", "Feedback", "Valid"))
     for(i in 1:length(assignments)) {
         x <- batch(assignments[i], feedback[i])
-        if(validation.test)
-            return(invisible(x))
+        if(is.null(request$valid))
+            return(request)
         if (!is.null(feedback)) 
             Assignments[i, ] <- c(assignments[i], feedback[i], x$valid)
         else
             Assignments[i, ] <- c(assignments[i], "", x$valid)
     }
     Assignments$Valid <- factor(Assignments$Valid, levels=c('TRUE','FALSE'))
-    if(print == TRUE) 
+    if(verbose) 
         message(sum(x$valid), " Assignments Approved")
     return(Assignments)
 }

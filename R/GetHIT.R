@@ -1,13 +1,12 @@
 GetHIT <-
 gethit <-
 hit <-
-function (hit, response.group = NULL, keypair = getOption('MTurkR.keypair'), 
-    print = getOption('MTurkR.print'), 
-    log.requests = getOption('MTurkR.log'), sandbox = getOption('MTurkR.sandbox'), 
+function(hit, response.group = NULL,
     return.hit.dataframe = TRUE, return.qual.dataframe = TRUE,
-    validation.test = getOption('MTurkR.test')) {
-    if(is.null(keypair))
-        stop("No keypair provided or 'credentials' object not stored")
+    verbose = getOption('MTurkR.verbose'), ...){
+    # temporary check for `print` argument (remove after v1.0)
+    if('print' %in% names(list(...)) && is.null(verbose))
+        verbose <- list(...)$print
     operation <- "GetHIT"
     GETparameters <- paste("&HITId=", hit, sep = "")
     if(!is.null(response.group)) {
@@ -24,14 +23,12 @@ function (hit, response.group = NULL, keypair = getOption('MTurkR.keypair'),
             }
         }
     }
-    request <- request(keypair[1], operation, secret=keypair[2],
-        GETparameters = GETparameters, log.requests = log.requests, 
-        sandbox = sandbox, validation.test = validation.test)
-    if(validation.test)
-        return(invisible(request))
+    request <- request(operation, GETparameters = GETparameters, ...)
+    if(is.null(request$valid))
+        return(request)
     if(request$valid == TRUE) {
         z <- HITsToDataFrame(xml = request$xml, sandbox = sandbox)
-        if(print == TRUE) 
+        if(verbose) 
             message("HIT (", hit, ") Retrieved")
         if(return.hit.dataframe == TRUE & return.qual.dataframe == TRUE) 
             return.list <- list(HITs = z$HITs, QualificationRequirements = z$QualificationRequirements)
@@ -43,7 +40,7 @@ function (hit, response.group = NULL, keypair = getOption('MTurkR.keypair'),
             return.list <- NULL
     }
     else {
-        if(print == TRUE) 
+        if(verbose) 
             message("No HITs Retrieved")
         return.list <- NULL
     }

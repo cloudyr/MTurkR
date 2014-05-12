@@ -2,11 +2,10 @@ GetQualificationRequests <-
 qualrequests <-
 function (qual = NULL, return.all = TRUE, pagenumber = "1", pagesize = "10", 
     sortproperty = "SubmitTime", sortdirection = "Ascending", 
-    keypair = getOption('MTurkR.keypair'), print = getOption('MTurkR.print'),
-    log.requests = getOption('MTurkR.log'), sandbox = getOption('MTurkR.sandbox'),
-    return.qual.dataframe = TRUE, validation.test = getOption('MTurkR.test')) {
-    if(is.null(keypair))
-        stop("No keypair provided or 'credentials' object not stored")
+    verbose = getOption('MTurkR.verbose'), ...) {
+    # temporary check for `print` argument (remove after v1.0)
+    if('print' %in% names(list(...)) && is.null(verbose))
+        verbose <- list(...)$print
     operation <- "GetQualificationRequests"
     if(!sortproperty %in% c("SubmitTime", "QualificationTypeId")) 
         stop("'sortproperty' must be 'SubmitTime' | 'QualificationTypeId'")
@@ -30,16 +29,13 @@ function (qual = NULL, return.all = TRUE, pagenumber = "1", pagesize = "10",
     }
     else
         qual <- ""
-    batch <- function(qual, pagenumber, pagesize, sortproperty, 
-        sortdirection, sandbox = sandbox) {
+    batch <- function(qual, pagenumber, pagesize, sortproperty, sortdirection) {
         GETiteration <- paste(GETparameters, "&PageNumber=", 
             pagenumber, "&PageSize=", pagesize, "&SortProperty=", 
             sortproperty, "&SortDirection=", sortdirection, sep = "")
-        batch <- request(keypair[1], operation, secret=keypair[2],
-            GETparameters = GETiteration, log.requests = log.requests, 
-            sandbox = sandbox, validation.test = validation.test)
-        if(validation.test)
-            invisible(batch)
+        batch <- request(operation, GETparameters = GETiteration, ...)
+        if(is.null(batch$valid))
+            return(batch)
         batch$QualificationRequests <- NA
         batch$total <- as.numeric(strsplit(strsplit(batch$xml, 
             "<TotalNumResults>")[[1]][2], "</TotalNumResults>")[[1]][1])
@@ -53,13 +49,12 @@ function (qual = NULL, return.all = TRUE, pagenumber = "1", pagesize = "10",
     }
     request <- batch(qual, pagenumber, pagesize, sortproperty, 
         sortdirection, sandbox = sandbox)
-    if(validation.test)
-        return(invisible(request))
+    if(is.null(request$valid))
+        return(request)
     runningtotal <- request$batch.total
     pagenumber <- 2
     while(request$total > runningtotal) {
-        nextbatch <- batch(qual, pagenumber, pagesize, sortproperty, 
-            sortdirection, sandbox = sandbox)
+        nextbatch <- batch(qual, pagenumber, pagesize, sortproperty, sortdirection)
         request$request.id <- c(request$request.id, nextbatch$request.id)
         request$valid <- c(request$valid, nextbatch$valid)
         request$xml.response <- c(request$xml, nextbatch$xml)
@@ -71,7 +66,7 @@ function (qual = NULL, return.all = TRUE, pagenumber = "1", pagesize = "10",
         pagenumber <- pagenumber + 1
     }
     request$batch.total <- NULL
-    if(print == TRUE)
+    if(verbose)
         message(request$total, " Requests Retrieved")
     if(request$total > 0) 
         return(request$QualificationRequests)

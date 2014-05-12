@@ -8,12 +8,10 @@ function (hit.type = NULL, question = NULL, validate.question = FALSE,
     description = NULL, reward = NULL, duration = NULL, keywords = NULL, 
     auto.approval.delay = NULL, qual.req = NULL, hitlayoutid = NULL, 
     hitlayoutparameters = NULL, response.group = NULL, 
-    keypair = getOption('MTurkR.keypair'), 
-    print = getOption('MTurkR.print'), 
-    log.requests = getOption('MTurkR.log'), sandbox = getOption('MTurkR.sandbox'),
-    validation.test = getOption('MTurkR.test')) {
-    if(is.null(keypair))
-        stop("No keypair provided or 'credentials' object not stored")
+    verbose = getOption('MTurkR.verbose'), ...) {
+    # temporary check for `print` argument (remove after v1.0)
+    if('print' %in% names(list(...)) && is.null(verbose))
+        verbose <- list(...)$print
     operation <- "CreateHIT"
     if(!is.null(hit.type)) {
         if(is.factor(hit.type))
@@ -29,10 +27,9 @@ function (hit.type = NULL, question = NULL, validate.question = FALSE,
         else {
             register <- RegisterHITType(title, description, reward, 
                 duration, keywords = keywords, auto.approval.delay = auto.approval.delay, 
-                qual.req = qual.req, keypair = keypair, print = print, 
-                log.requests = log.requests, sandbox = sandbox, validation.test = validation.test)
-            if(validation.test)
-                return(invisible(register))
+                qual.req = qual.req, ...)
+            if(is.null(request$valid))
+                return(request)
             if(register$Valid == FALSE) 
                 stop("Could not RegisterHITType(), check parameters")
             else
@@ -85,44 +82,42 @@ function (hit.type = NULL, question = NULL, validate.question = FALSE,
             GETparameters <- paste(GETparameters, "&ResponseGroup=", response.group, sep = "")
         else {
             for (i in 1:length(response.group)) {
-                GETparameters <- paste(    GETparameters, "&ResponseGroup", i-1,
-                                        "=", response.group[i], sep = "")
+                GETparameters <- paste(GETparameters, "&ResponseGroup", i-1,
+                                       "=", response.group[i], sep = "")
             }
         }
     }
     if (!is.null(assignment.review.policy)) 
-        GETparameters <- paste(    GETparameters, "&AssignmentReviewPolicy=", 
-                                curlEscape(assignment.review.policy), sep = "")
+        GETparameters <- paste(GETparameters, "&AssignmentReviewPolicy=", 
+                               curlEscape(assignment.review.policy), sep = "")
     if (!is.null(hit.review.policy)) 
-        GETparameters <- paste(    GETparameters, "&HITReviewPolicy=", 
-                                curlEscape(hit.review.policy), sep = "")
+        GETparameters <- paste(GETparameters, "&HITReviewPolicy=", 
+                               curlEscape(hit.review.policy), sep = "")
     if (!is.null(annotation) && nchar(curlEscape(annotation)) > 255) 
         stop("Annotation must be <= 255 characters")
     else if (!is.null(annotation)) 
-        GETparameters <- paste(    GETparameters, "&RequesterAnnotation=", 
-                                curlEscape(annotation), sep = "")
+        GETparameters <- paste(GETparameters, "&RequesterAnnotation=", 
+                               curlEscape(annotation), sep = "")
     if (!is.null(unique.request.token) && nchar(curlEscape(unique.request.token)) > 64) 
         stop("UniqueRequestToken must be <= 64 characters")
     else if (!is.null(unique.request.token)) 
-        GETparameters <- paste(    GETparameters, "&UniqueRequestToken=", 
-                                curlEscape(unique.request.token), sep = "")
+        GETparameters <- paste(GETparameters, "&UniqueRequestToken=", 
+                               curlEscape(unique.request.token), sep = "")
     HITs <- setNames(data.frame(matrix(ncol=3, nrow=1)),
                 c("HITTypeId", "HITId", "Valid"))
     if (is.null(hit.type)) 
         type <- NA
     else
         type <- hit.type
-    request <- request(keypair[1], operation, secret=keypair[2],
-        GETparameters = GETparameters, log.requests = log.requests, 
-        sandbox = sandbox, validation.test = validation.test)
-    if(validation.test)
-        return(invisible(request))
+    request <- request(operation, GETparameters = GETparameters, ...)
+    if(is.null(request$valid))
+        return(request)
     if(request$valid == TRUE) {
         hit <- strsplit(strsplit(request$xml, "<HITId>")[[1]][2], "</HITId>")[[1]][1]
         if(is.null(hit.type)) 
             type <- strsplit(strsplit(request$xml, "<HITTypeId>")[[1]][2], "</HITTypeId>")[[1]][1]
         HITs[1, ] <- c(type, hit, request$valid)
-        if(print == TRUE) {
+        if(verbose) {
             if(!is.null(hit.type)) 
                 message("HIT ", hit, " created")
             else if(is.null(hit.type)) 

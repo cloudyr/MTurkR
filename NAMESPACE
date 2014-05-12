@@ -1,15 +1,16 @@
 # internal
-#export("request")
 #export("ParseErrorCodes")
 
 # deprecated
 #export("APIReference")
 #export("authenticate")
 #export("mturkhelp")
+#export("genericmturkr")
+#export("makeGETparameters")
 export("credentials")
 
 # exported
-export("genericmturkr")
+export("request")
 
 export("accountbalance")
 export("AccountBalance")
@@ -172,7 +173,6 @@ export("workerstatistic")
 export("GetWorkerStatistic")
 export("WorkerReport")
 
-export("makeGETparameters")
 export("AnswerKeyTemplate")
 
 export("GenerateAnswerKey")
