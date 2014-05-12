@@ -2166,21 +2166,25 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 r <- r + 1
                 worker.entry <- tkentry(entryform, width = 50, textvariable=workerid)
                 tkgrid(tklabel(entryform, text = "WorkerId(s) (comma-separated): "), row=r, column=2)
-                tkgrid(worker.entry, row=r, column=2)
+                tkgrid(worker.entry, row=r, column=3)
                 r <- r + 1
                 tkgrid(ttklabel(entryform, text = "     "), row=r)
                 r <- r + 1
                 subject.entry <- tkentry(entryform, width = 50, textvariable=emailsubject)
                 tkgrid(tklabel(entryform, text = "Email Subject (max 200 char.): "), row=r, column=2)
-                tkgrid(subject.entry, row=r, column=2)
+                tkgrid(subject.entry, row=r, column=3)
                 r <- r + 1
                 tkgrid(ttklabel(entryform, text = "     "), row=r)
                 r <- r + 1
+                chars <- tclVar('')
                 body.entry <- tktext(entryform, height = 8, width = 60)
                 tkmark.set(body.entry,"insert","0.0")
                 tkgrid(tklabel(entryform, text = "Email Body (max 4096 char.): "), row=r, column=2)
                 r <- r + 1
                 tkgrid(body.entry, row=r, column=2, columnspan=2)
+                r <- r + 1
+                tkgrid(tklabel(entryform, text='Number of characters:'), row=r, column=2, sticky='e')
+                tkgrid(tklabel(entryform, textvariable = chars), row=r, column=3, sticky='w')
                 r <- r + 1
                 tkgrid(ttklabel(entryform, text = "     "), row=r)
             tkgrid(entryform)
@@ -2188,9 +2192,12 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
             buttons <- tkframe(contactDialog)
                 OKbutton <- tkbutton(buttons,text="   OK   ",command=contact)
                 Cancelbutton <- tkbutton(buttons,text=" Cancel ",command=function() {tkdestroy(contactDialog); tkfocus(wizard)})
+                checkbutton <- tkbutton(buttons,text=" Check body length ",
+                    command= function() {tclvalue(chars) <- as.character(nchar(curlEscape(tclvalue(tkget(body.entry,"0.0","end")))))})
                 r <- 1
                 tkgrid(OKbutton, row = r, column = 1)
                 tkgrid(Cancelbutton, row=r, column = 2)
+                tkgrid(checkbutton, row=r, column = 3)
             tkgrid(buttons)
             
             tkfocus(contactDialog)
