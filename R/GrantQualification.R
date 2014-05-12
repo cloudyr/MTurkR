@@ -5,11 +5,7 @@ function (qual.requests, values, keypair = getOption('MTurkR.keypair'),
     print = getOption('MTurkR.print'), 
     browser = getOption('MTurkR.browser'), log.requests = getOption('MTurkR.log'),
     sandbox = getOption('MTurkR.sandbox'), validation.test = getOption('MTurkR.test')) {
-    if(!is.null(keypair)) {
-        keyid <- keypair[1]
-        secret <- keypair[2]
-    }
-    else
+    if(is.null(keypair))
         stop("No keypair provided or 'credentials' object not stored")
     operation <- "GrantQualification"
     if(is.factor(qual.requests))
@@ -32,17 +28,16 @@ function (qual.requests, values, keypair = getOption('MTurkR.keypair'),
     for (i in 1:length(qual.requests)) {
         GETparameters <- paste("&QualificationRequestId=", qual.requests[i], 
             "&IntegerValue=", values[i], sep = "")
-        auth <- authenticate(operation, secret)
         if(browser == TRUE) {
-            request <- request(keyid, auth$operation, auth$signature, 
-                auth$timestamp, GETparameters, browser = browser, 
+            request <- request(keypair[1], operation, secret=keypair[2],
+                GETparameters = GETparameters, browser = browser,
                 sandbox = sandbox, validation.test = validation.test)
             if(validation.test)
                 return(invisible(request))
         }
         else {
-            request <- request(keyid, auth$operation, auth$signature, 
-                auth$timestamp, GETparameters, log.requests = log.requests, 
+            request <- request(keypair[1], operation, secret=keypair[2],
+                GETparameters = GETparameters, log.requests = log.requests, 
                 sandbox = sandbox, validation.test = validation.test)
             if(validation.test)
                 return(invisible(request))

@@ -3,11 +3,7 @@ function (about, helptype = NULL, keypair = getOption('MTurkR.keypair'),
     print = getOption('MTurkR.print'), 
     browser = getOption('MTurkR.browser'), log.requests = getOption('MTurkR.log'),
     validation.test = getOption('MTurkR.test')) {
-    if(!is.null(keypair)) {
-        keyid <- keypair[1]
-        secret <- keypair[2]
-    }
-    else
+    if(is.null(keypair))
         stop("No keypair provided or 'credentials' object not stored")
     operation <- "Help"
     if(about %in% ListOperations()) {
@@ -23,16 +19,15 @@ function (about, helptype = NULL, keypair = getOption('MTurkR.keypair'),
     }
     else
         stop("Operation or ResponseGroup not recognized")
-    auth <- authenticate(operation, secret)
     if(browser == TRUE) {
-        request <- request(keyid, auth$operation, auth$signature, 
-             auth$timestamp, GETparameters, browser = browser, validation.test = validation.test)
+        request <- request(keypair[1], operation, secret=keypair[2],
+            GETparameters = GETparameters, browser = browser, validation.test = validation.test)
         if(validation.test)
             return(invisible(request))
     }
     else {
-        request <- request(keyid, auth$operation, auth$signature, 
-            auth$timestamp, GETparameters, log.requests = log.requests,
+        request <- request(keypair[1], operation, secret=keypair[2],
+            GETparameters = GETparameters, log.requests = log.requests,
             validation.test = validation.test)
         if(validation.test)
             invisible(request)

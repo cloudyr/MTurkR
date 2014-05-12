@@ -7,10 +7,7 @@ function (assignment = NULL, hit = NULL, hit.type = NULL, return.all = TRUE,
     sandbox = getOption('MTurkR.sandbox'),
     return.bonus.dataframe = TRUE,
     validation.test = getOption('MTurkR.test')) {
-    if(!is.null(keypair)) {
-        keyid <- keypair[1]
-        secret <- keypair[2]
-    } else
+    if(is.null(keypair))
         stop("No keypair provided or 'credentials' object not stored")
     operation <- "GetBonusPayments"
     if(is.null(hit) & is.null(hit.type) & is.null(assignment)) 
@@ -39,9 +36,8 @@ function (assignment = NULL, hit = NULL, hit.type = NULL, return.all = TRUE,
                                     "&PageNumber=", pagenumber,
                                     "&PageSize=", pagesize, sep = "")
         }
-        auth <- authenticate(operation, secret)
-        request <- request(keyid, auth$operation, auth$signature, 
-            auth$timestamp, GETparameters, browser=browser,
+        request <- request(keypair[1], operation, secret=keypair[2],
+            GETparameters = GETparameters, browser=browser,
             log.requests = log.requests, sandbox = sandbox,
             validation.test = validation.test)
         if(validation.test)
@@ -76,9 +72,8 @@ function (assignment = NULL, hit = NULL, hit.type = NULL, return.all = TRUE,
             GETparameters <- paste( "&HITId=", hitlist[i],
                                     "&PageNumber=", pagenumber,
                                     "&PageSize=", pagesize, sep = "")
-            auth <- authenticate(operation, secret)
-            request <- request(keyid, auth$operation, auth$signature, 
-                auth$timestamp, GETparameters, log.requests = log.requests, 
+            request <- request(keypair[1], operation, secret=keypair[2],
+                GETparameters = GETparameters, log.requests = log.requests, 
                 sandbox = sandbox, validation.test = validation.test)
             if(validation.test)
                 invisible(request)

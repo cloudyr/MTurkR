@@ -6,11 +6,7 @@ function (query = NULL, only.mine = TRUE, only.requestable = FALSE,
     print = getOption('MTurkR.print'), 
     log.requests = getOption('MTurkR.log'), sandbox = getOption('MTurkR.sandbox'),
     return.qual.dataframe = TRUE, validation.test = getOption('MTurkR.test')) {
-    if(!is.null(keypair)) {
-        keyid <- keypair[1]
-        secret <- keypair[2]
-    }
-    else
+    if(is.null(keypair))
         stop("No keypair provided or 'credentials' object not stored")
     operation <- "SearchQualificationTypes"
     if(!sortproperty %in% c("Name")) 
@@ -32,14 +28,12 @@ function (query = NULL, only.mine = TRUE, only.requestable = FALSE,
         GETparameters <- paste(GETparameters, "&MustBeRequestable=", "true", sep = "")
     else if(only.requestable == FALSE) 
         GETparameters <- paste(GETparameters, "&MustBeRequestable=", "false", sep = "")
-    batch <- function(operation, keyid, secret, GETparameters, 
-        pagenumber, pagesize, sandbox = sandbox, validation.test = validation.test) {
+    batch <- function(operation, GETparameters, pagenumber, pagesize) {
         GETparameters <- paste(GETparameters, "&PageNumber=", 
             pagenumber, "&PageSize=", pagesize, "&SortProperty=", 
             sortproperty, "&SortDirection=", sortdirection, sep = "")
-        auth <- authenticate(operation, secret)
-        batch <- request(keyid, auth$operation, auth$signature, 
-            auth$timestamp, GETparameters, log.requests = log.requests, 
+        batch <- request(keypair[1], operation, secret=keypair[2],
+                GETparameters = GETparameters, log.requests = log.requests, 
             sandbox = sandbox, validation.test = validation.test)
         if(validation.test)
             return(invisible(batch))
@@ -52,8 +46,7 @@ function (query = NULL, only.mine = TRUE, only.requestable = FALSE,
         }
         return(batch)
     }
-    request <- batch(operation, keyid, secret, GETparameters, 
-        pagenumber, pagesize, sandbox = sandbox, validation.test = validation.test)
+    request <- batch(operation, GETparameters, pagenumber, pagesize)
     if(validation.test)
         return(invisible(request))
     runningtotal <- request$batch.total
@@ -64,8 +57,7 @@ function (query = NULL, only.mine = TRUE, only.requestable = FALSE,
         pagesize <- "100"
         pagenumber <- "1"
         while(request$total > runningtotal) {
-            nextbatch <- batch(operation, keyid, secret, GETparameters, 
-                pagenumber, pagesize, sandbox = sandbox, validation.test = validation.test)
+            nextbatch <- batch(operation, GETparameters, pagenumber, pagesize)
             if(validation.test)
                 return(invisible(nextbatch))
             request$request.id <- c(request$request.id, nextbatch$request.id)

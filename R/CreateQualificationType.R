@@ -7,10 +7,7 @@ function (name, description, status, keywords = NULL, retry.delay = NULL,
     print = getOption('MTurkR.print'), browser = getOption('MTurkR.browser'),
     log.requests = getOption('MTurkR.log'), sandbox = getOption('MTurkR.sandbox'),
     validation.test = getOption('MTurkR.test')) {
-    if(!is.null(keypair)) {
-        keyid <- keypair[1]
-        secret <- keypair[2]
-    } else
+    if(is.null(keypair))
         stop("No keypair provided or 'credentials' object not stored")
     operation <- "CreateQualificationType"
     if(!status %in% c("Active", "Inactive")) 

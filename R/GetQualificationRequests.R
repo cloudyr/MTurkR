@@ -5,10 +5,7 @@ function (qual = NULL, return.all = TRUE, pagenumber = "1", pagesize = "10",
     keypair = getOption('MTurkR.keypair'), print = getOption('MTurkR.print'),
     log.requests = getOption('MTurkR.log'), sandbox = getOption('MTurkR.sandbox'),
     return.qual.dataframe = TRUE, validation.test = getOption('MTurkR.test')) {
-    if(!is.null(keypair)) {
-        keyid <- keypair[1]
-        secret <- keypair[2]
-    } else
+    if(is.null(keypair))
         stop("No keypair provided or 'credentials' object not stored")
     operation <- "GetQualificationRequests"
     if(!sortproperty %in% c("SubmitTime", "QualificationTypeId")) 
@@ -38,9 +35,8 @@ function (qual = NULL, return.all = TRUE, pagenumber = "1", pagesize = "10",
         GETiteration <- paste(GETparameters, "&PageNumber=", 
             pagenumber, "&PageSize=", pagesize, "&SortProperty=", 
             sortproperty, "&SortDirection=", sortdirection, sep = "")
-        auth <- authenticate(operation, secret)
-        batch <- request(keyid, auth$operation, auth$signature, 
-            auth$timestamp, GETiteration, log.requests = log.requests, 
+        batch <- request(keypair[1], operation, secret=keypair[2],
+            GETparameters = GETiteration, log.requests = log.requests, 
             sandbox = sandbox, validation.test = validation.test)
         if(validation.test)
             invisible(batch)

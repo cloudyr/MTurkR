@@ -7,11 +7,7 @@ function (hit.type, notification = NULL, active = NULL,
     validation.test = getOption('MTurkR.test')){
     if(is.null(notification) & is.null(active)) 
         stop("Must specify either 'notification' and/or 'active'")
-    if(!is.null(keypair)) {
-        keyid <- keypair[1]
-        secret <- keypair[2]
-    }
-    else
+    if(is.null(keypair))
         stop("No keypair provided or 'credentials' object not stored")
     operation <- "SetHITTypeNotification"
     GETparameters <- paste("&HITTypeId=", hit.type, sep = "")
@@ -25,17 +21,16 @@ function (hit.type, notification = NULL, active = NULL,
         GETparameters <- paste(GETparameters, "&Active=false", sep = "")
     Notification <- setNames(data.frame(matrix(ncol=4, nrow=1)),
                     c("HITTypeId", "Notification", "Active", "Valid"))
-    auth <- authenticate(operation, secret)
     if(browser == TRUE) {
-        request <- request(keyid, auth$operation, auth$signature, 
-            auth$timestamp, GETparameters, browser = browser, 
+        request <- request(keypair[1], operation, secret=keypair[2],
+                GETparameters = GETparameters, browser = browser, 
             sandbox = sandbox, validation.test = validation.test)
         if(validation.test)
             return(invisible(request))
     }
     else {
-        request <- request(keyid, auth$operation, auth$signature, 
-            auth$timestamp, GETparameters, log.requests = log.requests, 
+        request <- request(keypair[1], operation, secret=keypair[2],
+                GETparameters = GETparameters, log.requests = log.requests, 
             sandbox = sandbox, validation.test = validation.test)
         if(validation.test)
             return(invisible(request))
