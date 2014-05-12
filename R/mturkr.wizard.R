@@ -2115,18 +2115,6 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
         }
         
         
-        
-        
-        
-        multipleworkers <- function(){
-            # button to retrieve workerid from an assignmentid, hitid, or hittypeid
-            # field to enter a workerid manually
-            # store vector of workerids in the `wizard.env` environment for retrieval later
-        }
-        
-        
-        
-        
         # contact worker (single)
         contactWiz <- function(){
             # function
@@ -2157,15 +2145,17 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                     tkfocus(contactDialog)
                 }
                 else{
-                    ContactWorker(subjects=tclvalue(emailsubject), msgs=bodytowrite, workers=tclvalue(workerid),
-                                    print=TRUE, sandbox=sandbox)
+                    workerid <- strsplit(workerid,',')[[1]]
+                    ContactWorker(subjects = tclvalue(emailsubject),
+                                  msgs = bodytowrite, workers = tclvalue(workerid),
+                                  print = TRUE, batch = TRUE, sandbox = sandbox)
                     tkdestroy(contactDialog)
                     tkfocus(wizard)
                 }
             }
             # layout
             contactDialog <- tktoplevel()
-            tkwm.title(contactDialog, "Contact MTurk Worker via Email")
+            tkwm.title(contactDialog, "Contact MTurk Worker(s) via Email")
             # workerid, emailsubject, msg body
             entryform <- tkframe(contactDialog, relief="groove", borderwidth=2)
                 workerid <- tclVar()
@@ -2175,7 +2165,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 tkgrid(ttklabel(entryform, text = "     "), row=r, column=4)
                 r <- r + 1
                 worker.entry <- tkentry(entryform, width = 50, textvariable=workerid)
-                tkgrid(tklabel(entryform, text = "WorkerId: "), row=r, column=2)
+                tkgrid(tklabel(entryform, text = "WorkerId(s) (comma-separated): "), row=r, column=2)
                 tkgrid(worker.entry, row=r, column=2)
                 r <- r + 1
                 tkgrid(ttklabel(entryform, text = "     "), row=r)
@@ -2204,88 +2194,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
             tkgrid(buttons)
             
             tkfocus(contactDialog)
-        }
-        
-        # contact worker (multiple)
-        contactbatchWiz <- function(){
-            # function
-            contact <- function(){
-                bodytowrite <- tclvalue(tkget(body.entry,"0.0","end"))
-                if(tclvalue(emailsubject)==""){
-                    tkmessageBox(message="Please enter an email subject!", type="ok")
-                    tkfocus(contactBatch)
-                }
-                else if(nchar(bodytowrite)<=1){
-                    tkmessageBox(message="Please enter an email message body!", type="ok")
-                    tkfocus(contactBatch)
-                }
-                else if(tclvalue(workerid)==""){
-                    tkmessageBox(message="Please enter a WorkerId!", type="ok")
-                    tkfocus(contactBatch)
-                }
-                else if(nchar(tclvalue(emailsubject))>200){
-                    tkmessageBox(message=paste("Email message body must be less than 200 characters.\nCurrent length is ",
-                                        nchar(tclvalue(emailsubject))," characters", sep=""),
-                                type="ok")
-                    tkfocus(contactBatch)
-                }
-                else if(nchar(bodytowrite)>4096){
-                    tkmessageBox(message=paste("Email message body must be less than 4096 characters.\nCurrent length is ",
-                                        nchar(bodytowrite)," characters", sep=""),
-                                type="ok")
-                    tkfocus(contactBatch)
-                }
-                else{
-                    ContactWorker(subjects=tclvalue(emailsubject), msgs=bodytowrite, workers=tclvalue(workerid),
-                                    print=TRUE, sandbox=sandbox)
-                    tkdestroy(contactBatch)
-                    tkfocus(wizard)
-                }
-            }
-            # layout
-            contactBatch <- tktoplevel()
-            tkwm.title(contactBatch, "Contact MTurk Workers via Email")
-            # workerid, emailsubject, msg body
-            entryform <- tkframe(contactBatch, relief="groove", borderwidth=2)
-                workerid <- tclVar()
-                emailsubject <- tclVar()
-                r <- 1
-                tkgrid(ttklabel(entryform, text = "     "), row=r, column=1)
-                tkgrid(ttklabel(entryform, text = "     "), row=r, column=4)
-                r <- r + 1
-                #worker.entry <- tkentry(entryform, width = 50, textvariable=workerid)
-                #tkgrid(tklabel(entryform, text = "WorkerId: "), row=r, column=2)
-                workersButton <- tkbutton(entryform, text=" Enter Recipients ", command=multipleworkers)
-                tkgrid(workersButton, row=r, column=2)
-                r <- r + 1
-                tkgrid(ttklabel(entryform, text = "     "), row=r)
-                r <- r + 1
-                subject.entry <- tkentry(entryform, width = 50, textvariable=emailsubject)
-                tkgrid(tklabel(entryform, text = "Email Subject (max 200 char.): "), row=r, column=2)
-                tkgrid(subject.entry, row=r, column=2)
-                r <- r + 1
-                tkgrid(ttklabel(entryform, text = "     "), row=r)
-                r <- r + 1
-                body.entry <- tktext(entryform, height = 8, width = 60)
-                tkmark.set(body.entry,"insert","0.0")
-                tkgrid(tklabel(entryform, text = "Email Body (max 4096 char.): "), row=r, column=2)
-                r <- r + 1
-                tkgrid(body.entry, row=r, column=2, columnspan=2)
-                r <- r + 1
-                tkgrid(ttklabel(entryform, text = "     "), row=r)
-            tkgrid(entryform)
-            # buttons
-            buttons <- tkframe(contactBatch)
-                OKbutton <- tkbutton(buttons,text="   OK   ",command=contact)
-                Cancelbutton <- tkbutton(buttons,text=" Cancel ",command=function() {tkdestroy(contactBatch); tkfocus(wizard)})
-                r <- 1
-                tkgrid(OKbutton, row = r, column = 1)
-                tkgrid(Cancelbutton, row=r, column = 2)
-            tkgrid(buttons)
-            
-            tkfocus(contactBatch)
-        }
-        
+        }      
         
         
         # grant bonus(es)
@@ -3585,8 +3494,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
             # workers menu
             contact <- tkmenu(assignments, tearoff = FALSE)
                 # contact worker(s) submenu
-                tkadd(contact, "command", label = "Single Worker", command = contactWiz)
-                tkadd(contact, "command", label = "Multiple Workers", command = contactbatchWiz)
+                tkadd(contact, "command", label = "Same Message to One or More Workers", command = contactWiz)
                 tkadd(workers, "cascade", label = "Contact...", menu = contact, underline = 0)
             tkadd(workers, "command", label = "Grant Bonus(es)", command = bonusWiz)
             tkadd(workers, "separator")
