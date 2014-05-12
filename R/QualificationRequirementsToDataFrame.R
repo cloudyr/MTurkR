@@ -13,8 +13,7 @@ function (xml = NULL, xml.parsed = NULL, xmlnodeset = NULL, hit = NULL,
                 qlist <- ListQualificationTypes()
                 quals$Name[i] <- qlist[qlist$QualificationTypeId == 
                   quals$QualificationTypeId[i], "Qualification"]
-            }
-            else
+            } else
                 quals$Name[i] <- NA
             quals$Comparator[i] <- xmlValue(xmlChildren(xmlnodeset[[i]])$Comparator)
             if("LocaleValue" %in% names(xmlChildren(xmlnodeset[[i]]))) 
@@ -39,12 +38,10 @@ function (xml = NULL, xml.parsed = NULL, xmlnodeset = NULL, hit = NULL,
             return(batch(xmlnodeset))
         else
             return(NULL)
-    }
-    else if(!is.null(hit)) {
+    } else if(!is.null(hit)) {
         xmlnodeset <- xpathApply(xmlParse(GetHIT(hit = hit, keypair = credentials, sandbox = sandbox)$xml), 
             paste("//QualificationRequirement", sep = ""))
         return(batch(xmlnodeset))
-    }
-    else
+    } else
         return(NULL)
 }
