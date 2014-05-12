@@ -2,7 +2,7 @@ request <-
 function (keyid = getOption('MTurkR.keypair')[1], operation, GETparameters, 
     secret = getOption('MTurkR.keypair')[2],
     version = "2012-03-25", service = "AWSMechanicalTurkRequester", 
-    browser = getOption('MTurkR.browser'), log.requests = getOption('MTurkR.log'),
+    log.requests = getOption('MTurkR.log'),
     sandbox = getOption('MTurkR.sandbox'), xml.parse = FALSE,
     print.errors = TRUE, validation.test = getOption('MTurkR.test')) {
     if(sandbox == TRUE) 
@@ -23,9 +23,10 @@ function (keyid = getOption('MTurkR.keypair')[1], operation, GETparameters,
         return(invisible(list(request.url=request.url)))
     }
     else {
-        if(browser == TRUE)
+        if(browser == TRUE) {
             browseURL(request.url)
-        else {
+            return(structure(list(request.url = request.url), class='MTurkResponse', operation=operation))
+        } else {
             h <- basicTextGatherer()
             #curlPerform(url=request.url,
             curlPerform(url=host,
@@ -138,13 +139,10 @@ function (keyid = getOption('MTurkR.keypair')[1], operation, GETparameters,
                 xml.parsed <- xmlParse(response)
                 out <- list(request.url = request.url, request.id = request.id, 
                             valid = valid, xml = response, xml.parsed = xml.parsed)
-            }
-            else
+            } else
                 out <- list(request.url = request.url, request.id = request.id, 
                             valid = valid, xml = response)
-            class(out) <- c('MTurkResponse',class(out))
-            attr(out, 'operation') <- operation
-            return(invisible(out))
+            return(out, class='MTurkResponse', operation=operation))
         }
     }
 }
