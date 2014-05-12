@@ -5,7 +5,7 @@
 \description{Configure a notification to be sent when specific actions occur for the specified HITType.}
 \usage{
 SetHITTypeNotification( hit.type, notification = NULL, active = NULL, 
-                        keypair = getOption('MTurkR.keypair'), print = getOption('MTurkR.print'),s
+                        keypair = getOption('MTurkR.keypair'), print = getOption('MTurkR.print'),
                         log.requests = getOption('MTurkR.log'),
                         sandbox = getOption('MTurkR.sandbox'),
                         validation.test = getOption('MTurkR.test'))

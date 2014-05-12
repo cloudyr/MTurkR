@@ -6,7 +6,7 @@
 \description{Reject a Worker's request for a Qualification.}
 \usage{
 RejectQualification(qual.request, reason = NULL, 
-                    keypair = getOption('MTurkR.keypair'), print = getOption('MTurkR.print'),s
+                    keypair = getOption('MTurkR.keypair'), print = getOption('MTurkR.print'),
                     log.requests = getOption('MTurkR.log'),
                     sandbox = getOption('MTurkR.sandbox'),
                     validation.test = getOption('MTurkR.test'))

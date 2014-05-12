@@ -2,7 +2,7 @@ request <-
 function (keyid = getOption('MTurkR.keypair')[1], operation, GETparameters, 
     secret = getOption('MTurkR.keypair')[2],
     version = "2012-03-25", service = "AWSMechanicalTurkRequester", 
-    log.requests = getOption('MTurkR.log'),
+    browser = getOption('MTurkR.browser'), log.requests = getOption('MTurkR.log'), 
     sandbox = getOption('MTurkR.sandbox'), xml.parse = FALSE,
     print.errors = TRUE, validation.test = getOption('MTurkR.test')) {
     if(sandbox == TRUE) 
@@ -142,7 +142,7 @@ function (keyid = getOption('MTurkR.keypair')[1], operation, GETparameters,
             } else
                 out <- list(request.url = request.url, request.id = request.id, 
                             valid = valid, xml = response)
-            return(out, class='MTurkResponse', operation=operation))
+            return(out, class='MTurkResponse', operation=operation)
         }
     }
 }
