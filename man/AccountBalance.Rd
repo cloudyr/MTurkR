@@ -30,9 +30,7 @@ SufficientFunds(amount, assignments = NULL, hits = NULL,
 
 \code{accountbalance()} and \code{getbalance()} are aliases for \code{AccountBalance}.
 }
-\value{
-Return value is an object of class \dQuote{MTurkResponse}, including an additional character string (\code{balance}) containing the balance of the account in US Dollars.}
-}
+\value{Return value is an object of class \dQuote{MTurkResponse}, including an additional character string (\code{balance}) containing the balance of the account in US Dollars.}
 \references{
 \href{http://docs.amazonwebservices.com/AWSMechTurk/latest/AWSMturkAPI/ApiReference_GetAccountBalanceOperation.html}{API Reference}
 }

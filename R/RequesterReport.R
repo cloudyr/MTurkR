@@ -1,5 +1,5 @@
 RequesterReport <-
-function (period = "LifeToDate", ...) {
+function (period = "LifeToDate", verbose = getOption('MTurkR.verbose'), ...) {
     if(!period %in% c("OneDay", "SevenDays", "ThirtyDays", "LifeToDate")) 
         stop("Period not valid")
     statistics <- c("NumberAssignmentsAvailable", "NumberAssignmentsAccepted", 

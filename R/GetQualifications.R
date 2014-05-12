@@ -35,29 +35,28 @@ function (qual, status = NULL, return.all = TRUE, pagenumber = 1,
         batch$batch.total <- length(xpathApply(xmlParse(batch$xml), 
             "//QualificationTypeId"))
         if(batch$batch.total > 0) {
-            if(return.qual.dataframe == TRUE) 
-                batch$Qualifications <- QualificationsToDataFrame(xml = batch$xml)
+            batch$Qualifications <- QualificationsToDataFrame(xml = batch$xml)
         }
         return(batch)
     }
     request <- batch(qual, pagenumber)
     if(is.null(request$valid))
         return(request)
-    runningtotal <- request$batch.total
-    pagenumber <- 2
-    while(request$total > runningtotal) {
-        nextbatch <- batch(qual, pagenumber)
-        request$request.id <- c(request$request.id, nextbatch$request.id)
-        request$valid <- c(request$valid, nextbatch$valid)
-        request$xml.response <- c(request$xml, nextbatch$xml)
-        if (return.qual.dataframe == TRUE) 
-            request$Qualifications <- rbind(request$Qualifications, 
-                nextbatch$Qualifications)
-        request$pages.returned <- pagenumber
-        runningtotal <- runningtotal + nextbatch$batch.total
-        pagenumber <- pagenumber + 1
+    if(return.all){
+        runningtotal <- request$batch.total
+        pagenumber <- 2
+        while(request$total > runningtotal) {
+            nextbatch <- batch(qual, pagenumber)
+            request$request.id <- c(request$request.id, nextbatch$request.id)
+            request$valid <- c(request$valid, nextbatch$valid)
+            request$xml.response <- c(request$xml, nextbatch$xml)
+            request$Qualifications <- rbind(request$Qualifications, nextbatch$Qualifications)
+            request$pages.returned <- pagenumber
+            runningtotal <- runningtotal + nextbatch$batch.total
+            pagenumber <- pagenumber + 1
+        }
+        request$batch.total <- NULL
     }
-    request$batch.total <- NULL
     if(verbose)
         message(request$total, " Qualifications Retrieved")
     if(request$total > 0)

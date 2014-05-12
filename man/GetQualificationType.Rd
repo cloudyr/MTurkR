@@ -4,12 +4,10 @@
 \title{Get QualificationType}
 \description{Get the details of a Qualification Type.}
 \usage{
-GetQualificationType(qual, return.qual.dataframe = TRUE,
-                     verbose = getOption('MTurkR.verbose'), ...)
+GetQualificationType(qual, verbose = getOption('MTurkR.verbose'), ...)
 }
 \arguments{
   \item{qual}{A character string containing a QualificationTypeId.}
-  \item{return.qual.dataframe}{A logical indicating whether the QualificationType dataframe should be returned. Default is \code{TRUE}.}
   \item{verbose}{Optionally print the results of the API request to the standard output. Default is taken from \code{getOption('MturkR.verbose')}.}
   \item{...}{Additional arguments passed to \code{\link{request}}.}
 }

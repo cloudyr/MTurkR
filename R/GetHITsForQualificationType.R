@@ -1,7 +1,8 @@
 GetHITsForQualificationType <-
 gethitsbyqual <-
 function (qual, response.group = NULL, return.all = TRUE, pagenumber = 1, 
-    pagesize = 100, verbose = getOption('MTurkR.verbose'), ...) {
+    pagesize = 100, return.hit.dataframe = TRUE,
+    verbose = getOption('MTurkR.verbose'), ...) {
     # temporary check for `print` argument (remove after v1.0)
     if('print' %in% names(list(...)) && is.null(verbose))
         verbose <- list(...)$print
@@ -61,7 +62,7 @@ function (qual, response.group = NULL, return.all = TRUE, pagenumber = 1,
             if(return.hit.dataframe == TRUE) {
                 request$HITs <- rbind(request$HITs, nextbatch$HITs)
                 request$QualificationRequirements <- rbind(request$QualificationRequirements, 
-                    nextbatch$QualificationRequirements, sandbox = sandbox)
+                    nextbatch$QualificationRequirements)
             }
         }
         request$pages.returned <- pagesize

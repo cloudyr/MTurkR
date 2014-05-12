@@ -2,6 +2,7 @@ GetQualificationRequests <-
 qualrequests <-
 function (qual = NULL, return.all = TRUE, pagenumber = "1", pagesize = "10", 
     sortproperty = "SubmitTime", sortdirection = "Ascending", 
+    return.qual.dataframe = TRUE,
     verbose = getOption('MTurkR.verbose'), ...) {
     # temporary check for `print` argument (remove after v1.0)
     if('print' %in% names(list(...)) && is.null(verbose))
@@ -47,25 +48,26 @@ function (qual = NULL, return.all = TRUE, pagenumber = "1", pagesize = "10",
         }
         return(batch)
     }
-    request <- batch(qual, pagenumber, pagesize, sortproperty, 
-        sortdirection, sandbox = sandbox)
+    request <- batch(qual, pagenumber, pagesize, sortproperty, sortdirection)
     if(is.null(request$valid))
         return(request)
-    runningtotal <- request$batch.total
-    pagenumber <- 2
-    while(request$total > runningtotal) {
-        nextbatch <- batch(qual, pagenumber, pagesize, sortproperty, sortdirection)
-        request$request.id <- c(request$request.id, nextbatch$request.id)
-        request$valid <- c(request$valid, nextbatch$valid)
-        request$xml.response <- c(request$xml, nextbatch$xml)
-        if(return.qual.dataframe == TRUE) 
-            request$QualificationRequests <- rbind(request$QualificationRequests, 
-                nextbatch$QualificationRequests)
-        request$pages.returned <- pagenumber
-        runningtotal <- runningtotal + nextbatch$batch.total
-        pagenumber <- pagenumber + 1
+    if(return.all){
+        runningtotal <- request$batch.total
+        pagenumber <- 2
+        while(request$total > runningtotal) {
+            nextbatch <- batch(qual, pagenumber, pagesize, sortproperty, sortdirection)
+            request$request.id <- c(request$request.id, nextbatch$request.id)
+            request$valid <- c(request$valid, nextbatch$valid)
+            request$xml.response <- c(request$xml, nextbatch$xml)
+            if(return.qual.dataframe == TRUE) 
+                request$QualificationRequests <- rbind(request$QualificationRequests, 
+                    nextbatch$QualificationRequests)
+            request$pages.returned <- pagenumber
+            runningtotal <- runningtotal + nextbatch$batch.total
+            pagenumber <- pagenumber + 1
+        }
+        request$batch.total <- NULL
     }
-    request$batch.total <- NULL
     if(verbose)
         message(request$total, " Requests Retrieved")
     if(request$total > 0) 

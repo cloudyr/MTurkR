@@ -17,11 +17,14 @@
 * `request` now returns an object of S3 class "MTurkResponse" and an associated print method has been added.
 
 ## BUG FIXES ##
+* `GetQualifications` and `GetQualificationRequests` now respect the `return.all` argument.
+* The `return.qual.dataframe` argument in `GetQualificationType` and `GetQualifications` is removed.
 * Fixed a bug in `GetBonuses` whereby the default `return.all=TRUE` argument overwrote manually specified `pagenumber` and `pagesize` arguments. When `GetBonuses` is called with a `hit.type`, `return.all` is used recursively, such that `return.all=FALSE` returns the requested page for each HIT of the requested HITType. (h/t Dane Wendell)
 * Corrected the API operation name in `SendTestEventNotification`.
 * Fixed a bug in `GetBonuses` using a HITTypeId that caused the function to fail catastrophically.
 
 ## DOCUMENTATION ##
+* The `return.qual.dataframe` argument in `GetQualificationType` and `GetQualifications` is removed.
 * All functions now reflect the new `...` argument, the contents of which are passed to `request`.
 * All references to the `browser` options are removed given removal of the feature from all functions.
 * Documentation for `mturkhelp` and `APIReference` now reflect deprecated status.

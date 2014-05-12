@@ -26,7 +26,7 @@ request(operation, GETparameters = NULL,
   \item{service}{The MTurk service to which the authenticated request will be sent. Supplied only for advanced users.}
   \item{version}{The version of the MTurk API to use. Default is \dQuote{2012-03-25}, under which the MTurkR package was built.}
 }
-\details{This is an internal function that executes MTurk API requests. It is made available for use by advanced users to execute custom API requests. Even advanced users, however, should be satisfied with the functionality provided by \code{\link{genericmturkr}}.}
+\details{This is an internal function that executes MTurk API requests. It is made available for use by advanced users to execute custom API requests.}
 \value{A list of class \dQuote{MTurkResponse} containing:
   \item{request.url}{The URL of the MTurk API REST request.}
   \item{request.id}{The Request ID created by the API request.}

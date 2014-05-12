@@ -1,5 +1,5 @@
 wizard.simple <-
-function (graphics = FALSE, sandbox = NULL) 
+function (graphics = FALSE, sandbox = NULL, ...) 
 {
     message("MTurkR Wizard loading...\n")
     log.requests <- TRUE

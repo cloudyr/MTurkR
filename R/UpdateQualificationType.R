@@ -74,8 +74,8 @@ function (qual, description = NULL, status = NULL, retry.delay = NULL,
     } else if(!is.null(auto) && !is.null(test)) 
         warning("AutoGranted Ignored! Test and AutoGranted cannot be declared together")    
     request <- request(operation, GETparameters = GETparameters, ...)
-    if(validation.test)
-        return(invisible(request))
+    if(is.null(request$valid))
+        return(request)
     if(request$valid == TRUE) {
         QualificationType <- QualificationTypesToDataFrame(xml = request$xml)
         if(verbose) {

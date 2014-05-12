@@ -27,6 +27,10 @@ function(hit, response.group = NULL,
     if(is.null(request$valid))
         return(request)
     if(request$valid == TRUE) {
+        if('sandbox' %in% names(list(...)))
+            sandbox <- list(...)$sandbox
+        else
+            sandbox <- getOption('MTurkR.verbose')
         z <- HITsToDataFrame(xml = request$xml, sandbox = sandbox)
         if(verbose) 
             message("HIT (", hit, ") Retrieved")
