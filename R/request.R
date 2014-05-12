@@ -147,6 +147,7 @@ function (keyid = getOption('MTurkR.keypair')[1], operation, signature=NULL, tim
                 out <- list(request.url = request.url, request.id = request.id, 
                             valid = valid, xml = response)
             class(out) <- c('MTurkResponse',class(out))
+            attr(out, 'operation') <- operation
             return(invisible(out))
         }
     }
@@ -159,4 +160,8 @@ print.MTurkResponse <- function(x,...){
     cat('XML Response:\n')
     print(xmlParse(x$response))
     invisible(x)
+}
+
+as.data.frame.MTurkResponse <- function(x, ...){
+    
 }
