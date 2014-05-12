@@ -15,7 +15,6 @@ CreateHIT(hit.type = NULL, question = NULL, validate.question = FALSE,
           hitlayoutid = NULL, hitlayoutparameters = NULL, 
           response.group = NULL, keypair = getOption('MTurkR.keypair'),
           print = getOption('MTurkR.print'), 
-          browser = getOption('MTurkR.browser'),
           log.requests = getOption('MTurkR.log'),
           sandbox = getOption('MTurkR.sandbox'),
           validation.test = getOption('MTurkR.test'))
@@ -41,8 +40,7 @@ CreateHIT(hit.type = NULL, question = NULL, validate.question = FALSE,
   \item{hitlayoutparameters}{An optional character string containing URL query parameter-formatted HITLayout parameters, for example returned by \code{\link{GenerateHITLayoutParameter}}. Must be specified along with a \code{hitlayoutid}.}
   \item{response.group}{An optional character string (or vector of character strings) specifying what details of each HIT to return of: \dQuote{Request}, \dQuote{Minimal}, \dQuote{HITDetail}, \dQuote{HITQuestion}, \dQuote{HITAssignmentSummary}. For more information, see \url{http://docs.aws.amazon.com/AWSMechTurk/latest/AWSMturkAPI/ApiReference_CommonParametersArticle.html}.}
   \item{keypair}{A two-item character vector containing an AWS Access Key ID in the first position and the corresponding Secret Access Key in the second position. Set default with \code{\link{credentials}}.}
-  \item{print}{Optionally print the results of the API request to the standard output. Default is \code{TRUE}.}
-  \item{browser}{Optionally open the request in the default web browser, rather than opening in R. Default is \code{FALSE}.}
+  \item{print}{Optionally print the results of the API request to the standard output. Default is \code{TRUE}.}  
   \item{log.requests}{A logical specifying whether API requests should be logged. Default is \code{TRUE}. See \code{\link{readlogfile}} for details.}
   \item{sandbox}{Optionally execute the request in the MTurk sandbox rather than the live server.  Default is \code{FALSE}.}
   \item{validation.test}{A logical specifying whether only the pre-request checks should be conducted and the request URL returned (without executing the request). Default is \code{FALSE}.}

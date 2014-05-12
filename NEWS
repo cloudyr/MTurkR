@@ -1,6 +1,7 @@
 # CHANGES TO MTurkR 0.5 #
 
 ## SIGNIFICANT USER-VISIBLE CHANGES ##
+* The ability to execute requests in a web browser, via the `options('MTurkR.browser')` is removed from all functions except `genericmturkr` and `request`.
 * `APIReference` and `mturkhelp` are deprecated.
 * `GetBonuses` no longer supports the `return.bonus.dataframe` logical. All bonuses are automatically returned. To just retrieve details on number of bonuses per HIT, request only the first page with `page.number=1` and `print=TRUE`.
 * The `credentials` function has now been changed to create and/or retrieve a global option `MTurkR.keypair`. This is a backwards compatible change that allows users to specify `options(MTurkR.keypair=c(accesskey, secretkey))` directly without using `credentials`. All functions now point directly to the global option, so that `credentials` can be deprecated in a future release.
@@ -19,6 +20,7 @@
 * Fixed a bug in `GetBonuses` using a HITTypeId that caused the function to fail catastrophically.
 
 ## DOCUMENTATION ##
+* All references to the `browser` options are removed given removal of the feature from all functions.
 * Documentation for `mturkhelp` and `APIReference` now reflect deprecated status.
 * Documentation file for `authenticate` now reflect its deprecated status. `request` notes that it no longer accepts `signature` or `timestamp` arguments, which are now generated internally.
 * Documentation files for `request` and `ParseErrorCodes` have been updated to reflect their now non-exported status.

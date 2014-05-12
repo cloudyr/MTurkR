@@ -7,7 +7,7 @@ function (qual, workers, value = "1", notify = FALSE, name = NULL,
     auto.value = NULL, conditional.statistic = NULL, conditional.comparator = NULL, 
     conditional.value = NULL, conditional.period = NULL, set.statistic.as.value = FALSE, 
     keypair = getOption('MTurkR.keypair'), print = getOption('MTurkR.print'),
-    browser = getOption('MTurkR.browser'), log.requests = getOption('MTurkR.log'),
+    log.requests = getOption('MTurkR.log'),
     sandbox = getOption('MTurkR.sandbox'), validation.test = getOption('MTurkR.test')) {
     if(is.null(keypair))
         stop("No keypair provided or 'credentials' object not stored")
@@ -31,33 +31,24 @@ function (qual, workers, value = "1", notify = FALSE, name = NULL,
         GETparameters <- paste(    "&QualificationTypeId=", qual, 
                                 "&WorkerId=", worker,
                                 "&IntegerValue=", value,
-                                "&SendNotification=", tolower(notify), sep = "")
-        if(browser == TRUE) {
-            request <- request(keypair[1], operation, secret=keypair[2],
-                GETparameters = GETparameters, browser = browser, 
-                sandbox = sandbox, validation.test = validation.test)
-            if(validation.test)
+                                "&SendNotification=", tolower(notify), sep = "")        
+        request = request(keypair[1], operation, secret=keypair[2],
+            GETparameters = GETparameters, log.requests = log.requests, 
+            sandbox = sandbox, validation.test = validation.test)
+        if(validation.test)
+            return(invisible(request))
+        if(print == TRUE) {
+            if(request$valid == TRUE) {
+                message("Qualification (", qual, ") Assigned to worker ", worker)
                 return(invisible(request))
-        }
-        else {
-            request = request(keypair[1], operation, secret=keypair[2],
-                GETparameters = GETparameters, log.requests = log.requests, 
-                sandbox = sandbox, validation.test = validation.test)
-            if(validation.test)
-                return(invisible(request))
-            if(print == TRUE) {
-                if(request$valid == TRUE) {
-                    message("Qualification (", qual, ") Assigned to worker ", worker)
-                    return(invisible(request))
-                }
-                else if(request$valid == FALSE) {
-                    warning("Invalid Request for worker ",worker)
-                    return(request)
-                }
             }
-            else
-                return(invisible(request))
+            else if(request$valid == FALSE) {
+                warning("Invalid Request for worker ",worker)
+                return(request)
+            }
         }
+        else
+            return(invisible(request))
     }
     if (!is.null(name)) {
         if (!is.null(qual)) 

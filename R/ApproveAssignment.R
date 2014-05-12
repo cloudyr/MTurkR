@@ -3,7 +3,7 @@ ApproveAssignment <-
 ApproveAssignments <-
 function (assignments, feedback = NULL, rejected = FALSE,
     keypair = getOption('MTurkR.keypair'), 
-    print = getOption('MTurkR.print'), browser = getOption('MTurkR.browser'),
+    print = getOption('MTurkR.print'), 
     log.requests = getOption('MTurkR.log'), sandbox = getOption('MTurkR.sandbox'),
     validation.test = getOption('MTurkR.test')) {
     if(is.null(keypair))
@@ -32,27 +32,18 @@ function (assignments, feedback = NULL, rejected = FALSE,
             GETparameters <- paste(GETparameters, "&RequesterFeedback=", 
                 curlEscape(feedback.batch), sep = "")
         }
-        if(browser == TRUE) {
-            request <- request(keypair[1], operation, secret=keypair[2],
-                GETparameters = GETparameters, browser = browser, 
-                sandbox = sandbox, validation.test = validation.test)
-            if(validation.test)
-                invisible(request)
+        request <- request(keypair[1], operation, secret=keypair[2],
+            GETparameters = GETparameters, log.requests = log.requests, 
+            sandbox = sandbox, validation.test = validation.test)
+        if(validation.test)
+            return(invisible(request))
+        if(print == TRUE) {
+            if (request$valid == TRUE) 
+                message("Assignment ", assignment, " Approved", sep = "")
+            else if (request$valid == FALSE) 
+                warning("Invalid Request for ", assignment)
         }
-        else {
-            request <- request(keypair[1], operation, secret=keypair[2],
-                GETparameters = GETparameters, log.requests = log.requests, 
-                sandbox = sandbox, validation.test = validation.test)
-            if(validation.test)
-                return(invisible(request))
-            if(print == TRUE) {
-                if (request$valid == TRUE) 
-                    message("Assignment ", assignment, " Approved", sep = "")
-                else if (request$valid == FALSE) 
-                    warning("Invalid Request for ", assignment)
-            }
-            return(request)
-        }
+        return(request)
     }
     Assignments <- setNames(data.frame(matrix(nrow=length(assignments), ncol=3)),
                     c("AssignmentId", "Feedback", "Valid"))

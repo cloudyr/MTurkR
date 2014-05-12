@@ -3,7 +3,7 @@ extend <-
 function (hit = NULL, hit.type = NULL, add.assignments = NULL, 
     add.seconds = NULL, unique.request.token = NULL,
     keypair = getOption('MTurkR.keypair'), 
-    print = getOption('MTurkR.print'), browser = getOption('MTurkR.browser'),
+    print = getOption('MTurkR.print'), 
     log.requests = getOption('MTurkR.log'), sandbox = getOption('MTurkR.sandbox'),
     validation.test = getOption('MTurkR.test')) {
     if(is.null(keypair))
@@ -58,34 +58,25 @@ function (hit = NULL, hit.type = NULL, add.assignments = NULL,
                 c("HITId", "AssignmentsIncrement", "ExpirationIncrement", "Valid"))
     for(i in 1:length(hitlist)) {
         GETiteration <- paste(GETparameters, "&HITId=", hitlist[i], sep = "")
-        if(browser == TRUE) {
-            request <- request(keypair[1], operation, secret=keypair[2],
-                GETparameters = GETiteration, browser = browser, 
-                sandbox = sandbox, validation.test = validation.test)
-            if(validation.test)
-                return(invisible(request))
+        request <- request(keypair[1], operation, secret=keypair[2],
+        GETparameters = GETiteration, log.requests = log.requests, 
+            sandbox = sandbox, validation.test = validation.test)
+        if(validation.test)
+            invisible(request)
+        HITs[i, ] <- c(hitlist[i], add.assignments, add.seconds, request$valid)
+        if(request$valid == TRUE & print == TRUE) {
+            if(!is.null(add.assignments) & !is.null(add.seconds)) 
+                message(i, ": HIT (", hitlist[i], ") Extended by ", 
+                        add.assignments, " Assignments & ", add.seconds, " Seconds")
+            else if(!is.null(add.assignments)) 
+                message(i, ": HIT (", hitlist[i], ") Extended by ", 
+                        add.assignments, " Assignments")
+            else if(!is.null(add.seconds)) 
+                message(i, ": HIT (", hitlist[i], ") Extended by ", 
+                        add.seconds, " Seconds")
         }
-        else {
-            request <- request(keypair[1], operation, secret=keypair[2],
-            GETparameters = GETiteration, log.requests = log.requests, 
-                sandbox = sandbox, validation.test = validation.test)
-            if(validation.test)
-                invisible(request)
-            HITs[i, ] <- c(hitlist[i], add.assignments, add.seconds, request$valid)
-            if(request$valid == TRUE & print == TRUE) {
-                if(!is.null(add.assignments) & !is.null(add.seconds)) 
-                    message(i, ": HIT (", hitlist[i], ") Extended by ", 
-                            add.assignments, " Assignments & ", add.seconds, " Seconds")
-                else if(!is.null(add.assignments)) 
-                    message(i, ": HIT (", hitlist[i], ") Extended by ", 
-                            add.assignments, " Assignments")
-                else if(!is.null(add.seconds)) 
-                    message(i, ": HIT (", hitlist[i], ") Extended by ", 
-                            add.seconds, " Seconds")
-            }
-            else if(request$valid == FALSE & print == TRUE) {
-                warning(i, ": Invalid Request for HIT ", hitlist[i])
-            }
+        else if(request$valid == FALSE & print == TRUE) {
+            warning(i, ": Invalid Request for HIT ", hitlist[i])
         }
     }
     return(HITs)

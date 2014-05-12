@@ -2,7 +2,7 @@ RejectQualification <-
 RejectQualifications <-
 rejectrequest <-
 function (qual.request, reason = NULL, keypair = getOption('MTurkR.keypair'), 
-    print = getOption('MTurkR.print'), browser = getOption('MTurkR.browser'),
+    print = getOption('MTurkR.print'),
     log.requests = getOption('MTurkR.log'), sandbox = getOption('MTurkR.sandbox'),
     validation.test = getOption('MTurkR.test')) {
     if(is.null(keypair))
@@ -24,35 +24,26 @@ function (qual.request, reason = NULL, keypair = getOption('MTurkR.keypair'),
                                 c("QualificationRequestId", "Reason", "Valid"))
     for(i in 1:length(qual.request)) {
         GETparameters <- paste("&QualificationRequestId=", qual.request[i], 
-            "&Reason=", curlEscape(reason[i]), sep = "")
-        if(browser == TRUE) {
-            request <- request(keypair[1], operation, secret=keypair[2],
-                GETparameters = GETparameters, browser = browser, 
-                sandbox = sandbox, validation.test = validation.test)
-            if(validation.test)
-                return(invisible(request))
+            "&Reason=", curlEscape(reason[i]), sep = "")        
+        request <- request(keypair[1], operation, secret=keypair[2],
+            GETparameters = GETparameters, log.requests = log.requests, 
+            sandbox = sandbox, validation.test = validation.test)
+        if(validation.test)
+            return(invisible(request))
+        if(request$valid == TRUE) {
+            if(is.null(reason[i])) 
+                reason[i] <- NA
+            QualificationRequests[1, ] <- c(qual.request[i], 
+                reason[i], request$valid)
+            if(print == TRUE) 
+                message(i, ": Qualification (", qual.request[i],") Rejected")
         }
-        else {
-            request <- request(keypair[1], operation, secret=keypair[2],
-                GETparameters = GETparameters, log.requests = log.requests, 
-                sandbox = sandbox, validation.test = validation.test)
-            if(validation.test)
-                return(invisible(request))
-            if(request$valid == TRUE) {
-                if(is.null(reason[i])) 
-                    reason[i] <- NA
-                QualificationRequests[1, ] <- c(qual.request[i], 
-                    reason[i], request$valid)
-                if(print == TRUE) 
-                    message(i, ": Qualification (", qual.request[i],") Rejected")
-            }
-            else if(request$valid == FALSE) {
-                if(print == TRUE)
-                    warning(i, ": Invalid Request for QualificationRequestId ", qual.request)
-            }
-            QualificationRequests$Valid <-
-                factor(QualificationRequests$Valid, levels=c('TRUE','FALSE'))
-            return(QualificationRequests)
+        else if(request$valid == FALSE) {
+            if(print == TRUE)
+                warning(i, ": Invalid Request for QualificationRequestId ", qual.request)
         }
+        QualificationRequests$Valid <-
+            factor(QualificationRequests$Valid, levels=c('TRUE','FALSE'))
+        return(QualificationRequests)
     }
 }

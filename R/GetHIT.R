@@ -2,7 +2,7 @@ GetHIT <-
 gethit <-
 hit <-
 function (hit, response.group = NULL, keypair = getOption('MTurkR.keypair'), 
-    print = getOption('MTurkR.print'), browser = getOption('MTurkR.browser'),
+    print = getOption('MTurkR.print'), 
     log.requests = getOption('MTurkR.log'), sandbox = getOption('MTurkR.sandbox'), 
     return.hit.dataframe = TRUE, return.qual.dataframe = TRUE,
     validation.test = getOption('MTurkR.test')) {
@@ -24,37 +24,28 @@ function (hit, response.group = NULL, keypair = getOption('MTurkR.keypair'),
             }
         }
     }
-    if(browser == TRUE) {
-        request <- request(keypair[1], operation, secret=keypair[2],
-            GETparameters = GETparameters, browser = browser, 
-            sandbox = sandbox, validation.test = validation.test)
-        if(validation.test)
-            return(invisible(request))
+    request <- request(keypair[1], operation, secret=keypair[2],
+        GETparameters = GETparameters, log.requests = log.requests, 
+        sandbox = sandbox, validation.test = validation.test)
+    if(validation.test)
+        return(invisible(request))
+    if(request$valid == TRUE) {
+        z <- HITsToDataFrame(xml = request$xml, sandbox = sandbox)
+        if(print == TRUE) 
+            message("HIT (", hit, ") Retrieved")
+        if(return.hit.dataframe == TRUE & return.qual.dataframe == TRUE) 
+            return.list <- list(HITs = z$HITs, QualificationRequirements = z$QualificationRequirements)
+        else if(return.hit.dataframe == TRUE & return.qual.dataframe == FALSE) 
+            return.list <- list(HITs = z$HITs)
+        else if(return.hit.dataframe == FALSE & return.qual.dataframe == TRUE) 
+            return.list <- list(QualificationRequirements = z$QualificationRequirements)
+        else
+            return.list <- NULL
     }
     else {
-        request <- request(keypair[1], operation, secret=keypair[2],
-            GETparameters = GETparameters, log.requests = log.requests, 
-            sandbox = sandbox, validation.test = validation.test)
-        if(validation.test)
-            return(invisible(request))
-        if(request$valid == TRUE) {
-            z <- HITsToDataFrame(xml = request$xml, sandbox = sandbox)
-            if(print == TRUE) 
-                message("HIT (", hit, ") Retrieved")
-            if(return.hit.dataframe == TRUE & return.qual.dataframe == TRUE) 
-                return.list <- list(HITs = z$HITs, QualificationRequirements = z$QualificationRequirements)
-            else if(return.hit.dataframe == TRUE & return.qual.dataframe == FALSE) 
-                return.list <- list(HITs = z$HITs)
-            else if(return.hit.dataframe == FALSE & return.qual.dataframe == TRUE) 
-                return.list <- list(QualificationRequirements = z$QualificationRequirements)
-            else
-                return.list <- NULL
-        }
-        else {
-            if(print == TRUE) 
-                message("No HITs Retrieved")
-            return.list <- NULL
-        }
-        return(return.list)
+        if(print == TRUE) 
+            message("No HITs Retrieved")
+        return.list <- NULL
     }
+    return(return.list)
 }

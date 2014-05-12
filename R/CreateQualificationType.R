@@ -4,7 +4,7 @@ function (name, description, status, keywords = NULL, retry.delay = NULL,
     test = NULL, answerkey = NULL, test.duration = NULL,
     validate.test = FALSE, validate.answerkey = FALSE,
     auto = NULL, auto.value = NULL, keypair = getOption('MTurkR.keypair'),
-    print = getOption('MTurkR.print'), browser = getOption('MTurkR.browser'),
+    print = getOption('MTurkR.print'), 
     log.requests = getOption('MTurkR.log'), sandbox = getOption('MTurkR.sandbox'),
     validation.test = getOption('MTurkR.test')) {
     if(is.null(keypair))
@@ -67,31 +67,21 @@ function (name, description, status, keywords = NULL, retry.delay = NULL,
         GETparameters <- paste(GETparameters, "&AutoGranted=", "false", sep = "")
     else if(!is.null(auto) && !is.null(test)) 
         warning("AutoGranted Ignored! Test and AutoGranted cannot be declared together")
-    if(browser == TRUE) {
-        request <- request(keypair[1], 'CreateQualificationType', 
-            GETparameters = GETparameters,
-            secret = keypair[2], browser = browser, 
-            sandbox = sandbox, validation.test = validation.test)
-        if(validation.test)
-            return(invisible(request))
+    request <- request(keypair[1], 'CreateQualificationType', 
+        GETparameters = GETparameters,
+        secret = keypair[2], log.requests = log.requests,
+        sandbox = sandbox, validation.test = validation.test)
+    if(validation.test)
+        return(invisible(request))
+    if(request$valid == TRUE) {
+        QualificationType <- QualificationTypesToDataFrame(xml = request$xml)
+        if(print == TRUE)
+            message("QualificationType Created: ", QualificationType$QualificationTypeId[1])
+        return(QualificationType)
     }
-    else {
-        request <- request(keypair[1], 'CreateQualificationType', 
-            GETparameters = GETparameters,
-            secret = keypair[2], log.requests = log.requests,
-            sandbox = sandbox, validation.test = validation.test)
-        if(validation.test)
-            return(invisible(request))
-        if(request$valid == TRUE) {
-            QualificationType <- QualificationTypesToDataFrame(xml = request$xml)
-            if(print == TRUE)
-                message("QualificationType Created: ", QualificationType$QualificationTypeId[1])
-            return(QualificationType)
-        }
-        else if(request$valid == FALSE) {
-            if(print == TRUE) 
-                warning("Invalid request")
-            return(NULL)
-        }
+    else if(request$valid == FALSE) {
+        if(print == TRUE) 
+            warning("Invalid request")
+        return(NULL)
     }
 }

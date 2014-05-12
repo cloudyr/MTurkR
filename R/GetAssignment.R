@@ -6,7 +6,7 @@ function (assignment = NULL, hit = NULL, hit.type = NULL, status = NULL,
     return.all = FALSE, pagenumber = "1", pagesize = "10", sortproperty = "SubmitTime", 
     sortdirection = "Ascending", response.group = NULL,
     keypair = getOption('MTurkR.keypair'),
-    print = getOption('MTurkR.print'), browser = getOption('MTurkR.browser'),
+    print = getOption('MTurkR.print'), 
     log.requests = getOption('MTurkR.log'), sandbox = getOption('MTurkR.sandbox'), 
     return.assignment.dataframe = TRUE, validation.test = getOption('MTurkR.test')) {
     if(is.null(keypair))
@@ -43,31 +43,22 @@ function (assignment = NULL, hit = NULL, hit.type = NULL, status = NULL,
         operation <- "GetAssignment"
         for(i in 1:length(assignment)) {
             GETparameters <- paste("&AssignmentId=", assignment[i], GETresponsegroup, sep = "")
-            if(browser == TRUE) {
-                request <- request(keypair[1], operation, secret=keypair[2],
-                                   GETparameters = GETparameters, browser = browser, 
-                                   sandbox = sandbox, log.requests = log.requests,
-                                   validation.test = validation.test)
-                if(validation.test)
-                     invisible(request)
-            }
-            else {
-                request <- request(keypair[1], operation, secret=keypair[2],
-                                   GETparameters = GETparameters, log.requests = log.requests, 
-                                   sandbox = sandbox, validation.test = validation.test)
-                if(validation.test)
-                    invisible(request)
-                QualificationRequirements <- list()
-                if(request$valid == TRUE) {
-                    a <- AssignmentsToDataFrame(xml = request$xml)$assignments
-                    a$Answer <- NULL
-                    if(i == 1)
-                        Assignments <- a
-                    else
-                        Assignments <- merge(Assignments, a, all=TRUE)
-                    if(print == TRUE) 
-                        message(i, ": Assignment ", assignment[i], " Retrieved")
-                }
+            
+            request <- request(keypair[1], operation, secret=keypair[2],
+                               GETparameters = GETparameters, log.requests = log.requests, 
+                               sandbox = sandbox, validation.test = validation.test)
+            if(validation.test)
+                invisible(request)
+            QualificationRequirements <- list()
+            if(request$valid == TRUE) {
+                a <- AssignmentsToDataFrame(xml = request$xml)$assignments
+                a$Answer <- NULL
+                if(i == 1)
+                    Assignments <- a
+                else
+                    Assignments <- merge(Assignments, a, all=TRUE)
+                if(print == TRUE) 
+                    message(i, ": Assignment ", assignment[i], " Retrieved")
             }
         }
         return(Assignments)#, HITs = HITs, 

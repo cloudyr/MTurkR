@@ -9,7 +9,6 @@
 \usage{
 GetHIT(hit, response.group = NULL, keypair = getOption('MTurkR.keypair'),
        print = getOption('MTurkR.print'), 
-       browser = getOption('MTurkR.browser'),
        log.requests = getOption('MTurkR.log'),
        sandbox = getOption('MTurkR.sandbox'), 
        return.hit.dataframe = TRUE, return.qual.dataframe = TRUE,
@@ -26,7 +25,6 @@ HITStatus(hit = NULL, hit.type = NULL, keypair = getOption('MTurkR.keypair'),
   \item{response.group}{An optional character string (or vector of character strings) specifying what details of each HIT to return of: \dQuote{Request}, \dQuote{Minimal}, \dQuote{HITDetail}, \dQuote{HITQuestion}, \dQuote{HITAssignmentSummary}. For more information, see \url{http://docs.aws.amazon.com/AWSMechTurk/latest/AWSMturkAPI/ApiReference_CommonParametersArticle.html}.}
   \item{keypair}{A two-item character vector containing an AWS Access Key ID in the first position and the corresponding Secret Access Key in the second position. Set default with \code{\link{credentials}}.}
   \item{print}{Optionally print the results of the API request to the standard output. Default is \code{TRUE}.}
-  \item{browser}{Optionally open the request in the default web browser, rather than opening in R. Default is \code{FALSE}.}
   \item{log.requests}{A logical specifying whether API requests should be logged. Default is \code{TRUE}. See \code{\link{readlogfile}} for details.}
   \item{sandbox}{Optionally execute the request in the MTurk sandbox rather than the live server.  Default is \code{FALSE}.}
   \item{return.hit.dataframe}{A logical indicating whether the dataframe of HITs should be returned. Default is \code{TRUE}.}

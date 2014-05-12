@@ -2,7 +2,7 @@ DisposeHIT <-
 disposehit <-
 function (hit = NULL, hit.type = NULL, response.group = NULL, 
     keypair = getOption('MTurkR.keypair'), print = getOption('MTurkR.print'),
-    browser = getOption('MTurkR.browser'), log.requests = getOption('MTurkR.log'), 
+    log.requests = getOption('MTurkR.log'), 
     sandbox = getOption('MTurkR.sandbox'), validation.test = getOption('MTurkR.test')) 
 {
     if(is.null(keypair))
@@ -27,26 +27,17 @@ function (hit = NULL, hit.type = NULL, response.group = NULL,
     }
     HITs <- setNames(data.frame(matrix(ncol=2, nrow=length(hitlist))), c("HITId", "Valid"))
     for(i in 1:length(hitlist)) {
-        GETiteration <- paste("&HITId=", hitlist[i], sep = "")
-        if(browser == TRUE) {
-            request <- request(keypair[1], operation, secret=keypair[2],
-                GETparameters = GETiteration, browser = browser, 
-                sandbox = sandbox, validation.test = validation.test)
-            if(validation.test)
-                return(invisible(request))
-        }
-        else {
-            request <- request(keypair[1], operation, secret=keypair[2],
-                GETparameters = GETiteration, log.requests = log.requests, 
-                sandbox = sandbox, validation.test = validation.test)
-            if(validation.test)
-                return(invisible(request))
-            HITs[i, ] <- c(hitlist[i], request$valid)
-            if(request$valid == TRUE & print == TRUE) 
-                message(i, ": HIT ", hitlist[i], " Disposed")
-            else if(request$valid == FALSE & print == TRUE)
-                warning(i, ": Invalid Request for HIT ", hitlist[i])
-        }
+        GETiteration <- paste("&HITId=", hitlist[i], sep = "")        
+        request <- request(keypair[1], operation, secret=keypair[2],
+            GETparameters = GETiteration, log.requests = log.requests, 
+            sandbox = sandbox, validation.test = validation.test)
+        if(validation.test)
+            return(invisible(request))
+        HITs[i, ] <- c(hitlist[i], request$valid)
+        if(request$valid == TRUE & print == TRUE) 
+            message(i, ": HIT ", hitlist[i], " Disposed")
+        else if(request$valid == FALSE & print == TRUE)
+            warning(i, ": Invalid Request for HIT ", hitlist[i])
     }
     HITs$Valid <- factor(HITs$Valid, levels=c('TRUE','FALSE'))
     return(HITs)

@@ -2,7 +2,7 @@ GetReviewResultsForHIT <-
 reviewresults <-
 function (hit, assignment = NULL, policy.level = NULL, retrieve.results = TRUE, 
     retrieve.actions = TRUE, keypair = getOption('MTurkR.keypair'), print = getOption('MTurkR.print'), 
-    browser = getOption('MTurkR.browser'), log.requests = getOption('MTurkR.log'),
+    log.requests = getOption('MTurkR.log'),
     sandbox = getOption('MTurkR.sandbox'), validation.test = getOption('MTurkR.test')) {
     if(is.null(keypair))
         stop("No keypair provided or 'credentials' object not stored")
@@ -40,43 +40,35 @@ function (hit, assignment = NULL, policy.level = NULL, retrieve.results = TRUE,
         else if(retrieve.results == FALSE) 
             GETparameters <- paste(GETparameters, "&RetrieveResults=F", sep = "")
     }
-    if(browser == TRUE) {
-        request <- request(keypair[1], operation, secret=keypair[2],
-            GETparameters = GETparameters, browser = browser, 
-            sandbox = sandbox, validation.test = validation.test)
-        if(validation.test)
-            return(invisible(request))
-    }
-    else {
-        request <- request(keypair[1], operation, secret=keypair[2],
-            GETparameters = GETparameters, log.requests = log.requests, 
-            sandbox = sandbox, validation.test = validation.test)
-        if(validation.test)
-            return(invisible(request))
-        if(request$valid == TRUE) {
-            ReviewResults <- ReviewResultsToDataFrame(xml = request$xml)
-            if(print == TRUE) {
-                message("ReviewResults Retrieved: ", appendLF=FALSE)
-                if(is.null(ReviewResults)) 
-                    message("0\n")
-                else {
-                  if("AssignmentReviewResult" %in% names(ReviewResults)) 
-                    message(length(ReviewResults$AssignmentReviewResults), 
-                      " Assignment ReviewResults Retrieved")
-                  if("AssignmentReviewAction" %in% names(ReviewResults)) 
-                    message(length(ReviewResults$AssignmentReviewResults), 
-                      " Assignment ReviewActions Retrieved")
-                  if("HITReviewResult" %in% names(ReviewResults)) 
-                    message(length(ReviewResults$AssignmentReviewResults), 
-                      " HIT ReviewResults Retrieved")
-                  if("HITReviewAction" %in% names(ReviewResults)) 
-                    message(length(ReviewResults$AssignmentReviewResults), 
-                      " HIT ReviewActions Retrieved")
-                }
+    
+    request <- request(keypair[1], operation, secret=keypair[2],
+        GETparameters = GETparameters, log.requests = log.requests, 
+        sandbox = sandbox, validation.test = validation.test)
+    if(validation.test)
+        return(invisible(request))
+    if(request$valid == TRUE) {
+        ReviewResults <- ReviewResultsToDataFrame(xml = request$xml)
+        if(print == TRUE) {
+            message("ReviewResults Retrieved: ", appendLF=FALSE)
+            if(is.null(ReviewResults)) 
+                message("0\n")
+            else {
+              if("AssignmentReviewResult" %in% names(ReviewResults)) 
+                message(length(ReviewResults$AssignmentReviewResults), 
+                  " Assignment ReviewResults Retrieved")
+              if("AssignmentReviewAction" %in% names(ReviewResults)) 
+                message(length(ReviewResults$AssignmentReviewResults), 
+                  " Assignment ReviewActions Retrieved")
+              if("HITReviewResult" %in% names(ReviewResults)) 
+                message(length(ReviewResults$AssignmentReviewResults), 
+                  " HIT ReviewResults Retrieved")
+              if("HITReviewAction" %in% names(ReviewResults)) 
+                message(length(ReviewResults$AssignmentReviewResults), 
+                  " HIT ReviewActions Retrieved")
             }
         }
-        else if(request$valid == FALSE & print == TRUE)
-            warning("Invalid Request")
-        return(ReviewResults)
     }
+    else if(request$valid == FALSE & print == TRUE)
+        warning("Invalid Request")
+    return(ReviewResults)
 }

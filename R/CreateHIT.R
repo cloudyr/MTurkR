@@ -9,7 +9,7 @@ function (hit.type = NULL, question = NULL, validate.question = FALSE,
     auto.approval.delay = NULL, qual.req = NULL, hitlayoutid = NULL, 
     hitlayoutparameters = NULL, response.group = NULL, 
     keypair = getOption('MTurkR.keypair'), 
-    print = getOption('MTurkR.print'), browser = getOption('MTurkR.browser'),
+    print = getOption('MTurkR.print'), 
     log.requests = getOption('MTurkR.log'), sandbox = getOption('MTurkR.sandbox'),
     validation.test = getOption('MTurkR.test')) {
     if(is.null(keypair))
@@ -112,33 +112,24 @@ function (hit.type = NULL, question = NULL, validate.question = FALSE,
         type <- NA
     else
         type <- hit.type
-    if (browser == TRUE) {
-        request <- request(keypair[1], operation, secret=keypair[2],
-            GETparameters = GETparameters, browser = browser, 
-            sandbox = sandbox, validation.test = validation.test)
-        if(validation.test)
-            return(invisible(request))
-    }
-    else {
-        request <- request(keypair[1], operation, secret=keypair[2],
-            GETparameters = GETparameters, log.requests = log.requests, 
-            sandbox = sandbox, validation.test = validation.test)
-        if(validation.test)
-            return(invisible(request))
-        if(request$valid == TRUE) {
-            hit <- strsplit(strsplit(request$xml, "<HITId>")[[1]][2], "</HITId>")[[1]][1]
-            if(is.null(hit.type)) 
-                type <- strsplit(strsplit(request$xml, "<HITTypeId>")[[1]][2], "</HITTypeId>")[[1]][1]
-            HITs[1, ] <- c(type, hit, request$valid)
-            if(print == TRUE) {
-                if(!is.null(hit.type)) 
-                    message("HIT ", hit, " created")
-                else if(is.null(hit.type)) 
-                    message("HIT ", hit, " created (of type ", type,")")
-            }
+    request <- request(keypair[1], operation, secret=keypair[2],
+        GETparameters = GETparameters, log.requests = log.requests, 
+        sandbox = sandbox, validation.test = validation.test)
+    if(validation.test)
+        return(invisible(request))
+    if(request$valid == TRUE) {
+        hit <- strsplit(strsplit(request$xml, "<HITId>")[[1]][2], "</HITId>")[[1]][1]
+        if(is.null(hit.type)) 
+            type <- strsplit(strsplit(request$xml, "<HITTypeId>")[[1]][2], "</HITTypeId>")[[1]][1]
+        HITs[1, ] <- c(type, hit, request$valid)
+        if(print == TRUE) {
+            if(!is.null(hit.type)) 
+                message("HIT ", hit, " created")
+            else if(is.null(hit.type)) 
+                message("HIT ", hit, " created (of type ", type,")")
         }
-        else if(request$valid == FALSE && print == TRUE)
-                warning("Invalid Request")
-        return(HITs)
     }
+    else if(request$valid == FALSE && print == TRUE)
+            warning("Invalid Request")
+    return(HITs)
 }

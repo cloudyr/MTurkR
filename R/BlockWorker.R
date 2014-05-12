@@ -3,7 +3,7 @@ BlockWorker <-
 BlockWorkers <-
 function (workers, reasons, keypair = getOption('MTurkR.keypair'),
     print = getOption('MTurkR.print'), 
-    browser = getOption('MTurkR.browser'), log.requests = getOption('MTurkR.log'),
+    log.requests = getOption('MTurkR.log'),
     sandbox = getOption('MTurkR.sandbox'), validation.test = getOption('MTurkR.test')){
     if(is.null(keypair))
         stop("No keypair provided or 'credentials' object not stored")
@@ -25,29 +25,18 @@ function (workers, reasons, keypair = getOption('MTurkR.keypair'),
     for(i in 1:length(workers)) {
         GETparameters <- paste(    "&WorkerId=", workers[i],
                                 "&Reason=", curlEscape(reasons[i]), sep = "")
-        if(browser == TRUE) {
-            request <- request(keypair[1], operation, secret=keypair[2],
-                GETparameters = GETparameters, browser = browser, 
-                sandbox = sandbox, validation.test = validation.test)
-            if(validation.test){
-                message('Returning validation test for first worker.')
-                return(invisible(request))
-            }
+        request <- request(keypair[1], operation, secret=keypair[2],
+            GETparameters = GETparameters, log.requests = log.requests, 
+            sandbox = sandbox, validation.test = validation.test)
+        if(validation.test){
+            message('Returning validation test for first worker.')
+            return(invisible(request))
         }
-        else {
-            request <- request(keypair[1], operation, secret=keypair[2],
-                GETparameters = GETparameters, log.requests = log.requests, 
-                sandbox = sandbox, validation.test = validation.test)
-            if(validation.test){
-                message('Returning validation test for first worker.')
-                return(invisible(request))
-            }
-            Workers[i, ] = c(workers[i], reasons[i], request$valid)
-            if (request$valid == TRUE & print == TRUE)
-                message(i, ": Worker ", workers[i], " Blocked")
-            else if (request$valid == FALSE & print == TRUE)
-                warning(i,": Invalid Request for worker ",workers[i])
-        }
+        Workers[i, ] = c(workers[i], reasons[i], request$valid)
+        if (request$valid == TRUE & print == TRUE)
+            message(i, ": Worker ", workers[i], " Blocked")
+        else if (request$valid == FALSE & print == TRUE)
+            warning(i,": Invalid Request for worker ",workers[i])
     }
     Workers$Valid <- factor(Workers$Valid, levels=c('TRUE','FALSE'))
     return(Workers)

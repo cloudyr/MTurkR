@@ -4,7 +4,7 @@ function (hit = NULL, old.hit.type = NULL, new.hit.type = NULL,
     title = NULL, description = NULL, reward = NULL, duration = NULL, 
     keywords = NULL, auto.approval.delay = NULL, qual.req = NULL, 
     keypair = getOption('MTurkR.keypair'), print = getOption('MTurkR.print'),
-    browser = getOption('MTurkR.browser'), log.requests = getOption('MTurkR.log'), 
+    log.requests = getOption('MTurkR.log'), 
     sandbox = getOption('MTurkR.sandbox'), validation.test = getOption('MTurkR.test')) {
     if(is.null(keypair))
         stop("No keypair provided or 'credentials' object not stored")
@@ -51,29 +51,20 @@ function (hit = NULL, old.hit.type = NULL, new.hit.type = NULL,
     for(i in 1:length(hitlist)) {
         GETparameters <- paste(    "&HITId=", hitlist[i],
                                 "&HITTypeId=", new.hit.type, sep = "")
-        if(browser == TRUE) {
-            x <- request(keypair[1], operation, secret=keypair[2],
-                GETparameters = GETparameters, browser = browser, 
-                sandbox = sandbox, validation.test = validation.test)
-            if(validation.test)
-                return(invisible(x))
-        }
-        else{
-            x <- request(keypair[1], operation, secret=keypair[2],
-                GETparameters = GETparameters, log.requests = log.requests, 
-                sandbox = sandbox, validation.test = validation.test)
-            if(validation.test)
-                return(invisible(x))
-            if(is.null(old.hit.type)) 
-                HITs[i, ] <- c(hitlist[i], NA, new.hit.type, x$valid)
-            else
-                HITs[i, ] <- c(hitlist[i], old.hit.type, new.hit.type, x$valid)
-            if(print == TRUE) {
-                if(x$valid == TRUE)
-                    message(i, ": HITType of HIT ", hitlist[i], " Changed to: ",new.hit.type)
-                else if(x$valid == FALSE)
-                    warning(i,": Invalid Request for HIT ",hitlist[i])
-            }
+        x <- request(keypair[1], operation, secret=keypair[2],
+            GETparameters = GETparameters, log.requests = log.requests, 
+            sandbox = sandbox, validation.test = validation.test)
+        if(validation.test)
+            return(invisible(x))
+        if(is.null(old.hit.type)) 
+            HITs[i, ] <- c(hitlist[i], NA, new.hit.type, x$valid)
+        else
+            HITs[i, ] <- c(hitlist[i], old.hit.type, new.hit.type, x$valid)
+        if(print == TRUE) {
+            if(x$valid == TRUE)
+                message(i, ": HITType of HIT ", hitlist[i], " Changed to: ",new.hit.type)
+            else if(x$valid == FALSE)
+                warning(i,": Invalid Request for HIT ",hitlist[i])
         }
     }
     HITs$Valid <- factor(HITs$Valid, levels=c('TRUE','FALSE'))

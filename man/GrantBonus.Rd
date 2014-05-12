@@ -5,9 +5,8 @@
 \title{Pay Bonus to Worker}
 \description{Pay a bonus to one or more workers. This function spends money from your MTurk account and will fail if insufficient funds are available.}
 \usage{
-GrantBonus(    workers, assignments, amounts, reasons, 
+GrantBonus( workers, assignments, amounts, reasons, 
             keypair = getOption('MTurkR.keypair'), print = getOption('MTurkR.print'),
-            browser = getOption('MTurkR.browser'), 
             log.requests = getOption('MTurkR.log'),
             sandbox = getOption('MTurkR.sandbox'),
             validation.test = getOption('MTurkR.test'))
@@ -19,7 +18,6 @@ GrantBonus(    workers, assignments, amounts, reasons,
   \item{reasons}{A character string containing a reason for bonusing the worker(s), or a vector (of length equal to the number of workers) of character strings containing the reason to bonus each worker. The reason is visible to each worker.}
   \item{keypair}{A two-item character vector containing an AWS Access Key ID in the first position and the corresponding Secret Access Key in the second position. Set default with \code{\link{credentials}}.}
   \item{print}{Optionally print the results of the API request to the standard output. Default is \code{TRUE}.}
-  \item{browser}{Optionally open the request in the default web browser, rather than opening in R. Default is \code{FALSE}.}
   \item{log.requests}{A logical specifying whether API requests should be logged. Default is \code{TRUE}. See \code{\link{readlogfile}} for details.}
   \item{sandbox}{Optionally execute the request in the MTurk sandbox rather than the live server.  Default is \code{FALSE}.}
   \item{validation.test}{A logical specifying whether only the pre-request checks should be conducted and the request URL returned (without executing the request). Default is \code{FALSE}.}

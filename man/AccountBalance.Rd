@@ -6,8 +6,7 @@
 \title{Retrieve MTurk account balance}
 \description{Retrieves the amount of money (in US Dollars) in your MTurk account. \code{SufficientFunds} provides a wrapper that checks whether your account has sufficient funds based upon specified characters of your HIT.}
 \usage{
-AccountBalance(    keypair = getOption('MTurkR.keypair'), print = getOption('MTurkR.print'),
-                browser = getOption('MTurkR.browser'), 
+AccountBalance( keypair = getOption('MTurkR.keypair'), print = getOption('MTurkR.print'),                
                 log.requests = getOption('MTurkR.log'),
                 sandbox = getOption('MTurkR.sandbox'),
                 validation.test = getOption('MTurkR.test'))
@@ -32,7 +31,6 @@ SufficientFunds(amount, assignments = NULL, hits = NULL,
   \item{mastersfee}{Amazon's additional charge for use of MTurk Masters. Default is 20-percent (as 0.20).}
   \item{keypair}{A two-item character vector containing an AWS Access Key ID in the first position and the corresponding Secret Access Key in the second position. Set default with \code{\link{credentials}}.}
   \item{print}{Optionally print the results of the API request to the standard output. Default is \code{TRUE}.}
-  \item{browser}{Optionally open the request in the default web browser, rather than opening in R. Default is \code{FALSE}.}
   \item{log.requests}{A logical specifying whether API requests should be logged. Default is \code{TRUE}. See \code{\link{readlogfile}} for details.}
   \item{sandbox}{Optionally execute the request in the MTurk sandbox rather than the live server.  Default is \code{FALSE}.}
   \item{validation.test}{A logical specifying whether only the pre-request checks should be conducted and the request URL returned (without executing the request). Default is \code{FALSE}.}

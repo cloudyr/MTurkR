@@ -3,7 +3,7 @@ workerstatistic <-
 function (worker, statistic, period = "LifeToDate", count = NULL, 
     response.group = NULL, keypair = getOption('MTurkR.keypair'),
     print = getOption('MTurkR.print'), 
-    browser = getOption('MTurkR.browser'), log.requests = getOption('MTurkR.log'),
+    log.requests = getOption('MTurkR.log'),
     sandbox = getOption('MTurkR.sandbox'), validation.test = getOption('MTurkR.test')) {
     if(is.null(keypair))
         stop("No keypair provided or 'credentials' object not stored")
@@ -26,63 +26,55 @@ function (worker, statistic, period = "LifeToDate", count = NULL,
         else
             GETparameters <- paste(GETparameters, "&Count=", count, sep = "")
     }
-    if(browser == TRUE) {
-        request <- request(keypair[1], operation, secret=keypair[2],
-            GETparameters = GETparameters, browser = browser, 
-            sandbox = sandbox, validation.test = validation.test)
-        if(validation.test)
-            return(invisible(request))
-    }
-    else {
-        request <- request(keypair[1], operation, secret=keypair[2],
-            GETparameters = GETparameters, log.requests = log.requests, 
-            sandbox = sandbox, validation.test = validation.test)
-        if(validation.test)
-            return(invisible(request))
-        request$statistic <- statistic
-        request$period <- period
-        if(request$valid == TRUE) {
-            if(!is.null(count) & period == "OneDay") {
-                request$value <- setNames(data.frame(matrix(nrow = count, ncol = 2)),
-                                    c("Date", "Value"))
-                for(i in 1:count) {
-                    request$value[i, 1] <- strsplit(strsplit(request$xml, 
-                        "<Date>")[[1]][2], "</Date>")[[1]][1]
-                    if(statistic %in% value.integer) 
-                        request$value[i, 2] <- strsplit(strsplit(request$xml, 
-                        "<LongValue>")[[1]][2], "</LongValue>")[[1]][1]
-                    else if(statistic %in% value.double) 
-                        request$value[i, 2] <- strsplit(strsplit(request$xml, 
-                        "<DoubleValue>")[[1]][2], "</DoubleValue>")[[1]][1]
-                    else
-                        warning("Cannot print statistic value")
-                }
-                if(print == TRUE) 
-                    message("Statistic (", statistic, ", past ", count, 
-                        " days) for ", worker, " Retrieved: ", request$value)
-                return(invisible(request$value))
-            }
-            else {
-                request$date <- strsplit(strsplit(request$xml, 
+    
+    request <- request(keypair[1], operation, secret=keypair[2],
+        GETparameters = GETparameters, log.requests = log.requests, 
+        sandbox = sandbox, validation.test = validation.test)
+    if(validation.test)
+        return(invisible(request))
+    request$statistic <- statistic
+    request$period <- period
+    if(request$valid == TRUE) {
+        if(!is.null(count) & period == "OneDay") {
+            request$value <- setNames(data.frame(matrix(nrow = count, ncol = 2)),
+                                c("Date", "Value"))
+            for(i in 1:count) {
+                request$value[i, 1] <- strsplit(strsplit(request$xml, 
                     "<Date>")[[1]][2], "</Date>")[[1]][1]
                 if(statistic %in% value.integer) 
-                    request$value <- strsplit(strsplit(request$xml, 
+                    request$value[i, 2] <- strsplit(strsplit(request$xml, 
                     "<LongValue>")[[1]][2], "</LongValue>")[[1]][1]
                 else if(statistic %in% value.double) 
-                    request$value <- strsplit(strsplit(request$xml, 
+                    request$value[i, 2] <- strsplit(strsplit(request$xml, 
                     "<DoubleValue>")[[1]][2], "</DoubleValue>")[[1]][1]
                 else
                     warning("Cannot print statistic value")
-                if(print == TRUE)
-                  message("Statistic (", statistic, ",", period, 
-                        ") for ", worker, " Retrieved: ", request$value)
-                return(invisible(request$value))
             }
-        }
-        else if(request$valid == FALSE) {
             if(print == TRUE) 
-                warning("Invalid Request")
-            return(NULL)
+                message("Statistic (", statistic, ", past ", count, 
+                    " days) for ", worker, " Retrieved: ", request$value)
+            return(invisible(request$value))
         }
+        else {
+            request$date <- strsplit(strsplit(request$xml, 
+                "<Date>")[[1]][2], "</Date>")[[1]][1]
+            if(statistic %in% value.integer) 
+                request$value <- strsplit(strsplit(request$xml, 
+                "<LongValue>")[[1]][2], "</LongValue>")[[1]][1]
+            else if(statistic %in% value.double) 
+                request$value <- strsplit(strsplit(request$xml, 
+                "<DoubleValue>")[[1]][2], "</DoubleValue>")[[1]][1]
+            else
+                warning("Cannot print statistic value")
+            if(print == TRUE)
+              message("Statistic (", statistic, ",", period, 
+                    ") for ", worker, " Retrieved: ", request$value)
+            return(invisible(request$value))
+        }
+    }
+    else if(request$valid == FALSE) {
+        if(print == TRUE) 
+            warning("Invalid Request")
+        return(NULL)
     }
 }

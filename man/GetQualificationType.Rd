@@ -5,7 +5,6 @@
 \description{Get the details of a Qualification Type.}
 \usage{
 GetQualificationType(qual, keypair = getOption('MTurkR.keypair'), print = getOption('MTurkR.print'),
-                    browser = getOption('MTurkR.browser'), 
                     log.requests = getOption('MTurkR.log'),
                     sandbox = getOption('MTurkR.sandbox'),
                     return.qual.dataframe = TRUE,
@@ -15,7 +14,6 @@ GetQualificationType(qual, keypair = getOption('MTurkR.keypair'), print = getOpt
   \item{qual}{A character string containing a QualificationTypeId.}
   \item{keypair}{A two-item character vector containing an AWS Access Key ID in the first position and the corresponding Secret Access Key in the second position. Set default with \code{\link{credentials}}.}
   \item{print}{Optionally print the results of the API request to the standard output. Default is \code{TRUE}.}
-  \item{browser}{Optionally open the request in the default web browser, rather than opening in R. Default is \code{FALSE}.}
   \item{log.requests}{A logical specifying whether API requests should be logged. Default is \code{TRUE}. See \code{\link{readlogfile}} for details.}
   \item{sandbox}{Optionally execute the request in the MTurk sandbox rather than the live server.  Default is \code{FALSE}.}
   \item{return.qual.dataframe}{A logical indicating whether the QualificationType dataframe should be returned. Default is \code{TRUE}.}

@@ -3,7 +3,7 @@ UnblockWorkers <-
 unblock <-
 function (workers, reasons = NULL, keypair = getOption('MTurkR.keypair'),
     print = getOption('MTurkR.print'), 
-    browser = getOption('MTurkR.browser'), log.requests = getOption('MTurkR.log'),
+    log.requests = getOption('MTurkR.log'),
     sandbox = getOption('MTurkR.sandbox'), validation.test = getOption('MTurkR.test')) 
 {
     if(is.null(keypair))
@@ -28,30 +28,22 @@ function (workers, reasons = NULL, keypair = getOption('MTurkR.keypair'),
         if (!is.null(reasons[i])) 
             GETparameters <- paste(GETparameters, "&Reason=", 
                 curlEscape(reasons[i]), sep = "")
-        if (browser == TRUE) {
-            request <- request(keypair[1], operation, secret=keypair[2],
-                GETparameters = GETparameters, browser = browser, 
-                sandbox = sandbox, validation.test = validation.test)
-            if(validation.test)
-                return(invisible(request))
+        
+        request <- request(keypair[1], operation, secret=keypair[2],
+            GETparameters = GETparameters, log.requests = log.requests, 
+            sandbox = sandbox, validation.test = validation.test)
+        if(validation.test)
+            return(invisible(request))
+        if (request$valid == TRUE) {
+            if (print == TRUE) 
+                message(i, ": Worker ", workers[i], " Unblocked")
+            if (is.null(reasons)) 
+                Workers[i, ] = c(workers[i], NA, request$valid)
+            else
+                Workers[i, ] = c(workers[i], reasons[i], request$valid)
         }
-        else {
-            request <- request(keypair[1], operation, secret=keypair[2],
-                GETparameters = GETparameters, log.requests = log.requests, 
-                sandbox = sandbox, validation.test = validation.test)
-            if(validation.test)
-                return(invisible(request))
-            if (request$valid == TRUE) {
-                if (print == TRUE) 
-                    message(i, ": Worker ", workers[i], " Unblocked")
-                if (is.null(reasons)) 
-                    Workers[i, ] = c(workers[i], NA, request$valid)
-                else
-                    Workers[i, ] = c(workers[i], reasons[i], request$valid)
-            }
-            else if (request$valid == FALSE & print == TRUE)
-                warning(i, ": Invalid Request for worker ", workers[i])
-        }
+        else if (request$valid == FALSE & print == TRUE)
+            warning(i, ": Invalid Request for worker ", workers[i])
     }
     Workers$Valid <- factor(Workers$Valid, levels=c('TRUE','FALSE'))
     return(Workers)

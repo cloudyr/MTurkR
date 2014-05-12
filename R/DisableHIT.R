@@ -2,7 +2,7 @@ DisableHIT <-
 disable <-
 function (hit = NULL, hit.type = NULL, response.group = NULL, 
     keypair = getOption('MTurkR.keypair'), print = getOption('MTurkR.print'),
-    browser = getOption('MTurkR.browser'), log.requests = getOption('MTurkR.log'), 
+    log.requests = getOption('MTurkR.log'), 
     sandbox = getOption('MTurkR.sandbox'), validation.test = getOption('MTurkR.test')) {
     if(is.null(keypair))
         stop("No keypair provided or 'credentials' object not stored")
@@ -41,32 +41,23 @@ function (hit = NULL, hit.type = NULL, response.group = NULL,
                                         "=", response.group[i], sep = "")
                 }
             }
+        }        
+        request <- request(keypair[1], operation, secret=keypair[2],
+            GETparameters = GETiteration, log.requests = log.requests, 
+            sandbox = sandbox, validation.test = validation.test)
+        if(validation.test)
+            return(invisible(request))
+        if(request$valid == TRUE) {
+            if(is.null(response.group)) 
+                request$ResponseGroup <- c("Minimal")
+            else
+                request$ResponseGroup <- response.group
+            HITs[i, ] <- c(hitlist[i], request$valid)
+            if(print == TRUE) 
+                message(i, ": HIT ", hitlist[i], " Disabled")
         }
-        if(browser == TRUE) {
-            request <- request(keypair[1], operation, secret=keypair[2],
-                GETparameters = GETiteration, browser = browser, 
-                sandbox = sandbox, validation.test = validation.test)
-            if(validation.test)
-                return(invisible(request))
-        }
-        else {
-            request <- request(keypair[1], operation, secret=keypair[2],
-                GETparameters = GETiteration, log.requests = log.requests, 
-                sandbox = sandbox, validation.test = validation.test)
-            if(validation.test)
-                return(invisible(request))
-            if(request$valid == TRUE) {
-                if(is.null(response.group)) 
-                    request$ResponseGroup <- c("Minimal")
-                else
-                    request$ResponseGroup <- response.group
-                HITs[i, ] <- c(hitlist[i], request$valid)
-                if(print == TRUE) 
-                    message(i, ": HIT ", hitlist[i], " Disabled")
-            }
-            else if(request$valid == FALSE & print == TRUE)
-                warning(i, ": Invalid Request for HIT ", hitlist[i])
-        }
+        else if(request$valid == FALSE & print == TRUE)
+            warning(i, ": Invalid Request for HIT ", hitlist[i])
     }
     HITs$Valid <- factor(HITs$Valid, levels=c('TRUE','FALSE'))
     return(HITs)

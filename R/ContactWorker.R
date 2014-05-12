@@ -2,7 +2,7 @@ contact <-
 ContactWorker <-
 ContactWorkers <-
 function (subjects, msgs, workers, batch = FALSE, keypair = getOption('MTurkR.keypair'),
-    print = getOption('MTurkR.print'), browser = getOption('MTurkR.browser'),
+    print = getOption('MTurkR.print'), 
     log.requests = getOption('MTurkR.log'), sandbox = getOption('MTurkR.sandbox'),
     validation.test = getOption('MTurkR.test')) {
     if(is.null(keypair))
@@ -58,41 +58,32 @@ function (subjects, msgs, workers, batch = FALSE, keypair = getOption('MTurkR.ke
             GETparameters <- paste(    "&Subject=", curlEscape(subjects), 
                                     "&MessageText=", curlEscape(msgs), GETworkers, 
                                     sep = "")
-            if(browser == TRUE) {
-                request <- request(keypair[1], operation, secret=keypair[2],
-                    GETparameters = GETparameters, browser = browser, 
-                    sandbox = sandbox, validation.test = validation.test)
-                if(validation.test)
-                    return(invisible(request))
+            request <- request(keypair[1], operation, secret=keypair[2],
+                GETparameters = GETparameters, log.requests = log.requests, 
+                sandbox = sandbox, xml.parse=TRUE, validation.test = validation.test)
+            if(validation.test)
+                return(invisible(request))
+            Notifications$Valid[i:(i + (lastbatch - 1))] <- request$valid
+            #Notifications[j, ] <- c(nbatches, firstworker, lastworker,
+            #                        subjects, msgs, request$valid)
+            if(request$valid == TRUE) {
+                if(print == TRUE)
+                    message(j, ": Workers ", firstworker, " to ",lastworker, " Notified")
+                parsed <- request$xml.parsed
+                if(length(getNodeSet(parsed, '//NotifyWorkersFailureStatus'))>0){
+                    x <- xpathApply(parsed, '//NotifyWorkersFailureStatus', function(x) {
+                        w <- xmlValue(xmlChildren(x)$WorkerId)
+                        f <- xmlValue(xmlChildren(x)$NotifyWorkersFailureMessage)
+                        message(paste("Invalid Request for worker ",w, ": ",f,sep=""))
+                        return(c(w,f))
+                    })
+                    for(i in 1:length(x))
+                        Notifications$Valid[Notifications$Worker==x[[i]][1]] <- 'HardFailure'
+                }
             }
-            else {
-                request <- request(keypair[1], operation, secret=keypair[2],
-                    GETparameters = GETparameters, log.requests = log.requests, 
-                    sandbox = sandbox, xml.parse=TRUE, validation.test = validation.test)
-                if(validation.test)
-                    return(invisible(request))
-                Notifications$Valid[i:(i + (lastbatch - 1))] <- request$valid
-                #Notifications[j, ] <- c(nbatches, firstworker, lastworker,
-                #                        subjects, msgs, request$valid)
-                if(request$valid == TRUE) {
-                    if(print == TRUE)
-                        message(j, ": Workers ", firstworker, " to ",lastworker, " Notified")
-                    parsed <- request$xml.parsed
-                    if(length(getNodeSet(parsed, '//NotifyWorkersFailureStatus'))>0){
-                        x <- xpathApply(parsed, '//NotifyWorkersFailureStatus', function(x) {
-                            w <- xmlValue(xmlChildren(x)$WorkerId)
-                            f <- xmlValue(xmlChildren(x)$NotifyWorkersFailureMessage)
-                            message(paste("Invalid Request for worker ",w, ": ",f,sep=""))
-                            return(c(w,f))
-                        })
-                        for(i in 1:length(x))
-                            Notifications$Valid[Notifications$Worker==x[[i]][1]] <- 'HardFailure'
-                    }
-                }
-                else if(request$valid == FALSE) {
-                    if(print == TRUE) 
-                        warning(j,": Invalid Request for workers ",firstworker," to ",lastworker)
-                }
+            else if(request$valid == FALSE) {
+                if(print == TRUE) 
+                    warning(j,": Invalid Request for workers ",firstworker," to ",lastworker)
             }
             i <- i + 100
             j <- j + 1
@@ -121,37 +112,28 @@ function (subjects, msgs, workers, batch = FALSE, keypair = getOption('MTurkR.ke
             GETparameters <- paste("&Subject=", curlEscape(subjects[i]), 
                                     "&MessageText=", curlEscape(msgs[i]),
                                     "&WorkerId.1=", workers[i], sep = "")
-            if(browser == TRUE) {
-                request <- request(keypair[1], operation, secret=keypair[2],
-                    GETparameters = GETparameters, browser = browser, 
-                    sandbox = sandbox, validation.test = validation.test)
-                if(validation.test)
-                    return(invisible(request))
+            request <- request(keypair[1], operation, secret=keypair[2],
+                GETparameters = GETparameters, log.requests = log.requests, 
+                sandbox = sandbox, xml.parse=TRUE, validation.test = validation.test)
+            if(validation.test)
+                return(invisible(request))
+            parsed <- request$xml.parsed
+            if(length(getNodeSet(parsed,'//NotifyWorkersFailureStatus'))>0){
+                request$valid <- xmlValue(getNodeSet(parsed,'//NotifyWorkersFailureCode')[[1]])
             }
-            else {
-                request <- request(keypair[1], operation, secret=keypair[2],
-                    GETparameters = GETparameters, log.requests = log.requests, 
-                    sandbox = sandbox, xml.parse=TRUE, validation.test = validation.test)
-                if(validation.test)
-                    return(invisible(request))
-                parsed <- request$xml.parsed
-                if(length(getNodeSet(parsed,'//NotifyWorkersFailureStatus'))>0){
-                    request$valid <- xmlValue(getNodeSet(parsed,'//NotifyWorkersFailureCode')[[1]])
-                }
-                Notifications[i, ] <- c(workers[i], subjects[i], msgs[i], request$valid)
-                if(request$valid == 'HardFailure'){
-                    if(print == TRUE) 
-                        message(i, ": Worker (", workers[i], ") not contacted: ",
-                        xmlValue(getNodeSet(parsed,'//NotifyWorkersFailureMessage')[[1]]))
-                }
-                if(request$valid == TRUE) {
-                    if(print == TRUE) 
-                        message(i, ": Worker (", workers[i], ") Notified")
-                }
-                else if(request$valid == FALSE) {
-                    if(print == TRUE) 
-                        warning(i,": Invalid Request for worker ", workers[i])
-                }
+            Notifications[i, ] <- c(workers[i], subjects[i], msgs[i], request$valid)
+            if(request$valid == 'HardFailure'){
+                if(print == TRUE) 
+                    message(i, ": Worker (", workers[i], ") not contacted: ",
+                    xmlValue(getNodeSet(parsed,'//NotifyWorkersFailureMessage')[[1]]))
+            }
+            if(request$valid == TRUE) {
+                if(print == TRUE) 
+                    message(i, ": Worker (", workers[i], ") Notified")
+            }
+            else if(request$valid == FALSE) {
+                if(print == TRUE) 
+                    warning(i,": Invalid Request for worker ", workers[i])
             }
         }
     }

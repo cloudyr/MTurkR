@@ -2,7 +2,7 @@ GetBonuses <-
 bonuses <-
 function (assignment = NULL, hit = NULL, hit.type = NULL, return.all = TRUE, 
     pagenumber = "1", pagesize = "100", keypair = getOption('MTurkR.keypair'), 
-    print = getOption('MTurkR.print'), browser = getOption('MTurkR.browser'),
+    print = getOption('MTurkR.print'), 
     log.requests = getOption('MTurkR.log'),
     sandbox = getOption('MTurkR.sandbox'),
     validation.test = getOption('MTurkR.test')) {
@@ -28,7 +28,7 @@ function (assignment = NULL, hit = NULL, hit.type = NULL, return.all = TRUE,
                                    "&PageSize=100", sep = "")
         }       
         out <- request(keypair[1], operation, secret=keypair[2],
-            GETparameters = GETparameters, browser=browser,
+            GETparameters = GETparameters, 
             log.requests = log.requests, sandbox = sandbox,
             validation.test = validation.test)
         return(out)
@@ -45,8 +45,6 @@ function (assignment = NULL, hit = NULL, hit.type = NULL, return.all = TRUE,
         request <- batch(type, obj, pagenumber)
         if(validation.test)
             return(invisible(request))
-        if(browser == TRUE)
-            return(invisible(NULL))
         if(request$valid == TRUE) {
             runningtotal <- strsplit(strsplit(request$xml, 
                     "<NumResults>")[[1]][2], "</NumResults>")[[1]][1]
@@ -89,7 +87,7 @@ function (assignment = NULL, hit = NULL, hit.type = NULL, return.all = TRUE,
         Bonuses <- list()
         for(i in 1:length(hitlist)) {
             b <- GetBonuses(hit = hitlist[i], return.all = return.all, 
-                            keypair = keypair, print = print, browser = browser,
+                            keypair = keypair, print = print,
                             log.requests = log.requests, sandbox = sandbox,
                             validation.test = validation.test)
             Bonuses[[i]] <- BonusPaymentsToDataFrame(xml = b$xml)

@@ -2,7 +2,7 @@ RevokeQualification <-
 RevokeQualifications <-
 revokequal <-
 function (qual, worker, reason = NULL, keypair = getOption('MTurkR.keypair'), 
-    print = getOption('MTurkR.print'), browser = getOption('MTurkR.browser'),
+    print = getOption('MTurkR.print'),
     log.requests = getOption('MTurkR.log'),
     sandbox = getOption('MTurkR.sandbox'), validation.test = getOption('MTurkR.test')) {
     if(is.null(keypair))
@@ -20,27 +20,18 @@ function (qual, worker, reason = NULL, keypair = getOption('MTurkR.keypair'),
         if(!is.null(reason)) 
             GETparameters <- paste(GETparameters, "&SendNotification=", 
                 curlEscape(reasonbatch), sep = "")
-        if(browser == TRUE) {
-            request <- request(keypair[1], operation, secret=keypair[2],
-                GETparameters = GETparameters, browser = browser,
-                sandbox = sandbox, validation.test = validation.test)
-            if(validation.test)
-                return(invisible(request))
+        request <- request(keypair[1], operation, secret=keypair[2],
+            GETparameters = GETparameters, log.requests = log.requests, 
+            sandbox = sandbox, validation.test = validation.test)
+        if(validation.test)
+            return(invisible(request))
+        if (request$valid == TRUE & print == TRUE) {
+            message(i, ": Qualification (", qualbatch, ") for worker ", 
+                workerbatch, " Revoked")
         }
-        else {
-            request <- request(keypair[1], operation, secret=keypair[2],
-                GETparameters = GETparameters, log.requests = log.requests, 
-                sandbox = sandbox, validation.test = validation.test)
-            if(validation.test)
-                return(invisible(request))
-            if (request$valid == TRUE & print == TRUE) {
-                message(i, ": Qualification (", qualbatch, ") for worker ", 
-                    workerbatch, " Revoked")
-            }
-            else if(request$valid == FALSE & print == TRUE)
-                    warning(i, ": Invalid Request for worker ", workerbatch)
-            return(request)
-        }
+        else if(request$valid == FALSE & print == TRUE)
+                warning(i, ": Invalid Request for worker ", workerbatch)
+        return(request)
     }
     Qualifications <- setNames(data.frame(matrix(ncol=4)),
                         c("WorkerId", "QualificationTypeId", "Reason", "Valid"))

@@ -11,7 +11,6 @@ GetAssignment(assignment = NULL, hit = NULL, hit.type = NULL, status = NULL,
               sortproperty = "SubmitTime", sortdirection = "Ascending", 
               response.group = NULL, keypair = getOption('MTurkR.keypair'),
               print = getOption('MTurkR.print'),
-              browser = getOption('MTurkR.browser'),
               log.requests = getOption('MTurkR.log'),
               sandbox = getOption('MTurkR.sandbox'),
               return.assignment.dataframe = TRUE,
@@ -30,7 +29,6 @@ GetAssignment(assignment = NULL, hit = NULL, hit.type = NULL, status = NULL,
   \item{response.group}{An optional character string (or vector of character strings) specifying what details to return. If \code{assignment} is specified, \code{response.group} can include any of \dQuote{Request}, \dQuote{Minimal}, \dQuote{AssignmentFeedback}, \dQuote{HITDetail}, and/or \dQuote{HITQuestion}. If \code{hit} or \code{hit.type} is specified, \code{response.group} can include \dQuote{Request}, \dQuote{Minimal}, and/or \dQuote{AssignmentFeedback}. For more information, see \url{http://docs.aws.amazon.com/AWSMechTurk/latest/AWSMturkAPI/ApiReference_CommonParametersArticle.html}.}
   \item{keypair}{A two-item character vector containing an AWS Access Key ID in the first position and the corresponding Secret Access Key in the second position. Set default with \code{\link{credentials}}.}
   \item{print}{Optionally print the results of the API request to the standard output. Default is \code{TRUE}.}
-  \item{browser}{Optionally open the request in the default web browser, rather than opening in R. Default is \code{FALSE}.}
   \item{log.requests}{A logical specifying whether API requests should be logged. Default is \code{TRUE}. See \code{\link{readlogfile}} for details.}
   \item{sandbox}{Optionally execute the request in the MTurk sandbox rather than the live server.  Default is \code{FALSE}.}
   \item{return.assignment.dataframe}{A logical specifying whether the Assignment dataframe should be returned. Default is \code{TRUE}.}

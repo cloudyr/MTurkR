@@ -2,7 +2,7 @@ RejectAssignment <-
 RejectAssignments <-
 reject <-
 function (assignments, feedback = NULL, keypair = getOption('MTurkR.keypair'), 
-    print = getOption('MTurkR.print'), browser = getOption('MTurkR.browser'),
+    print = getOption('MTurkR.print'), 
     log.requests = getOption('MTurkR.log'), sandbox = getOption('MTurkR.sandbox'),
     validation.test = getOption('MTurkR.test')) {
     if(is.null(keypair))
@@ -28,33 +28,24 @@ function (assignments, feedback = NULL, keypair = getOption('MTurkR.keypair'),
         GETparameters <- paste("&AssignmentId=", assignments[i], sep = "")
         if(!is.null(feedback[i])) 
             GETparameters <- paste(GETparameters, "&RequesterFeedback=", 
-                curlEscape(feedback[i]), sep = "")
-        if(browser == TRUE) {
-            request <- request(keypair[1], operation, secret=keypair[2],
-                GETparameters = GETparameters, browser = browser, 
-                sandbox = sandbox, validation.test = validation.test)
-            if(validation.test)
-                return(invisible(request))
+                curlEscape(feedback[i]), sep = "")        
+        request <- request(keypair[1], operation, secret=keypair[2],
+            GETparameters = GETparameters, log.requests = log.requests, 
+            sandbox = sandbox, validation.test = validation.test)
+        if(validation.test)
+            return(invisible(request))
+        if(!is.null(feedback)) 
+            Assignments[i, ] <- c(assignments[i], feedback[i], 
+              request$valid)
+        else
+            Assignments[i, ] <- c(assignments[i], "", request$valid)
+        if(request$valid == TRUE) {
+            if(print == TRUE) 
+                message(i, ": Assignment (", assignments[i], ") Rejected")
         }
-        else {
-            request <- request(keypair[1], operation, secret=keypair[2],
-                GETparameters = GETparameters, log.requests = log.requests, 
-                sandbox = sandbox, validation.test = validation.test)
-            if(validation.test)
-                return(invisible(request))
-            if(!is.null(feedback)) 
-                Assignments[i, ] <- c(assignments[i], feedback[i], 
-                  request$valid)
-            else
-                Assignments[i, ] <- c(assignments[i], "", request$valid)
-            if(request$valid == TRUE) {
-                if(print == TRUE) 
-                    message(i, ": Assignment (", assignments[i], ") Rejected")
-            }
-            if(request$valid == FALSE) {
-                if(print == TRUE) 
-                    warning(i, ": Invalid request for assignment ",assignments[i])
-            }
+        if(request$valid == FALSE) {
+            if(print == TRUE) 
+                warning(i, ": Invalid request for assignment ",assignments[i])
         }
     }
     Assignments$Valid <- factor(Assignments$Valid, levels=c('TRUE','FALSE'))

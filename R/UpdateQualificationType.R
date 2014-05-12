@@ -5,7 +5,7 @@ function (qual, description = NULL, status = NULL, retry.delay = NULL,
     validate.test = FALSE, validate.answerkey = FALSE,
     auto = NULL, auto.value = NULL,
     keypair = getOption('MTurkR.keypair'), print = getOption('MTurkR.print'), 
-    browser = getOption('MTurkR.browser'), log.requests = getOption('MTurkR.log'),
+    log.requests = getOption('MTurkR.log'),
     sandbox = getOption('MTurkR.sandbox'), validation.test = getOption('MTurkR.test')) {
     if(is.null(keypair))
         stop("No keypair provided or 'credentials' object not stored")
@@ -76,30 +76,21 @@ function (qual, description = NULL, status = NULL, retry.delay = NULL,
         is.null(auto.value)) 
         GETparameters <- paste(GETparameters, "&AutoGranted=", "0", sep = "")
     else if(!is.null(auto) && !is.null(test)) 
-        warning("AutoGranted Ignored! Test and AutoGranted cannot be declared together")
-    if(browser == TRUE) {
-        request <- request(keypair[1], operation, secret=keypair[2],
-                GETparameters = GETparameters, browser = browser, 
-            sandbox = sandbox, validation.test = validation.test)
-        if(validation.test)
-            return(invisible(request))
-    }
-    else {
-        request <- request(keypair[1], operation, secret=keypair[2],
-                GETparameters = GETparameters, log.requests = log.requests, 
-            sandbox = sandbox, validation.test = validation.test)
-        if(validation.test)
-            return(invisible(request))
-        if(request$valid == TRUE) {
-            QualificationType <- QualificationTypesToDataFrame(xml = request$xml)
-            if(print == TRUE) {
-                message("QualificationType ", QualificationType$QualificationTypeId[1],
-                        " Updated")
-            }
-            return(QualificationType)
+        warning("AutoGranted Ignored! Test and AutoGranted cannot be declared together")    
+    request <- request(keypair[1], operation, secret=keypair[2],
+            GETparameters = GETparameters, log.requests = log.requests, 
+        sandbox = sandbox, validation.test = validation.test)
+    if(validation.test)
+        return(invisible(request))
+    if(request$valid == TRUE) {
+        QualificationType <- QualificationTypesToDataFrame(xml = request$xml)
+        if(print == TRUE) {
+            message("QualificationType ", QualificationType$QualificationTypeId[1],
+                    " Updated")
         }
-        else if(request$valid == FALSE & print == TRUE)
-            warning("Invalid Request")
-        return(NULL)
+        return(QualificationType)
     }
+    else if(request$valid == FALSE & print == TRUE)
+        warning("Invalid Request")
+    return(NULL)
 }
