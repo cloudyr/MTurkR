@@ -1,10 +1,13 @@
 request <-
-function(keypair = getOption('MTurkR.keypair'), operation, GETparameters,
-    version = "2012-03-25", service = "AWSMechanicalTurkRequester", 
+function(operation, GETparameters,
+    keypair = getOption('MTurkR.keypair'),
     browser = getOption('MTurkR.browser'),
     log.requests = getOption('MTurkR.log'), 
     sandbox = getOption('MTurkR.sandbox'),
-    print.errors = TRUE, validation.test = getOption('MTurkR.test'))
+    verbose = getOption('MTurkR.verbose'),
+    validation.test = getOption('MTurkR.test'),
+    service = "AWSMechanicalTurkRequester",
+    version = "2012-03-25")
 {
     if(sandbox == TRUE) 
         host <- "https://mechanicalturk.sandbox.amazonaws.com/"
@@ -119,7 +122,7 @@ function(keypair = getOption('MTurkR.keypair'), operation, GETparameters,
                         })
             }
             if(valid == FALSE) {
-                if(print.errors == TRUE) {
+                if(verbose == TRUE) {
                     message("Request ", request.id, " not valid for API request:")
                     temp.url <- gsub('=',' = ',request.url)
                     if(sandbox) {
@@ -146,11 +149,16 @@ function(keypair = getOption('MTurkR.keypair'), operation, GETparameters,
 }
 
 print.MTurkResponse <- function(x,...){
-    cat('RequestId:   ',x$request.id,'\n')
-    cat('Valid?       ',x$valid,'\n')
-    cat('Request URL: ',gsub('&','\n',curlUnescape(x$request.url),'\n'))
-    cat('XML Response:\n')
-    print(xmlParse(x$response))
+    if(!is.null(x$request.id))
+        cat('RequestId:   ',x$request.id,'\n')
+    if(!is.null(x$valid))
+        cat('Valid?       ',x$valid,'\n')
+    if(!is.null(x$request.url))
+        cat('Request URL: ',gsub('&','\n',curlUnescape(x$request.url),'\n'))
+    if(!is.null(x$response)){
+        cat('XML Response:\n')
+        print(xmlParse(x$response))
+    }
     invisible(x)
 }
 
