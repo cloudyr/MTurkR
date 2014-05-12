@@ -1,14 +1,17 @@
 request <-
-function (keyid = getOption('MTurkR.keypair')[1], operation, GETparameters, 
-    secret = getOption('MTurkR.keypair')[2],
+function(keypair = getOption('MTurkR.keypair'), operation, GETparameters,
     version = "2012-03-25", service = "AWSMechanicalTurkRequester", 
-    browser = getOption('MTurkR.browser'), log.requests = getOption('MTurkR.log'), 
-    sandbox = getOption('MTurkR.sandbox'), xml.parse = FALSE,
-    print.errors = TRUE, validation.test = getOption('MTurkR.test')) {
+    browser = getOption('MTurkR.browser'),
+    log.requests = getOption('MTurkR.log'), 
+    sandbox = getOption('MTurkR.sandbox'),
+    print.errors = TRUE, validation.test = getOption('MTurkR.test'))
+{
     if(sandbox == TRUE) 
         host <- "https://mechanicalturk.sandbox.amazonaws.com/"
     else
         host <- "https://mechanicalturk.amazonaws.com/"
+    keyid <- keypair[1]
+    secret <- keypair[2]
     host <- paste(host, "?Service=", service, sep='')
     timestamp <- format(Sys.time(), format = "%Y-%m-%dT%H:%M:%SZ", tz = "UTC")
     signature <- base64Encode(hmac(secret, paste(service, operation, 
@@ -135,13 +138,8 @@ function (keyid = getOption('MTurkR.keypair')[1], operation, GETparameters,
                     }
                 }
             }
-            if(xml.parse == TRUE) {
-                xml.parsed <- xmlParse(response)
-                out <- list(request.url = request.url, request.id = request.id, 
-                            valid = valid, xml = response, xml.parsed = xml.parsed)
-            } else
-                out <- list(request.url = request.url, request.id = request.id, 
-                            valid = valid, xml = response)
+            out <- list(request.url = request.url, request.id = request.id, 
+                        valid = valid, xml = response)
             return(out, class='MTurkResponse', operation=operation)
         }
     }

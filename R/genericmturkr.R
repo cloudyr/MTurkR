@@ -2,7 +2,7 @@ genericmturkr <-
 function (operation, parameters = NULL, keypair = getOption('MTurkR.keypair'), 
     print = getOption('MTurkR.print'), browser = getOption('MTurkR.browser'),
     log.requests = getOption('MTurkR.log'), sandbox = getOption('MTurkR.sandbox'), 
-    xml.parse = TRUE, validation.test = getOption('MTurkR.test')){
+    validation.test = getOption('MTurkR.test')){
     if(is.null(keypair))
         stop("No keypair provided or 'credentials' object not stored")
     operation <- operation
@@ -10,14 +10,14 @@ function (operation, parameters = NULL, keypair = getOption('MTurkR.keypair'),
     if(browser == TRUE) {
         request <- request(keypair[1], operation, secret=keypair[2],
             GETparameters = GETparameters, browser = browser, log.requests = log.requests, 
-            sandbox = sandbox, xml.parse = xml.parse, validation.test = validation.test)
+            sandbox = sandbox, validation.test = validation.test)
         if(validation.test)
             return(invisible(request))
     }
     else{
         request <- request(keypair[1], operation, secret=keypair[2],
             GETparameters = GETparameters, browser = browser, log.requests = log.requests, 
-            sandbox = sandbox, xml.parse = xml.parse, validation.test = validation.test)
+            sandbox = sandbox, validation.test = validation.test)
         if(validation.test)
             return(invisible(request))
         if(request$valid == TRUE & print == TRUE)

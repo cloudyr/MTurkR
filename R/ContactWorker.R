@@ -60,7 +60,7 @@ function (subjects, msgs, workers, batch = FALSE, keypair = getOption('MTurkR.ke
                                     sep = "")
             request <- request(keypair[1], operation, secret=keypair[2],
                 GETparameters = GETparameters, log.requests = log.requests, 
-                sandbox = sandbox, xml.parse=TRUE, validation.test = validation.test)
+                sandbox = sandbox, validation.test = validation.test)
             if(validation.test)
                 return(invisible(request))
             Notifications$Valid[i:(i + (lastbatch - 1))] <- request$valid
@@ -69,7 +69,7 @@ function (subjects, msgs, workers, batch = FALSE, keypair = getOption('MTurkR.ke
             if(request$valid == TRUE) {
                 if(print == TRUE)
                     message(j, ": Workers ", firstworker, " to ",lastworker, " Notified")
-                parsed <- request$xml.parsed
+                parsed <- xmlParse(request$xml)
                 if(length(getNodeSet(parsed, '//NotifyWorkersFailureStatus'))>0){
                     x <- xpathApply(parsed, '//NotifyWorkersFailureStatus', function(x) {
                         w <- xmlValue(xmlChildren(x)$WorkerId)
@@ -114,10 +114,10 @@ function (subjects, msgs, workers, batch = FALSE, keypair = getOption('MTurkR.ke
                                     "&WorkerId.1=", workers[i], sep = "")
             request <- request(keypair[1], operation, secret=keypair[2],
                 GETparameters = GETparameters, log.requests = log.requests, 
-                sandbox = sandbox, xml.parse=TRUE, validation.test = validation.test)
+                sandbox = sandbox, validation.test = validation.test)
             if(validation.test)
                 return(invisible(request))
-            parsed <- request$xml.parsed
+            parsed <- xmlParse(request$xml)
             if(length(getNodeSet(parsed,'//NotifyWorkersFailureStatus'))>0){
                 request$valid <- xmlValue(getNodeSet(parsed,'//NotifyWorkersFailureCode')[[1]])
             }
