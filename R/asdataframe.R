@@ -239,21 +239,28 @@ as.data.frame.Qualifications <- function(xml.parsed) {
 
 as.data.frame.QuestionForm <- function(xml.parsed) {
     qform <- xmlChildren(xmlChildren(xml.parsed)$QuestionForm)
-    #overview <- qform[names(qform) == "Overview"]
-    questions <- qform[names(qform) == "Question"]
-    #ov <- data.frame(matrix(nrow = length(overview), ncol = ))
-    qdf <- data.frame(matrix(nrow = length(questions), ncol = 5))
-    names(qdf) <- c("QuestionIdentifier", "DisplayName", "IsRequired", 
-        "QuestionContent", "AnswerSpecification")
-    for(i in 1:length(questions)) {
-        qdf$QuestionIdentifier[i] <- xmlValue(xmlChildren(questions[[i]])$QuestionIdentifier)
-        qdf$DisplayName[i] <- xmlValue(xmlChildren(questions[[i]])$DisplayName)
-        qdf$IsRequired[i] <- xmlValue(xmlChildren(questions[[i]])$IsRequired)
-        qdf$QuestionContent[i] <- toString.XMLNode(xmlChildren(questions[[i]])$QuestionContent)
-        qdf$AnswerSpecification[i] <- toString.XMLNode(xmlChildren(questions[[i]])$AnswerSpecification)
-    }
-    #return(list(Overview = ov, Questions = qdf))
-    return(list(Questions = qdf))
+    n <- names(qform)
+    out <- mapply(function(x, name){
+        if(name=='Question'){
+            list(Element = 'Question',
+                 QuestionIdentifier = xmlValue(xmlChildren(x)$QuestionIdentifier),
+                 DisplayName = xmlValue(xmlChildren(x)$DisplayName),
+                 IsRequired = xmlValue(xmlChildren(x)$IsRequired),
+                 QuestionContent = xmlValue(xmlChildren(x)$QuestionContent),
+                 AnswerSpecification = xmlValue(xmlChildren(x)$AnswerSpecification) )
+        } else if(name=='Overview'){
+            # this doesn't handle multiple elements well
+            list(Element = 'Overview',
+                 Title = xmlValue(xmlChildren(x)$Title),
+                 Text = xmlValue(xmlChildren(x)$Text),
+                 List = sapply(xmlChildren(x)$Text, xmlValue),
+                 Binary = xmlToList(xmlChildren(x)$Binary),
+                 Application = xmlToList(xmlChildren(x)$Application),
+                 EmbeddedBinary = xmlToList(xmlChildren(x)$EmbeddedBinary),
+                 FormattedContent = xmlChildren(x)$FormattedContent )
+        }
+    }, qform, n)
+    return(do.call('rbind',out))
 }
 
 as.data.frame.HTMLQuestion <- function(xml.parsed) {
