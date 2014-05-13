@@ -46,11 +46,11 @@ function (assignment = NULL, hit = NULL, hit.type = NULL, return.all = TRUE,
                 total <- strsplit(strsplit(request$xml, 
                     "<TotalNumResults>")[[1]][2], "</TotalNumResults>")[[1]][1]
                 Bonuses <- list()
-                Bonuses[[1]] <- BonusPaymentsToDataFrame(xml = request$xml)
+                Bonuses[[1]] <- as.data.frame.BonusPayments(xml.parsed = xmlParse(request$xml))
                 pagenumber <- 2
                 while(total > runningtotal){
                     nextbatch <- batch(type, obj, pagenumber)
-                    Bonuses[[pagenumber]] <- BonusPaymentsToDataFrame(xml = nextbatch$xml)
+                    Bonuses[[pagenumber]] <- as.data.frame.BonusPayments(xml.pasred = xmlParse(nextbatch$xml))
                     batch_total <- strsplit(strsplit(nextbatch$xml, 
                         "<NumResults>")[[1]][2], "</NumResults>")[[1]][1]
                     runningtotal <- runningtotal + batch_total
@@ -62,7 +62,7 @@ function (assignment = NULL, hit = NULL, hit.type = NULL, return.all = TRUE,
             } else {
                 if(verbose)
                     message(runningtotal, " Bonuses Retrieved")
-                Bonuses <- BonusPaymentsToDataFrame(xml = request$xml)
+                Bonuses <- as.data.frame.BonusPayments(xml.parsed = xmlParse(request$xml))
                 if(!is.null(hit)) 
                     Bonuses$HITId <- hit
                 return(Bonuses)
@@ -79,7 +79,7 @@ function (assignment = NULL, hit = NULL, hit.type = NULL, return.all = TRUE,
         Bonuses <- list()
         for(i in 1:length(hitlist)) {
             b <- GetBonuses(hit = hitlist[i], return.all = return.all, ...)
-            Bonuses[[i]] <- BonusPaymentsToDataFrame(xml = b$xml)
+            Bonuses[[i]] <- as.data.frame.BonusPayments(xml.parsed = xmlParse(b$xml))
         }
         out <- do.call('rbind',Bonuses)
         if(verbose) 

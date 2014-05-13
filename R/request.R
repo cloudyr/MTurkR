@@ -144,8 +144,17 @@ function(operation, GETparameters = NULL,
                         message(paste(paste(strsplit(temp.url, "&")[[1]],
                           collapse="\n                                     &"),'\n\n'))
                     }
-                    errors <- tryCatch(ParseErrorCodes(xml = response),
-                        error = function(e) e)
+                    ParseErrorCodes <- function(xml) {
+                        xml.errors <- xpathApply(xmlParse(xml), "//Error")
+                        errors <- setNames(data.frame(matrix(nrow = length(xml.errors), ncol = 2)),
+                                    c("Code", "Message"))
+                        for(i in 1:length(xml.errors)) {
+                            errors[i,] <- c(xmlValue(xpathApply(xml.errors[[i]], "//Code")[[1]]),
+                                            xmlValue(xpathApply(xml.errors[[i]], "//Message")[[1]]))
+                        }
+                        return(invisible(errors))
+                    }
+                    errors <- tryCatch(ParseErrorCodes(xml = response), error = function(e) e)
                     if(!inherits(errors, 'error')){
                         cat('\n')
                         for (i in 1:dim(errors)[1])
@@ -177,5 +186,10 @@ print.MTurkResponse <- function(x,...){
 }
 
 as.data.frame.MTurkResponse <- function(x, ...){
-    
+    xml.parsed <- xmlParse(x$xml)
+    n <- xmlName(xmlRoot(xml.parsed))
+    #class(x$xml) <- 'test' # something to switch to appropriate parsing function
+    # class(xml.parsed) <- switch(n, # list of switches here from API methods to as.data.frame methods )
+    out <- as.data.frame(xml.parsed)
+    invisible(out)
 }

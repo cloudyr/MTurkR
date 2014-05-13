@@ -3233,7 +3233,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 pos <- as.numeric(tkcurselection(qualreqlist))+1
                 answer <- wizardenv$qualrequests$Answer[pos]
                 if(!is.na(answer))
-                    print(QuestionFormAnswersToDataFrame(answer))
+                    print(as.data.frame.QuestionFormAnswers(xmlParse(answer)))
                 else
                     message("No answer data to display")
             }

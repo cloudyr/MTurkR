@@ -43,8 +43,8 @@ function (qual, description = NULL, status = NULL, retry.delay = NULL,
                 return(validation)
             }
         }
-        t.temp <- unique(QuestionFormToDataFrame(test)$Questions$QuestionIdentifier)
-        a.temp <- unique(AnswerKeyToDataFrame(answerkey)$Questions$QuestionIdentifier)
+        t.temp <- unique(as.data.frame.QuestionForm(xmlParse(test))$Questions$QuestionIdentifier)
+        a.temp <- unique(as.data.frame.AnswerKey(xmlParse(answerkey))$Questions$QuestionIdentifier)
         if(!sum(a.temp %in% t.temp) == length(a.temp)) 
             stop("One or more QuestionIdentifiers in AnswerKey not in QuestionForm")
         if(!sum(t.temp %in% a.temp) == length(t.temp)) 
@@ -77,7 +77,7 @@ function (qual, description = NULL, status = NULL, retry.delay = NULL,
     if(is.null(request$valid))
         return(request)
     if(request$valid == TRUE) {
-        QualificationType <- QualificationTypesToDataFrame(xml = request$xml)
+        QualificationType <- as.data.frame.QualificationTypes(xml.parsed = xmlParse(request$xml))
         if(verbose) {
             message("QualificationType ", QualificationType$QualificationTypeId[1],
                     " Updated")

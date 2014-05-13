@@ -31,7 +31,7 @@ function(hit, response.group = NULL,
             sandbox <- list(...)$sandbox
         else
             sandbox <- getOption('MTurkR.verbose')
-        z <- HITsToDataFrame(xml = request$xml, sandbox = sandbox)
+        z <- as.data.frame.HITs(xml.parsed = xmlParse(request$xml), sandbox = sandbox)
         if(verbose) 
             message("HIT (", hit, ") Retrieved")
         if(return.hit.dataframe == TRUE & return.qual.dataframe == TRUE) 

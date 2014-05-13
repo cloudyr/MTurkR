@@ -67,11 +67,8 @@ function (questions, scoring = NULL) {
     return(list(xml.parsed = xmlParse(string), string = string, url.encoded = encoded))
 }
 
-AnswerKeyTemplate <-
-function(xml = NULL, xml.parsed = NULL){
-    if(!is.null(xml)) 
-        xml.parsed <- xmlParse(xml)
-    qformdf <- QuestionFormToDataFrame(xml.parsed = xml.parsed)$Questions
+AnswerKeyTemplate <- function(xml.parsed = NULL){
+    qformdf <- as.data.frame.QuestionForm(xml.parsed)$Questions
     answerkey <- list(NULL)
     for(i in 1:dim(qformdf)[1]){
         answerkey[[i]]$QuestionIdentifier <- qformdf$QuestionIdentifier[i]

@@ -44,7 +44,7 @@ function (qual = NULL, return.all = TRUE, pagenumber = "1", pagesize = "10",
             "//QualificationRequestId"))
         if(batch$batch.total > 0) {
             if(return.qual.dataframe == TRUE) 
-                batch$QualificationRequests <- QualificationRequestsToDataFrame(xml = batch$xml)
+                batch$QualificationRequests <- as.data.frame.QualificationRequests(xml.parsed = xmlParse(batch$xml))
         }
         return(batch)
     }

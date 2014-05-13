@@ -44,7 +44,7 @@ function (hit, assignment = NULL, policy.level = NULL, retrieve.results = TRUE,
     if(is.null(request$valid))
         return(request)
     if(request$valid == TRUE) {
-        ReviewResults <- ReviewResultsToDataFrame(xml = request$xml)
+        ReviewResults <- as.data.frame.ReviewResults(xml.parsed = xmlParse(request$xml))
         if(verbose) {
             message("ReviewResults Retrieved: ", appendLF=FALSE)
             if(is.null(ReviewResults)) 

@@ -35,7 +35,7 @@ function (qual, status = NULL, return.all = TRUE, pagenumber = 1,
         batch$batch.total <- length(xpathApply(xmlParse(batch$xml), 
             "//QualificationTypeId"))
         if(batch$batch.total > 0) {
-            batch$Qualifications <- QualificationsToDataFrame(xml = batch$xml)
+            batch$Qualifications <- as.data.frame.Qualifications(xml.parsed = xmlParse(batch$xml))
         }
         return(batch)
     }

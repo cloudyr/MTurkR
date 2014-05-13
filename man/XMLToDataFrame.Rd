@@ -1,43 +1,42 @@
-\name{XMLToDataFrame}
-%\alias{MTurkXMLToDataFrame}
-\alias{AnswerKeyToDataFrame}
-\alias{AssignmentsToDataFrame}
-\alias{BonusPaymentsToDataFrame}
-\alias{ExternalQuestionToDataFrame}
-\alias{HITsToDataFrame}
-\alias{HTMLQuestionToDataFrame}
-\alias{QualificationRequestsToDataFrame}
-\alias{QualificationRequirementsToDataFrame}
-\alias{QualificationsToDataFrame}
-\alias{QualificationTypesToDataFrame}
-\alias{QuestionFormAnswersToDataFrame}
-\alias{QuestionFormToDataFrame}
-\alias{ReviewResultsToDataFrame}
-\alias{WorkerBlockToDataFrame}
-\title{Parse MTurk XML Responses and Convert to Dataframe}
-\description{Parse MTurk XML Responses of specified types and convert the XML to an R dataframe.}
+\name{XML}
+\alias{as.data.frame.MTurkResponse}
+\alias{as.data.frame.AnswerKey}
+\alias{as.data.frame.Assignments}
+\alias{as.data.frame.BonusPayments}
+\alias{as.data.frame.ExternalQuestion}
+\alias{as.data.frame.HITs}
+\alias{as.data.frame.HTMLQuestion}
+\alias{as.data.frame.QualificationRequests}
+\alias{as.data.frame.QualificationRequirements}
+\alias{as.data.frame.Qualifications}
+\alias{as.data.frame.QualificationTypes}
+\alias{as.data.frame.QuestionFormAnswers}
+\alias{as.data.frame.QuestionForm}
+\alias{as.data.frame.ReviewResults}
+\alias{as.data.frame.WorkerBlock}
+\title{Parse MTurk XML to Dataframe}
+\description{Parse MTurk XML Responses to R data.frames.}
 \usage{
-AnswerKeyToDataFrame(xml=NULL, xml.parsed=NULL)
-AssignmentsToDataFrame(xml = NULL, xml.parsed = NULL, return.assignment.xml = FALSE)
-BonusPaymentsToDataFrame(xml = NULL, xml.parsed = NULL)
-ExternalQuestionToDataFrame(xml = NULL, xml.parsed = NULL)
-HITsToDataFrame(xml = NULL, xml.parsed = NULL, return.hit.xml = FALSE,
+as.data.frame.AnswerKey(xml.parsed=NULL)
+as.data.frame.Assignments(xml.parsed = NULL, return.assignment.xml = FALSE)
+as.data.frame.BonusPayments(xml.parsed = NULL)
+as.data.frame.ExternalQuestion(xml.parsed = NULL)
+as.data.frame.HITs(xml.parsed = NULL, return.hit.xml = FALSE,
                 return.qual.list = TRUE, sandbox = getOption('MTurkR.sandbox'))
-HTMLQuestionToDataFrame(xml = NULL, xml.parsed = NULL)
-QualificationRequestsToDataFrame(xml = NULL, xml.parsed = NULL)
-QualificationRequirementsToDataFrame(xml = NULL, xml.parsed = NULL, xmlnodeset = NULL,
+as.data.frame.HTMLQuestion(xml.parsed = NULL)
+as.data.frame.QualificationRequests(xml.parsed = NULL)
+as.data.frame.QualificationRequirements(xml.parsed = NULL, xmlnodeset = NULL,
                                      hit = NULL, hit.number = NULL,
                                      sandbox = getOption('MTurkR.sandbox'))
-QualificationsToDataFrame(xml = NULL, xml.parsed = NULL)
-QualificationTypesToDataFrame(xml = NULL, xml.parsed = NULL)
-QuestionFormAnswersToDataFrame(xml = NULL, xml.parsed = NULL)
-QuestionFormToDataFrame(xml = NULL, xml.parsed = NULL)
-ReviewResultsToDataFrame(xml = NULL, xml.parsed = NULL)
-WorkerBlockToDataFrame(xml = NULL, xml.parsed = NULL)
+as.data.frame.Qualifications(xml.parsed = NULL)
+as.data.frame.QualificationTypes(xml.parsed = NULL)
+as.data.frame.QuestionFormAnswers(xml.parsed = NULL)
+as.data.frame.QuestionForm(xml.parsed = NULL)
+as.data.frame.ReviewResults(xml.parsed = NULL)
+as.data.frame.WorkerBlock(xml.parsed = NULL)
 }
 \arguments{
-  \item{xml}{A character string containing a full MTurk XML response. Must specify this or the \code{xml.parsed} parameter.}
-  \item{xml.parsed}{A full MTurk XML response parsed by the \code{xmlParse}. Must specify this or the \code{xml} parameter.}
+  \item{xml.parsed}{A full MTurk XML response parsed by the \code{xmlParse}.}
   \item{xmlnodeset}{An XML nodeset.}
   \item{return.assignment.xml}{A logical indicating whether workers' responses to HIT questions should be returned.}
   \item{return.hit.xml}{A logical indicating whether the HIT XML should be returned. Default is \code{FALSE}.}

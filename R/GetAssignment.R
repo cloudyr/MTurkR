@@ -47,7 +47,7 @@ function (assignment = NULL, hit = NULL, hit.type = NULL, status = NULL,
                 return(request)
             QualificationRequirements <- list()
             if(request$valid == TRUE) {
-                a <- AssignmentsToDataFrame(xml = request$xml)$assignments
+                a <- as.data.frame.Assignments(xml.parsed = xmlParse(request$xml))$assignments
                 a$Answer <- NULL
                 if(i == 1)
                     Assignments <- a
@@ -105,7 +105,7 @@ function (assignment = NULL, hit = NULL, hit.type = NULL, status = NULL,
                             "<TotalNumResults>")[[1]][2], "</TotalNumResults>")[[1]][1])
             batch$batch.total <- length(xpathApply(xmlParse(batch$xml), "//Assignment"))
             if(batch$batch.total > 0 & return.assignment.dataframe == TRUE) {
-                batch$assignments <- AssignmentsToDataFrame(xml = batch$xml)$assignments
+                batch$assignments <- as.data.frame.Assignments(xml.parsed = xmlParse(batch$xml))$assignments
                 batch$assignments$Answer <- NULL
             }
             else if(batch$batch.total > 0 & return.assignment.dataframe == FALSE) 

@@ -1,7 +1,8 @@
 # CHANGES TO MTurkR 0.5 #
 
 ## SIGNIFICANT USER-VISIBLE CHANGES ##
-* `options('MTurkR.print')` is deleted and replaced by `options('MTurkR.print')`. All functions will, temporarily, accept `print` arguments. All code should be updated to reflect the new terminology moving forward.
+* `ParseErrorCodes` is removed (now used internally in `request`).
+* `options('MTurkR.print')` is deleted and replaced by `options('MTurkR.verbose')`. All functions will, temporarily, accept `print` arguments. All code should be updated to reflect the new terminology moving forward.
 * When `validation.test=TRUE` or `browser=TRUE`, functions now return an object of class "MTurkResponse" for the purpose of debugging.
 * The ability to execute requests in a web browser, via the `options('MTurkR.browser')` is removed from all functions except `request`. It can, however, still be passed via `...` to `request`.
 * `APIReference`, `mturkhelp`, and `genericmturkr` are deprecated.
@@ -29,7 +30,7 @@
 * All references to the `browser` options are removed given removal of the feature from all functions.
 * Documentation for `mturkhelp` and `APIReference` now reflect deprecated status.
 * Documentation file for `authenticate` now reflect its deprecated status. `request` notes that it no longer accepts `signature` or `timestamp` arguments, which are now generated internally.
-* Documentation files for `request` and `ParseErrorCodes` have been updated to reflect their now non-exported status.
+* Documentation files for `request` has been updated to reflect its now non-exported status. Documentation for `ParseErrorCodes` is removed.
 * Work on the MTurkR wiki (https://github.com/leeper/MTurkR/wiki) has begun, with contributions from Kyle Hamilton.
 * The `add.seconds` parameter was incorrectly called `add.time` in the `ExtendHIT` documentation.
 

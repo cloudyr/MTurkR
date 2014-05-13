@@ -12,7 +12,7 @@ function(qual, verbose = getOption('MTurkR.verbose'), ...) {
     if(is.null(request$valid))
         return(request)
     if(request$valid == TRUE) {
-        Qualifications <- QualificationTypesToDataFrame(xml = request$xml)
+        Qualifications <- as.data.frame.QualificationTypes(xml.parsed = xmlParse(request$xml))
         if(verbose) 
             message("QualificationType Retrieved: ", qual)
     }

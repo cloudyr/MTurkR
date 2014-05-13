@@ -17,7 +17,7 @@ function (qual, workers, verbose = getOption('MTurkR.verbose'), ...) {
         if(is.null(request$valid))
             return(request)
         if(request$valid == TRUE) {
-            x <- QualificationsToDataFrame(xml = request$xml)
+            x <- as.data.frame.Qualifications(xml.parsed = xmlParse(request$xml))
             x$WorkerId <- workers[i]
             if(i == 1) 
                 Qualifications <- x
