@@ -1937,7 +1937,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                                 reason <- NULL
                             tkdestroy(appreason)
                             pos <- as.numeric(tkcurselection(sublist))+1
-                            assignid <- wizardenv$submitted[pos]
+                            assignid <- wizardenv$submitted$AssignmentId[pos]
                             ApproveAssignment(assignments=assignid, feedback=reason, verbose=FALSE, sandbox=sandbox)
                             tkinsert(sublist,tkcurselection(sublist),"Approved")
                             tkdelete(sublist,tkcurselection(sublist))
@@ -1979,7 +1979,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                         else{
                             tkdestroy(rejreason)
                             pos <- as.numeric(tkcurselection(sublist))+1
-                            assignid <- wizardenv$submitted[pos]
+                            assignid <- wizardenv$submitted$AssignmentId[pos]
                             RejectAssignment(assignments=assignid, feedback=reason, verbose=FALSE, sandbox=sandbox)
                             tkinsert(sublist,tkcurselection(sublist),"Rejected")
                             tkdelete(sublist,tkcurselection(sublist))
@@ -2012,14 +2012,15 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                     app <- function(){
                         if(as.character(tkcurselection(isrejlist))==""){
                             tkmessageBox(message="Please select an assignment!", type="ok")
-                            tkfocus(appreason)
+                            tkedestroy(appreason)
+                            tkfocus(approverejectDialog)
                         }
                         else{
                             if(tclvalue(reason)=="")
                                 reason <- NULL
                             tkdestroy(appreason)
                             pos <- as.numeric(tkcurselection(isrejlist))+1
-                            assignid <- wizardenv$submitted[pos]
+                            assignid <- wizardenv$rejected$AssignmentId[pos]
                             ApproveAssignment(assignments=assignid, feedback=reason, rejected=TRUE, verbose=FALSE, sandbox=sandbox)
                             tkinsert(isrejlist,tkcurselection(isrejlist),"Approved")
                             tkdelete(isrejlist,tkcurselection(isrejlist))
@@ -2044,6 +2045,54 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                     r <- r + 1
                     tkgrid(OKbutton, row = r, column = 2)
                     tkgrid(Cancelbutton, row=r, column = 3)
+                }
+                
+                # function: pay bonus
+                bonusfun <- function(){
+                    # function
+                    b <- function(){
+                        if(as.character(tkcurselection(sublist))==""){
+                            tkmessageBox(message="Please select an assignment!", type="ok")
+                            tkedestroy(bonusreason)
+                            tkfocus(approverejectDialog)
+                        } else if(tclvalue(amount)=="") {
+                            tkmessageBox(message="Please enter a bonus amount!", type="ok")
+                            tkfocus(bonusreason)
+                        } else {
+                            if(tclvalue(reason)=="")
+                                reason <- NULL
+                            tkdestroy(bonusreason)
+                            pos <- as.numeric(tkcurselection(sublist))+1
+                            assignid <- wizardenv$submitted$AssignmentId[pos]
+                            workerid <- wizardenv$submitted$WorkerId[pos]
+                            GrantBonus(workers = workerid, assignments = assignid, amounts = amount,
+                                       reasons = reason, verbose=FALSE, sandbox=sandbox)
+                            tkfocus(approverejectDialog)
+                        }
+                    }
+                    # layout
+                    bonusreason <- tktoplevel()
+                    tkwm.title(bonusreason, "Bonus Amount")
+                    r <- 1
+                    tkgrid(ttklabel(bonusreason, text = "     "), row=r, column=1)
+                    tkgrid(ttklabel(bonusreason, text = "     "), row=r, column=4)
+                    r <- r + 1
+                    amount <- tclVar()
+                    amount.entry <- tkentry(bonusreason, width=50, textvariable=amount)
+                    tkgrid(tklabel(bonusreason, text = "Bonus amount: $"), row=r, column=2, sticky="e")
+                    tkgrid(amount.entry, row=r, column=3, sticky="w")
+                    r <- r + 1
+                    reason <- tclVar()
+                    reason.entry <- tkentry(bonusreason, width=50, textvariable=reason)
+                    tkgrid(tklabel(bonusreason, text = "Bonus message (visible to worker): "), row=r, column=2, sticky="e")
+                    tkgrid(reason.entry, row=r, column=3, sticky="w")
+                    r <- r + 1
+                    tkgrid(ttklabel(bonusreason, text = "     "), row=r, column=1)
+                    OKbutton <- tkbutton(bonusreason,text="   OK   ",command=b)
+                    Cancelbutton <- tkbutton(bonusreason,text=" Cancel ",command=function() tkdestroy(bonusreason) )
+                    r <- r + 1
+                    tkgrid(OKbutton, row = r, column = 2)
+                    tkgrid(Cancelbutton, row=r, column = 3)                    
                 }
                 
                 # layout
