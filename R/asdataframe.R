@@ -280,10 +280,10 @@ as.data.frame.ExternalQuestion <- function(xml.parsed) {
 
 as.data.frame.AnswerKey <- function(xml.parsed) {
     nodes <- xmlChildren(xmlChildren(xml.parsed)$AnswerKey)
+    # need to change this to an xpath expression:
     answerkey <- data.frame(matrix(nrow = length(strsplit(xml,'/AnswerOption')[[1]])-1,
                                    ncol = 3))
-    names(answerkey) <- c("QuestionIdentifier", "SelectionIdentifier", 
-        "AnswerScore")
+    names(answerkey) <- c("QuestionIdentifier", "SelectionIdentifier", "AnswerScore")
     k <- 1
     for(i in 1:length(nodes[names(nodes) == "Question"])) {
         question <- xmlChildren(nodes[names(nodes) == "Question"][[i]])

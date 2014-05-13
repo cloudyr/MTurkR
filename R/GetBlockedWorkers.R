@@ -26,7 +26,7 @@ function(pagenumber = NULL, pagesize = NULL,
     if(is.null(request$valid))
         return(request)
     if(request$valid == TRUE) {
-        Workers <- as.data.frame.WorkerBlock(xml.pased = xmlParse(request$xml))
+        Workers <- as.data.frame.WorkerBlock(xml.parsed = xmlParse(request$xml))
         if(verbose) {
             if(!is.null(Workers) && dim(Workers)[1] > 0) 
                 message(dim(Workers)[1], " Blocked Workers Retrieved")

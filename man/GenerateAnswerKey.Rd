@@ -5,12 +5,11 @@
 \description{Generate an AnswerKey data structure for a Qualification test.}
 \usage{
 GenerateAnswerKey(questions, scoring = NULL)
-AnswerKeyTemplate(xml = NULL, xml.parsed = NULL)
+AnswerKeyTemplate(xml.parsed = NULL)
 }
 \arguments{
   \item{questions}{A dataframe containing QuestionIdentifiers, AnswerOptions, AnswerScores, and DefaultScores. See MTurk API Documentation.}
   \item{scoring}{An optional list containing QualificationValueMapping information. See MTurk API Documentation.}
-  \item{xml}{A character string containing a complete QuestionForm data structure from which a template will be built. Must specify this or the \code{xml.parsed} parameter.}
   \item{xml.parsed}{A complete QuestionForm data structure parsed by \code{xmlParse}. Must specify this or the \code{xml} parameter.}
 }
 \details{GenerateAnswerKey creates an AnswerKey data structure (possibly from a template created by AnswerKeyTemplate from a QuestionForm data structure), which serves to automatically score a Qualification test, as specified in the \code{test} parameter of \code{\link{CreateQualificationType}}. An AnswerKey data structure is also returned by \code{\link{GetQualificationType}}.}

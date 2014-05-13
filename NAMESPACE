@@ -193,7 +193,8 @@ importFrom(RCurl, base64Encode, curlEscape, curlUnescape,
                   curlPerform, basicTextGatherer, getURL)
 importFrom(XML, xmlParse, xmlChildren, xpathApply, xmlValue, xmlName,
 				xmlNamespace, xmlSchemaValidate, removeXMLNamespaces,
-				newXMLNode, addChildren, toString.XMLNode, getNodeSet)
+				newXMLNode, addChildren, toString.XMLNode, getNodeSet,
+                xmlRoot)
 
 # S3 methods
 S3method(print, MTurkResponse)

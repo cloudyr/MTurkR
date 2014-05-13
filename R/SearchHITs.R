@@ -53,7 +53,7 @@ function (response.group = NULL, return.all = TRUE, pagenumber = "1",
         batch$batch.total <- length(xpathApply(xmlParse(batch$xml), "//HIT"))
         if(return.hit.dataframe == TRUE) {
             if(batch$total > 0) {
-                hitlist <- as.data.frame.HITs(xml.parse = xmlParse(batch$xml),
+                hitlist <- as.data.frame.HITs(xml.parsed = xmlParse(batch$xml),
                                               return.qual.list = return.qual.dataframe,
                                               sandbox = sandbox)
                 batch$HITs <- hitlist$HITs

@@ -39,6 +39,4 @@ request(operation, GETparameters = NULL,
 }
 \author{Thomas J. Leeper}
 %\note{}
-\seealso{
-\code{\link{ParseErrorCodes}}
-}
+%\seealso{}

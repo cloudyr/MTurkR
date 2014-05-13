@@ -17,23 +17,23 @@
 \title{Parse MTurk XML to Dataframe}
 \description{Parse MTurk XML Responses to R data.frames.}
 \usage{
-as.data.frame.AnswerKey(xml.parsed=NULL)
-as.data.frame.Assignments(xml.parsed = NULL, return.assignment.xml = FALSE)
-as.data.frame.BonusPayments(xml.parsed = NULL)
-as.data.frame.ExternalQuestion(xml.parsed = NULL)
-as.data.frame.HITs(xml.parsed = NULL, return.hit.xml = FALSE,
+as.data.frame.AnswerKey(xml.parsed)
+as.data.frame.Assignments(xml.parsed, return.assignment.xml = FALSE)
+as.data.frame.BonusPayments(xml.parsed)
+as.data.frame.ExternalQuestion(xml.parsed)
+as.data.frame.HITs(xml.parsed, return.hit.xml = FALSE,
                 return.qual.list = TRUE, sandbox = getOption('MTurkR.sandbox'))
-as.data.frame.HTMLQuestion(xml.parsed = NULL)
-as.data.frame.QualificationRequests(xml.parsed = NULL)
-as.data.frame.QualificationRequirements(xml.parsed = NULL, xmlnodeset = NULL,
+as.data.frame.HTMLQuestion(xml.parsed)
+as.data.frame.QualificationRequests(xml.parsed)
+as.data.frame.QualificationRequirements(xml.parsed, xmlnodeset = NULL,
                                      hit = NULL, hit.number = NULL,
                                      sandbox = getOption('MTurkR.sandbox'))
-as.data.frame.Qualifications(xml.parsed = NULL)
-as.data.frame.QualificationTypes(xml.parsed = NULL)
-as.data.frame.QuestionFormAnswers(xml.parsed = NULL)
-as.data.frame.QuestionForm(xml.parsed = NULL)
-as.data.frame.ReviewResults(xml.parsed = NULL)
-as.data.frame.WorkerBlock(xml.parsed = NULL)
+as.data.frame.Qualifications(xml.parsed)
+as.data.frame.QualificationTypes(xml.parsed)
+as.data.frame.QuestionFormAnswers(xml.parsed)
+as.data.frame.QuestionForm(xml.parsed)
+as.data.frame.ReviewResults(xml.parsed)
+as.data.frame.WorkerBlock(xml.parsed)
 }
 \arguments{
   \item{xml.parsed}{A full MTurk XML response parsed by the \code{xmlParse}.}

@@ -50,7 +50,7 @@ function (assignment = NULL, hit = NULL, hit.type = NULL, return.all = TRUE,
                 pagenumber <- 2
                 while(total > runningtotal){
                     nextbatch <- batch(type, obj, pagenumber)
-                    Bonuses[[pagenumber]] <- as.data.frame.BonusPayments(xml.pasred = xmlParse(nextbatch$xml))
+                    Bonuses[[pagenumber]] <- as.data.frame.BonusPayments(xml.parsed = xmlParse(nextbatch$xml))
                     batch_total <- strsplit(strsplit(nextbatch$xml, 
                         "<NumResults>")[[1]][2], "</NumResults>")[[1]][1]
                     runningtotal <- runningtotal + batch_total
