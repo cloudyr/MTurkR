@@ -114,7 +114,7 @@ function (qual, comparator, value, preview = NULL, qual.number = NULL,
         else if(format %in% c("xml","Xml","XML","soap","SOAP"))
             stop("Only REST/GET requests currently supported")
         else
-            stop("Inapropraite 'format' requested; only REST/GET requests currently supported")
+            stop("Inappropriate `format` requested; only REST/GET requests currently supported")
     }
     return(x)
 }
