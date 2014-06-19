@@ -45,8 +45,6 @@ function (assignments, feedback = NULL, rejected = FALSE,
                     c("AssignmentId", "Feedback", "Valid"))
     for(i in 1:length(assignments)) {
         x <- batch(assignments[i], feedback[i])
-        if(is.null(request$valid))
-            return(request)
         if (!is.null(feedback)) 
             Assignments[i, ] <- c(assignments[i], feedback[i], x$valid)
         else
