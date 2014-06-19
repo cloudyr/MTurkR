@@ -1,6 +1,5 @@
 GenerateQualificationRequirement <-
-function (qual, comparator, value, preview = NULL, qual.number = NULL, 
-    format = "REST") {
+function (qual, comparator, value, preview = NULL, qual.number = NULL) {
     if(is.null(qual)) 
         stop("No QualificationTypeId specified")
     else if(length(qual) == 1) {
@@ -97,24 +96,18 @@ function (qual, comparator, value, preview = NULL, qual.number = NULL,
                     preview[i] <- 0
             }
         }
-        if(format %in% c("get","Get","GET","rest","REST")) {
+        x <- paste(x, "&QualificationRequirement.", qual.number, 
+            ".QualificationTypeId=", qual[i], "&QualificationRequirement.", 
+            qual.number, ".Comparator=", comparator[i], sep = "")
+        if(qual[i] == "00000000000000000071") 
             x <- paste(x, "&QualificationRequirement.", qual.number, 
-                ".QualificationTypeId=", qual[i], "&QualificationRequirement.", 
-                qual.number, ".Comparator=", comparator[i], sep = "")
-            if(qual[i] == "00000000000000000071") 
-                x <- paste(x, "&QualificationRequirement.", qual.number, 
-                ".LocaleValue.Country=", value[i], sep = "")
-            if(!qual[i] == "00000000000000000071") 
-                x <- paste(x, "&QualificationRequirement.", qual.number, 
-                ".IntegerValue=", value[i], sep = "")
-            if(!is.na(preview[i])) 
-                x <- paste(x, "&QualificationRequirement.", qual.number, 
-                ".RequiredToPreview=", preview[i], sep = "")
-        }
-        else if(format %in% c("xml","Xml","XML","soap","SOAP"))
-            stop("Only REST/GET requests currently supported")
-        else
-            stop("Inappropriate `format` requested; only REST/GET requests currently supported")
+            ".LocaleValue.Country=", value[i], sep = "")
+        if(!qual[i] == "00000000000000000071") 
+            x <- paste(x, "&QualificationRequirement.", qual.number, 
+            ".IntegerValue=", value[i], sep = "")
+        if(!is.na(preview[i])) 
+            x <- paste(x, "&QualificationRequirement.", qual.number, 
+            ".RequiredToPreview=", preview[i], sep = "")
     }
     return(x)
 }
