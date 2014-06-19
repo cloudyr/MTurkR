@@ -46,7 +46,6 @@ function(operation, GETparameters = NULL,
                              class='MTurkResponse'))
         } else {
             h <- basicTextGatherer()
-            #curlPerform(url=request.url,
             curlPerform(url=host,
                         httpheader=c('Content-Type'='application/x-www-form-urlencoded'),
                         postfields=urlparameters,
@@ -133,33 +132,31 @@ function(operation, GETparameters = NULL,
                                           'Log contents were:\n',towrite2))
                         })
             }
-            if(valid == FALSE) {
-                if(verbose == TRUE) {
-                    message("Request ", request.id, " not valid for API request:")
-                    temp.url <- gsub('=',' = ',request.url)
-                    if(sandbox) {
-                        message(paste(paste(strsplit(temp.url, "&")[[1]],
-                          collapse="\n                                             &"),'\n\n'))
-                    } else {
-                        message(paste(paste(strsplit(temp.url, "&")[[1]],
-                          collapse="\n                                     &"),'\n\n'))
+            if(!valid && verbose) {
+                message("Request ", request.id, " not valid for API request:")
+                temp.url <- gsub('=',' = ',request.url)
+                if(sandbox) {
+                    message(paste(paste(strsplit(temp.url, "&")[[1]],
+                      collapse="\n                                             &"),'\n\n'))
+                } else {
+                    message(paste(paste(strsplit(temp.url, "&")[[1]],
+                      collapse="\n                                     &"),'\n\n'))
+                }
+                ParseErrorCodes <- function(xml) {
+                    xml.errors <- xpathApply(xmlParse(xml), "//Error")
+                    errors <- setNames(data.frame(matrix(nrow = length(xml.errors), ncol = 2)),
+                                c("Code", "Message"))
+                    for(i in 1:length(xml.errors)) {
+                        errors[i,] <- c(xmlValue(xpathApply(xml.errors[[i]], "//Code")[[1]]),
+                                        xmlValue(xpathApply(xml.errors[[i]], "//Message")[[1]]))
                     }
-                    ParseErrorCodes <- function(xml) {
-                        xml.errors <- xpathApply(xmlParse(xml), "//Error")
-                        errors <- setNames(data.frame(matrix(nrow = length(xml.errors), ncol = 2)),
-                                    c("Code", "Message"))
-                        for(i in 1:length(xml.errors)) {
-                            errors[i,] <- c(xmlValue(xpathApply(xml.errors[[i]], "//Code")[[1]]),
-                                            xmlValue(xpathApply(xml.errors[[i]], "//Message")[[1]]))
-                        }
-                        return(invisible(errors))
-                    }
-                    errors <- tryCatch(ParseErrorCodes(xml = response), error = function(e) e)
-                    if(!inherits(errors, 'error')){
-                        cat('\n')
-                        for (i in 1:dim(errors)[1])
-                            message("Error (", errors[i, 1], "): ", errors[i,2])
-                    }
+                    return(invisible(errors))
+                }
+                errors <- tryCatch(ParseErrorCodes(xml = response), error = function(e) e)
+                if(!inherits(errors, 'error')){
+                    cat('\n')
+                    for (i in 1:dim(errors)[1])
+                        message("Error (", errors[i, 1], "): ", errors[i,2])
                 }
             }
             out <- list(request.url = request.url, request.id = request.id, 
