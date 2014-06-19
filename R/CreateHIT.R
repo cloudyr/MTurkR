@@ -112,7 +112,7 @@ function (hit.type = NULL, question = NULL, validate.question = FALSE,
     request <- request(operation, GETparameters = GETparameters, ...)
     if(is.null(request$valid))
         return(request)
-    if(request$valid == TRUE) {
+    if(request$valid) {
         hit <- strsplit(strsplit(request$xml, "<HITId>")[[1]][2], "</HITId>")[[1]][1]
         if(is.null(hit.type)) 
             type <- strsplit(strsplit(request$xml, "<HITTypeId>")[[1]][2], "</HITTypeId>")[[1]][1]
@@ -123,8 +123,7 @@ function (hit.type = NULL, question = NULL, validate.question = FALSE,
             else if(is.null(hit.type)) 
                 message("HIT ", hit, " created (of type ", type,")")
         }
-    }
-    else if(request$valid == FALSE && print == TRUE)
-            warning("Invalid Request")
+    } else if(!request$valid && verbose)
+        warning("Invalid Request")
     return(HITs)
 }
