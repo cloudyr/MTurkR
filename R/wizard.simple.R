@@ -3,7 +3,7 @@ function (graphics = FALSE, sandbox = NULL, ...)
 {
     message("MTurkR Wizard loading...\n")
     log.requests <- TRUE
-    internet.test <- try(getURL("http://www.example.com"), silent = TRUE)
+    internet.test <- try(curlPerform(url="http://www.example.com"), silent = TRUE)
     if (class(internet.test) == "try-error") {
         message("An internet connection does not appear to be available!\n")
     }
