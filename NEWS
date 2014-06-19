@@ -20,6 +20,8 @@
 * `request` now returns an object of S3 class "MTurkResponse" and an associated print method has been added.
 
 ## BUG FIXES ##
+* `HITStatus` now prints correctly when only one HIT is retrieved.
+* `ApproveAllAssignments` now only attempts to approved assignments with AssignmentStatus "Submitted".
 * `as.data.frame.QuestionForm` now returns "Overview" elements and "Question" elements as one data.frame, distinguished by a new column: `Element`. (#8)
 * `GetQualifications` and `GetQualificationRequests` now respect the `return.all` argument.
 * The `return.qual.dataframe` argument in `GetQualificationType` and `GetQualifications` is removed.
