@@ -112,7 +112,7 @@ as.data.frame.Assignments <- function(xml.parsed, return.assignment.xml = FALSE)
 
 # QUALIFICATION STRUCTURES
 
-as.data.frame.QualificationRequirements <- function (xml.parsed, xmlnodeset = NULL, hit = NULL, 
+as.data.frame.QualificationRequirements <- function (xml.parsed = NULL, xmlnodeset = NULL, hit = NULL, 
     hit.number = NULL, sandbox = getOption('MTurkR.sandbox')){
     if(is.null(xmlnodeset) & is.null(xml.parsed)) 
         stop("Must supply XML (parsed or unparsed) xor XMLNodeSet")
