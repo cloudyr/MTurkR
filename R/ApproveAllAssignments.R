@@ -14,9 +14,9 @@ function (hit = NULL, hit.type = NULL, feedback = NULL,
     if(!is.null(hit) & !is.null(hit.type)) 
         stop("Must specify 'hit' xor 'hit.type'")
     if(!is.null(hit)) {
-        assignments <- GetAssignments(hit = hit, return.all = TRUE, ...)$AssignmentId
-    }
-    else if(!is.null(hit.type)) {
+        g <- GetAssignments(hit = hit, return.all = TRUE, ...)
+        assignments <- g$AssignmentId[g$AssignmentStatus=='Submitted']
+    } else if(!is.null(hit.type)) {
         if(is.factor(hit.type))
             hit.type <- as.character(hit.type)
         hitsearch <- SearchHITs(return.qual.dataframe = FALSE, ...)
@@ -24,7 +24,9 @@ function (hit = NULL, hit.type = NULL, feedback = NULL,
         if(length(hitlist) == 0) 
             stop("No HITs found for HITType")
         assignments <- sapply(hitlist, function(i){
-                        GetAssignments(hit = i, return.all = TRUE, ...)$AssignmentId })
+                           g <- GetAssignments(hit = i, return.all = TRUE, ...)
+                           g$AssignmentId[g$AssignmentStatus=='Submitted']
+                       })
     }
     request <- ApproveAssignments(assignments, feedback = feedback, ...)
     return(request)
