@@ -30,8 +30,10 @@ function(hit, response.group = NULL,
         if('sandbox' %in% names(list(...)))
             sandbox <- list(...)$sandbox
         else
-            sandbox <- getOption('MTurkR.verbose')
-        z <- as.data.frame.HITs(xml.parsed = xmlParse(request$xml), sandbox = sandbox)
+            sandbox <- getOption('MTurkR.sandbox')
+        z <- as.data.frame.HITs(xml.parsed = xmlParse(request$xml), 
+                                return.qual.list = return.qual.dataframe,
+                                sandbox = sandbox)
         if(verbose) 
             message("HIT (", hit, ") Retrieved")
         if(return.hit.dataframe == TRUE & return.qual.dataframe == TRUE) 
