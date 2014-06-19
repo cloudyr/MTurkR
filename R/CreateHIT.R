@@ -120,7 +120,9 @@ function (hit.type = NULL, question = NULL, validate.question = FALSE,
             else if(is.null(hit.type)) 
                 message("HIT ", hit, " created (of type ", hit.type,")")
         }
-    } else if(!request$valid && verbose)
+        return(HITs)
+    } else if(!request$valid && verbose) {
         warning("Invalid Request")
-    return(HITs)
+        return(request)
+    }
 }
