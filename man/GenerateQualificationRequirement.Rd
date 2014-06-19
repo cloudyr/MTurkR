@@ -4,7 +4,7 @@
 \description{Generate a QualificationRequirement data structure for use with \code{\link{CreateHIT}} or \code{\link{RegisterHITType}}.}
 \usage{
 GenerateQualificationRequirement(qual, comparator, value, preview = NULL, 
-                                 squal.number = NULL)
+                                 qual.number = NULL)
 }
 \arguments{
   \item{qual}{A character string containing a QualificationTypeId, or a vector of QualificationTypeIds. This parameter also accepts shorthand labels for built-in QualificationTypes: \dQuote{Approved} (percent of assignments approved), \dQuote{NumberApproved} (number of assignments approved), \dQuote{Locale}, \dQuote{Adult}, and MTurk \dQuote{masters} QualificationTypes (\dQuote{Masters}, \dQuote{Categorization}, or \dQuote{Photo Moderation}).}
