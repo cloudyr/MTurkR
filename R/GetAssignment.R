@@ -46,7 +46,7 @@ function (assignment = NULL, hit = NULL, hit.type = NULL, status = NULL,
             if(is.null(request$valid))
                 return(request)
             QualificationRequirements <- list()
-            if(request$valid == TRUE) {
+            if(request$valid) {
                 a <- as.data.frame.Assignments(xml.parsed = xmlParse(request$xml))$assignments
                 a$Answer <- NULL
                 if(i == 1)
@@ -99,8 +99,6 @@ function (assignment = NULL, hit = NULL, hit.type = NULL, status = NULL,
                             sortproperty, "&SortDirection=", sortdirection, 
                             GETiteration, sep = "")
             batch <- request(operation, GETparameters = GETiteration, ...)
-            if(is.null(batch$valid))
-                return(batch)
             batch$total <- as.numeric(strsplit(strsplit(batch$xml, 
                             "<TotalNumResults>")[[1]][2], "</TotalNumResults>")[[1]][1])
             batch$batch.total <- length(xpathApply(xmlParse(batch$xml), "//Assignment"))
