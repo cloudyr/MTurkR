@@ -41,7 +41,7 @@ function (amount, assignments = NULL, hits = NULL, bonus.ct = NULL,
         else bonus.fee <- turkfee * bonuses
         total <- total + bonuses + bonus.fee
     }
-    request <- AccountBalance(verbose = FALSE, ...)
+    request <- AccountBalance(verbose = FALSE, ...)$balance
     if(!is.null(request$valid))
         return(request)
     oldbalance <- as.numeric(substring(request$balance, 1, nchar(request$balance)))
