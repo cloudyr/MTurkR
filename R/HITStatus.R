@@ -20,8 +20,7 @@ function (hit = NULL, hit.type = NULL, verbose = getOption('MTurkR.verbose'), ..
         names(toprint) <- c("HITId", "Review Status", "Assignments Pending", 
                             "Assignments Available", "Assignments Completed",
                             "Expiration")
-    }
-    else if(!is.null(hit.type)) {
+    } else if(!is.null(hit.type)) {
         if(is.factor(hit.type))
             hit <- as.character(hit.type)
         HITs <- HITs[HITs$HITTypeId %in% hit.type, ]
@@ -29,10 +28,10 @@ function (hit = NULL, hit.type = NULL, verbose = getOption('MTurkR.verbose'), ..
             message("No HITs found for HITType")
             return(invisible(NULL))
         }
-        if(dim(HITs)[1] > 1) {
-            toprint <- HITs[,c( "HITId","HITReviewStatus","NumberOfAssignmentsPending",
+        toprint <- HITs[,c( "HITId","HITReviewStatus","NumberOfAssignmentsPending",
                                 "NumberOfAssignmentsAvailable",
                                 "NumberOfAssignmentsCompleted", "Expiration")]
+        if(dim(HITs)[1] > 1) {
             totals <- data.frame(HITId = c( "------------------------------", "Totals"),
                                 HITReviewStatus = c("---------------",""),
                                 NumberOfAssignmentsPending = c("--------------------",
@@ -45,8 +44,6 @@ function (hit = NULL, hit.type = NULL, verbose = getOption('MTurkR.verbose'), ..
             toprint <- rbind(toprint,totals)
         }
     }
-    if(verbose){
-        print(toprint, row.names = FALSE)
-    }
+    print(toprint, row.names = FALSE)
     return(invisible(HITs))
 }
