@@ -103,25 +103,21 @@ function (hit.type = NULL, question = NULL, validate.question = FALSE,
     else if (!is.null(unique.request.token)) 
         GETparameters <- paste(GETparameters, "&UniqueRequestToken=", 
                                curlEscape(unique.request.token), sep = "")
-    HITs <- setNames(data.frame(matrix(ncol=3, nrow=1)),
-                c("HITTypeId", "HITId", "Valid"))
-    if (is.null(hit.type)) 
-        type <- NA
-    else
-        type <- hit.type
     request <- request(operation, GETparameters = GETparameters, ...)
     if(is.null(request$valid))
         return(request)
     if(request$valid) {
+        HITs <- setNames(data.frame(matrix(ncol=3, nrow=1)),
+                c("HITTypeId", "HITId", "Valid"))
         hit <- strsplit(strsplit(request$xml, "<HITId>")[[1]][2], "</HITId>")[[1]][1]
         if(is.null(hit.type)) 
-            type <- strsplit(strsplit(request$xml, "<HITTypeId>")[[1]][2], "</HITTypeId>")[[1]][1]
-        HITs[1, ] <- c(type, hit, request$valid)
+            hit.type <- strsplit(strsplit(request$xml, "<HITTypeId>")[[1]][2], "</HITTypeId>")[[1]][1]
+        HITs[1, ] <- c(hit.type, hit, request$valid)
         if(verbose) {
             if(!is.null(hit.type)) 
                 message("HIT ", hit, " created")
             else if(is.null(hit.type)) 
-                message("HIT ", hit, " created (of type ", type,")")
+                message("HIT ", hit, " created (of type ", hit.type,")")
         }
     } else if(!request$valid && verbose)
         warning("Invalid Request")
