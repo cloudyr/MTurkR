@@ -198,6 +198,7 @@ importFrom(XML, xmlParse, xmlChildren, xpathApply, xmlValue, xmlName,
 
 # S3 methods
 S3method(print, MTurkResponse)
+S3method(print, SufficientFunds)
 S3method(as.data.frame, MTurkResponse)
 # other specific methods here
 
