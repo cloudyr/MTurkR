@@ -194,7 +194,7 @@ importFrom(RCurl, base64Encode, curlEscape, curlUnescape,
 importFrom(XML, xmlParse, xmlChildren, xpathApply, xmlValue, xmlName,
 				xmlNamespace, xmlSchemaValidate, removeXMLNamespaces,
 				newXMLNode, addChildren, toString.XMLNode, getNodeSet,
-                xmlRoot)
+                xmlRoot, xmlToList)
 
 # S3 methods
 S3method(print, MTurkResponse)

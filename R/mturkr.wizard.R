@@ -2012,7 +2012,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                     app <- function(){
                         if(as.character(tkcurselection(isrejlist))==""){
                             tkmessageBox(message="Please select an assignment!", type="ok")
-                            tkedestroy(appreason)
+                            tkdestroy(appreason)
                             tkfocus(approverejectDialog)
                         }
                         else{
@@ -2053,7 +2053,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                     b <- function(){
                         if(as.character(tkcurselection(sublist))==""){
                             tkmessageBox(message="Please select an assignment!", type="ok")
-                            tkedestroy(bonusreason)
+                            tkdestroy(bonusreason)
                             tkfocus(approverejectDialog)
                         } else if(tclvalue(amount)=="") {
                             tkmessageBox(message="Please enter a bonus amount!", type="ok")
