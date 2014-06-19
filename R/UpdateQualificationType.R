@@ -77,15 +77,14 @@ function (qual, description = NULL, status = NULL, retry.delay = NULL,
     request <- request(operation, GETparameters = GETparameters, ...)
     if(is.null(request$valid))
         return(request)
-    if(request$valid == TRUE) {
+    if(request$valid) {
         QualificationType <- as.data.frame.QualificationTypes(xml.parsed = xmlParse(request$xml))
         if(verbose) {
             message("QualificationType ", QualificationType$QualificationTypeId[1],
                     " Updated")
         }
         return(QualificationType)
-    }
-    else if(request$valid == FALSE & print == TRUE)
+    } else if(!request$valid & verbose)
         warning("Invalid Request")
     return(NULL)
 }

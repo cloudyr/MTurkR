@@ -42,11 +42,10 @@ function (qual, workers, values = NULL, increment = NULL,
         if(is.null(request$valid))
             return(request)
         Qualifications[i, ] <- c(qual, workers[i], values[i], request$valid)
-        if(request$valid == TRUE & print == TRUE) {
+        if(request$valid & verbose) {
             message(i, ": Qualification Score for Worker ", 
                 workers[i], " updated to ", values[i])
-        }
-        else if(request$valid == FALSE & print == TRUE)
+        } else if(!request$valid & verbose)
             warning(i, ": Invalid Request for worker ", workers[i])
     }
     if(verbose) 

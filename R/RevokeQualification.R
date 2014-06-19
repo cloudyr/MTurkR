@@ -21,11 +21,11 @@ function (qual, worker, reason = NULL, verbose = getOption('MTurkR.verbose'), ..
         request <- request(operation, GETparameters = GETparameters, ...)
         if(is.null(request$valid))
             return(request)
-        if (request$valid == TRUE & print == TRUE) {
+        if (request$valid & verbose) {
             message(i, ": Qualification (", qualbatch, ") for worker ", 
                 workerbatch, " Revoked")
         }
-        else if(request$valid == FALSE & print == TRUE)
+        else if(!request$valid & verbose)
                 warning(i, ": Invalid Request for worker ", workerbatch)
         return(request)
     }

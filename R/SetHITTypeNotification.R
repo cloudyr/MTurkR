@@ -23,7 +23,7 @@ function (hit.type, notification = NULL, active = NULL,
     if(is.null(request$valid))
         return(request)
     Notification[1, ] <- c(hit.type, notification, active, request$valid)
-    if(request$valid == TRUE) {
+    if(request$valid) {
         if(verbose) {
             if(!is.null(notification) & is.null(active)) 
                 message("HITTypeNotification for ", hit.type, " Created")
@@ -36,8 +36,7 @@ function (hit.type, notification = NULL, active = NULL,
             else if(is.null(notification) & !is.null(active) && active == FALSE) 
                 message("HITTypeNotification ", hit.type, " Inactive")
         }
-    }
-    else if(request$valid == FALSE & print == TRUE)
+    } else if(!request$valid & verbose)
         warning("Invalid Request")
     Notification$Valid <- factor(Notification$Valid, levels=c('TRUE','FALSE'))
     return(Notification)

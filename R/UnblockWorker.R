@@ -29,15 +29,14 @@ function (workers, reasons = NULL, verbose = getOption('MTurkR.verbose'), ...){
         request <- request(operation, GETparameters = GETparameters, ...)
         if(is.null(request$valid))
             return(request)
-        if (request$valid == TRUE) {
-            if (print == TRUE) 
+        if (request$valid) {
+            if(verbose) 
                 message(i, ": Worker ", workers[i], " Unblocked")
-            if (is.null(reasons)) 
+            if(is.null(reasons)) 
                 Workers[i, ] = c(workers[i], NA, request$valid)
             else
                 Workers[i, ] = c(workers[i], reasons[i], request$valid)
-        }
-        else if (request$valid == FALSE & print == TRUE)
+        } else if (!request$valid & verbose)
             warning(i, ": Invalid Request for worker ", workers[i])
     }
     Workers$Valid <- factor(Workers$Valid, levels=c('TRUE','FALSE'))

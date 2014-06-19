@@ -38,13 +38,12 @@ function (hit = NULL, hit.type = NULL, revert = FALSE,
         else if(revert == "true") 
             status <- "Reviewable"
         HITs[i, ] <- c(hitlist[i], status, request$valid)
-        if(request$valid == TRUE & print == TRUE) {
+        if(request$valid & verbose) {
             if(revert == "false") 
                 message(i, ": HIT (", hitlist[i], ") set as Reviewing")
             if(revert == "true") 
                 message(i, ": HIT (", hitlist[i], ") set as Reviewable")
-        }
-        else if(request$valid == FALSE & print == TRUE)
+        } else if(!request$valid & verbose)
             warning(i, ": Invalid Request for HIT ", hitlist[i])
     }
     HITs$Valid <- factor(HITs$Valid, levels=c('TRUE','FALSE'))
