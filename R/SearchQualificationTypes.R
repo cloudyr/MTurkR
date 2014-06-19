@@ -19,13 +19,13 @@ function (query = NULL, only.mine = TRUE, only.requestable = FALSE,
     GETparameters <- ""
     if(!is.null(query)) 
         GETparameters <- paste(GETparameters, "&Query=", curlEscape(query), sep = "")
-    if(only.mine == TRUE) 
+    if(only.mine) 
         GETparameters <- paste(GETparameters, "&MustBeOwnedByCaller=", "true", sep = "")
-    else if(only.mine == FALSE) 
+    else
         GETparameters <- paste(GETparameters, "&MustBeOwnedByCaller=", "false", sep = "")
-    if(only.requestable == TRUE) 
+    if(only.requestable) 
         GETparameters <- paste(GETparameters, "&MustBeRequestable=", "true", sep = "")
-    else if(only.requestable == FALSE) 
+    else
         GETparameters <- paste(GETparameters, "&MustBeRequestable=", "false", sep = "")
     batch <- function(GETparameters, pagenumber, pagesize) {
         GETparameters <- paste(GETparameters, "&PageNumber=", 
@@ -37,7 +37,7 @@ function (query = NULL, only.mine = TRUE, only.requestable = FALSE,
         batch$total <- as.numeric(strsplit(strsplit(batch$xml, 
                             "<TotalNumResults>")[[1]][2], "</TotalNumResults>")[[1]][1])
         batch$batch.total <- length(xpathApply(xmlParse(batch$xml), "//QualificationTypeId"))
-        if(return.qual.dataframe == TRUE) {
+        if(return.qual.dataframe) {
             if(batch$total > 0) 
                 batch$quals <- as.data.frame.QualificationTypes(xml.parsed = xmlParse(batch$xml))
         }
@@ -48,7 +48,7 @@ function (query = NULL, only.mine = TRUE, only.requestable = FALSE,
         return(request)
     runningtotal <- request$batch.total
     pagenumber <- 2
-    if(return.all == TRUE) {
+    if(return.all) {
         sortproperty <- "Name"
         sortdirection <- "Ascending"
         pagesize <- "100"
@@ -60,7 +60,7 @@ function (query = NULL, only.mine = TRUE, only.requestable = FALSE,
             request$request.id <- c(request$request.id, nextbatch$request.id)
             request$valid <- c(request$valid, nextbatch$valid)
             request$xml.response <- c(request$xml, nextbatch$xml)
-            if (return.qual.dataframe == TRUE) 
+            if (return.qual.dataframe) 
                 request$quals <- rbind(request$quals, nextbatch$quals)
             request$pages.returned <- pagesize
             runningtotal <- runningtotal + request$batch.total
@@ -68,9 +68,9 @@ function (query = NULL, only.mine = TRUE, only.requestable = FALSE,
         }
     }
     request$batch.total <- NULL
-    if(request$valid[1] == TRUE & print == TRUE)
+    if(request$valid[1] & verbose)
         message(dim(request$quals)[1], " of ", request$total, " QualificationTypes Retrieved")
-    else if(request$valid == FALSE & print == TRUE)
+    else if(!request$valid[1] & verbose)
         warning("Invalid Request")
     return(request$quals)
 }
