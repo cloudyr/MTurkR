@@ -164,7 +164,7 @@ function(operation, GETparameters = NULL,
             }
             out <- list(request.url = request.url, request.id = request.id, 
                         valid = valid, xml = response, operation = operation)
-            return(out, class='MTurkResponse')
+            return(structure(out, class='MTurkResponse'))
         }
     }
 }
