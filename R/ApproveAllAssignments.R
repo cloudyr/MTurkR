@@ -16,7 +16,7 @@ function (hit = NULL, hit.type = NULL, feedback = NULL,
     if(!is.null(hit)) {
         assignments <- GetAssignments(hit = hit, 
                                       return.all = TRUE, 
-                                      status = "Submitted", ...)
+                                      status = "Submitted", ...)$AssignmentId
     } else if(!is.null(hit.type)) {
         if(is.factor(hit.type))
             hit.type <- as.character(hit.type)
@@ -27,7 +27,7 @@ function (hit = NULL, hit.type = NULL, feedback = NULL,
         assignments <- sapply(hitlist, function(i){
                            GetAssignments(hit = i, 
                                           return.all = TRUE, 
-                                          status = "Submitted", ...)
+                                          status = "Submitted", ...)$AssignmentId
                        })
     }
     request <- ApproveAssignments(assignments, feedback = feedback, ...)
