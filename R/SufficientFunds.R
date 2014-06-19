@@ -42,8 +42,6 @@ function (amount, assignments = NULL, hits = NULL, bonus.ct = NULL,
         total <- total + bonuses + bonus.fee
     }
     request <- AccountBalance(verbose = FALSE, ...)
-    if(!is.null(request$valid))
-        return(request)
     oldbalance <- as.numeric(request$balance)
     newbalance <- oldbalance - total
     if (newbalance >= 0) 
