@@ -44,8 +44,9 @@ function (hit.type = NULL, question = NULL, validate.question = FALSE,
         }
         else
             stop("Must specify QuestionForm, HTMLQuestion, or ExternalQuestion for 'question' parameter; or a 'hitlayoutid'")
-    }
-    else {
+    } else {
+        if(class(question) %in% c('HTMLQuestion','ExternalQuestion'))
+            question <- question$string
         if(validate.question==TRUE){
             if(!is.null(xmlChildren(xmlParse(question))$QuestionForm))
                 namespace <- xmlNamespace(xmlChildren(xmlParse(question))$QuestionForm)[1]

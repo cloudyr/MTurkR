@@ -5,6 +5,8 @@ function (url, frame.height) {
     external.frame <- newXMLNode("FrameHeight", frame.height, parent = external)
     addChildren(external, c(external.url, external.frame))
     string <- toString.XMLNode(external)
-    encoded <- curlEscape(string)
-    invisible(list(xml.parsed = external, string = string, url.encoded = encoded))
+    return(structure(list(xml.parsed = external, 
+                          string = string, 
+                          url.encoded = curlEscape(string)),
+                     class='ExternalQuestion'))
 }
