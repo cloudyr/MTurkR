@@ -28,11 +28,12 @@ request(operation, GETparameters = NULL,
 }
 \details{This is an internal function that executes MTurk API requests. It is made available for use by advanced users to execute custom API requests.}
 \value{A list of class \dQuote{MTurkResponse} containing:
-  \item{request.url}{The URL of the MTurk API REST request.}
+  \item{operation}{A character string identifying the MTurk API operation performed.}
   \item{request.id}{The Request ID created by the API request.}
+  \item{request.url}{The URL of the MTurk API REST request.}
   \item{valid}{A logical indicating whether or not the request was valid and thus executed as intended.}
   \item{xml}{A character string containing the XML API response.}
-  \item{operation}{A character string identifying the MTurk API operation performed.}
+  
 }
 \references{
 \href{http://docs.amazonwebservices.com/AWSMechTurk/latest/AWSMechanicalTurkRequester/MakingRequestsArticle.html}{API Reference}

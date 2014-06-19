@@ -28,21 +28,21 @@ function(operation, GETparameters = NULL,
     request.url <- paste(host, urlparameters, sep='')
     if(validation.test){
         message("Request URL: ",request.url,'\n')
-        return(structure(list(request.url = request.url,
+        return(structure(list(operation = operation,
                               request.id = NULL,
+                              request.url = request.url,
                               valid = NULL,
-                              xml = NULL,
-                              operation = operation),
+                              xml = NULL),
                          class='MTurkResponse'))
     }
     else {
         if(browser == TRUE) {
             browseURL(request.url)
-            return(structure(list(request.url = request.url,
+            return(structure(list(operation = operation,
                                   request.id = NULL,
+                                  request.url = request.url,
                                   valid = NULL,
-                                  xml = NULL,
-                                  operation = operation),
+                                  xml = NULL),
                              class='MTurkResponse'))
         } else {
             h <- basicTextGatherer()
@@ -159,26 +159,30 @@ function(operation, GETparameters = NULL,
                         message("Error (", errors[i, 1], "): ", errors[i,2])
                 }
             }
-            out <- list(request.url = request.url, request.id = request.id, 
-                        valid = valid, xml = response, operation = operation)
-            return(structure(out, class='MTurkResponse'))
+            return(structure(list(operation = operation,
+                                  request.id = request.id, 
+                                  valid = valid, 
+                                  request.url = request.url,
+                                  xml = response), 
+                             class='MTurkResponse'))
         }
     }
 }
 
 print.MTurkResponse <- function(x,...){
     if(!is.null(x$operation))
-        cat('RequestId:   ',x$operation,'\n')
+        cat('API Operation: ',x$operation,'\n')
     if(!is.null(x$request.id))
-        cat('RequestId:   ',x$request.id,'\n')
+        cat('RequestId:     ',x$request.id,'\n')
     if(!is.null(x$valid))
-        cat('Valid?       ',x$valid,'\n')
+        cat('Valid?         ',x$valid,'\n')
     if(!is.null(x$request.url))
-        cat('Request URL: ',gsub('&','\n',curlUnescape(x$request.url),'\n'))
-    if(!is.null(x$response)){
+        cat('Request URL:   ',gsub('&','\n',curlUnescape(x$request.url),'\n'))
+    if(!is.null(x$xml)){
         cat('XML Response:\n')
         print(xmlParse(x$response))
     }
+    cat('\n')
     invisible(x)
 }
 
