@@ -44,24 +44,29 @@ function (amount, assignments = NULL, hits = NULL, bonus.ct = NULL,
     request <- AccountBalance(verbose = FALSE, ...)
     oldbalance <- as.numeric(request$balance)
     newbalance <- oldbalance - total
-    if (newbalance >= 0) 
-        sufficient <- TRUE
+    structure(list(Total = round(total, 3),
+                   OldBalance = round(oldbalance, 3),
+                   NewBalance = round(newbalance, 3), 
+                   Total = total,
+                   Payments = payments,
+                   PaymentFee = payment.fee,
+                   MastersFee = masters.fee,
+                   Bonuses = bonuses,
+                   BonusFee = bonus.fee),
+              class = 'SufficientFunds')
+}
+
+print.SufficientFunds <- function(x, ...){
+    cat("Total Payments:  ", sprintf('$%0.2f', x$Payments), '\n')
+    cat("Payment Fee:     ", sprintf('$%0.2f', x$PaymentFee), '\n')
+    cat("Masters Fee:     ", sprintf('$%0.2f', x$MastersFee), '\n')
+    cat("Bonuses:         ", sprintf('$%0.2f', x$Bonuses), '\n')
+    cat("Bonus Fee:       ", sprintf('$%0.2f', x$BonusFee), '\n')
+    cat("-------------------------\n")
+    cat("  Old Balance:   ", sprintf('$%0.2f', x$OldBalance), '\n')
+    cat("  Total Cost:    ", sprintf('$%0.2f', x$Total), '\n')
+    if (x$NewBalance >= 0)
+        cat("  New Balance:   ", sprintf('$%0.2f', x$NewBalance), " < SUFFICIENT FUNDS\n\n")
     else
-        sufficient <- FALSE
-    if (print == TRUE) {
-        message("Total Payments:  $", round(payments, 2))
-        message("Payment Fee:     $", round(payment.fee, 2))
-        message("Masters Fee:     $", round(masters.fee, 2))
-        message("Bonuses:         $", round(bonuses, 2))
-        message("Bonus Fee:       $", round(bonus.fee, 2))
-        message("-------------------------")
-        message("  Old Balance:   $", round(oldbalance, 2))
-        message("  Total Cost:    $", round(total, 2))
-        if (sufficient == TRUE) 
-            message("  New Balance:   $", round(newbalance, 2), " < SUFFICIENT\n")
-        else
-            message("  New Balance:   $", round(newbalance, 2), " < INSUFFICIENT\n")
-    }
-    invisible(list(Total = round(total, 3), OldBalance = round(oldbalance, 3),
-                   NewBalance = round(newbalance, 3), SufficientFunds = sufficient))
+        cat("  New Balance:   ", sprintf('$%0.2f', x$NewBalance), " < INSUFFICIENT FUNDS!\n\n")
 }
