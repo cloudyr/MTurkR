@@ -11,12 +11,28 @@ function(qual, verbose = getOption('MTurkR.verbose'), ...) {
     request <- request(operation, GETparameters = GETparameters, ...)
     if(is.null(request$valid))
         return(request)
-    if(request$valid == TRUE) {
+    if(request$valid) {
         Qualifications <- as.data.frame.QualificationTypes(xml.parsed = xmlParse(request$xml))
         if(verbose) 
             message("QualificationType Retrieved: ", qual)
+    } else if(!request$valid) {
+        Qualifications <-
+        setNames(data.frame(matrix(nrow=0, ncol=13)),
+                 c("QualificationTypeId",
+                   "CreationTime",
+                   "Name",
+                   "Description",
+                   "Keywords",
+                   "QualificationTypeStatus",
+                   "AutoGranted",
+                   "AutoGrantedValue",
+                   "IsRequestable",
+                   "RetryDelayInSeconds",
+                   "TestDurationInSeconds",
+                   "Test",
+                   "AnswerKey"))
+        if(verbose)
+            warning("Invalid Request")
     }
-    else if(request$valid == FALSE & print == TRUE)
-        warning("Invalid Request")
     return(Qualifications)
 }
