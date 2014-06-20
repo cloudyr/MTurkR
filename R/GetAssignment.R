@@ -24,8 +24,7 @@ function (assignment = NULL, hit = NULL, hit.type = NULL, status = NULL,
             if(!response.group %in% c("Request", "Minimal", 
                     "AssignmentFeedback", "HITDetail", "HITQuestion")) 
                 stop("ResponseGroup must be in c(Request,Minimal,AssignmentFeedback,HITDetail,HITQuestion)")
-        }
-        else {
+        } else {
             if(!response.group %in% c("Request", "Minimal", "AssignmentFeedback")) 
                 stop("ResponseGroup must be in c(Request,Minimal,AssignmentFeedback)")
         }
@@ -59,8 +58,7 @@ function (assignment = NULL, hit = NULL, hit.type = NULL, status = NULL,
         }
         return(Assignments)#, HITs = HITs, 
             #QualificationRequirements = QualificationRequirements))
-    }
-    else {
+    } else {
         operation <- "GetAssignmentsForHIT"
         if((is.null(hit) & is.null(hit.type)) | (!is.null(hit) & !is.null(hit.type))) 
             stop("Must provide 'assignment' xor 'hit' xor 'hit.type'")
@@ -68,8 +66,7 @@ function (assignment = NULL, hit = NULL, hit.type = NULL, status = NULL,
             if(is.factor(hit))
                 hit <- as.character(hit)
             hitlist <- hit
-        }
-        else if(!is.null(hit.type)) {
+        } else if(!is.null(hit.type)) {
             if(is.factor(hit.type))
                 hit.type <- as.character(hit.type)
             hitsearch <- SearchHITs(verbose = FALSE, 
@@ -105,8 +102,7 @@ function (assignment = NULL, hit = NULL, hit.type = NULL, status = NULL,
             if(batch$batch.total > 0 & return.assignment.dataframe == TRUE) {
                 batch$assignments <- as.data.frame.Assignments(xml.parsed = xmlParse(batch$xml))$assignments
                 batch$assignments$Answer <- NULL
-            }
-            else if(batch$batch.total > 0 & return.assignment.dataframe == FALSE) 
+            } else if(batch$batch.total > 0 & return.assignment.dataframe == FALSE) 
                 batch$assignments <- NULL
             else
                 batch$assignments <- NA
@@ -119,8 +115,7 @@ function (assignment = NULL, hit = NULL, hit.type = NULL, status = NULL,
                 if(is.null(request$valid))
                     return(request)
                 runningtotal <- request$batch.total
-             }
-             else{
+             } else{
                 pagenumber <- 1
                 nextrequest <- batch(hitlist[i], pagenumber)
                 if(is.null(nextrequest$valid))
@@ -153,6 +148,22 @@ function (assignment = NULL, hit = NULL, hit.type = NULL, status = NULL,
         }
         if(verbose) 
             message(cumulative, " of ", request$total, " Assignments Retrieved")
+        if(is.na(request$assignments)){
+            request$assignments <- 
+            setNames(data.frame(matrix(nrow=0, ncol=12)),
+                c("AssignmentId",
+                  "WorkerId",
+                  "HITId",
+                  "AssignmentStatus",
+                  "AutoApprovalTime",
+                  "AcceptTime",
+                  "SubmitTime",
+                  "ApprovalTime",
+                  "RejectionTime",
+                  "RequesterFeedback",
+                  "ApprovalRejectionTime",
+                  "SecondsOnHIT"))
+        }
         return(request$assignments)
     }
 }
