@@ -32,8 +32,13 @@ function (hit = NULL, hit.type = NULL, feedback = NULL,
                                           verbose = verbose,  ...)$AssignmentId
                        })
     }
-    request <- ApproveAssignments(assignments,
-                                  feedback = feedback, 
-                                  verbose = verbose, ...)
-    return(request)
+    if(length(assignments)==0){
+        return(setNames(data.frame(matrix(nrow=0, ncol=3)),
+                        c("AssignmentId","Feedback","Valid")))
+    } else {
+        request <- ApproveAssignments(assignments,
+                                      feedback = feedback, 
+                                      verbose = verbose, ...)
+        return(request)
+    }
 }
