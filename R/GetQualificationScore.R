@@ -7,28 +7,39 @@ function (qual, workers, verbose = getOption('MTurkR.verbose'), ...) {
     operation <- "GetQualificationScore"
     if(is.factor(qual))
         qual <- as.character(qual)
+    if(length(qual)==1)
+        qual <- rep(qual, length(workers))
+    else if(length(qual) != length(workers))
+        stop("length(qual) != length(workers)")
     if(is.factor(workers))
         workers <- as.character(workers)
-    Qualifications <- NA
+    Qualifications <- 
+        setNames(data.frame(matrix(nrow = length(workers), ncol = 5)),
+                 c("QualificationTypeId", "WorkerId", "GrantTime", "Value", "Status"))
     for(i in 1:length(workers)) {
-        GETparameters <- paste("&QualificationTypeId=", qual, 
+        GETparameters <- paste("&QualificationTypeId=", qual[i], 
             "&SubjectId=", workers[i], sep = "")
         request <- request(operation, GETparameters = GETparameters, ...)
         if(is.null(request$valid))
             return(request)
-        if(request$valid == TRUE) {
+        if(request$valid) {
             x <- as.data.frame.Qualifications(xml.parsed = xmlParse(request$xml))
             x$WorkerId <- workers[i]
-            if(i == 1) 
-                Qualifications <- x
-            else Qualifications <- rbind(Qualifications, x)
+            Qualifications[i,] <- x
             if(verbose) {
-                message("Qualification (", qual, ") Score for ", 
+                message("Qualification (", qual[i], ") Score for ", 
                         workers[i], ": ", Qualifications$Value[i])
             }
+        } else {
+            Qualifications[i,] <- 
+                c(QualificationTypeId = qual[i], 
+                  WorkerId = workers[i],
+                  GrantTime = NA,
+                  Value = NA,
+                  Status = NA)
+            if(verbose)
+                warning("Invalid Request for worker ", workers[i])
         }
-        else if(request$valid == FALSE & print == TRUE)
-              warning("Invalid Request for worker ", workers[i])
     }
     return(Qualifications)
 }
