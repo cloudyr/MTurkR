@@ -5,14 +5,14 @@ as.data.frame.HITs <- function(xml.parsed, return.hit.xml = FALSE,
     hit.xml <- xpathApply(xml.parsed, "//HIT")
     if(!is.null(length(hit.xml))) {
         quals <- list()
-        HITs <- data.frame(matrix(nrow = length(hit.xml), ncol = 19))
-        names(HITs) <- c("HITId", "HITTypeId", "CreationTime", 
+        HITs <- setNames(data.frame(matrix(nrow = length(hit.xml), ncol = 19)),
+          c("HITId", "HITTypeId", "CreationTime", 
             "Title", "Description", "Keywords", "HITStatus", 
             "MaxAssignments", "Amount", "AutoApprovalDelayInSeconds", 
             "Expiration", "AssignmentDurationInSeconds", "NumberOfSimilarHITs", 
             "HITReviewStatus", "RequesterAnnotation", "NumberOfAssignmentsPending", 
             "NumberOfAssignmentsAvailable", "NumberOfAssignmentsCompleted", 
-            "Question")
+            "Question"))
         for(i in 1:length(hit.xml)) {
             q <- xpathApply(xml.parsed, "//HIT")[[i]]
             HITs[i, 1] <- xmlValue(xmlChildren(q)$HITId)
