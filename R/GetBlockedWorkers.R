@@ -12,8 +12,7 @@ function(pagenumber = NULL, pagesize = NULL,
             stop("'pagesize' must be <=65535")
         else
             GETparameters <- paste(GETparameters, "&PageSize=", pagesize, sep = "")
-    }
-    else
+    } else
         GETparameters <- paste(GETparameters, "&PageSize=65535", sep = "")
     if(!is.null(pagenumber)) {
         if(as.numeric(pagenumber) < 1) 
@@ -21,20 +20,15 @@ function(pagenumber = NULL, pagesize = NULL,
         else 
             GETparameters <- paste(GETparameters, "&PageNumber=", pagenumber, sep = "")
     }
-    Workers <- NA    
-    request <- request(operation, GETparameters = GETparameters, ...)
-    if(is.null(request$valid))
+    request <- request(operation, GETparameters = GETparameters, verbose = verbose, ...)
+    if(is.null(request$valid) || !request$valid)
         return(request)
-    if(request$valid == TRUE) {
-        Workers <- as.data.frame.WorkerBlock(xml.parsed = xmlParse(request$xml))
-        if(verbose) {
-            if(!is.null(Workers) && dim(Workers)[1] > 0) 
-                message(dim(Workers)[1], " Blocked Workers Retrieved")
-            else
-                message("No Blocked Workers Retrieved")
-        }
-        return(Workers)
+    Workers <- as.data.frame.WorkerBlock(xml.parsed = xmlParse(request$xml))
+    if(verbose) {
+       if(!is.null(Workers) && dim(Workers)[1] > 0) 
+           message(dim(Workers)[1], " Blocked Workers Retrieved")
+       else
+           message("No Blocked Workers Retrieved")
     }
-    else
-        return(NULL)
+    return(Workers)
 }
