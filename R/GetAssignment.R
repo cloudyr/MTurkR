@@ -102,10 +102,22 @@ function (assignment = NULL, hit = NULL, hit.type = NULL, status = NULL,
             if(batch$batch.total > 0 & return.assignment.dataframe == TRUE) {
                 batch$assignments <- as.data.frame.Assignments(xml.parsed = xmlParse(batch$xml))$assignments
                 batch$assignments$Answer <- NULL
-            } else if(batch$batch.total > 0 & return.assignment.dataframe == FALSE) 
-                batch$assignments <- NULL
-            else
-                batch$assignments <- NA
+            } else { 
+                batch$assignments <- 
+                setNames(data.frame(matrix(nrow=0, ncol=12)),
+                c("AssignmentId",
+                  "WorkerId",
+                  "HITId",
+                  "AssignmentStatus",
+                  "AutoApprovalTime",
+                  "AcceptTime",
+                  "SubmitTime",
+                  "ApprovalTime",
+                  "RejectionTime",
+                  "RequesterFeedback",
+                  "ApprovalRejectionTime",
+                  "SecondsOnHIT"))
+            }
             return(batch)
         }
         cumulative <- 0
@@ -148,22 +160,6 @@ function (assignment = NULL, hit = NULL, hit.type = NULL, status = NULL,
         }
         if(verbose) 
             message(cumulative, " of ", request$total, " Assignments Retrieved")
-        if(nrow(request$assignments)==0){
-            request$assignments <- 
-            setNames(data.frame(matrix(nrow=0, ncol=12)),
-                c("AssignmentId",
-                  "WorkerId",
-                  "HITId",
-                  "AssignmentStatus",
-                  "AutoApprovalTime",
-                  "AcceptTime",
-                  "SubmitTime",
-                  "ApprovalTime",
-                  "RejectionTime",
-                  "RequesterFeedback",
-                  "ApprovalRejectionTime",
-                  "SecondsOnHIT"))
-        }
         return(request$assignments)
     }
 }
