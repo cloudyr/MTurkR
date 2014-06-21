@@ -148,7 +148,7 @@ function (assignment = NULL, hit = NULL, hit.type = NULL, status = NULL,
         }
         if(verbose) 
             message(cumulative, " of ", request$total, " Assignments Retrieved")
-        if(is.na(request$assignments)){
+        if(nrow(request$assignments)==0){
             request$assignments <- 
             setNames(data.frame(matrix(nrow=0, ncol=12)),
                 c("AssignmentId",
