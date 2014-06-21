@@ -27,8 +27,7 @@ function (qual = NULL, return.all = TRUE, pagenumber = "1", pagesize = "10",
         if(is.factor(qual))
             qual <- as.character(qual)
         GETparameters <- paste("&QualificationTypeId=", qual, sep = "")
-    }
-    else
+    } else
         qual <- ""
     batch <- function(qual, pagenumber, pagesize, sortproperty, sortdirection) {
         GETiteration <- paste(GETparameters, "&PageNumber=", 
@@ -70,8 +69,14 @@ function (qual = NULL, return.all = TRUE, pagenumber = "1", pagesize = "10",
     }
     if(verbose)
         message(request$total, " Requests Retrieved")
-    if(request$total > 0) 
+    if(request$total > 0) {
         return(request$QualificationRequests)
-    else
-        return(NULL)
+    } else {
+        return(setNames(data.frame(matrix(nrow=0, ncol=5)), 
+               c("QualificationRequestId",
+                 "QualificationTypeId",
+                 "SubjectId",
+                 "SubmitTime",
+                 "Answer")))
+    }
 }
