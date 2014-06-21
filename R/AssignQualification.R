@@ -71,7 +71,7 @@ function (qual, workers, value = "1", notify = FALSE, name = NULL,
     if(is.null(conditional.statistic)) {
         for(i in 1:length(workers)) {
             x <- batch(workers[i], value)
-            if(is.null(request$valid))
+            if(is.null(x$valid))
                 return(request)
             Qualifications[i, ] = c(workers[i], value, qual, notify, x$valid)
         }
