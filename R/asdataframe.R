@@ -42,18 +42,17 @@ function(xml.parsed,
                 quals.nodeset <- xpathApply(xml.parsed, paste("//HIT[", i,
                     "]/QualificationRequirement", sep = ""))
                 if(!is.null(quals.nodeset) && length(quals.nodeset) > 0) {
-                    quals[[i]] <- as.data.frame.QualificationRequirements(xmlnodeset = quals.nodeset, 
-                                hit.number = i, sandbox = sandbox)
-                    if(is.null(quals[[i]]) || is.na(quals[[i]])) {
-                        quals[[i]] <- setNames(data.frame(matrix(ncol=6, nrow=0)),
-                                    c('HITId','QualificationTypeId','Name',
-                                    'Comparator','Value','RequiredToPreview'))
-                    } else
+                    quals[[i]] <-
+                        as.data.frame.QualificationRequirements(xmlnodeset = quals.nodeset, 
+                                                                hit.number = i,
+                                                                sandbox = sandbox)
+                    if(!is.null(quals[[i]])) {
                         quals[[i]]$HITId <- HITs$HITId[i]
                 } else {
                     quals[[i]] <- setNames(data.frame(matrix(ncol=6, nrow=0)),
-                                    c('HITId','QualificationTypeId','Name',
-                                    'Comparator','Value','RequiredToPreview'))
+                                           c('HITId', 'QualificationTypeId',
+                                             'Name', 'Comparator',
+                                             'Value', 'RequiredToPreview'))
                 }
             }
         }
@@ -121,22 +120,26 @@ as.data.frame.Assignments <- function(xml.parsed, return.assignment.xml = FALSE)
 
 # QUALIFICATION STRUCTURES
 
-as.data.frame.QualificationRequirements <- function (xml.parsed = NULL, xmlnodeset = NULL, hit = NULL, 
-    hit.number = NULL, sandbox = getOption('MTurkR.sandbox')){
+as.data.frame.QualificationRequirements <-
+function(xml.parsed = NULL,
+         xmlnodeset = NULL, 
+         hit.number = NULL, 
+         sandbox = getOption('MTurkR.sandbox')){
     if(is.null(xmlnodeset) & is.null(xml.parsed)) 
         stop("Must supply XML (parsed or unparsed) xor XMLNodeSet")
     batch <- function(xmlnodeset) {
         quals <- setNames(data.frame(matrix(nrow = length(xmlnodeset), ncol = 6)),
-                    c("HITId", "QualificationTypeId", "Name",
-                    "Comparator", "Value", "RequiredToPreview"))
+                          c("HITId", "QualificationTypeId", "Name",
+                            "Comparator", "Value", "RequiredToPreview"))
         for(i in 1:length(xmlnodeset)) {
             quals$QualificationTypeId[i] <- xmlValue(xmlChildren(xmlnodeset[[i]])$QualificationTypeId)
             if(quals$QualificationTypeId[i] %in% ListQualificationTypes()$QualificationTypeId) {
                 qlist <- ListQualificationTypes()
                 quals$Name[i] <- qlist[qlist$QualificationTypeId == 
                   quals$QualificationTypeId[i], "Qualification"]
-            } else
+            } else {
                 quals$Name[i] <- NA
+            }
             quals$Comparator[i] <- xmlValue(xmlChildren(xmlnodeset[[i]])$Comparator)
             if("LocaleValue" %in% names(xmlChildren(xmlnodeset[[i]]))) 
                 quals$Value[i] <- xmlValue(xmlChildren(xmlnodeset[[i]])$LocaleValue)
@@ -146,24 +149,27 @@ as.data.frame.QualificationRequirements <- function (xml.parsed = NULL, xmlnodes
         }
         return(quals)
     }
-    if(!is.null(xmlnodeset))
+    if(!is.null(xmlnodeset)) {
         return(batch(xmlnodeset))
-    else if(!is.null(xml.parsed)) {
-        if(!is.null(hit.number)) 
+    } else if(!is.null(xml.parsed)) {
+        if(!is.null(hit.number)) {
             xmlnodeset <- xpathApply(xml.parsed, paste("//HIT[", 
                 hit.number, "]/QualificationRequirement", sep = ""))
-        else if(is.null(hit.number)) 
+        } else if(is.null(hit.number)) {
             xmlnodeset <- xpathApply(xml.parsed, "//QualificationRequirement")
-        if(!is.null(xmlnodeset)) 
+        }
+        if(!is.null(xmlnodeset)) {
             return(batch(xmlnodeset))
-        else
-            return(NULL)
-    } else if(!is.null(hit)) {
-        xmlnodeset <- xpathApply(xmlParse(GetHIT(hit = hit, keypair = credentials, sandbox = sandbox)$xml), 
-            paste("//QualificationRequirement", sep = ""))
-        return(batch(xmlnodeset))
-    } else
-        return(NULL)
+        } else {
+            return(setNames(data.frame(matrix(ncol=6, nrow=0)),
+                   c('HITId', 'QualificationTypeId', 'Name',
+                     'Comparator', 'Value', 'RequiredToPreview')))
+        }
+    } else {
+        return(setNames(data.frame(matrix(ncol=6, nrow=0)),
+                        c('HITId', 'QualificationTypeId', 'Name',
+                          'Comparator', 'Value', 'RequiredToPreview')))
+    }
 }
 
 
