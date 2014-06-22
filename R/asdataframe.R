@@ -177,7 +177,23 @@ as.data.frame.QualificationTypes <- function(xml.parsed) {
             AnswerKey = xmlValue(children$AnswerKey)
         ))
     })
-    return(do.call(rbind.data.frame,out))
+    if(!length(out)){
+        return(setNames(data.frame(matrix(nrow=0, ncol=13)),
+                        c("QualificationTypeId",
+                          "CreationTime",
+                         "Name",
+                         "Description",
+                         "Keywords",
+                         "QualificationTypeStatus",
+                         "AutoGranted",
+                         "AutoGrantedValue",
+                         "IsRequestable",
+                         "RetryDelayInSeconds",
+                         "TestDurationInSeconds",
+                         "Test",
+                         "AnswerKey")))
+    } else
+        return(do.call(rbind.data.frame,out))
 }
 
 as.data.frame.QualificationRequests <- function(xml.parsed){
@@ -191,10 +207,15 @@ as.data.frame.QualificationRequests <- function(xml.parsed){
             Answer = xmlValue(children$Answer)
         ))
     })
-    if(!is.null(out))
-        return(list(QualificationRequests = out))
-    else
-        return(list(QualificationRequests = NULL))
+    if(!length(out)) {
+        return(setNames(data.frame(matrix(nrow=0, ncol=5)),
+                        c("QualificationRequestId",
+                          "QualificationTypeId",
+                          "SubjectId",
+                          "SubmitTime",
+                          "Answer")))
+    } else
+        return(do.call("rbind.data.frame", out))
 }
 
 as.data.frame.Qualifications <- function(xml.parsed) {
