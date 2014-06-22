@@ -1,8 +1,7 @@
 GetHITsForQualificationType <-
 gethitsbyqual <-
 function (qual, response.group = NULL, return.all = TRUE, pagenumber = 1, 
-    pagesize = 100, return.hit.dataframe = TRUE,
-    verbose = getOption('MTurkR.verbose'), ...) {
+    pagesize = 100, verbose = getOption('MTurkR.verbose'), ...) {
     # temporary check for `print` argument (remove after v1.0)
     if('print' %in% names(list(...)) && is.null(verbose))
         verbose <- list(...)$print
@@ -40,12 +39,22 @@ function (qual, response.group = NULL, return.all = TRUE, pagenumber = 1,
         batch$total <- as.numeric(strsplit(strsplit(batch$xml, 
             "<TotalNumResults>")[[1]][2], "</TotalNumResults>")[[1]][1])
         batch$batch.total <- length(xpathApply(xmlParse(batch$xml), "//HIT"))
-        if(return.hit.dataframe) {
-            if(batch$total > 0) {
-                hitlist <- as.data.frame.HITs(xml.parsed = xmlParse(batch$xml))
-                batch$HITs <- hitlist$HITs
-                batch$QualificationRequirements <- hitlist$QualificationRequirements
-            }
+        if(batch$total > 0) {
+            hitlist <- as.data.frame.HITs(xml.parsed = xmlParse(batch$xml))
+            batch$HITs <- hitlist$HITs
+            batch$QualificationRequirements <- hitlist$QualificationRequirements
+        } else {
+            batch$HITs <- setNames(data.frame(matrix(nrow = 0, ncol = 19)),
+                                   c("HITId", "HITTypeId", "CreationTime", 
+                                     "Title", "Description", "Keywords", "HITStatus", 
+                                     "MaxAssignments", "Amount", 
+                                     "AutoApprovalDelayInSeconds", "Expiration", 
+                                     "AssignmentDurationInSeconds", "NumberOfSimilarHITs", 
+                                     "HITReviewStatus", "RequesterAnnotation", 
+                                     "NumberOfAssignmentsPending",
+                                     "NumberOfAssignmentsAvailable", 
+                                     "NumberOfAssignmentsCompleted", "Question"))
+            batch$QualificationRequirements <- list()
         }
         return(batch)
     }
@@ -71,10 +80,8 @@ function (qual, response.group = NULL, return.all = TRUE, pagenumber = 1,
         pagenumber <- pagenumber + 1
     }
     request$batch.total <- NULL
-    return.list <- list(HITs = request$HITs,
-                        QualificationRequirements = request$QualificationRequirements)
     if(verbose)
         message(request$total, " HITs Retrieved")
-    if(request$total > 0) 
-        return(return.list)
+    return(list(HITs = request$HITs,
+                QualificationRequirements = request$QualificationRequirements))
 }

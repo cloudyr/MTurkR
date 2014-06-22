@@ -6,7 +6,6 @@
 \usage{
 GetHITsForQualificationType(qual, response.group = NULL, return.all = TRUE, 
                             pagenumber = 1, pagesize = 100, 
-                            return.hit.dataframe = TRUE,
                             verbose = getOption('MTurkR.verbose'), ...)
 }
 \arguments{
@@ -15,7 +14,6 @@ GetHITsForQualificationType(qual, response.group = NULL, return.all = TRUE,
   \item{return.all}{A logical indicating whether all QualificationTypes (as opposed to a specified page of the search results) should be returned. Default is \code{TRUE}.}
   \item{pagenumber}{An optional character string indicating which page of search results should be returned. Most users can ignore this.}
   \item{pagesize}{An optional character string indicating how many search results should be returned by each request, between 1 and 100. Most users can ignore this.}
-  \item{return.hit.dataframe}{A logical indicating whether the HIT dataframe should be returned. Default is \code{TRUE}.}
   \item{verbose}{Optionally print the results of the API request to the standard output. Default is taken from \code{getOption('MturkR.verbose')}.}
   \item{...}{Additional arguments passed to \code{\link{request}}.}
 }
