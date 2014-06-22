@@ -536,7 +536,18 @@ as.data.frame.BonusPayments <- function(xml.parsed){
             GrantTime = xmlValue(children$GrantTime)
         ))
     })
-    return(do.call(rbind.data.frame,out))
+    if(!length(out)){
+        return(setNames(data.frame(matrix(nrow=0, ncol=7)),
+            c("AssignmentId",
+              "WorkerId",
+              "Amount",
+              "CurrencyCode",
+              "FormattedPrice",
+              "Reason",
+              "GrantTime")))
+        )
+    } else
+        return(do.call(rbind.data.frame,out))
 }
 
 as.data.frame.WorkerBlock <- function(xml.parsed) {
@@ -547,6 +558,12 @@ as.data.frame.WorkerBlock <- function(xml.parsed) {
             Reason = xmlValue(children$Reason)
         ))
     })
-    return(do.call(rbind.data.frame,out))
+    if(!length(out)){
+        return(setNames(data.frame(matrix(nrow=0, ncol=2)),
+            c("WorkerId",
+              "Reason")))
+        )
+    } else
+        return(do.call(rbind.data.frame,out))
 }
 
