@@ -545,7 +545,6 @@ as.data.frame.BonusPayments <- function(xml.parsed){
               "FormattedPrice",
               "Reason",
               "GrantTime")))
-        )
     } else
         return(do.call(rbind.data.frame,out))
 }
@@ -562,7 +561,6 @@ as.data.frame.WorkerBlock <- function(xml.parsed) {
         return(setNames(data.frame(matrix(nrow=0, ncol=2)),
             c("WorkerId",
               "Reason")))
-        )
     } else
         return(do.call(rbind.data.frame,out))
 }
