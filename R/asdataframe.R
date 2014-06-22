@@ -1,7 +1,10 @@
 # HITs
 
-as.data.frame.HITs <- function(xml.parsed, return.hit.xml = FALSE, 
-    return.qual.list = TRUE, sandbox = getOption('MTurkR.sandbox')) {
+as.data.frame.HITs <-
+function(xml.parsed,
+         return.hit.xml = FALSE, 
+         return.qual.list = TRUE, 
+         sandbox = getOption('MTurkR.sandbox')) {
     hit.xml <- xpathApply(xml.parsed, "//HIT")
     if(!is.null(length(hit.xml))) {
         quals <- list()
@@ -45,24 +48,30 @@ as.data.frame.HITs <- function(xml.parsed, return.hit.xml = FALSE,
                         quals[[i]] <- setNames(data.frame(matrix(ncol=6, nrow=0)),
                                     c('HITId','QualificationTypeId','Name',
                                     'Comparator','Value','RequiredToPreview'))
-                    }
-                    else
+                    } else
                         quals[[i]]$HITId <- HITs$HITId[i]
-                }
-                else {
+                } else {
                     quals[[i]] <- setNames(data.frame(matrix(ncol=6, nrow=0)),
                                     c('HITId','QualificationTypeId','Name',
                                     'Comparator','Value','RequiredToPreview'))
                 }
             }
         }
-        if(!is.null(quals))
-            return(list(HITs = HITs, QualificationRequirements = quals))
-        else
-            return(list(HITs = HITs))
+        return(list(HITs = HITs, QualificationRequirements = quals))
+    } else {
+        return(list(HITs =
+                    setNames(data.frame(matrix(nrow = 0, ncol = 19)),
+                             c("HITId", "HITTypeId", "CreationTime", 
+                               "Title", "Description", "Keywords", "HITStatus", 
+                               "MaxAssignments", "Amount", 
+                               "AutoApprovalDelayInSeconds", "Expiration", 
+                               "AssignmentDurationInSeconds", "NumberOfSimilarHITs", 
+                               "HITReviewStatus", "RequesterAnnotation", 
+                               "NumberOfAssignmentsPending",
+                               "NumberOfAssignmentsAvailable", 
+                               "NumberOfAssignmentsCompleted", "Question")),
+                    QualificationRequirements = list()))
     }
-    else
-        return(list(HITs = NULL))
 }
 
 
