@@ -48,6 +48,7 @@ function(xml.parsed,
                                                                 sandbox = sandbox)
                     if(!is.null(quals[[i]])) {
                         quals[[i]]$HITId <- HITs$HITId[i]
+                    }
                 } else {
                     quals[[i]] <- setNames(data.frame(matrix(ncol=6, nrow=0)),
                                            c('HITId', 'QualificationTypeId',
