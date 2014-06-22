@@ -29,17 +29,17 @@ function (assignment = NULL, hit = NULL, hit.type = NULL, return.all = TRUE,
     }
     
     if(!is.null(hit) || !is.null(assignment)){
-        if(is.null(hit)){
+        if(!is.null(hit)){
             obj <- hit
             type <- 'hit'
-        } else if(is.null(assignment)){
+        } else {
             obj <- assignment
             type <- 'assign'
         }
         request <- batch(type, obj, pagenumber)
         if(is.null(request$valid))
             return(request)
-        if(request$valid == TRUE) {
+        if(request$valid) {
             runningtotal <- strsplit(strsplit(request$xml, 
                     "<NumResults>")[[1]][2], "</NumResults>")[[1]][1]
             if(return.all){
@@ -67,7 +67,7 @@ function (assignment = NULL, hit = NULL, hit.type = NULL, return.all = TRUE,
                     Bonuses$HITId <- hit
                 return(Bonuses)
             }
-        } else if(request$valid == FALSE){
+        } else {
             warning("Invalid Request")
             return(request)
         }
