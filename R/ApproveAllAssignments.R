@@ -28,7 +28,7 @@ function (hit = NULL, hit.type = NULL, feedback = NULL,
                         GetAssignments(hit = i, return.all = TRUE, keypair = keypair,
                         log.requests = log.requests, sandbox = sandbox)$AssignmentId })
     }
-    request <- ApproveAssignments(keypair, assignments, feedback = feedback,
+    request <- ApproveAssignments(keypair = keypair, assignments, feedback = feedback,
                 print = print, log.requests = log.requests, 
                 sandbox = sandbox, validation.test = validation.test)
     return(request)
