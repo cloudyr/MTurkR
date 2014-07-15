@@ -1,6 +1,7 @@
 # CHANGES TO MTurkR 0.5 #
 
 ## SIGNIFICANT USER-VISIBLE CHANGES ##
+* The `qual.number` argument to `GenerateQualificationRequirement` has been removed.
 * The `return.hit.dataframe` argument to `GetHITsForQualificationType` has been removed.
 * Functions of the form `*ToDataFrame` have been replaced with `as.data.frame` S3 methods, which are handled by a global `as.data.frame.MTurkResponse` function. (#36)
 * `ParseErrorCodes` is removed (now used internally in `request`).
