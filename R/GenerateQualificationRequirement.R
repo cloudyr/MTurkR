@@ -20,38 +20,14 @@ function (qual, comparator, value, preview = NULL) {
     else if(is.null(preview)) 
         preview <- rep(NA, length(qual))
     
+    qual <- sapply(qual, .AliasToQualificationType)
+    if(any(qual %in% c("2ARFPLSP75KLA8M8DH1HTEQVJT3SY6", 
+                       "2F1KVCNHMVHV8E9PBUB2A4J79LU20F",
+                       "2TGBB6BFMFFOM08IBMAFGGESC1UWJX")))
+        warning("QualificationTypeIds for Sandbox used")
+        
     x <- ""
-    for(i in 1:length(qual)) {
-        #if (qual[i] == "PercentAssignmentsSubmitted" | qual[i] == "Submitted") 
-        #    qual[i] <- "00000000000000000000"
-        #else if (qual[i] == "PercentAssignmentsAbandoned" | qual[i] == "Abandoned") 
-        #    qual[i] <- "00000000000000000070"
-        #else if (qual[i] == "PercentAssignmentsReturned" | qual[i] == "Returned") 
-        #    qual[i] <- "000000000000000000E0"
-        #else if (qual[i] == "PercentAssignmentsRejected" | qual[i] == "Rejected") 
-        #    qual[i] <- "000000000000000000S0"
-        if(qual[i] %in% c("PercentAssignmentsApproved","Approved"))
-            qual[i] <- "000000000000000000L0"
-        else if(qual[i] %in% c("NumberHITsApproved","NumberApproved","HITs"))
-            qual[i] <- "00000000000000000040"
-        else if(qual[i] %in% c("Locale","Country","Location"))
-            qual[i] <- "00000000000000000071"
-        else if(qual[i] == "Adult") 
-            qual[i] <- "00000000000000000060"
-        else if(qual[i] %in% c("Categorization",
-                                "Categorization Masters",
-                                "CategorizationMasters"))
-            qual[i] <- "2NDP2L92HECWY8NS8H3CK0CP5L9GHO"
-        else if(qual[i] %in% c("Photo Moderation",
-                                "Photo Moderation Masters",
-                                "PhotoModerationMasters"))
-            qual[i] <- "21VZU98JHSTLZ5BPP4A9NOBJEK3DPG"
-        else if(qual[i] %in% c("Masters","MTurkMasters"))
-            qual[i] <- "2F1QJWKUDD8XADTFD2Q0G6UTO95ALH"
-        if(qual[i] %in% c("2ARFPLSP75KLA8M8DH1HTEQVJT3SY6", 
-                        "2F1KVCNHMVHV8E9PBUB2A4J79LU20F",
-                        "2TGBB6BFMFFOM08IBMAFGGESC1UWJX"))
-            warning("QualificationTypeIds for Sandbox used")
+    for(i in qual.number) {
         if(comparator[i] == "<") 
             comparator[i] <- "LessThan"
         else if(comparator[i] == "<=") 
@@ -60,7 +36,7 @@ function (qual, comparator, value, preview = NULL) {
             comparator[i] <- "GreaterThan"
         else if(comparator[i] == ">=") 
             comparator[i] <- "GreaterThanOrEqualTo"
-        else if(comparator[i] == "=" | comparator[i] == "==") 
+        else if(comparator[i] %in% c("=","=="))
             comparator[i] <- "EqualTo"
         else if(comparator[i] == "!=") 
             comparator[i] <- "NotEqualTo"
@@ -86,25 +62,21 @@ function (qual, comparator, value, preview = NULL) {
                     preview[i] <- 0
             }
         }
-        x <- paste(x, "&QualificationRequirement.", qual.number, 
-            ".QualificationTypeId=", qual[i], "&QualificationRequirement.", 
-            qual.number, ".Comparator=", comparator[i], sep = "")
-        if(qual[i] == "00000000000000000071") 
-            x <- paste(x, "&QualificationRequirement.", qual.number, 
-            ".LocaleValue.Country=", value[i], sep = "")
-        if(!qual[i] == "00000000000000000071") 
-            x <- paste(x, "&QualificationRequirement.", qual.number, 
-            ".IntegerValue=", value[i], sep = "")
-        if(!is.na(preview[i])) 
-            x <- paste(x, "&QualificationRequirement.", qual.number, 
-            ".RequiredToPreview=", preview[i], sep = "")
     }
     
-    return(x)
+    paste(paste("&QualificationRequirement.", qual.number, 
+            ".QualificationTypeId=", qual, "&QualificationRequirement.", 
+            qual.number, ".Comparator=", comparator, sep = "")
+          "&QualificationRequirement.", qual.number, 
+          ifelse(qual == "00000000000000000071", ".LocaleValue.Country=",
+                                                 ".IntegerValue="),
+          value, 
+          ifelse(!is.na(preview), paste("&QualificationRequirement.", qual.number, 
+                                        ".RequiredToPreview=", preview, sep=""), ""),
+          sep = "")
 }
 
-.AliasToQualificationType <- function(alias){
-    qual <- alias
+.AliasToQualificationType <- function(qual){
     if(qual %in% c("PercentAssignmentsApproved","Approved"))
         qual <- "000000000000000000L0"
     else if(qual %in% c("NumberHITsApproved","NumberApproved","HITs"))
@@ -114,30 +86,14 @@ function (qual, comparator, value, preview = NULL) {
     else if(qual == "Adult") 
         qual <- "00000000000000000060"
     else if(qual %in% c("Categorization",
-                            "Categorization Masters",
-                            "CategorizationMasters"))
+                        "Categorization Masters",
+                        "CategorizationMasters"))
         qual <- "2NDP2L92HECWY8NS8H3CK0CP5L9GHO"
     else if(qual %in% c("Photo Moderation",
-                            "Photo Moderation Masters",
-                            "PhotoModerationMasters"))
+                        "Photo Moderation Masters",
+                        "PhotoModerationMasters"))
         qual <- "21VZU98JHSTLZ5BPP4A9NOBJEK3DPG"
     else if(qual %in% c("Masters","MTurkMasters"))
         qual <- "2F1QJWKUDD8XADTFD2Q0G6UTO95ALH"
     return(qual)
-}
-
-
-if(FALSE){
-    out <- 
-    paste("&QualificationRequirement.", qual.number, 
-            ".QualificationTypeId=", qual, "&QualificationRequirement.", 
-            qual.number, ".Comparator=", comparator, sep = "")
-          "&QualificationRequirement.", qual.number, 
-          ifelse(qual == "00000000000000000071", ".LocaleValue.Country=",
-                                                 ".IntegerValue="),
-          value, 
-          ifelse(!is.na(preview), paste("&QualificationRequirement.", qual.number, 
-                                        ".RequiredToPreview=", preview, sep=""),
-          sep = "")
-    return(out)
 }
