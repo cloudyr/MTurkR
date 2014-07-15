@@ -4,8 +4,6 @@ function (hit = NULL, hit.type = NULL, verbose = getOption('MTurkR.verbose'), ..
     # temporary check for `print` argument (remove after v1.0)
     if('print' %in% names(list(...)) && is.null(verbose))
         verbose <- list(...)$print
-    if((is.null(hit) & is.null(hit.type)) | (!is.null(hit) & !is.null(hit.type))) 
-        stop("Must provide 'hit' xor 'hit.type'")
     hitsearch <- SearchHITs(verbose = TRUE, return.qual.dataframe = FALSE, ...)
     HITs <- hitsearch$HITs
     if(is.null(HITs))
@@ -20,12 +18,14 @@ function (hit = NULL, hit.type = NULL, verbose = getOption('MTurkR.verbose'), ..
         names(toprint) <- c("HITId", "Review Status", "Assignments Pending", 
                             "Assignments Available", "Assignments Completed",
                             "Expiration")
-    } else if(!is.null(hit.type)) {
-        if(is.factor(hit.type))
-            hit <- as.character(hit.type)
-        HITs <- HITs[HITs$HITTypeId %in% hit.type, ]
+    } else {
+        if(!is.null(hit.type)) {
+            if(is.factor(hit.type))
+                hit <- as.character(hit.type)
+            HITs <- HITs[HITs$HITTypeId %in% hit.type, ]
+        }
         if(dim(HITs)[1] == 0) {
-            message("No HITs found for HITType")
+            message("No HITs found!")
             return(invisible(NULL))
         }
         toprint <- HITs[,c( "HITId","HITReviewStatus","NumberOfAssignmentsPending",

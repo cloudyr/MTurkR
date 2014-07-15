@@ -15,7 +15,7 @@ HITStatus(hit = NULL, hit.type = NULL, verbose = getOption('MTurkR.verbose'), ..
 }
 \arguments{
   \item{hit}{An optional character string specifying the HITId of the HIT to be retrieved. Must specify \code{hit} xor \code{hit.type}.}
-  \item{hit.type}{An optional character string specifying the HITTypeId (or a vector of HITTypeIds) of the HIT(s) to be retrieved. Must specify \code{hit} xor \code{hit.type}.}
+  \item{hit.type}{An optional character string specifying the HITTypeId (or a vector of HITTypeIds) of the HIT(s) to be retrieved. Must specify \code{hit} xor \code{hit.type}, otherwise all HITs are returned in \code{HITStatus}.}
   \item{response.group}{An optional character string (or vector of character strings) specifying what details of each HIT to return of: \dQuote{Request}, \dQuote{Minimal}, \dQuote{HITDetail}, \dQuote{HITQuestion}, \dQuote{HITAssignmentSummary}. For more information, see \url{http://docs.aws.amazon.com/AWSMechTurk/latest/AWSMturkAPI/ApiReference_CommonParametersArticle.html}.}
   \item{return.hit.dataframe}{A logical indicating whether the dataframe of HITs should be returned. Default is \code{TRUE}.}
   \item{return.qual.dataframe}{A logical indicating whether the list of each HIT's QualificationRequirements (stored as dataframes in that list) should be returned. Default is \code{TRUE}.}
