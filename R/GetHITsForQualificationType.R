@@ -14,7 +14,8 @@ function (qual, response.group = NULL, return.all = TRUE, pagenumber = 1,
         stop("'pagesize' must be in range (1,100)")
     if(as.numeric(pagenumber) < 1) 
         stop("'pagenumber' must be > 1")
-    GETparameters <- paste("&QualificationTypeId=", qual, "&PageSize=", 
+    GETparameters <- paste("&QualificationTypeId=", .AliasToQualificationType(qual), 
+                           "&PageSize=", 
                            pagesize, sep = "")
     if(!is.null(response.group)) {
         if(!response.group %in% c("Minimal", "Request")) 
