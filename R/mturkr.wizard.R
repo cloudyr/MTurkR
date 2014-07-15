@@ -285,20 +285,21 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                     tkfocus(registerDialog)
                 }
                 else {
-                    newhittype <- RegisterHITType(  title=tclvalue(title),
-                                                    description=tclvalue(description),
-                                                    reward=tclvalue(reward),
+                    newhittype <- RegisterHITType(  title = tclvalue(title),
+                                                    description = tclvalue(description),
+                                                    reward = tclvalue(reward),
                                                     duration=seconds(as.numeric(tclvalue(daysd)),
                                                                      as.numeric(tclvalue(hoursd)),
                                                                      as.numeric(tclvalue(minsd)),
                                                                      as.numeric(tclvalue(secsd))),
-                                                    keywords=tclvalue(keywords),
+                                                    keywords = tclvalue(keywords),
                                                     auto.approval.delay=seconds(as.numeric(tclvalue(daysa)),
                                                                                 as.numeric(tclvalue(hoursa)),
                                                                                 as.numeric(tclvalue(minsa)),
                                                                                 as.numeric(tclvalue(secsa))),
                                                     qual.req = wizardenv$qualreq, # retrieve stored qualreq from wizardenv
-                                                    sandbox=sandbox)
+                                                    sandbox = sandbox,
+                                                    verbose = TRUE)
                     if(newhittype$Valid==TRUE){
                         assign("newHITTypeId", hittype$HITTypeId, envir=wizardenv) # write newHITTypeId to wizardenv environment
                         tkdestroy(registerDialog)
@@ -895,7 +896,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                     tclvalue(hittypeid) <<- wizardenv$newHITTypeId # retrieve hitid from wizardenv environment
                 }
                 populatebutton <- tkbutton(buttons, text="Register New HITType", command=populate)
-                OKbutton <- tkbutton(buttons, text="   OK   ", command=gethit)
+                OKbutton <- tkbutton(buttons, text="   OK   ", command=create)
                 Cancelbutton <- tkbutton(buttons, text=" Cancel ", command=function() {tkdestroy(createDialog); tkfocus(wizard)})
                 r <- 1
                 tkgrid(populatebutton, row=r, column=1)
@@ -906,6 +907,83 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
             tkfocus(createDialog)
         }
         
+        # changehittypeofhit
+        changetypeWiz <- function() {
+            # function to change HITType
+            change function(){
+                if(tclvalue(hittype)==""){
+                    tkmessageBox(message="Please enter a new HITTypeId!", type="ok")
+                    tkfocus(createDialog)
+                }
+                if(tclvalue(oldhittype)=="" && tclvalue(hitid)==""){
+                    tkmessageBox(message="Please enter either a HITType or HITId whose type should be changed!", type="ok")
+                    tkfocus(createDialog)
+                } else if(tclvalue(oldhittype)=="" && tclvalue(hitid)==""){
+                    tkmessageBox(message="Only an old HITType or old HITId can be specified. Not both!", type="ok")
+                    tkfocus(createDialog)
+                } else if(!tclvalue(oldhittype)==""){
+                    changed <- ChangeHITType(old.hit.type = tclvalue(oldhittype),
+                                             new.hit.type = tclvalue(hittypeid),
+                                             verbose = FALSE,
+                                             sandbox = sandbox)
+                    tkdestroy(createDialog)
+                    tkfocus(wizard)
+                } else if(!tclvalue(hitid)==""){
+                    h <- strsplit(tclvalue(hitid), ",")[[1]]
+                    changed <- ChangeHITType(hit = h,
+                                             new.hit.type = tclvalue(hittypeid),
+                                             verbose = FALSE,
+                                             sandbox = sandbox)
+                    tkdestroy(createDialog)
+                    tkfocus(wizard)
+                }
+            }
+            
+            # dialog
+            changeDialog <- tktoplevel()
+            tkwm.title(changeDialog, "Change HITType of HIT(s)")
+            entryform <- tkframe(changeDialog, relief="groove", borderwidth=2)
+                # hitid
+                hittypeid <- tclVar()
+                oldhittype <- tclVar()
+                hitid <- tclVar()
+                r <- 1
+                tkgrid(ttklabel(entryform, text = "     "), row=r, column=1)
+                tkgrid(ttklabel(entryform, text = "     "), row=r, column=11)
+                r <- r + 1
+                hittype.entry <- tkentry(entryform, width = 50, textvariable=hittypeid)
+                tkgrid(tklabel(entryform, text = "Enter New HITTypeId (or Register a HITType, below): "), row=r, column=2)
+                tkgrid(hittype.entry, row=r, column=3, columnspan=8, sticky="w")
+                r <- r + 1
+                tkgrid(tklabel(entryform, text = "Enter old HITTypeId OR old HITId(s) you want to Change"), row=r, column=2)
+                r <- r + 1
+                oldhittype.entry <- tkentry(entryform, width = 50, textvariable=oldhittype)
+                tkgrid(tklabel(entryform, text = "Old HITTypeId to Change: "), row=r, column=2)
+                tkgrid(oldhittype.entry, row=r, column=3, columnspan=8, sticky="w")
+                r <- r + 1
+                hit.entry <- tkentry(entryform, width = 10, textvariable=hitid)
+                tkgrid(tklabel(entryform, text = "Old HITId(s) to Change: "), row=r, column=2)
+                tkgrid(hit.entry, row=r, column=3, columnspan=2, sticky="w")
+                r <- r + 1
+                tkgrid(ttklabel(entryform, text = "     "), row=r)
+            tkgrid(entryform)
+            # buttons
+            buttons <- tkframe(changeDialog)
+                populate <- function(){
+                    registerWiz()
+                    tclvalue(hittypeid) <<- wizardenv$newHITTypeId # retrieve hittypeid from wizardenv environment
+                }
+                populatebutton <- tkbutton(buttons, text="Register New HITType", command=populate)
+                OKbutton <- tkbutton(buttons, text="   OK   ", command=change)
+                Cancelbutton <- tkbutton(buttons, text=" Cancel ", command=function() {tkdestroy(changeDialog); tkfocus(wizard)})
+                r <- 1
+                tkgrid(populatebutton, row=r, column=1)
+                tkgrid(OKbutton, row=r, column=2)
+                tkgrid(Cancelbutton, row=r, column=3)
+            tkgrid(buttons)
+            
+            tkfocus(changeDialog)
+        }
         
         # gethit
         gethitWiz <- function(){
@@ -3534,6 +3612,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
             # hits menu
             tkadd(hits, "command", label = "Register HITType", command = registerWiz)
             tkadd(hits, "command", label = "Create HIT", command = createWiz)
+            tkadd(hits, "command", label = "Change HITType of HIT", command = changetypeWiz)
             tkadd(hits, "separator")
             tkadd(hits, "command", label = "View HIT", command = gethitWiz)
             tkadd(hits, "command", label = "Check HIT Status", command = statusWiz)
