@@ -14,7 +14,7 @@ GenerateQualificationRequirement(qual, comparator, value, preview = NULL)
 \details{
 A convenience function to translate the details of a QualificationRequirement into the necessary structure for use in the \code{qual.req} parameter of \code{\link{CreateHIT}} or \code{\link{RegisterHITType}}. The function accepts three required parameters: \code{qual}, \code{comparator}, and \code{value}. \code{qual} must be a valid QualificationTypeId for either a built-in QualificaitonType (see \code{\link{ListQualificationTypes}}) or a custom QualificationType (e.g., one created with \code{\link{CreateQualificationType}}). Multiple QualificationRequirements can be generated in one call --- that is, if a requester intends to impose multiple QualificationRequirements on a single HITType, those requirements must be specified in a single call to \code{GenerateQualificationRequirements}. Once attached to a HITType, only workers who meet all of the specified QualificationRequirements can complete assignments for a HIT of that HITType.
 }
-\value{Returns a character string containing one or more QualificationRequirements in the form of URL query parameters.}
+\value{Returns a character string (of class \dQuote{QualificationRequirement}) containing URL-encoded QualificationRequirements.}
 \references{
 \href{http://docs.amazonwebservices.com/AWSMechTurk/latest/AWSMturkAPI/ApiReference_QualificationRequirementDataStructureArticle.html}{API Reference}
 }

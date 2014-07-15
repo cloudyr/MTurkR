@@ -26,7 +26,6 @@ function (qual, comparator, value, preview = NULL) {
                        "2TGBB6BFMFFOM08IBMAFGGESC1UWJX")))
         warning("QualificationTypeIds for Sandbox used")
         
-    x <- ""
     for(i in qual.number) {
         if(comparator[i] == "<") 
             comparator[i] <- "LessThan"
@@ -64,9 +63,10 @@ function (qual, comparator, value, preview = NULL) {
         }
     }
     
+    out <- 
     paste(paste("&QualificationRequirement.", qual.number, 
             ".QualificationTypeId=", qual, "&QualificationRequirement.", 
-            qual.number, ".Comparator=", comparator, sep = "")
+            qual.number, ".Comparator=", comparator, sep = ""),
           "&QualificationRequirement.", qual.number, 
           ifelse(qual == "00000000000000000071", ".LocaleValue.Country=",
                                                  ".IntegerValue="),
@@ -74,6 +74,7 @@ function (qual, comparator, value, preview = NULL) {
           ifelse(!is.na(preview), paste("&QualificationRequirement.", qual.number, 
                                         ".RequiredToPreview=", preview, sep=""), ""),
           sep = "")
+    structure(paste(out, collapse =""), class = "QualificationRequirement")
 }
 
 .AliasToQualificationType <- function(qual){
