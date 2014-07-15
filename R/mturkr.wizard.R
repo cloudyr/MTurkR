@@ -288,9 +288,15 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                     newhittype <- RegisterHITType(  title=tclvalue(title),
                                                     description=tclvalue(description),
                                                     reward=tclvalue(reward),
-                                                    duration=seconds(tclvalue(daysd),tclvalue(hoursd),tclvalue(minsd),tclvalue(secsd)),
+                                                    duration=seconds(as.numeric(tclvalue(daysd)),
+                                                                     as.numeric(tclvalue(hoursd)),
+                                                                     as.numeric(tclvalue(minsd)),
+                                                                     as.numeric(tclvalue(secsd))),
                                                     keywords=tclvalue(keywords),
-                                                    auto.approval.delay=seconds(tclvalue(daysa),tclvalue(hoursa),tclvalue(minsa),tclvalue(secsa)),
+                                                    auto.approval.delay=seconds(as.numeric(tclvalue(daysa)),
+                                                                                as.numeric(tclvalue(hoursa)),
+                                                                                as.numeric(tclvalue(minsa)),
+                                                                                as.numeric(tclvalue(secsa))),
                                                     qual.req = wizardenv$qualreq, # retrieve stored qualreq from wizardenv
                                                     sandbox=sandbox)
                     if(newhittype$Valid==TRUE){
@@ -788,7 +794,10 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                     }
                     newhit <- CreateHIT(    hit.type=tclvalue(hittype),
                                             question=wizardenv$question,
-                                            expiration=seconds(tclvalue(days),tclvalue(hours),tclvalue(mins),tclvalue(secs)),
+                                            expiration=seconds(as.numeric(tclvalue(days)),
+                                                               as.numeric(tclvalue(hours)),
+                                                               as.numeric(tclvalue(mins)),
+                                                               as.numeric(tclvalue(secs))),
                                             assignments=tclvalue(assigns),
                                             annotation=tclvalue(annotate),
                                             assignment.review.policy=assignpolicy,
@@ -1279,7 +1288,10 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 else {
                     tkdestroy(extendDialog)
                     ExtendHIT(    hit=tclvalue(hitid),
-                                add.seconds=seconds(tclvalue(days), tclvalue(hours), tclvalue(mins), tclvalue(secs)),
+                                add.seconds=seconds(as.numeric(tclvalue(days)), 
+                                                    as.numeric(tclvalue(hours)), 
+                                                    as.numeric(tclvalue(mins)), 
+                                                    as.numeric(tclvalue(secs))),
                                 sandbox=sandbox
                             )
                     tkfocus(wizard)
@@ -2527,7 +2539,10 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 answertowrite <- tclvalue(tkget(answer.entry,"0.0","end"))
                 if(answertowrite=="")
                     answertowrite <- NULL
-                testduration <- seconds(tclvalue(days),tclvalue(hours),tclvalue(mins),tclvalue(secs))
+                testduration <- seconds(as.numeric(tclvalue(days)),
+                                        as.numeric(tclvalue(hours)),
+                                        as.numeric(tclvalue(mins)),
+                                        as.numeric(tclvalue(secs)))
                 test <- list(    Test=testtowrite,
                                 AnswerKey=answertowrite,
                                 TestDurationInSeconds=testduration )
@@ -2627,7 +2642,10 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                     if(tclvalue(days)=="" && tclvalue(hours)=="" && tclvalue(mins)=="" && tclvalue(secs)=="")
                         delay <- NULL
                     else
-                        delay <- seconds(tclvalue(days),tclvalue(hours),tclvalue(mins),tclvalue(secs))
+                        delay <- seconds(as.numeric(tclvalue(days)),
+                                         as.numeric(tclvalue(hours)),
+                                         as.numeric(tclvalue(mins)),
+                                         as.numeric(tclvalue(secs)))
                     statselect <- statusopts[as.numeric(as.character(tkcurselection(statuslist)))+1] # listbox index starts at 0
                     results <- CreateQualificationType(name=tclvalue(name), description=tclvalue(desc),
                                                        status=statselect, keywords = keywords,
@@ -2750,7 +2768,10 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                     if(tclvalue(days)=="" && tclvalue(hours)=="" && tclvalue(mins)=="" && tclvalue(secs)=="")
                         delay <- NULL
                     else
-                        delay <- seconds(tclvalue(days),tclvalue(hours),tclvalue(mins),tclvalue(secs))
+                        delay <- seconds(as.numeric(tclvalue(days)),
+                                         as.numeric(tclvalue(hours)),
+                                         as.numeric(tclvalue(mins)),
+                                         as.numeric(tclvalue(secs)))
                     statselect <- statusopts[as.numeric(as.character(tkcurselection(statuslist)))+1] # listbox index starts at 0
                     qual <- UpdateQualificationType(qual=tclvalue(qualid),
                                                     description=tclvalue(desc),
