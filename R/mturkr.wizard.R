@@ -913,20 +913,20 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
             change <- function(){
                 if(tclvalue(hittype)==""){
                     tkmessageBox(message="Please enter a new HITTypeId!", type="ok")
-                    tkfocus(createDialog)
+                    tkfocus(changeDialog)
                 }
                 if(tclvalue(oldhittype)=="" && tclvalue(hitid)==""){
                     tkmessageBox(message="Please enter either a HITType or HITId whose type should be changed!", type="ok")
-                    tkfocus(createDialog)
+                    tkfocus(changeDialog)
                 } else if(tclvalue(oldhittype)=="" && tclvalue(hitid)==""){
                     tkmessageBox(message="Only an old HITType or old HITId can be specified. Not both!", type="ok")
-                    tkfocus(createDialog)
+                    tkfocus(changeDialog)
                 } else if(!tclvalue(oldhittype)==""){
                     changed <- ChangeHITType(old.hit.type = tclvalue(oldhittype),
                                              new.hit.type = tclvalue(hittypeid),
                                              verbose = FALSE,
                                              sandbox = sandbox)
-                    tkdestroy(createDialog)
+                    tkdestroy(changeDialog)
                     tkfocus(wizard)
                 } else if(!tclvalue(hitid)==""){
                     h <- strsplit(tclvalue(hitid), ",")[[1]]
@@ -934,7 +934,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                                              new.hit.type = tclvalue(hittypeid),
                                              verbose = FALSE,
                                              sandbox = sandbox)
-                    tkdestroy(createDialog)
+                    tkdestroy(changeDialog)
                     tkfocus(wizard)
                 }
             }
