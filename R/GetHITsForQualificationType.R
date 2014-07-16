@@ -70,11 +70,9 @@ function (qual, response.group = NULL, return.all = TRUE, pagenumber = 1,
         request$valid <- c(request$valid, nextbatch$valid)
         request$xml.response <- c(request$xml, nextbatch$xml)
         if(request$valid) {
-            if(return.hit.dataframe) {
-                request$HITs <- rbind(request$HITs, nextbatch$HITs)
-                request$QualificationRequirements <- rbind(request$QualificationRequirements, 
-                    nextbatch$QualificationRequirements)
-            }
+            request$HITs <- rbind(request$HITs, nextbatch$HITs)
+            request$QualificationRequirements <- rbind(request$QualificationRequirements, 
+                nextbatch$QualificationRequirements)
         }
         request$pages.returned <- pagesize
         runningtotal <- runningtotal + request$batch.total
