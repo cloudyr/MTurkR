@@ -910,7 +910,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
         # changehittypeofhit
         changetypeWiz <- function() {
             # function to change HITType
-            change function(){
+            change <- function(){
                 if(tclvalue(hittype)==""){
                     tkmessageBox(message="Please enter a new HITTypeId!", type="ok")
                     tkfocus(createDialog)
