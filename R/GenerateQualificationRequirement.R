@@ -1,8 +1,9 @@
 GenerateQualificationRequirement <-
-function (qual, comparator, value, preview = NULL) {
+function (qual, comparator, value, preview = NULL, qual.number = NULL) {
     if(is.null(qual)) 
         stop("No QualificationTypeId specified")
-    qual.number <- seq_along(qual)
+    if(is.null(qual.number))
+        qual.number <- seq_along(qual)
     if(is.null(comparator)) 
         stop("No comparator specified")
     else if(!length(qual) == length(comparator)) 
