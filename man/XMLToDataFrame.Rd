@@ -25,7 +25,7 @@ as.data.frame.HITs(xml.parsed, return.hit.xml = FALSE,
                 return.qual.list = TRUE, sandbox = getOption('MTurkR.sandbox'))
 as.data.frame.HTMLQuestion(xml.parsed)
 as.data.frame.QualificationRequests(xml.parsed)
-as.data.frame.QualificationRequirements(xml.parsed, xmlnodeset = NULL,
+as.data.frame.QualificationRequirements(xml.parsed = NULL, xmlnodeset = NULL,
                                      hit = NULL, hit.number = NULL,
                                      sandbox = getOption('MTurkR.sandbox'))
 as.data.frame.Qualifications(xml.parsed)
