@@ -42,11 +42,11 @@ function (qual, comparator, value, preview = NULL, qual.number = NULL) {
             comparator[i] <- "NotEqualTo"
         if(!comparator[i] %in% c("LessThan", "LessThanOrEqualTo", 
                 "GreaterThan", "GreaterThanOrEqualTo", "EqualTo", 
-                "NotEqualTo", "Exists")) 
+                "NotEqualTo", "Exists", "DoesNotExist", "In", "NotIn")) 
             stop("Inappropriate comparator specified for QualificationRequirement")
         if(qual[i] == "00000000000000000071" & !comparator[i] %in% 
-                c("EqualTo", "NotEqualTo")) 
-            stop("Worker_Locale (00000000000000000071) Requirement can only be used with 'EqualTo' or 'NotEqualTo' comparators")
+                c("EqualTo", "NotEqualTo", "In", "NotIn")) 
+            stop("Worker_Locale (00000000000000000071) Requirement can only be used with 'EqualTo', 'NotEqualTo', 'In', or 'NotIn' comparators")
         if(qual[i] %in% c("2NDP2L92HECWY8NS8H3CK0CP5L9GHO", 
                             "21VZU98JHSTLZ5BPP4A9NOBJEK3DPG",
                             "2F1QJWKUDD8XADTFD2Q0G6UTO95ALH") && 
@@ -64,14 +64,23 @@ function (qual, comparator, value, preview = NULL, qual.number = NULL) {
         }
     }
     
+    # handle multiple LocaleValue
+    ltmp <- unname(mapply(function(x, qn) { 
+        v <- strsplit(x,',')[[1]]
+        paste0('QualificationRequirement.',qn,'.LocaleValue.Country.', seq_along(v),'=', v, collapse='&')
+    }, value, qual.number))
+    # handle multiple IntegerValue
+    itmp <- unname(mapply(function(x, qn) { 
+        v <- strsplit(x,',')[[1]]
+        paste0('QualificationRequirement.',qn,'.IntegerValue.', seq_along(v),'=', v, collapse='&')
+    }, value, qual.number))
+    
     out <- 
     paste(paste("&QualificationRequirement.", qual.number, 
             ".QualificationTypeId=", qual, "&QualificationRequirement.", 
             qual.number, ".Comparator=", comparator, sep = ""),
-          "&QualificationRequirement.", qual.number, 
-          ifelse(qual == "00000000000000000071", ".LocaleValue.Country=",
-                                                 ".IntegerValue="),
-          value, 
+          ifelse(qual == "00000000000000000071", paste0("&", ltmp),
+                                                 paste0("&", itmp)),
           ifelse(!is.na(preview), paste("&QualificationRequirement.", qual.number, 
                                         ".RequiredToPreview=", preview, sep=""), ""),
           sep = "")

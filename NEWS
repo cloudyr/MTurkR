@@ -1,6 +1,7 @@
 # CHANGES TO MTurkR 0.5 #
 
 ## SIGNIFICANT USER-VISIBLE CHANGES ##
+* `GenerateQualificationRequirement` now supports new comparators (given MTurk API update on 2014-07-17): "DoesNotExist", "In", and "NotIn". The "DoesNotExist" comparator allows requesters to effectively block workers who do not have, e.g., a requester-defined qualification. The "In" and "NotIn" comparators allow a boolean OR logical in QualificationRequirements (e.g., allowing a worker to be from the US or the UK) rather than having to create two separate HITs with different Locale restrictions.
 * The `qual.number` argument to `GenerateQualificationRequirement` has been removed.
 * The `return.hit.dataframe` argument to `GetHITsForQualificationType` has been removed.
 * Functions of the form `*ToDataFrame` have been replaced with `as.data.frame` S3 methods, which are handled by a global `as.data.frame.MTurkResponse` function. (#36)
