@@ -5,7 +5,7 @@
 \usage{
 GenerateQualificationRequirement(qual, 
                                  comparator, 
-                                 value = NULL, 
+                                 value, 
                                  preview = NULL, 
                                  qual.number = NULL)
 }
@@ -48,4 +48,5 @@ q4 <- GenerateQualificationRequirement(c("Locale","Approved"),
                                        preview = c(TRUE,FALSE))
 # `Exists` comparator
 q5 <- GenerateQualificationRequirement("Approved", "Exists", "")
+}
 \keyword{Qualifications}
