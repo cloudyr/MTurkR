@@ -23,6 +23,7 @@
 * `request` now returns an object of S3 class "MTurkResponse" and an associated print method has been added.
 
 ## BUG FIXES ##
+* `GenerateQualificationRequirement` now correctly handles the "Exists" comparator by requiring an empty character string for the corresponding `value` argument.
 * `HITStatus` now prints correctly when only one HIT is retrieved.
 * `ApproveAllAssignments` now only attempts to approved assignments with AssignmentStatus "Submitted".
 * `as.data.frame.QuestionForm` now returns "Overview" elements and "Question" elements as one data.frame, distinguished by a new column: `Element`. (#8)

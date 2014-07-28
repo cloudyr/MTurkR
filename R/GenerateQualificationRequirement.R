@@ -52,8 +52,8 @@ function (qual, comparator, value, preview = NULL, qual.number = NULL) {
                             "2F1QJWKUDD8XADTFD2Q0G6UTO95ALH") && 
                         !comparator == "Exists") 
             stop("Masters qualifications can only accept 'Exists' comparator")
-        if(comparator[i] == "Exists" & !is.null(value[i])) 
-            value[i] <- NULL
+        if(comparator[i] %in% c("Exists","DoesNotExist") & !is.null(value[i])) 
+            value[i] <- ""
         if(!is.null(preview)) {
             if(!is.na(preview[i])) {
                 if(preview[i] %in% c(TRUE, "true", "True", "1", 1)) 
@@ -65,12 +65,12 @@ function (qual, comparator, value, preview = NULL, qual.number = NULL) {
     }
     
     # handle multiple LocaleValue
-    ltmp <- unname(mapply(function(x, qn) { 
+    ltmp <- unname(mapply(function(x = NULL, qn) { 
         v <- strsplit(x,',')[[1]]
         paste0('QualificationRequirement.',qn,'.LocaleValue.Country.', seq_along(v),'=', v, collapse='&')
     }, value, qual.number))
     # handle multiple IntegerValue
-    itmp <- unname(mapply(function(x, qn) { 
+    itmp <- unname(mapply(function(x = NULL, qn) { 
         v <- strsplit(x,',')[[1]]
         paste0('QualificationRequirement.',qn,'.IntegerValue.', seq_along(v),'=', v, collapse='&')
     }, value, qual.number))
@@ -79,8 +79,9 @@ function (qual, comparator, value, preview = NULL, qual.number = NULL) {
     paste(paste("&QualificationRequirement.", qual.number, 
             ".QualificationTypeId=", qual, "&QualificationRequirement.", 
             qual.number, ".Comparator=", comparator, sep = ""),
+            ifelse(comparator %in% c("Exists","DoesNotExist"), "",
           ifelse(qual == "00000000000000000071", paste0("&", ltmp),
-                                                 paste0("&", itmp)),
+                                                 paste0("&", itmp))),
           ifelse(!is.na(preview), paste("&QualificationRequirement.", qual.number, 
                                         ".RequiredToPreview=", preview, sep=""), ""),
           sep = "")
