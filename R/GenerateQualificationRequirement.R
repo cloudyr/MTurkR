@@ -27,7 +27,7 @@ function (qual, comparator, value, preview = NULL, qual.number = NULL) {
                        "2TGBB6BFMFFOM08IBMAFGGESC1UWJX")))
         warning("QualificationTypeIds for Sandbox used")
         
-    for(i in qual.number) {
+    for(i in seq_along(qual.number)) {
         if(comparator[i] == "<") 
             comparator[i] <- "LessThan"
         else if(comparator[i] == "<=") 
