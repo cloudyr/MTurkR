@@ -30,7 +30,7 @@ function (hit.type = NULL, question = NULL, validate.question = FALSE,
                 qual.req = qual.req, ...)
             if(is.null(register$Valid))
                 return(register)
-            if(!register$valid) 
+            if(!register$Valid) 
                 stop("Could not RegisterHITType(), check parameters")
             else
                 GETparameters <- paste("&HITTypeId=", register$HITTypeId, sep = "")
