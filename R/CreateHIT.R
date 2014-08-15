@@ -28,7 +28,7 @@ function (hit.type = NULL, question = NULL, validate.question = FALSE,
             register <- RegisterHITType(title, description, reward, 
                 duration, keywords = keywords, auto.approval.delay = auto.approval.delay, 
                 qual.req = qual.req, ...)
-            if(is.null(register$valid))
+            if(is.null(register$Valid))
                 return(register)
             if(!register$valid) 
                 stop("Could not RegisterHITType(), check parameters")
