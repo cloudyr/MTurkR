@@ -21,7 +21,7 @@ function (qual, comparator, value, preview = NULL, qual.number = NULL) {
     else if(is.null(preview)) 
         preview <- rep(NA, length(qual))
     
-    qual <- sapply(qual, .AliasToQualificationType)
+    qual <- sapply(as.character(qual), .AliasToQualificationType)
     if(any(qual %in% c("2ARFPLSP75KLA8M8DH1HTEQVJT3SY6", 
                        "2F1KVCNHMVHV8E9PBUB2A4J79LU20F",
                        "2TGBB6BFMFFOM08IBMAFGGESC1UWJX")))
