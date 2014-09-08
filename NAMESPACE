@@ -217,3 +217,6 @@ S3method(as.data.frame, MTurkResponse)
 #export("QuestionFormToDataFrame")
 #export("ReviewResultsToDataFrame")
 #export("WorkerBlockToDataFrame")
+
+# GUI
+import(tcltk)
