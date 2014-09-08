@@ -1,16 +1,9 @@
 GenerateQualificationRequirement <-
-function (qual, comparator, value, preview = NULL, qual.number = NULL, 
-    format = "REST") {
+function (qual, comparator, value, preview = NULL, qual.number = NULL) {
     if(is.null(qual)) 
         stop("No QualificationTypeId specified")
-    else if(length(qual) == 1) {
-        if(!is.null(qual.number) && length(qual.number) > 1) 
-            stop("length(QualificationTypeId) != length(qual.number)")
-        else if(!is.null(qual.number) && as.numeric(qual.number) > 10) 
-            stop("qual.number must be <= 10")
-    }
-    else if(length(qual) > 1)
-        qual.number <- NULL
+    if(is.null(qual.number))
+        qual.number <- seq_along(qual)
     if(is.null(comparator)) 
         stop("No comparator specified")
     else if(!length(qual) == length(comparator)) 
@@ -27,42 +20,14 @@ function (qual, comparator, value, preview = NULL, qual.number = NULL,
         preview <- rep(preview[1], length(qual))
     else if(is.null(preview)) 
         preview <- rep(NA, length(qual))
-    x <- ""
-    for(i in 1:length(qual)) {
-        if(length(qual) > 1) 
-            qual.number <- i
-        else if(is.null(qual.number)) 
-            qual.number <- 1
-        #if (qual[i] == "PercentAssignmentsSubmitted" | qual[i] == "Submitted") 
-        #    qual[i] <- "00000000000000000000"
-        #else if (qual[i] == "PercentAssignmentsAbandoned" | qual[i] == "Abandoned") 
-        #    qual[i] <- "00000000000000000070"
-        #else if (qual[i] == "PercentAssignmentsReturned" | qual[i] == "Returned") 
-        #    qual[i] <- "000000000000000000E0"
-        #else if (qual[i] == "PercentAssignmentsRejected" | qual[i] == "Rejected") 
-        #    qual[i] <- "000000000000000000S0"
-        if(qual[i] %in% c("PercentAssignmentsApproved","Approved"))
-            qual[i] <- "000000000000000000L0"
-        else if(qual[i] %in% c("NumberHITsApproved","NumberApproved","HITs"))
-            qual[i] <- "00000000000000000040"
-        else if(qual[i] %in% c("Locale","Country","Location"))
-            qual[i] <- "00000000000000000071"
-        else if(qual[i] == "Adult") 
-            qual[i] <- "00000000000000000060"
-        else if(qual[i] %in% c("Categorization",
-                                "Categorization Masters",
-                                "CategorizationMasters"))
-            qual[i] <- "2NDP2L92HECWY8NS8H3CK0CP5L9GHO"
-        else if(qual[i] %in% c("Photo Moderation",
-                                "Photo Moderation Masters",
-                                "PhotoModerationMasters"))
-            qual[i] <- "21VZU98JHSTLZ5BPP4A9NOBJEK3DPG"
-        else if(qual[i] %in% c("Masters","MTurkMasters"))
-            qual[i] <- "2F1QJWKUDD8XADTFD2Q0G6UTO95ALH"
-        if(qual[i] %in% c("2ARFPLSP75KLA8M8DH1HTEQVJT3SY6", 
-                        "2F1KVCNHMVHV8E9PBUB2A4J79LU20F",
-                        "2TGBB6BFMFFOM08IBMAFGGESC1UWJX"))
-            warning("QualificationTypeIds for Sandbox used")
+    
+    qual <- sapply(as.character(qual), .AliasToQualificationType)
+    if(any(qual %in% c("2ARFPLSP75KLA8M8DH1HTEQVJT3SY6", 
+                       "2F1KVCNHMVHV8E9PBUB2A4J79LU20F",
+                       "2TGBB6BFMFFOM08IBMAFGGESC1UWJX")))
+        warning("QualificationTypeIds for Sandbox used")
+        
+    for(i in seq_along(qual.number)) {
         if(comparator[i] == "<") 
             comparator[i] <- "LessThan"
         else if(comparator[i] == "<=") 
@@ -71,24 +36,24 @@ function (qual, comparator, value, preview = NULL, qual.number = NULL,
             comparator[i] <- "GreaterThan"
         else if(comparator[i] == ">=") 
             comparator[i] <- "GreaterThanOrEqualTo"
-        else if(comparator[i] == "=" | comparator[i] == "==") 
+        else if(comparator[i] %in% c("=","=="))
             comparator[i] <- "EqualTo"
         else if(comparator[i] == "!=") 
             comparator[i] <- "NotEqualTo"
         if(!comparator[i] %in% c("LessThan", "LessThanOrEqualTo", 
                 "GreaterThan", "GreaterThanOrEqualTo", "EqualTo", 
-                "NotEqualTo", "Exists")) 
+                "NotEqualTo", "Exists", "DoesNotExist", "In", "NotIn")) 
             stop("Inappropriate comparator specified for QualificationRequirement")
         if(qual[i] == "00000000000000000071" & !comparator[i] %in% 
-                c("EqualTo", "NotEqualTo")) 
-            stop("Worker_Locale (00000000000000000071) Requirement can only be used with 'EqualTo' or 'NotEqualTo' comparators")
+                c("EqualTo", "NotEqualTo", "In", "NotIn")) 
+            stop("Worker_Locale (00000000000000000071) Requirement can only be used with 'EqualTo', 'NotEqualTo', 'In', or 'NotIn' comparators")
         if(qual[i] %in% c("2NDP2L92HECWY8NS8H3CK0CP5L9GHO", 
                             "21VZU98JHSTLZ5BPP4A9NOBJEK3DPG",
                             "2F1QJWKUDD8XADTFD2Q0G6UTO95ALH") && 
                         !comparator == "Exists") 
             stop("Masters qualifications can only accept 'Exists' comparator")
-        if(comparator[i] == "Exists" & !is.null(value[i])) 
-            value[i] <- NULL
+        if(comparator[i] %in% c("Exists","DoesNotExist") & !is.null(value[i])) 
+            value[i] <- ""
         if(!is.null(preview)) {
             if(!is.na(preview[i])) {
                 if(preview[i] %in% c(TRUE, "true", "True", "1", 1)) 
@@ -97,24 +62,50 @@ function (qual, comparator, value, preview = NULL, qual.number = NULL,
                     preview[i] <- 0
             }
         }
-        if(format %in% c("get","Get","GET","rest","REST")) {
-            x <- paste(x, "&QualificationRequirement.", qual.number, 
-                ".QualificationTypeId=", qual[i], "&QualificationRequirement.", 
-                qual.number, ".Comparator=", comparator[i], sep = "")
-            if(qual[i] == "00000000000000000071") 
-                x <- paste(x, "&QualificationRequirement.", qual.number, 
-                ".LocaleValue.Country=", value[i], sep = "")
-            if(!qual[i] == "00000000000000000071") 
-                x <- paste(x, "&QualificationRequirement.", qual.number, 
-                ".IntegerValue=", value[i], sep = "")
-            if(!is.na(preview[i])) 
-                x <- paste(x, "&QualificationRequirement.", qual.number, 
-                ".RequiredToPreview=", preview[i], sep = "")
-        }
-        else if(format %in% c("xml","Xml","XML","soap","SOAP"))
-            stop("Only REST/GET requests currently supported")
-        else
-            stop("Inapropraite 'format' requested; only REST/GET requests currently supported")
     }
-    return(x)
+    
+    # handle multiple LocaleValue
+    ltmp <- unname(mapply(function(x = NULL, qn) { 
+        v <- strsplit(x,',')[[1]]
+        paste0('QualificationRequirement.',qn,'.LocaleValue.Country.', seq_along(v),'=', v, collapse='&')
+    }, value, qual.number))
+    # handle multiple IntegerValue
+    itmp <- unname(mapply(function(x = NULL, qn) { 
+        v <- strsplit(x,',')[[1]]
+        paste0('QualificationRequirement.',qn,'.IntegerValue.', seq_along(v),'=', v, collapse='&')
+    }, value, qual.number))
+    
+    out <- 
+    paste(paste("&QualificationRequirement.", qual.number, 
+            ".QualificationTypeId=", qual, "&QualificationRequirement.", 
+            qual.number, ".Comparator=", comparator, sep = ""),
+            ifelse(comparator %in% c("Exists","DoesNotExist"), "",
+          ifelse(qual == "00000000000000000071", paste0("&", ltmp),
+                                                 paste0("&", itmp))),
+          ifelse(!is.na(preview), paste("&QualificationRequirement.", qual.number, 
+                                        ".RequiredToPreview=", preview, sep=""), ""),
+          sep = "")
+    structure(paste(out, collapse =""), class = "QualificationRequirement")
+}
+
+.AliasToQualificationType <- function(qual){
+    if(qual %in% c("PercentAssignmentsApproved","Approved"))
+        qual <- "000000000000000000L0"
+    else if(qual %in% c("NumberHITsApproved","NumberApproved","HITs"))
+        qual <- "00000000000000000040"
+    else if(qual %in% c("Locale","Country","Location"))
+        qual <- "00000000000000000071"
+    else if(qual == "Adult") 
+        qual <- "00000000000000000060"
+    else if(qual %in% c("Categorization",
+                        "Categorization Masters",
+                        "CategorizationMasters"))
+        qual <- "2NDP2L92HECWY8NS8H3CK0CP5L9GHO"
+    else if(qual %in% c("Photo Moderation",
+                        "Photo Moderation Masters",
+                        "PhotoModerationMasters"))
+        qual <- "21VZU98JHSTLZ5BPP4A9NOBJEK3DPG"
+    else if(qual %in% c("Masters","MTurkMasters"))
+        qual <- "2F1QJWKUDD8XADTFD2Q0G6UTO95ALH"
+    return(qual)
 }

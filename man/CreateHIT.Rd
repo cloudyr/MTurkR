@@ -13,12 +13,7 @@ CreateHIT(hit.type = NULL, question = NULL, validate.question = FALSE,
           keywords = NULL, 
           auto.approval.delay = NULL, qual.req = NULL, 
           hitlayoutid = NULL, hitlayoutparameters = NULL, 
-          response.group = NULL, keypair = getOption('MTurkR.keypair'),
-          print = getOption('MTurkR.print'), 
-          browser = getOption('MTurkR.browser'),
-          log.requests = getOption('MTurkR.log'),
-          sandbox = getOption('MTurkR.sandbox'),
-          validation.test = getOption('MTurkR.test'))
+          response.group = NULL, verbose = getOption('MTurkR.verbose'), ...)
 }
 \arguments{
   \item{hit.type}{An optional character string specifying the HITTypeId that this HIT should be visibly grouped with (and whose properties, e.g. reward amount, this HIT should inherit).}
@@ -40,12 +35,8 @@ CreateHIT(hit.type = NULL, question = NULL, validate.question = FALSE,
   \item{hitlayoutid}{An optional character string including a HITLayoutId retrieved from a HIT template generated in the Requester User Interface, \url{https://requester.mturk.com/hit_templates}. If the HIT template includes variable placeholders, must also specify \code{hitlayoutparameters}.}
   \item{hitlayoutparameters}{An optional character string containing URL query parameter-formatted HITLayout parameters, for example returned by \code{\link{GenerateHITLayoutParameter}}. Must be specified along with a \code{hitlayoutid}.}
   \item{response.group}{An optional character string (or vector of character strings) specifying what details of each HIT to return of: \dQuote{Request}, \dQuote{Minimal}, \dQuote{HITDetail}, \dQuote{HITQuestion}, \dQuote{HITAssignmentSummary}. For more information, see \url{http://docs.aws.amazon.com/AWSMechTurk/latest/AWSMturkAPI/ApiReference_CommonParametersArticle.html}.}
-  \item{keypair}{A two-item character vector containing an AWS Access Key ID in the first position and the corresponding Secret Access Key in the second position. Set default with \code{\link{credentials}}.}
-  \item{print}{Optionally print the results of the API request to the standard output. Default is \code{TRUE}.}
-  \item{browser}{Optionally open the request in the default web browser, rather than opening in R. Default is \code{FALSE}.}
-  \item{log.requests}{A logical specifying whether API requests should be logged. Default is \code{TRUE}. See \code{\link{readlogfile}} for details.}
-  \item{sandbox}{Optionally execute the request in the MTurk sandbox rather than the live server.  Default is \code{FALSE}.}
-  \item{validation.test}{A logical specifying whether only the pre-request checks should be conducted and the request URL returned (without executing the request). Default is \code{FALSE}.}
+  \item{verbose}{Optionally print the results of the API request to the standard output. Default is taken from \code{getOption('MturkR.verbose')}.}
+  \item{...}{Additional arguments passed to \code{\link{request}}.}
 }
 \details{This function creates a new HIT and makes it available to workers. Characteristics of the HIT can either be specified by including a valid HITTypeId for \dQuote{hit.type} or creating a new HITType by atomically specifying the characteristics of a new HITType.
 

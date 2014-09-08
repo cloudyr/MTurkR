@@ -99,7 +99,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
         
         # check balance
         balanceWiz <- function() {
-            tempbal <- as.numeric(AccountBalance(print=FALSE, sandbox=sandbox)) # MTurkR getbalance() function
+            tempbal <- as.numeric(AccountBalance(verbose=FALSE, sandbox=sandbox)) # MTurkR getbalance() function
             tkmessageBox(title = "Current Account Balance", message = paste("Balance: $",round(tempbal,2),sep=""), type="ok")
             tkfocus(wizard)
         }
@@ -113,9 +113,13 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                     mastercheck <- FALSE
                 else
                     mastercheck <- TRUE
-                funds <- SufficientFunds(amount=tclvalue(amt),assignments=tclvalue(assignct),hits=tclvalue(hitct),
-                                        bonus.ct=tclvalue(bonusct),bonus.amount=tclvalue(bonusamt),masters=mastercheck,
-                                        print=FALSE,sandbox=sandbox)
+                funds <- SufficientFunds(amount=tclvalue(amt),
+                                         assignments=tclvalue(assignct),
+                                         hits=tclvalue(hitct),
+                                         bonus.ct=tclvalue(bonusct),
+                                         bonus.amount=tclvalue(bonusamt),
+                                         masters=mastercheck,
+                                         verbose=FALSE, sandbox = sandbox)
                 # report results
                 results <- tktoplevel()
                 tkwm.title(results, "MTurk Account Balance Check")
@@ -281,14 +285,21 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                     tkfocus(registerDialog)
                 }
                 else {
-                    newhittype <- RegisterHITType(    title=tclvalue(title),
-                                                    description=tclvalue(description),
-                                                    reward=tclvalue(reward),
-                                                    duration=seconds(tclvalue(daysd),tclvalue(hoursd),tclvalue(minsd),tclvalue(secsd)),
-                                                    keywords=tclvalue(keywords),
-                                                    auto.approval.delay=seconds(tclvalue(daysa),tclvalue(hoursa),tclvalue(minsa),tclvalue(secsa)),
+                    newhittype <- RegisterHITType(  title = tclvalue(title),
+                                                    description = tclvalue(description),
+                                                    reward = tclvalue(reward),
+                                                    duration=seconds(as.numeric(tclvalue(daysd)),
+                                                                     as.numeric(tclvalue(hoursd)),
+                                                                     as.numeric(tclvalue(minsd)),
+                                                                     as.numeric(tclvalue(secsd))),
+                                                    keywords = tclvalue(keywords),
+                                                    auto.approval.delay=seconds(as.numeric(tclvalue(daysa)),
+                                                                                as.numeric(tclvalue(hoursa)),
+                                                                                as.numeric(tclvalue(minsa)),
+                                                                                as.numeric(tclvalue(secsa))),
                                                     qual.req = wizardenv$qualreq, # retrieve stored qualreq from wizardenv
-                                                    sandbox=sandbox)
+                                                    sandbox = sandbox,
+                                                    verbose = TRUE)
                     if(newhittype$Valid==TRUE){
                         assign("newHITTypeId", hittype$HITTypeId, envir=wizardenv) # write newHITTypeId to wizardenv environment
                         tkdestroy(registerDialog)
@@ -784,14 +795,17 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                     }
                     newhit <- CreateHIT(    hit.type=tclvalue(hittype),
                                             question=wizardenv$question,
-                                            expiration=seconds(tclvalue(days),tclvalue(hours),tclvalue(mins),tclvalue(secs)),
+                                            expiration=seconds(as.numeric(tclvalue(days)),
+                                                               as.numeric(tclvalue(hours)),
+                                                               as.numeric(tclvalue(mins)),
+                                                               as.numeric(tclvalue(secs))),
                                             assignments=tclvalue(assigns),
                                             annotation=tclvalue(annotate),
                                             assignment.review.policy=assignpolicy,
                                             hit.review.policy=hitpolicy,
                                             hitlayoutid=wizardenv$layoutid,
                                             hitlayoutparameters=wizardenv$layoutparameters,
-                                            print=FALSE,
+                                            verbose=FALSE,
                                             sandbox=sandbox
                                         )
                     if(newhit$Valid==TRUE){
@@ -882,7 +896,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                     tclvalue(hittypeid) <<- wizardenv$newHITTypeId # retrieve hitid from wizardenv environment
                 }
                 populatebutton <- tkbutton(buttons, text="Register New HITType", command=populate)
-                OKbutton <- tkbutton(buttons, text="   OK   ", command=gethit)
+                OKbutton <- tkbutton(buttons, text="   OK   ", command=create)
                 Cancelbutton <- tkbutton(buttons, text=" Cancel ", command=function() {tkdestroy(createDialog); tkfocus(wizard)})
                 r <- 1
                 tkgrid(populatebutton, row=r, column=1)
@@ -893,6 +907,83 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
             tkfocus(createDialog)
         }
         
+        # changehittypeofhit
+        changetypeWiz <- function() {
+            # function to change HITType
+            change <- function(){
+                if(tclvalue(hittype)==""){
+                    tkmessageBox(message="Please enter a new HITTypeId!", type="ok")
+                    tkfocus(changeDialog)
+                }
+                if(tclvalue(oldhittype)=="" && tclvalue(hitid)==""){
+                    tkmessageBox(message="Please enter either a HITType or HITId whose type should be changed!", type="ok")
+                    tkfocus(changeDialog)
+                } else if(tclvalue(oldhittype)=="" && tclvalue(hitid)==""){
+                    tkmessageBox(message="Only an old HITType or old HITId can be specified. Not both!", type="ok")
+                    tkfocus(changeDialog)
+                } else if(!tclvalue(oldhittype)==""){
+                    changed <- ChangeHITType(old.hit.type = tclvalue(oldhittype),
+                                             new.hit.type = tclvalue(hittypeid),
+                                             verbose = FALSE,
+                                             sandbox = sandbox)
+                    tkdestroy(changeDialog)
+                    tkfocus(wizard)
+                } else if(!tclvalue(hitid)==""){
+                    h <- strsplit(tclvalue(hitid), ",")[[1]]
+                    changed <- ChangeHITType(hit = h,
+                                             new.hit.type = tclvalue(hittypeid),
+                                             verbose = FALSE,
+                                             sandbox = sandbox)
+                    tkdestroy(changeDialog)
+                    tkfocus(wizard)
+                }
+            }
+            
+            # dialog
+            changeDialog <- tktoplevel()
+            tkwm.title(changeDialog, "Change HITType of HIT(s)")
+            entryform <- tkframe(changeDialog, relief="groove", borderwidth=2)
+                # hitid
+                hittypeid <- tclVar()
+                oldhittype <- tclVar()
+                hitid <- tclVar()
+                r <- 1
+                tkgrid(ttklabel(entryform, text = "     "), row=r, column=1)
+                tkgrid(ttklabel(entryform, text = "     "), row=r, column=11)
+                r <- r + 1
+                hittype.entry <- tkentry(entryform, width = 50, textvariable=hittypeid)
+                tkgrid(tklabel(entryform, text = "Enter New HITTypeId (or Register a HITType, below): "), row=r, column=2)
+                tkgrid(hittype.entry, row=r, column=3, columnspan=8, sticky="w")
+                r <- r + 1
+                tkgrid(tklabel(entryform, text = "Enter old HITTypeId OR old HITId(s) you want to Change"), row=r, column=2)
+                r <- r + 1
+                oldhittype.entry <- tkentry(entryform, width = 50, textvariable=oldhittype)
+                tkgrid(tklabel(entryform, text = "Old HITTypeId to Change: "), row=r, column=2)
+                tkgrid(oldhittype.entry, row=r, column=3, columnspan=8, sticky="w")
+                r <- r + 1
+                hit.entry <- tkentry(entryform, width = 10, textvariable=hitid)
+                tkgrid(tklabel(entryform, text = "Old HITId(s) to Change: "), row=r, column=2)
+                tkgrid(hit.entry, row=r, column=3, columnspan=2, sticky="w")
+                r <- r + 1
+                tkgrid(ttklabel(entryform, text = "     "), row=r)
+            tkgrid(entryform)
+            # buttons
+            buttons <- tkframe(changeDialog)
+                populate <- function(){
+                    registerWiz()
+                    tclvalue(hittypeid) <<- wizardenv$newHITTypeId # retrieve hittypeid from wizardenv environment
+                }
+                populatebutton <- tkbutton(buttons, text="Register New HITType", command=populate)
+                OKbutton <- tkbutton(buttons, text="   OK   ", command=change)
+                Cancelbutton <- tkbutton(buttons, text=" Cancel ", command=function() {tkdestroy(changeDialog); tkfocus(wizard)})
+                r <- 1
+                tkgrid(populatebutton, row=r, column=1)
+                tkgrid(OKbutton, row=r, column=2)
+                tkgrid(Cancelbutton, row=r, column=3)
+            tkgrid(buttons)
+            
+            tkfocus(changeDialog)
+        }
         
         # gethit
         gethitWiz <- function(){
@@ -904,7 +995,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 }
                 else {
                     tkdestroy(gethitDialog)
-                    hit <- GetHIT(hit=tclvalue(hitid),print=FALSE, sandbox=sandbox)
+                    hit <- GetHIT(hit=tclvalue(hitid),verbose=FALSE, sandbox=sandbox)
                     #print(t(hit$HITs)[1:18,1])
                     
                     viewhitDialog <- tktoplevel()
@@ -996,7 +1087,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 }
                 else {
                     tkdestroy(statusDialog)
-                    status <- HITStatus(hit=tclvalue(hitid), print=FALSE, sandbox=sandbox)
+                    status <- HITStatus(hit=tclvalue(hitid), verbose=FALSE, sandbox=sandbox)
                     
                     viewhitDialog <- tktoplevel()
                     tkwm.title(viewhitDialog, "HIT Status")
@@ -1090,10 +1181,10 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 }
                 else {
                     tkdestroy(resultsDialog)
-                    GetReviewResultsForHIT(    hit=tclvalue(hitid),
+                    GetReviewResultsForHIT( hit=tclvalue(hitid),
                                             assignment=assignmentid,
                                             policy.level=selections,
-                                            print=TRUE, sandbox=sandbox)
+                                            verbose=TRUE, sandbox=sandbox)
                     tkfocus(wizard)
                 }
             }
@@ -1162,7 +1253,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 }
                 else {
                     tkdestroy(reviewingDialog)
-                    SetHITAsReviewing(hit = tclvalue(hitid), revert=revert, print=TRUE, sandbox=sandbox)
+                    SetHITAsReviewing(hit = tclvalue(hitid), revert=revert, verbose=TRUE, sandbox=sandbox)
                     tkfocus(wizard)
                 }
             }
@@ -1275,7 +1366,10 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 else {
                     tkdestroy(extendDialog)
                     ExtendHIT(    hit=tclvalue(hitid),
-                                add.seconds=seconds(tclvalue(days), tclvalue(hours), tclvalue(mins), tclvalue(secs)),
+                                add.seconds=seconds(as.numeric(tclvalue(days)), 
+                                                    as.numeric(tclvalue(hours)), 
+                                                    as.numeric(tclvalue(mins)), 
+                                                    as.numeric(tclvalue(secs))),
                                 sandbox=sandbox
                             )
                     tkfocus(wizard)
@@ -1438,7 +1532,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
         
         # search HITs
         searchWiz <- function(){
-            results <- SearchHITs(print=FALSE)
+            results <- SearchHITs(verbose=FALSE)
             #print(results$HITs[,c("HITId","HITTypeId","RequesterAnnotation")])
             # populate scrollable listbox
             if(!is.null(results)) {
@@ -1489,19 +1583,18 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
         
         # get assignments
         getassign1Wiz <- function(){    # by AssignmentId
-            getassign <- function(print,save){
+            getassign <- function(verbose,save){
                 if(tclvalue(assignment)==""){
                     tkmessageBox(message="Please enter an AssignmentId!", type="ok")
                     tkfocus(getassign1Dialog)
                 }
                 else {
                     tkdestroy(getassign1Dialog)
-                    if(print==TRUE){
-                        results <- GetAssignment(assignment=tclvalue(assignment),print=TRUE, sandbox=sandbox)
+                    if(verbose){
+                        results <- GetAssignment(assignment=tclvalue(assignment),verbose=TRUE, sandbox=sandbox)
                         print(results)
-                    }
-                    else
-                        results <- GetAssignment(assignment=tclvalue(assignment),print=FALSE, sandbox=sandbox)
+                    } else
+                        results <- GetAssignment(assignment=tclvalue(assignment),verbose=FALSE, sandbox=sandbox)
                     if(save==TRUE)
                         savetofile(results)
                     tkfocus(wizard)
@@ -1537,19 +1630,18 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
         }
         
         getassign2Wiz <- function(){    # by HITId
-            getassign <- function(print,save){
+            getassign <- function(verbose,save){
                 if(tclvalue(hitid)==""){
                     tkmessageBox(message="Please enter a HITId!", type="ok")
                     tkfocus(getassign2Dialog)
                 }
                 else {
                     tkdestroy(getassign2Dialog)
-                    if(print==TRUE){
-                        results <- GetAssignment(hit=tclvalue(hitid),print=TRUE, sandbox=sandbox)
+                    if(verbose){
+                        results <- GetAssignment(hit=tclvalue(hitid),verbose=TRUE, sandbox=sandbox)
                         print(results)
-                    }
-                    else
-                        results <- GetAssignment(hit=tclvalue(hitid),print=FALSE, sandbox=sandbox)
+                    } else
+                        results <- GetAssignment(hit=tclvalue(hitid),verbose=FALSE, sandbox=sandbox)
                     if(save==TRUE)
                         savetofile(results)
                     tkfocus(wizard)
@@ -1590,19 +1682,18 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
         }
         
         getassign3Wiz <- function(){    # by HITTypeId
-            getassign <- function(print,save){
+            getassign <- function(verbose,save){
                 if(tclvalue(hittype)==""){
                     tkmessageBox(message="Please enter a HITTypeId!", type="ok")
                     tkfocus(getassign3Dialog)
                 }
                 else {
                     tkdestroy(getassign3Dialog)
-                    if(print==TRUE){
-                        results <- GetAssignment(hit.type=tclvalue(hittype),print=TRUE, sandbox=sandbox)
+                    if(verbose){
+                        results <- GetAssignment(hit.type=tclvalue(hittype),verbose=TRUE, sandbox=sandbox)
                         print(results)
-                    }
-                    else
-                        results <- GetAssignment(hit.type=tclvalue(hittype),print=FALSE, sandbox=sandbox)
+                    } else
+                        results <- GetAssignment(hit.type=tclvalue(hittype),verbose=FALSE, sandbox=sandbox)
                     if(save==TRUE)
                         savetofile(results)
                     
@@ -1704,7 +1795,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                     tkfocus(approveDialog)
                 }
                 else {
-                    ApproveAssignment(assignments=tclvalue(assignment), feedback=feedbackvalue, print=TRUE, sandbox=sandbox)
+                    ApproveAssignment(assignments=tclvalue(assignment), feedback=feedbackvalue, verbose=TRUE, sandbox=sandbox)
                     tkdestroy(approveDialog)
                     tkfocus(wizard)
                 }
@@ -1760,7 +1851,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                     tkfocus(rejectDialog)
                 }
                 else {
-                    RejectAssignment(assignments=tclvalue(assignment), feedback=tclvalue(feedback), print=TRUE, sandbox=sandbox)
+                    RejectAssignment(assignments=tclvalue(assignment), feedback=tclvalue(feedback), verbose=TRUE, sandbox=sandbox)
                     tkdestroy(rejectDialog)
                     tkfocus(wizard)
                 }
@@ -1814,12 +1905,12 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                     if(type=="hit"){
                         searchWiz()
                         hitid <- wizardenv$searchresult$HITId # retrieve hitid from wizardenv environment
-                        results <- GetAssignments(hit=hitid, return.all=TRUE, print=FALSE, sandbox=sandbox)
+                        results <- GetAssignments(hit=hitid, return.all=TRUE, verbose=FALSE, sandbox=sandbox)
                     }
                     else if(type=="hittype"){
                         searchWiz()
                         hittypeid <- wizardenv$searchresult$HITTypeId # retrieve hittypeid from wizardenv environment
-                        results <- GetAssignments(hit.type=hittypeid, return.all=TRUE, print=FALSE, sandbox=sandbox)
+                        results <- GetAssignments(hit.type=hittypeid, return.all=TRUE, verbose=FALSE, sandbox=sandbox)
                     }
                     assign("assignments",results,envir=wizardenv)
                     submitted <- results[results$AssignmentStatus=="Submitted",]
@@ -1936,8 +2027,8 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                                 reason <- NULL
                             tkdestroy(appreason)
                             pos <- as.numeric(tkcurselection(sublist))+1
-                            assignid <- wizardenv$submitted[pos]
-                            ApproveAssignment(assignments=assignid, feedback=reason, print=FALSE, sandbox=sandbox)
+                            assignid <- wizardenv$submitted$AssignmentId[pos]
+                            ApproveAssignment(assignments=assignid, feedback=reason, verbose=FALSE, sandbox=sandbox)
                             tkinsert(sublist,tkcurselection(sublist),"Approved")
                             tkdelete(sublist,tkcurselection(sublist))
                             tkfocus(approverejectDialog)
@@ -1978,8 +2069,8 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                         else{
                             tkdestroy(rejreason)
                             pos <- as.numeric(tkcurselection(sublist))+1
-                            assignid <- wizardenv$submitted[pos]
-                            RejectAssignment(assignments=assignid, feedback=reason, print=FALSE, sandbox=sandbox)
+                            assignid <- wizardenv$submitted$AssignmentId[pos]
+                            RejectAssignment(assignments=assignid, feedback=reason, verbose=FALSE, sandbox=sandbox)
                             tkinsert(sublist,tkcurselection(sublist),"Rejected")
                             tkdelete(sublist,tkcurselection(sublist))
                             tkfocus(approverejectDialog)
@@ -2011,15 +2102,16 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                     app <- function(){
                         if(as.character(tkcurselection(isrejlist))==""){
                             tkmessageBox(message="Please select an assignment!", type="ok")
-                            tkfocus(appreason)
+                            tkdestroy(appreason)
+                            tkfocus(approverejectDialog)
                         }
                         else{
                             if(tclvalue(reason)=="")
                                 reason <- NULL
                             tkdestroy(appreason)
                             pos <- as.numeric(tkcurselection(isrejlist))+1
-                            assignid <- wizardenv$submitted[pos]
-                            ApproveAssignment(assignments=assignid, feedback=reason, rejected=TRUE, print=FALSE, sandbox=sandbox)
+                            assignid <- wizardenv$rejected$AssignmentId[pos]
+                            ApproveAssignment(assignments=assignid, feedback=reason, rejected=TRUE, verbose=FALSE, sandbox=sandbox)
                             tkinsert(isrejlist,tkcurselection(isrejlist),"Approved")
                             tkdelete(isrejlist,tkcurselection(isrejlist))
                             tkfocus(approverejectDialog)
@@ -2043,6 +2135,54 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                     r <- r + 1
                     tkgrid(OKbutton, row = r, column = 2)
                     tkgrid(Cancelbutton, row=r, column = 3)
+                }
+                
+                # function: pay bonus
+                bonusfun <- function(){
+                    # function
+                    b <- function(){
+                        if(as.character(tkcurselection(sublist))==""){
+                            tkmessageBox(message="Please select an assignment!", type="ok")
+                            tkdestroy(bonusreason)
+                            tkfocus(approverejectDialog)
+                        } else if(tclvalue(amount)=="") {
+                            tkmessageBox(message="Please enter a bonus amount!", type="ok")
+                            tkfocus(bonusreason)
+                        } else {
+                            if(tclvalue(reason)=="")
+                                reason <- NULL
+                            tkdestroy(bonusreason)
+                            pos <- as.numeric(tkcurselection(sublist))+1
+                            assignid <- wizardenv$submitted$AssignmentId[pos]
+                            workerid <- wizardenv$submitted$WorkerId[pos]
+                            GrantBonus(workers = workerid, assignments = assignid, amounts = amount,
+                                       reasons = reason, verbose=FALSE, sandbox=sandbox)
+                            tkfocus(approverejectDialog)
+                        }
+                    }
+                    # layout
+                    bonusreason <- tktoplevel()
+                    tkwm.title(bonusreason, "Bonus Amount")
+                    r <- 1
+                    tkgrid(ttklabel(bonusreason, text = "     "), row=r, column=1)
+                    tkgrid(ttklabel(bonusreason, text = "     "), row=r, column=4)
+                    r <- r + 1
+                    amount <- tclVar()
+                    amount.entry <- tkentry(bonusreason, width=50, textvariable=amount)
+                    tkgrid(tklabel(bonusreason, text = "Bonus amount: $"), row=r, column=2, sticky="e")
+                    tkgrid(amount.entry, row=r, column=3, sticky="w")
+                    r <- r + 1
+                    reason <- tclVar()
+                    reason.entry <- tkentry(bonusreason, width=50, textvariable=reason)
+                    tkgrid(tklabel(bonusreason, text = "Bonus message (visible to worker): "), row=r, column=2, sticky="e")
+                    tkgrid(reason.entry, row=r, column=3, sticky="w")
+                    r <- r + 1
+                    tkgrid(ttklabel(bonusreason, text = "     "), row=r, column=1)
+                    OKbutton <- tkbutton(bonusreason,text="   OK   ",command=b)
+                    Cancelbutton <- tkbutton(bonusreason,text=" Cancel ",command=function() tkdestroy(bonusreason) )
+                    r <- r + 1
+                    tkgrid(OKbutton, row = r, column = 2)
+                    tkgrid(Cancelbutton, row=r, column = 3)                    
                 }
                 
                 # layout
@@ -2115,18 +2255,6 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
         }
         
         
-        
-        
-        
-        multipleworkers <- function(){
-            # button to retrieve workerid from an assignmentid, hitid, or hittypeid
-            # field to enter a workerid manually
-            # store vector of workerids in the `wizard.env` environment for retrieval later
-        }
-        
-        
-        
-        
         # contact worker (single)
         contactWiz <- function(){
             # function
@@ -2157,15 +2285,17 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                     tkfocus(contactDialog)
                 }
                 else{
-                    ContactWorker(subjects=tclvalue(emailsubject), msgs=bodytowrite, workers=tclvalue(workerid),
-                                    print=TRUE, sandbox=sandbox)
+                    workerid <- strsplit(workerid,',')[[1]]
+                    ContactWorker(subjects = tclvalue(emailsubject),
+                                  msgs = bodytowrite, workers = tclvalue(workerid),
+                                  verbose = TRUE, batch = TRUE, sandbox = sandbox)
                     tkdestroy(contactDialog)
                     tkfocus(wizard)
                 }
             }
             # layout
             contactDialog <- tktoplevel()
-            tkwm.title(contactDialog, "Contact MTurk Worker via Email")
+            tkwm.title(contactDialog, "Contact MTurk Worker(s) via Email")
             # workerid, emailsubject, msg body
             entryform <- tkframe(contactDialog, relief="groove", borderwidth=2)
                 workerid <- tclVar()
@@ -2175,22 +2305,26 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 tkgrid(ttklabel(entryform, text = "     "), row=r, column=4)
                 r <- r + 1
                 worker.entry <- tkentry(entryform, width = 50, textvariable=workerid)
-                tkgrid(tklabel(entryform, text = "WorkerId: "), row=r, column=2)
-                tkgrid(worker.entry, row=r, column=2)
+                tkgrid(tklabel(entryform, text = "WorkerId(s) (comma-separated): "), row=r, column=2)
+                tkgrid(worker.entry, row=r, column=3)
                 r <- r + 1
                 tkgrid(ttklabel(entryform, text = "     "), row=r)
                 r <- r + 1
                 subject.entry <- tkentry(entryform, width = 50, textvariable=emailsubject)
                 tkgrid(tklabel(entryform, text = "Email Subject (max 200 char.): "), row=r, column=2)
-                tkgrid(subject.entry, row=r, column=2)
+                tkgrid(subject.entry, row=r, column=3)
                 r <- r + 1
                 tkgrid(ttklabel(entryform, text = "     "), row=r)
                 r <- r + 1
+                chars <- tclVar('')
                 body.entry <- tktext(entryform, height = 8, width = 60)
                 tkmark.set(body.entry,"insert","0.0")
                 tkgrid(tklabel(entryform, text = "Email Body (max 4096 char.): "), row=r, column=2)
                 r <- r + 1
                 tkgrid(body.entry, row=r, column=2, columnspan=2)
+                r <- r + 1
+                tkgrid(tklabel(entryform, text='Number of characters:'), row=r, column=2, sticky='e')
+                tkgrid(tklabel(entryform, textvariable = chars), row=r, column=3, sticky='w')
                 r <- r + 1
                 tkgrid(ttklabel(entryform, text = "     "), row=r)
             tkgrid(entryform)
@@ -2198,94 +2332,16 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
             buttons <- tkframe(contactDialog)
                 OKbutton <- tkbutton(buttons,text="   OK   ",command=contact)
                 Cancelbutton <- tkbutton(buttons,text=" Cancel ",command=function() {tkdestroy(contactDialog); tkfocus(wizard)})
+                checkbutton <- tkbutton(buttons,text=" Check body length ",
+                    command= function() {tclvalue(chars) <- as.character(nchar(curlEscape(tclvalue(tkget(body.entry,"0.0","end")))))})
                 r <- 1
                 tkgrid(OKbutton, row = r, column = 1)
                 tkgrid(Cancelbutton, row=r, column = 2)
+                tkgrid(checkbutton, row=r, column = 3)
             tkgrid(buttons)
             
             tkfocus(contactDialog)
-        }
-        
-        # contact worker (multiple)
-        contactbatchWiz <- function(){
-            # function
-            contact <- function(){
-                bodytowrite <- tclvalue(tkget(body.entry,"0.0","end"))
-                if(tclvalue(emailsubject)==""){
-                    tkmessageBox(message="Please enter an email subject!", type="ok")
-                    tkfocus(contactBatch)
-                }
-                else if(nchar(bodytowrite)<=1){
-                    tkmessageBox(message="Please enter an email message body!", type="ok")
-                    tkfocus(contactBatch)
-                }
-                else if(tclvalue(workerid)==""){
-                    tkmessageBox(message="Please enter a WorkerId!", type="ok")
-                    tkfocus(contactBatch)
-                }
-                else if(nchar(tclvalue(emailsubject))>200){
-                    tkmessageBox(message=paste("Email message body must be less than 200 characters.\nCurrent length is ",
-                                        nchar(tclvalue(emailsubject))," characters", sep=""),
-                                type="ok")
-                    tkfocus(contactBatch)
-                }
-                else if(nchar(bodytowrite)>4096){
-                    tkmessageBox(message=paste("Email message body must be less than 4096 characters.\nCurrent length is ",
-                                        nchar(bodytowrite)," characters", sep=""),
-                                type="ok")
-                    tkfocus(contactBatch)
-                }
-                else{
-                    ContactWorker(subjects=tclvalue(emailsubject), msgs=bodytowrite, workers=tclvalue(workerid),
-                                    print=TRUE, sandbox=sandbox)
-                    tkdestroy(contactBatch)
-                    tkfocus(wizard)
-                }
-            }
-            # layout
-            contactBatch <- tktoplevel()
-            tkwm.title(contactBatch, "Contact MTurk Workers via Email")
-            # workerid, emailsubject, msg body
-            entryform <- tkframe(contactBatch, relief="groove", borderwidth=2)
-                workerid <- tclVar()
-                emailsubject <- tclVar()
-                r <- 1
-                tkgrid(ttklabel(entryform, text = "     "), row=r, column=1)
-                tkgrid(ttklabel(entryform, text = "     "), row=r, column=4)
-                r <- r + 1
-                #worker.entry <- tkentry(entryform, width = 50, textvariable=workerid)
-                #tkgrid(tklabel(entryform, text = "WorkerId: "), row=r, column=2)
-                workersButton <- tkbutton(entryform, text=" Enter Recipients ", command=multipleworkers)
-                tkgrid(workersButton, row=r, column=2)
-                r <- r + 1
-                tkgrid(ttklabel(entryform, text = "     "), row=r)
-                r <- r + 1
-                subject.entry <- tkentry(entryform, width = 50, textvariable=emailsubject)
-                tkgrid(tklabel(entryform, text = "Email Subject (max 200 char.): "), row=r, column=2)
-                tkgrid(subject.entry, row=r, column=2)
-                r <- r + 1
-                tkgrid(ttklabel(entryform, text = "     "), row=r)
-                r <- r + 1
-                body.entry <- tktext(entryform, height = 8, width = 60)
-                tkmark.set(body.entry,"insert","0.0")
-                tkgrid(tklabel(entryform, text = "Email Body (max 4096 char.): "), row=r, column=2)
-                r <- r + 1
-                tkgrid(body.entry, row=r, column=2, columnspan=2)
-                r <- r + 1
-                tkgrid(ttklabel(entryform, text = "     "), row=r)
-            tkgrid(entryform)
-            # buttons
-            buttons <- tkframe(contactBatch)
-                OKbutton <- tkbutton(buttons,text="   OK   ",command=contact)
-                Cancelbutton <- tkbutton(buttons,text=" Cancel ",command=function() {tkdestroy(contactBatch); tkfocus(wizard)})
-                r <- 1
-                tkgrid(OKbutton, row = r, column = 1)
-                tkgrid(Cancelbutton, row=r, column = 2)
-            tkgrid(buttons)
-            
-            tkfocus(contactBatch)
-        }
-        
+        }      
         
         
         # grant bonus(es)
@@ -2310,11 +2366,11 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 }
                 else {
                     tkdestroy(bonusDialog)
-                    GrantBonus(    workers=tclvalue(workerid),
+                    GrantBonus( workers=tclvalue(workerid),
                                 assignments=tclvalue(assignmentid),
                                 amounts=tclvalue(amount),
                                 reasons=tclvalue(reason),
-                                print=TRUE, sandbox=sandbox)
+                                verbose=TRUE, sandbox=sandbox)
                     tkfocus(wizard)
                 }
             }
@@ -2369,7 +2425,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 }
                 else {
                     tkdestroy(blockDialog)
-                    BlockWorker(workers=tclvalue(workerid), reasons=tclvalue(reason), print=TRUE, sandbox=sandbox)
+                    BlockWorker(workers=tclvalue(workerid), reasons=tclvalue(reason), verbose=TRUE, sandbox=sandbox)
                     tkfocus(wizard)
                 }
             }
@@ -2415,9 +2471,9 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 else {
                     tkdestroy(unblockDialog)
                     if(tclvalue(reason)=="")
-                        UnblockWorker(workers=tclvalue(workerid), print=TRUE, sandbox=sandbox)
+                        UnblockWorker(workers=tclvalue(workerid), verbose=TRUE, sandbox=sandbox)
                     else
-                        UnblockWorker(workers=tclvalue(workerid), reasons=tclvalue(reason), print=TRUE, sandbox=sandbox)
+                        UnblockWorker(workers=tclvalue(workerid), reasons=tclvalue(reason), verbose=TRUE, sandbox=sandbox)
                     tkfocus(wizard)
                 }
             }
@@ -2455,7 +2511,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
         
         # get blocked worker(s)
         getblockWiz <- function(){
-            blockedworkers <- GetBlockedWorkers(print=FALSE, sandbox=sandbox)
+            blockedworkers <- GetBlockedWorkers(verbose=FALSE, sandbox=sandbox)
             # populate scrollable listbox
             if(!is.null(blockedworkers)) {
                 # function
@@ -2561,7 +2617,10 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 answertowrite <- tclvalue(tkget(answer.entry,"0.0","end"))
                 if(answertowrite=="")
                     answertowrite <- NULL
-                testduration <- seconds(tclvalue(days),tclvalue(hours),tclvalue(mins),tclvalue(secs))
+                testduration <- seconds(as.numeric(tclvalue(days)),
+                                        as.numeric(tclvalue(hours)),
+                                        as.numeric(tclvalue(mins)),
+                                        as.numeric(tclvalue(secs)))
                 test <- list(    Test=testtowrite,
                                 AnswerKey=answertowrite,
                                 TestDurationInSeconds=testduration )
@@ -2661,14 +2720,17 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                     if(tclvalue(days)=="" && tclvalue(hours)=="" && tclvalue(mins)=="" && tclvalue(secs)=="")
                         delay <- NULL
                     else
-                        delay <- seconds(tclvalue(days),tclvalue(hours),tclvalue(mins),tclvalue(secs))
+                        delay <- seconds(as.numeric(tclvalue(days)),
+                                         as.numeric(tclvalue(hours)),
+                                         as.numeric(tclvalue(mins)),
+                                         as.numeric(tclvalue(secs)))
                     statselect <- statusopts[as.numeric(as.character(tkcurselection(statuslist)))+1] # listbox index starts at 0
                     results <- CreateQualificationType(name=tclvalue(name), description=tclvalue(desc),
-                                                        status=statselect, keywords = keywords,
-                                                        retry.delay = delay,
-                                                        test = test, answerkey = answerkey, test.duration = test.duration,
-                                                        auto = auto, auto.value = auto.value,
-                                                        print=TRUE, sandbox=sandbox)
+                                                       status=statselect, keywords = keywords,
+                                                       retry.delay = delay,
+                                                       test = test, answerkey = answerkey, test.duration = test.duration,
+                                                       auto = auto, auto.value = auto.value,
+                                                       verbose = TRUE, sandbox=sandbox)
                     tkdestroy(createqualWiz)
                     tkfocus(wizard)
                 }
@@ -2784,7 +2846,10 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                     if(tclvalue(days)=="" && tclvalue(hours)=="" && tclvalue(mins)=="" && tclvalue(secs)=="")
                         delay <- NULL
                     else
-                        delay <- seconds(tclvalue(days),tclvalue(hours),tclvalue(mins),tclvalue(secs))
+                        delay <- seconds(as.numeric(tclvalue(days)),
+                                         as.numeric(tclvalue(hours)),
+                                         as.numeric(tclvalue(mins)),
+                                         as.numeric(tclvalue(secs)))
                     statselect <- statusopts[as.numeric(as.character(tkcurselection(statuslist)))+1] # listbox index starts at 0
                     qual <- UpdateQualificationType(qual=tclvalue(qualid),
                                                     description=tclvalue(desc),
@@ -2792,7 +2857,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                                                     retry.delay=delay,
                                                     test = test, answerkey = answerkey, test.duration = test.duration,
                                                     auto = auto, auto.value = auto.value,
-                                                    print=FALSE, sandbox=sandbox
+                                                    verbose=FALSE, sandbox=sandbox
                                                     )
                     tkdestroy(updatequalDialog)
                     tkfocus(wizard)
@@ -2888,7 +2953,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                     tkfocus(getqualDialog)
                 }
                 else {
-                    results <- GetQualificationType(qual=tclvalue(qualid), print=FALSE, sandbox=sandbox)
+                    results <- GetQualificationType(qual=tclvalue(qualid), verbose=FALSE, sandbox=sandbox)
                     tkdestroy(getqualDialog)
                     print(t(results))
                     tkfocus(wizard)
@@ -2917,7 +2982,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                     result <- searchqualsWiz()
                     tkdestroy(getqualDialog)
                     tclvalue(qualid) <<- wizardenv$qualresult$QualificationTypeId # retrieve qualid from wizardenv environment
-                    results <- GetQualificationType(qual=tclvalue(qualid), print=FALSE, sandbox=sandbox)
+                    results <- GetQualificationType(qual=tclvalue(qualid), verbose=FALSE, sandbox=sandbox)
                     print(t(results),quote=FALSE)
                     tkfocus(wizard)
                 }
@@ -2949,7 +3014,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                             This will delete all Qualification and Score data.", icon = "question", type = "yesno", default = "no")
                     if(tclvalue(exit)=="yes"){
                         tkdestroy(disposequalDialog)
-                        results <- DisposeQualificationType(qual=tclvalue(qualid), print=FALSE, sandbox=sandbox)
+                        results <- DisposeQualificationType(qual=tclvalue(qualid), verbose=FALSE, sandbox=sandbox)
                     }
                     else{
                         tkfocus(disposequalDialog)
@@ -3005,7 +3070,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 }
                 else {
                     tkdestroy(getqualsDialog)
-                    results <- GetQualifications(qual=tclvalue(qualid), print=TRUE, return.all=TRUE, sandbox=sandbox)
+                    results <- GetQualifications(qual=tclvalue(qualid), verbose=TRUE, return.all=TRUE, sandbox=sandbox)
                     print(results)
                     tkfocus(wizard)
                 }
@@ -3061,7 +3126,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                     tkfocus(getscoreDialog)
                 }
                 else {
-                    results <- GetQualificationScore(qual=tclvalue(qualid), workers=tclvalue(worker), print=FALSE, sandbox=sandbox)
+                    results <- GetQualificationScore(qual=tclvalue(qualid), workers=tclvalue(worker), verbose=FALSE, sandbox=sandbox)
                     tkdestroy(getscoreDialog)
                     tkmessageBox(message=paste("WorkerId ",results$WorkerId,"'s score: ",results$Value,sep=""), type="ok")
                     tkfocus(wizard)
@@ -3132,7 +3197,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                     if(tclvalue(increment)=="")
                         increment <- NULL
                     results <- UpdateQualificationScore(qual=tclvalue(qualid), workers=tclvalue(worker), values = score, increment = increment,
-                                                print=FALSE, sandbox=sandbox)
+                                                verbose=FALSE, sandbox=sandbox)
                     if(results$Valid==FALSE){
                         tkmessageBox(message="Update failed for some reason!", type="ok")
                         tkfocus(updatescoreDialog)
@@ -3212,7 +3277,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 else
                     requestable <- FALSE
                 results <- SearchQualificationTypes(query=searchquery,only.mine=mine,only.requestable=requestable,
-                                                    print=FALSE,sandbox=sandbox)
+                                                    verbose=FALSE,sandbox=sandbox)
                 if(tclvalue(builtin)=="1"){
                     output <- ListQualificationTypes()
                     for(i in 1:dim(results)[1]){
@@ -3316,7 +3381,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 pos <- as.numeric(tkcurselection(qualreqlist))+1
                 answer <- wizardenv$qualrequests$Answer[pos]
                 if(!is.na(answer))
-                    print(QuestionFormAnswersToDataFrame(answer))
+                    print(as.data.frame.QuestionFormAnswers(xmlParse(answer)))
                 else
                     message("No answer data to display")
             }
@@ -3336,7 +3401,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                         tkdestroy(grantreq)
                         pos <- as.numeric(tkcurselection(qualreqlist))+1
                         qualreqid <- wizardenv$qualrequests$QualificationRequestId[pos]
-                        GrantQualifications(qual.requests=qualreqid, values=tclvalue(value), print=FALSE, sandbox=sandbox)
+                        GrantQualifications(qual.requests=qualreqid, values=tclvalue(value), verbose=FALSE, sandbox=sandbox)
                         tkinsert(qualreqlist,tkcurselection(qualreqlist),"Granted")
                         tkdelete(qualreqlist,tkcurselection(qualreqlist))
                         tkfocus(qualreqDialog)
@@ -3376,7 +3441,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                         tkdestroy(rejreq)
                         pos <- as.numeric(tkcurselection(qualreqlist))+1
                         qualreqid <- wizardenv$qualrequests$QualificationRequestId[pos]
-                        RejectQualifications(qual.request=qualreqid, reason=reason1, print=FALSE, sandbox=sandbox)
+                        RejectQualifications(qual.request=qualreqid, reason=reason1, verbose=FALSE, sandbox=sandbox)
                         tkinsert(qualreqlist,tkcurselection(qualreqlist),"Rejected")
                         #tkdelete(qualreqlist,"rows",tkcurselection(qualreqlist))
                         tkdelete(qualreqlist,tkcurselection(qualreqlist))
@@ -3440,7 +3505,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 setqual <- function(){
                     tkgrab.release(getqualDialog)
                     tkdestroy(getqualDialog)
-                    requests <- GetQualificationRequests(qual=tclvalue(qualid), return.all=TRUE, print=FALSE, sandbox=sandbox)
+                    requests <- GetQualificationRequests(qual=tclvalue(qualid), return.all=TRUE, verbose=FALSE, sandbox=sandbox)
                     for(i in 1:dim(requests)[1]) {
                         tkinsert(qualreqlist,"end",paste("Worker: ", requests$SubjectId[i], "  (",requests$SubmitTime[i],")", sep=""))
                     }
@@ -3547,6 +3612,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
             # hits menu
             tkadd(hits, "command", label = "Register HITType", command = registerWiz)
             tkadd(hits, "command", label = "Create HIT", command = createWiz)
+            tkadd(hits, "command", label = "Change HITType of HIT", command = changetypeWiz)
             tkadd(hits, "separator")
             tkadd(hits, "command", label = "View HIT", command = gethitWiz)
             tkadd(hits, "command", label = "Check HIT Status", command = statusWiz)
@@ -3585,8 +3651,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
             # workers menu
             contact <- tkmenu(assignments, tearoff = FALSE)
                 # contact worker(s) submenu
-                tkadd(contact, "command", label = "Single Worker", command = contactWiz)
-                tkadd(contact, "command", label = "Multiple Workers", command = contactbatchWiz)
+                tkadd(contact, "command", label = "Same Message to One or More Workers", command = contactWiz)
                 tkadd(workers, "cascade", label = "Contact...", menu = contact, underline = 0)
             tkadd(workers, "command", label = "Grant Bonus(es)", command = bonusWiz)
             tkadd(workers, "separator")

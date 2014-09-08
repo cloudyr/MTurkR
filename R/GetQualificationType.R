@@ -1,42 +1,37 @@
 GetQualificationType <-
 qualtype <-
-function (qual, keypair = getOption('MTurkR.keypair'), print = getOption('MTurkR.print'),
-    browser = getOption('MTurkR.browser'), log.requests = getOption('MTurkR.log'),
-    sandbox = getOption('MTurkR.sandbox'), return.qual.dataframe = TRUE,
-    validation.test = getOption('MTurkR.test')) {
-    if(!is.null(keypair)) {
-        keyid <- keypair[1]
-        secret <- keypair[2]
-    } else
-        stop("No keypair provided or 'credentials' object not stored")
+function(qual, verbose = getOption('MTurkR.verbose'), ...) {
+    # temporary check for `print` argument (remove after v1.0)
+    if('print' %in% names(list(...)) && is.null(verbose))
+        verbose <- list(...)$print
     operation <- "GetQualificationType"
     if(is.null(qual)) 
         stop("Must specify QualificationTypeId")
-    else {
-        if(is.factor(qual))
-            qual <- as.character(qual)
-        GETparameters <- paste("&QualificationTypeId=", qual, sep = "")
-    }
-    auth <- authenticate(operation, secret)
-    if(browser == TRUE) {
-        request <- request(keyid, auth$operation, auth$signature, 
-            auth$timestamp, GETparameters, browser = browser, 
-            sandbox = sandbox, validation.test = validation.test)
-        if(validation.test)
-            return(invisible(request))
-    }
-    else {
-        request <- request(keyid, auth$operation, auth$signature, 
-            auth$timestamp, GETparameters, log.requests = log.requests, 
-            sandbox = sandbox, validation.test = validation.test)
-        if(validation.test)
-            return(invisible(request))
-        if(request$valid == TRUE) {
-            Qualifications <- QualificationTypesToDataFrame(xml = request$xml)
-            if(print == TRUE) 
-                message("QualificationType Retrieved: ", qual)
-        }
-        else if(request$valid == FALSE & print == TRUE)
+    GETparameters <- paste("&QualificationTypeId=", as.character(qual), sep = "") 
+    request <- request(operation, GETparameters = GETparameters, ...)
+    if(is.null(request$valid))
+        return(request)
+    if(request$valid) {
+        Qualifications <- as.data.frame.QualificationTypes(xml.parsed = xmlParse(request$xml))
+        if(verbose) 
+            message("QualificationType Retrieved: ", qual)
+    } else if(!request$valid) {
+        Qualifications <-
+        setNames(data.frame(matrix(nrow=0, ncol=13)),
+                 c("QualificationTypeId",
+                   "CreationTime",
+                   "Name",
+                   "Description",
+                   "Keywords",
+                   "QualificationTypeStatus",
+                   "AutoGranted",
+                   "AutoGrantedValue",
+                   "IsRequestable",
+                   "RetryDelayInSeconds",
+                   "TestDurationInSeconds",
+                   "Test",
+                   "AnswerKey"))
+        if(verbose)
             warning("Invalid Request")
     }
     return(Qualifications)

@@ -1,41 +1,22 @@
 AccountBalance <-
 accountbalance <-
 getbalance <-
-function (keypair = getOption('MTurkR.keypair'), print = getOption('MTurkR.print'),
-    browser = getOption('MTurkR.browser'), log.requests = getOption('MTurkR.log'),
-    sandbox = getOption('MTurkR.sandbox'), validation.test = getOption('MTurkR.test')) 
+function(verbose = getOption('MTurkR.verbose'), ...) 
 {
-    if (!is.null(keypair)) {
-        keyid <- keypair[1]
-        secret <- keypair[2]
-    } else
-        stop("No keypair provided or 'credentials' object not stored")
+    # temporary check for `print` argument (remove after v1.0)
+    if('print' %in% names(list(...)) && is.null(verbose))
+        verbose <- list(...)$print
     operation <- "GetAccountBalance"
-    GETparameters = ""
-    auth <- authenticate(operation, secret)
-    if (browser == TRUE) {
-        request <- request(keyid, auth$operation, auth$signature, 
-            auth$timestamp, GETparameters, browser = browser, 
-            sandbox = sandbox, validation.test = validation.test)
-        if(validation.test)
-            return(invisible(request))
-    }
-    else {
-        request <- request(keyid, auth$operation, auth$signature, 
-            auth$timestamp, GETparameters, log.requests = log.requests, 
-            sandbox = sandbox, validation.test = validation.test)
-        if(validation.test)
-            return(invisible(request))
-        if (request$valid == TRUE) {
-            balance <- strsplit(strsplit(request$xml, "<Amount>")[[1]][2], "</Amount>")[[1]][1]
-            balanceformatted <- strsplit(strsplit(request$xml, 
-                "<FormattedPrice>")[[1]][2], "</FormattedPrice>")[[1]][1]
-            if (print == TRUE)
-                message(paste("Balance: ", balanceformatted, "\n", sep = ""))
-            return(invisible(balance))
-        }
-        else if (request$valid == FALSE) {
-            return(NULL)
-        }
+    request <- request(operation, verbose = verbose, ...)
+    if(is.null(request$valid) || !request$valid) {
+        return(request)
+    } else if(request$valid) {
+        balance <- strsplit(strsplit(request$xml, "<Amount>")[[1]][2], "</Amount>")[[1]][1]
+        balanceformatted <- strsplit(strsplit(request$xml, 
+            "<FormattedPrice>")[[1]][2], "</FormattedPrice>")[[1]][1]
+        request$balance <- balance
+        if(verbose)
+            message(paste("Balance: ", balanceformatted, "\n", sep = ""))
+        return(invisible(request))
     }
 }

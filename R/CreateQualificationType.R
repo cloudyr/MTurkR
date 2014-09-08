@@ -3,15 +3,10 @@ createqual <-
 function (name, description, status, keywords = NULL, retry.delay = NULL, 
     test = NULL, answerkey = NULL, test.duration = NULL,
     validate.test = FALSE, validate.answerkey = FALSE,
-    auto = NULL, auto.value = NULL, keypair = getOption('MTurkR.keypair'),
-    print = getOption('MTurkR.print'), browser = getOption('MTurkR.browser'),
-    log.requests = getOption('MTurkR.log'), sandbox = getOption('MTurkR.sandbox'),
-    validation.test = getOption('MTurkR.test')) {
-    if(!is.null(keypair)) {
-        keyid <- keypair[1]
-        secret <- keypair[2]
-    } else
-        stop("No keypair provided or 'credentials' object not stored")
+    auto = NULL, auto.value = NULL, verbose = getOption('MTurkR.verbose'), ...) {
+    # temporary check for `print` argument (remove after v1.0)
+    if('print' %in% names(list(...)) && is.null(verbose))
+        verbose <- list(...)$print
     operation <- "CreateQualificationType"
     if(!status %in% c("Active", "Inactive")) 
         stop("QualificationTypeStatus must be Active or Inactive")
@@ -46,8 +41,9 @@ function (name, description, status, keywords = NULL, retry.delay = NULL,
                     return(validation)
                 }
             }
-            t.temp <- unique(QuestionFormToDataFrame(test)$Questions$QuestionIdentifier)
-            a.temp <- unique(AnswerKeyToDataFrame(answerkey)$Questions$QuestionIdentifier)
+            qform <- as.data.frame.QuestionForm(xmlParse(test))
+            t.temp <- unique(qform$QuestionIdentifier[qform$Element=='Question'])
+            a.temp <- unique(as.data.frame.AnswerKey(answerkey)$Questions$QuestionIdentifier)
             if(!sum(a.temp %in% t.temp) == length(a.temp)) 
                 stop("One or more QuestionIdentifiers in AnswerKey not in QuestionForm")
             if(!sum(t.temp %in% a.temp) == length(t.temp)) 
@@ -70,31 +66,18 @@ function (name, description, status, keywords = NULL, retry.delay = NULL,
         GETparameters <- paste(GETparameters, "&AutoGranted=", "false", sep = "")
     else if(!is.null(auto) && !is.null(test)) 
         warning("AutoGranted Ignored! Test and AutoGranted cannot be declared together")
-    if(browser == TRUE) {
-        request <- request(keypair[1], 'CreateQualificationType', 
-            GETparameters = GETparameters,
-            secret = keypair[2], browser = browser, 
-            sandbox = sandbox, validation.test = validation.test)
-        if(validation.test)
-            return(invisible(request))
+    request <- request('CreateQualificationType', GETparameters = GETparameters, ...)
+    if(is.null(request$valid))
+        return(request)
+    if(request$valid == TRUE) {
+        QualificationType <- as.data.frame.QualificationTypes(xml.parsed = xmlParse(request$xml))
+        if(verbose)
+            message("QualificationType Created: ", QualificationType$QualificationTypeId[1])
+        return(QualificationType)
     }
-    else {
-        request <- request(keypair[1], 'CreateQualificationType', 
-            GETparameters = GETparameters,
-            secret = keypair[2], log.requests = log.requests,
-            sandbox = sandbox, validation.test = validation.test)
-        if(validation.test)
-            return(invisible(request))
-        if(request$valid == TRUE) {
-            QualificationType <- QualificationTypesToDataFrame(xml = request$xml)
-            if(print == TRUE)
-                message("QualificationType Created: ", QualificationType$QualificationTypeId[1])
-            return(QualificationType)
-        }
-        else if(request$valid == FALSE) {
-            if(print == TRUE) 
-                warning("Invalid request")
-            return(NULL)
-        }
+    else if(request$valid == FALSE) {
+        if(verbose) 
+            warning("Invalid request")
+        return(NULL)
     }
 }

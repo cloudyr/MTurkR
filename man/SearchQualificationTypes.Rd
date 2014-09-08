@@ -5,13 +5,10 @@
 \description{Search for available QualificationTypes, including yours and others available on the MTurk system created by other requesters.}
 \usage{
 SearchQualificationTypes(query = NULL, only.mine = TRUE, only.requestable = FALSE, 
-                        return.all = FALSE, pagenumber = "1", pagesize = "10", 
-                        sortproperty = "Name", sortdirection = "Ascending", 
-                        keypair = getOption('MTurkR.keypair'), print = getOption('MTurkR.print'),
-                        log.requests = getOption('MTurkR.log'), 
-                        sandbox = getOption('MTurkR.sandbox'),
-                        return.qual.dataframe = TRUE,
-                        validation.test = getOption('MTurkR.test'))
+                         return.all = FALSE, pagenumber = "1", pagesize = "10", 
+                         sortproperty = "Name", sortdirection = "Ascending", 
+                         return.qual.dataframe = TRUE,
+                         verbose = getOption('MTurkR.verbose'), ...)
 }
 \arguments{
   \item{query}{An optional character string containing a search query to be used to search among available QualificationTypes.}
@@ -22,12 +19,9 @@ SearchQualificationTypes(query = NULL, only.mine = TRUE, only.requestable = FALS
   \item{pagesize}{An optional character string indicating how many search results should be returned by each request, between 1 and 100. Most users can ignore this.}
   \item{sortproperty}{API currently only supports \dQuote{Name}. Most users can ignore this.}
   \item{sortdirection}{Either \dQuote{Ascending} or \dQuote{Descending}. Ignored if \code{return.all=TRUE}. Most users can ignore this.}
-  \item{keypair}{A two-item character vector containing an AWS Access Key ID in the first position and the corresponding Secret Access Key in the second position. Set default with \code{\link{credentials}}.}
-  \item{print}{Optionally print the results of the API request to the standard output. Default is \code{TRUE}.}
-  \item{log.requests}{A logical specifying whether API requests should be logged. Default is \code{TRUE}. See \code{\link{readlogfile}} for details.}
-  \item{sandbox}{Optionally execute the request in the MTurk sandbox rather than the live server.  Default is \code{FALSE}.}
   \item{return.qual.dataframe}{A logical indicating whether the QualificationTypes should be returned as a dataframe. Default is \code{TRUE}.}
-  \item{validation.test}{A logical specifying whether only the pre-request checks should be conducted and the request URL returned (without executing the request). Default is \code{FALSE}.}
+  \item{verbose}{Optionally print the results of the API request to the standard output. Default is taken from \code{getOption('MturkR.verbose')}.}
+  \item{...}{Additional arguments passed to \code{\link{request}}.}
 }
 \details{
 Retrieve available QualificationTypes, optionally only those QualificationTypes created by you and/or those that meet specific search criteria specified in the \code{query} parameter. Given that the total number of QualificationTypes available from all requesters could be infinitely large, specifying both \code{only.mine=FALSE} and \code{return.all=FALSE} will be time-consuming and may cause memory problems.

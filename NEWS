@@ -1,22 +1,45 @@
 # CHANGES TO MTurkR 0.5 #
 
 ## SIGNIFICANT USER-VISIBLE CHANGES ##
+* `GenerateQualificationRequirement` now supports new comparators (given MTurk API update on 2014-07-17): "DoesNotExist", "In", and "NotIn". The "DoesNotExist" comparator allows requesters to effectively block workers who do not have, e.g., a requester-defined qualification. The "In" and "NotIn" comparators allow a boolean OR logical in QualificationRequirements (e.g., allowing a worker to be from the US or the UK) rather than having to create two separate HITs with different Locale restrictions.
+* The `qual.number` argument to `GenerateQualificationRequirement` has been removed.
+* The `return.hit.dataframe` argument to `GetHITsForQualificationType` has been removed.
+* Functions of the form `*ToDataFrame` have been replaced with `as.data.frame` S3 methods, which are handled by a global `as.data.frame.MTurkResponse` function. (#36)
+* `ParseErrorCodes` is removed (now used internally in `request`).
+* `options('MTurkR.print')` is deleted and replaced by `options('MTurkR.verbose')`. All functions will, temporarily, accept `print` arguments. All code should be updated to reflect the new terminology moving forward.
+* When `validation.test=TRUE` or `browser=TRUE`, functions now return an object of class "MTurkResponse" for the purpose of debugging.
+* The ability to execute requests in a web browser, via the `options('MTurkR.browser')` is removed from all functions except `request`. It can, however, still be passed via `...` to `request`. (#38)
+* `APIReference`, `mturkhelp`, and `genericmturkr` are deprecated.
+* `GetBonuses` no longer supports the `return.bonus.dataframe` logical. All bonuses are automatically returned. To just retrieve details on number of bonuses per HIT, request only the first page with `page.number=1` and `verbose=TRUE`.
+* `MTurkR.Wizard` now allows batch emails using `ContactWorkers`. WorkerIds can be specified as a comma-separated list. (#4)
 * The `credentials` function has now been changed to create and/or retrieve a global option `MTurkR.keypair`. This is a backwards compatible change that allows users to specify `options(MTurkR.keypair=c(accesskey, secretkey))` directly without using `credentials`. All functions now point directly to the global option, so that `credentials` can be deprecated in a future release.
 * In many functions that return a dataframe with a `Valid` column (e.g., `ContactWorkers`, etc.), `Valid` is now a factor. (#28)
 * Using `ContactWorkers` in batch mode now returns a dataframe identical in structure to using it in regular mode, with one row per worker. (#32)
 * The `signature` argument to `request` now defaults to `NULL` and is generated automatically.
-* `HITsToDataFrame` now returns, for the QualificationRequirements list element, an empty dataframe rather a single NA missing value if a given HIT does not have any QualificationRequirements attached to it.
-* `request` now generates the API authentication signature automatically, eliminating the need for `authenticate`.
-* `request` now uses `curlPerform` instead `getURL` to gain finer control over API requests.
+* `HITsToDataFrame` (now `as.data.frame.HITs`) now returns, for the QualificationRequirements list element, an empty dataframe rather a single `NA` missing value if a given HIT does not have any QualificationRequirements attached to it.
+* `request` now generates the API authentication signature automatically, eliminating the need for `authenticate`, which is deprecated. `request` no longer accepts `signature` or `timestamp` arguments and has a new argument order. Arguments can be passed to `request` via a new `...` argument in all functions.
+* `request` now uses `curlPerform` instead of `getURL` to gain finer control over API requests.
 * `request` now attempts to `tryCatch` any errors on writing the MTurkR log file. (#9)
 * `request` now returns an object of S3 class "MTurkResponse" and an associated print method has been added.
 
 ## BUG FIXES ##
-* Fixed a bug in `GetBonuses` whereby the default `return.all=TRUE` argument overwrote manually specified `pagenumber` and `pagesize` arguments. (h/t Dane Wendell)
+* `GenerateQualificationRequirement` now correctly handles the "Exists" comparator by requiring an empty character string for the corresponding `value` argument.
+* `HITStatus` now prints correctly when only one HIT is retrieved.
+* `ApproveAllAssignments` now only attempts to approved assignments with AssignmentStatus "Submitted".
+* `as.data.frame.QuestionForm` now returns "Overview" elements and "Question" elements as one data.frame, distinguished by a new column: `Element`. (#8)
+* `GetQualifications` and `GetQualificationRequests` now respect the `return.all` argument.
+* The `return.qual.dataframe` argument in `GetQualificationType` and `GetQualifications` is removed.
+* Fixed a bug in `GetBonuses` whereby the default `return.all=TRUE` argument overwrote manually specified `pagenumber` and `pagesize` arguments. When `GetBonuses` is called with a `hit.type`, `return.all` is used recursively, such that `return.all=FALSE` returns the requested page for each HIT of the requested HITType. (h/t Dane Wendell, #37)
 * Corrected the API operation name in `SendTestEventNotification`.
 * Fixed a bug in `GetBonuses` using a HITTypeId that caused the function to fail catastrophically.
 
 ## DOCUMENTATION ##
+* The `return.qual.dataframe` argument in `GetQualificationType` and `GetQualifications` is removed.
+* All functions now reflect the new `...` argument, the contents of which are passed to `request`. (#38)
+* All references to the `browser` options are removed given removal of the feature from all functions.
+* Documentation for `mturkhelp` and `APIReference` now reflect deprecated status.
+* Documentation file for `authenticate` now reflect its deprecated status.
+* Documentation file for `request` has been updated to reflect its now non-exported status. `request` notes that it no longer accepts `signature` or `timestamp` arguments, which are now generated internally. Documentation for `ParseErrorCodes` is removed.
 * Work on the MTurkR wiki (https://github.com/leeper/MTurkR/wiki) has begun, with contributions from Kyle Hamilton.
 * The `add.seconds` parameter was incorrectly called `add.time` in the `ExtendHIT` documentation.
 

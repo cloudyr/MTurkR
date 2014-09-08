@@ -5,12 +5,7 @@
 \description{Get the URL for a file uploaded by a worker as part of a HIT, or download the file(s) directly to the working directory.}
 \usage{
 GetFileUpload(assignment, questionIdentifier, download = FALSE, file.ext = NULL, 
-              open.file.in.browser = FALSE, keypair = getOption('MTurkR.keypair'),
-              print = getOption('MTurkR.print'),
-              browser = getOption('MTurkR.browser'),
-              log.requests = getOption('MTurkR.log'),
-              sandbox = getOption('MTurkR.sandbox'),
-              validation.test = getOption('MTurkR.test'))
+              open.file.in.browser = FALSE, verbose = getOption('MTurkR.verbose'), ...)
 }
 \arguments{
   \item{assignment}{A character string containing an AssignmentId, or a vector of character strings each containing an AssignmentId.}
@@ -18,12 +13,8 @@ GetFileUpload(assignment, questionIdentifier, download = FALSE, file.ext = NULL,
   \item{download}{A logical specifying whether the file(s) should be downloaded and saved in the working directory. Default is \code{FALSE}.}
   \item{file.ext}{An optional character string specifying the file extension of the uploaded files (used only if \code{download=TRUE}).}
   \item{open.file.in.browser}{A logical specifying whether the file should be opened in the user's default web browser.}
-  \item{keypair}{A two-item character vector containing an AWS Access Key ID in the first position and the corresponding Secret Access Key in the second position. Set default with \code{\link{credentials}}.}
-  \item{print}{Optionally print the results of the API request to the standard output. Default is \code{TRUE}.}
-  \item{browser}{Optionally open the request in the default web browser, rather than opening in R. Default is \code{FALSE}.}
-  \item{log.requests}{A logical specifying whether API requests should be logged. Default is \code{TRUE}. See \code{\link{readlogfile}} for details.}
-  \item{sandbox}{Optionally execute the request in the MTurk sandbox rather than the live server.  Default is \code{FALSE}.}
-  \item{validation.test}{A logical specifying whether only the pre-request checks should be conducted and the request URL returned (without executing the request). Default is \code{FALSE}.}
+  \item{verbose}{Optionally print the results of the API request to the standard output. Default is taken from \code{getOption('MturkR.verbose')}.}
+  \item{...}{Additional arguments passed to \code{\link{request}}.}
 }
 \details{
 Note that a FileUploadURL is only valid for 60 seconds (per MTurk documentation), so URLs should either be retrieved one at a time or files should be automatically downloaded to the working directory with the \code{download=TRUE}. If \code{browser=TRUE}, request is executed in the user's default web browser, whereas if \code{open.file.in.browser=TRUE}, the request is executed in R and the file itself is opened in the browser.

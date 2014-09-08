@@ -1,16 +1,11 @@
 GrantBonus <-
 bonus <-
 paybonus <-
-function (workers, assignments, amounts, reasons, keypair = getOption('MTurkR.keypair'), 
-    print = getOption('MTurkR.print'), browser = getOption('MTurkR.browser'),
-    log.requests = getOption('MTurkR.log'), sandbox = getOption('MTurkR.sandbox'),
-    validation.test = getOption('MTurkR.test')) {
-    if(!is.null(keypair)) {
-        keyid <- keypair[1]
-        secret <- keypair[2]
-    }
-    else
-        stop("No keypair provided or 'credentials' object not stored")
+function(workers, assignments, amounts, reasons,
+         verbose = getOption('MTurkR.verbose'), ...) {
+    # temporary check for `print` argument (remove after v1.0)
+    if('print' %in% names(list(...)) && is.null(verbose))
+        verbose <- list(...)$print
     operation <- "GrantBonus"
     if(!length(workers) == length(assignments)) 
         stop("Number of workers does not match number of assignments")
@@ -41,31 +36,20 @@ function (workers, assignments, amounts, reasons, keypair = getOption('MTurkR.ke
             assignments[i], "&BonusAmount.1.Amount=", amounts[i], 
             "&BonusAmount.1.CurrencyCode=USD", "&Reason=", curlEscape(reasons[i]), 
             sep = "")
-        auth <- authenticate(operation, secret)
-        if(browser == TRUE) {
-            request <- request(keyid, auth$operation, auth$signature, 
-                auth$timestamp, GETparameters, browser = browser, 
-                sandbox = sandbox, validation.test = validation.test)
-            if(validation.test)
-                return(invisible(request))
+        
+        request <- request(operation, GETparameters = GETparameters, ...)
+        if(is.null(request$valid))
+            return(request)
+        Bonuses[i, ] <- c(workers[i], assignments[i], amounts[i], 
+            reasons[i], request$valid)
+        if(request$valid == TRUE) {
+            if(verbose) 
+                message(i, ": Bonus of ", amounts[i], " granted to ", 
+                workers[i], " for assignment ", assignments[i])
         }
-        else {
-            request <- request(keyid, auth$operation, auth$signature, 
-                auth$timestamp, GETparameters, log.requests = log.requests, 
-                sandbox = sandbox, validation.test = validation.test)
-            if(validation.test)
-                return(invisible(request))
-            Bonuses[i, ] <- c(workers[i], assignments[i], amounts[i], 
-                reasons[i], request$valid)
-            if(request$valid == TRUE) {
-                if(print == TRUE) 
-                    message(i, ": Bonus of ", amounts[i], " granted to ", 
-                    workers[i], " for assignment ", assignments[i])
-            }
-            else if(request$valid == FALSE) {
-                if(print == TRUE) 
-                    warning("Invalid Request for worker ", workers[i])
-            }
+        else if(request$valid == FALSE) {
+            if(verbose) 
+                warning("Invalid Request for worker ", workers[i])
         }
     }
     Bonuses$Valid <- factor(Bonuses$Valid, levels=c('TRUE','FALSE'))

@@ -1,16 +1,10 @@
 UpdateQualificationScore <-
 updatequalscore <-
 function (qual, workers, values = NULL, increment = NULL,
-    keypair = getOption('MTurkR.keypair'),
-    print = getOption('MTurkR.print'), browser = getOption('MTurkR.browser'),
-    log.requests = getOption('MTurkR.log'), sandbox = getOption('MTurkR.sandbox'),
-    validation.test = getOption('MTurkR.test')) {
-    if(!is.null(keypair)) {
-        keyid <- keypair[1]
-        secret <- keypair[2]
-    }
-    else
-        stop("No keypair provided or 'credentials' object not stored")
+    verbose = getOption('MTurkR.verbose'), ...){
+    # temporary check for `print` argument (remove after v1.0)
+    if('print' %in% names(list(...)) && is.null(verbose))
+        verbose <- list(...)$print
     operation <- "UpdateQualificationScore"
     if(is.factor(qual))
         qual <- as.character(qual)
@@ -20,9 +14,7 @@ function (qual, workers, values = NULL, increment = NULL,
         values <- NA
         score <- NA
         for(i in 1:length(workers)) {
-            score[i] <- GetQualificationScore(qual, workers[i], 
-                keypair = keypair, log.requests = log.requests, 
-                sandbox = sandbox)$Value[1]
+            score[i] <- GetQualificationScore(qual, workers[i], ...)$Value[1]
             if(is.null(score[i]) || is.na(score[i])) 
                 score[i] <- 0
         }
@@ -45,30 +37,18 @@ function (qual, workers, values = NULL, increment = NULL,
     for(i in 1:length(workers)) {
         GETparameters <- paste("&QualificationTypeId=", qual, 
             "&SubjectId=", workers[i], "&IntegerValue=", values[i], sep = "")
-        auth <- authenticate(operation, secret)
-        if(browser == TRUE){
-            request <- request(keyid, auth$operation, auth$signature, 
-                auth$timestamp, GETparameters, browser = browser, 
-                sandbox = sandbox, validation.test = validation.test)
-            if(validation.test)
-                return(invisible(request))
-        }
-        else {
-            request <- request(keyid, auth$operation, auth$signature, 
-                auth$timestamp, GETparameters, log.requests = log.requests, 
-                sandbox = sandbox, validation.test = validation.test)
-            if(validation.test)
-                return(invisible(request))
-            Qualifications[i, ] <- c(qual, workers[i], values[i], request$valid)
-            if(request$valid == TRUE & print == TRUE) {
-                message(i, ": Qualification Score for Worker ", 
-                    workers[i], " updated to ", values[i])
-            }
-            else if(request$valid == FALSE & print == TRUE)
-                warning(i, ": Invalid Request for worker ", workers[i])
-        }
+        
+        request <- request(operation, GETparameters = GETparameters, ...)
+        if(is.null(request$valid))
+            return(request)
+        Qualifications[i, ] <- c(qual, workers[i], values[i], request$valid)
+        if(request$valid & verbose) {
+            message(i, ": Qualification Score for Worker ", 
+                workers[i], " updated to ", values[i])
+        } else if(!request$valid & verbose)
+            warning(i, ": Invalid Request for worker ", workers[i])
     }
-    if(print == TRUE) 
+    if(verbose) 
         message(i, " Qualification Scores Updated")
     Qualifications$Valid <- factor(Qualifications$Valid, levels=c('TRUE','FALSE'))
     return(Qualifications)

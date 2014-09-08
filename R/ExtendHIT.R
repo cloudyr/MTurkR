@@ -2,15 +2,10 @@ ExtendHIT <-
 extend <-
 function (hit = NULL, hit.type = NULL, add.assignments = NULL, 
     add.seconds = NULL, unique.request.token = NULL,
-    keypair = getOption('MTurkR.keypair'), 
-    print = getOption('MTurkR.print'), browser = getOption('MTurkR.browser'),
-    log.requests = getOption('MTurkR.log'), sandbox = getOption('MTurkR.sandbox'),
-    validation.test = getOption('MTurkR.test')) {
-    if(!is.null(keypair)) {
-        keyid <- keypair[1]
-        secret <- keypair[2]
-    } else
-        stop("No keypair provided or 'credentials' object not stored")
+    verbose = getOption('MTurkR.verbose'), ...) {
+    # temporary check for `print` argument (remove after v1.0)
+    if('print' %in% names(list(...)) && is.null(verbose))
+        verbose <- list(...)$print
     operation <- "ExtendHIT"
     GETparameters <- ""
     if(is.null(add.assignments) & is.null(add.seconds)) 
@@ -51,8 +46,7 @@ function (hit = NULL, hit.type = NULL, add.assignments = NULL,
     else if(!is.null(hit.type)) {
         if(is.factor(hit.type))
             hit.type <- as.character(hit.type)
-        hitsearch <- SearchHITs(keypair = keypair, print = FALSE, 
-            log.requests = log.requests, sandbox = sandbox, return.qual.dataframe = FALSE)
+        hitsearch <- SearchHITs(verbose = FALSE, return.qual.dataframe = FALSE, ...)
         hitlist <- hitsearch$HITs$HITId[hitsearch$HITs$HITTypeId %in% hit.type]
         if(length(hitlist) == 0 || is.null(hitlist))
             stop("No HITs found for HITType")
@@ -61,35 +55,23 @@ function (hit = NULL, hit.type = NULL, add.assignments = NULL,
                 c("HITId", "AssignmentsIncrement", "ExpirationIncrement", "Valid"))
     for(i in 1:length(hitlist)) {
         GETiteration <- paste(GETparameters, "&HITId=", hitlist[i], sep = "")
-        auth <- authenticate(operation, secret)
-        if(browser == TRUE) {
-            request <- request(keyid, auth$operation, auth$signature, 
-                auth$timestamp, GETiteration, browser = browser, 
-                sandbox = sandbox, validation.test = validation.test)
-            if(validation.test)
-                return(invisible(request))
+        request <- request(operation, GETparameters = GETiteration, ...)
+        if(is.null(request$valid))
+            return(request)
+        HITs[i, ] <- c(hitlist[i], add.assignments, add.seconds, request$valid)
+        if(request$valid == TRUE & print == TRUE) {
+            if(!is.null(add.assignments) & !is.null(add.seconds)) 
+                message(i, ": HIT (", hitlist[i], ") Extended by ", 
+                        add.assignments, " Assignments & ", add.seconds, " Seconds")
+            else if(!is.null(add.assignments)) 
+                message(i, ": HIT (", hitlist[i], ") Extended by ", 
+                        add.assignments, " Assignments")
+            else if(!is.null(add.seconds)) 
+                message(i, ": HIT (", hitlist[i], ") Extended by ", 
+                        add.seconds, " Seconds")
         }
-        else {
-            request <- request(keyid, auth$operation, auth$signature, 
-                auth$timestamp, GETiteration, log.requests = log.requests, 
-                sandbox = sandbox, validation.test = validation.test)
-            if(validation.test)
-                invisible(request)
-            HITs[i, ] <- c(hitlist[i], add.assignments, add.seconds, request$valid)
-            if(request$valid == TRUE & print == TRUE) {
-                if(!is.null(add.assignments) & !is.null(add.seconds)) 
-                    message(i, ": HIT (", hitlist[i], ") Extended by ", 
-                            add.assignments, " Assignments & ", add.seconds, " Seconds")
-                else if(!is.null(add.assignments)) 
-                    message(i, ": HIT (", hitlist[i], ") Extended by ", 
-                            add.assignments, " Assignments")
-                else if(!is.null(add.seconds)) 
-                    message(i, ": HIT (", hitlist[i], ") Extended by ", 
-                            add.seconds, " Seconds")
-            }
-            else if(request$valid == FALSE & print == TRUE) {
-                warning(i, ": Invalid Request for HIT ", hitlist[i])
-            }
+        else if(request$valid == FALSE & print == TRUE) {
+            warning(i, ": Invalid Request for HIT ", hitlist[i])
         }
     }
     return(HITs)

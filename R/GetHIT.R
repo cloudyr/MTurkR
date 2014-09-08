@@ -1,16 +1,12 @@
 GetHIT <-
 gethit <-
 hit <-
-function (hit, response.group = NULL, keypair = getOption('MTurkR.keypair'), 
-    print = getOption('MTurkR.print'), browser = getOption('MTurkR.browser'),
-    log.requests = getOption('MTurkR.log'), sandbox = getOption('MTurkR.sandbox'), 
+function(hit, response.group = NULL,
     return.hit.dataframe = TRUE, return.qual.dataframe = TRUE,
-    validation.test = getOption('MTurkR.test')) {
-    if(!is.null(keypair)) {
-        keyid <- keypair[1]
-        secret <- keypair[2]
-    } else
-        stop("No keypair provided or 'credentials' object not stored")
+    verbose = getOption('MTurkR.verbose'), ...){
+    # temporary check for `print` argument (remove after v1.0)
+    if('print' %in% names(list(...)) && is.null(verbose))
+        verbose <- list(...)$print
     operation <- "GetHIT"
     GETparameters <- paste("&HITId=", hit, sep = "")
     if(!is.null(response.group)) {
@@ -27,38 +23,32 @@ function (hit, response.group = NULL, keypair = getOption('MTurkR.keypair'),
             }
         }
     }
-    auth <- authenticate(operation, secret)
-    if(browser == TRUE) {
-        request <- request(keyid, auth$operation, auth$signature, 
-            auth$timestamp, GETparameters, browser = browser, 
-            sandbox = sandbox, validation.test = validation.test)
-        if(validation.test)
-            return(invisible(request))
+    request <- request(operation, GETparameters = GETparameters, ...)
+    if(is.null(request$valid))
+        return(request)
+    if(request$valid == TRUE) {
+        if('sandbox' %in% names(list(...)))
+            sandbox <- list(...)$sandbox
+        else
+            sandbox <- getOption('MTurkR.sandbox')
+        z <- as.data.frame.HITs(xml.parsed = xmlParse(request$xml), 
+                                return.qual.list = return.qual.dataframe,
+                                sandbox = sandbox)
+        if(verbose) 
+            message("HIT (", hit, ") Retrieved")
+        if(return.hit.dataframe == TRUE & return.qual.dataframe == TRUE) 
+            return.list <- list(HITs = z$HITs, QualificationRequirements = z$QualificationRequirements)
+        else if(return.hit.dataframe == TRUE & return.qual.dataframe == FALSE) 
+            return.list <- list(HITs = z$HITs)
+        else if(return.hit.dataframe == FALSE & return.qual.dataframe == TRUE) 
+            return.list <- list(QualificationRequirements = z$QualificationRequirements)
+        else
+            return.list <- NULL
     }
     else {
-        request <- request(keyid, auth$operation, auth$signature, 
-            auth$timestamp, GETparameters, log.requests = log.requests, 
-            sandbox = sandbox, validation.test = validation.test)
-        if(validation.test)
-            return(invisible(request))
-        if(request$valid == TRUE) {
-            z <- HITsToDataFrame(xml = request$xml, sandbox = sandbox)
-            if(print == TRUE) 
-                message("HIT (", hit, ") Retrieved")
-            if(return.hit.dataframe == TRUE & return.qual.dataframe == TRUE) 
-                return.list <- list(HITs = z$HITs, QualificationRequirements = z$QualificationRequirements)
-            else if(return.hit.dataframe == TRUE & return.qual.dataframe == FALSE) 
-                return.list <- list(HITs = z$HITs)
-            else if(return.hit.dataframe == FALSE & return.qual.dataframe == TRUE) 
-                return.list <- list(QualificationRequirements = z$QualificationRequirements)
-            else
-                return.list <- NULL
-        }
-        else {
-            if(print == TRUE) 
-                message("No HITs Retrieved")
-            return.list <- NULL
-        }
-        return(return.list)
+        if(verbose) 
+            message("No HITs Retrieved")
+        return.list <- NULL
     }
+    return(return.list)
 }

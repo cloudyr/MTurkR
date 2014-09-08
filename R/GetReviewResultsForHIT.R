@@ -1,11 +1,10 @@
 GetReviewResultsForHIT <-
 reviewresults <-
 function (hit, assignment = NULL, policy.level = NULL, retrieve.results = TRUE, 
-    retrieve.actions = TRUE, keypair = getOption('MTurkR.keypair'), print = getOption('MTurkR.print'), 
-    browser = getOption('MTurkR.browser'), log.requests = getOption('MTurkR.log'),
-    sandbox = getOption('MTurkR.sandbox'), validation.test = getOption('MTurkR.test')) {
-    keyid <- keypair[1]
-    secret <- keypair[2]
+    retrieve.actions = TRUE, verbose = getOption('MTurkR.verbose'), ...) {
+    # temporary check for `print` argument (remove after v1.0)
+    if('print' %in% names(list(...)) && is.null(verbose))
+        verbose <- list(...)$print
     operation <- "GetReviewResultsForHIT"
     if(is.null(hit))
         stop("Must specify HITId as 'hit'")
@@ -40,44 +39,33 @@ function (hit, assignment = NULL, policy.level = NULL, retrieve.results = TRUE,
         else if(retrieve.results == FALSE) 
             GETparameters <- paste(GETparameters, "&RetrieveResults=F", sep = "")
     }
-    auth <- authenticate(operation, secret)
-    if(browser == TRUE) {
-        request <- request(keyid, auth$operation, auth$signature, 
-            auth$timestamp, GETparameters, browser = browser, 
-            sandbox = sandbox, validation.test = validation.test)
-        if(validation.test)
-            return(invisible(request))
-    }
-    else {
-        request <- request(keyid, auth$operation, auth$signature, 
-            auth$timestamp, GETparameters, log.requests = log.requests, 
-            sandbox = sandbox, validation.test = validation.test)
-        if(validation.test)
-            return(invisible(request))
-        if(request$valid == TRUE) {
-            ReviewResults <- ReviewResultsToDataFrame(xml = request$xml)
-            if(print == TRUE) {
-                message("ReviewResults Retrieved: ", appendLF=FALSE)
-                if(is.null(ReviewResults)) 
-                    message("0\n")
-                else {
-                  if("AssignmentReviewResult" %in% names(ReviewResults)) 
-                    message(length(ReviewResults$AssignmentReviewResults), 
-                      " Assignment ReviewResults Retrieved")
-                  if("AssignmentReviewAction" %in% names(ReviewResults)) 
-                    message(length(ReviewResults$AssignmentReviewResults), 
-                      " Assignment ReviewActions Retrieved")
-                  if("HITReviewResult" %in% names(ReviewResults)) 
-                    message(length(ReviewResults$AssignmentReviewResults), 
-                      " HIT ReviewResults Retrieved")
-                  if("HITReviewAction" %in% names(ReviewResults)) 
-                    message(length(ReviewResults$AssignmentReviewResults), 
-                      " HIT ReviewActions Retrieved")
-                }
+    
+    request <- request(operation, GETparameters = GETparameters, ...)
+    if(is.null(request$valid))
+        return(request)
+    if(request$valid == TRUE) {
+        ReviewResults <- as.data.frame.ReviewResults(xml.parsed = xmlParse(request$xml))
+        if(verbose) {
+            message("ReviewResults Retrieved: ", appendLF=FALSE)
+            if(is.null(ReviewResults)) 
+                message("0\n")
+            else {
+              if("AssignmentReviewResult" %in% names(ReviewResults)) 
+                message(length(ReviewResults$AssignmentReviewResults), 
+                  " Assignment ReviewResults Retrieved")
+              if("AssignmentReviewAction" %in% names(ReviewResults)) 
+                message(length(ReviewResults$AssignmentReviewResults), 
+                  " Assignment ReviewActions Retrieved")
+              if("HITReviewResult" %in% names(ReviewResults)) 
+                message(length(ReviewResults$AssignmentReviewResults), 
+                  " HIT ReviewResults Retrieved")
+              if("HITReviewAction" %in% names(ReviewResults)) 
+                message(length(ReviewResults$AssignmentReviewResults), 
+                  " HIT ReviewActions Retrieved")
             }
         }
-        else if(request$valid == FALSE & print == TRUE)
-            warning("Invalid Request")
-        return(ReviewResults)
     }
+    else if(request$valid == FALSE & print == TRUE)
+        warning("Invalid Request")
+    return(ReviewResults)
 }

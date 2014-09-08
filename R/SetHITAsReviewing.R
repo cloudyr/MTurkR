@@ -1,16 +1,10 @@
 SetHITAsReviewing <-
 reviewing <-
 function (hit = NULL, hit.type = NULL, revert = FALSE, 
-    keypair = getOption('MTurkR.keypair'), 
-    print = getOption('MTurkR.print'), browser = getOption('MTurkR.browser'),
-    log.requests = getOption('MTurkR.log'), sandbox = getOption('MTurkR.sandbox'),
-    validation.test = getOption('MTurkR.test')) {
-    if(!is.null(keypair)) {
-        keyid <- keypair[1]
-        secret <- keypair[2]
-    }
-    else
-        stop("No keypair provided or 'credentials' object not stored")
+    verbose = getOption('MTurkR.verbose'), ...){
+    # temporary check for `print` argument (remove after v1.0)
+    if('print' %in% names(list(...)) && is.null(verbose))
+        verbose <- list(...)$print
     operation <- "SetHITAsReviewing"
     if(revert == TRUE) 
         revert <- "true"
@@ -26,8 +20,7 @@ function (hit = NULL, hit.type = NULL, revert = FALSE,
     else if(!is.null(hit.type)) {
         if(is.factor(hit.type))
             hit.type <- as.character(hit.type)
-        hitsearch <- SearchHITs(keypair = keypair, print = FALSE, 
-            log.requests = log.requests, sandbox = sandbox, return.qual.dataframe = FALSE)
+        hitsearch <- SearchHITs(verbose = FALSE, return.qual.dataframe = FALSE, ...)
         hitlist <- hitsearch$HITs$HITId[hitsearch$HITs$HITTypeId %in% hit.type]
         if(length(hitlist) == 0) 
             stop("No HITs found for HITType")
@@ -36,35 +29,22 @@ function (hit = NULL, hit.type = NULL, revert = FALSE,
     HITs <- data.frame(matrix(ncol = 3, nrow=length(hitlist)))
     names(HITs) <- c("HITId", "Status", "Valid")
     for(i in 1:length(hitlist)) {
-        GETiteration <- paste(GETparameters, "&HITId=", hitlist[i], sep = "")
-        auth <- authenticate(operation, secret)
-        if(browser == TRUE) {
-            request <- request(keyid, auth$operation, auth$signature, 
-                auth$timestamp, GETiteration, browser = browser, 
-                sandbox = sandbox, validation.test = validation.test)
-            if(validation.test)
-                return(invisible(request))
-        }
-        else {
-            request <- request(keyid, auth$operation, auth$signature, 
-                auth$timestamp, GETiteration, log.requests = log.requests, 
-                sandbox = sandbox, validation.test = validation.test)
-            if(validation.test)
-                return(invisible(request))
+        GETiteration <- paste(GETparameters, "&HITId=", hitlist[i], sep = "")        
+        request <- request(operation, GETparameters = GETiteration, ...)
+        if(is.null(request$valid))
+            return(request)
+        if(revert == "false") 
+            status <- "Reviewing"
+        else if(revert == "true") 
+            status <- "Reviewable"
+        HITs[i, ] <- c(hitlist[i], status, request$valid)
+        if(request$valid & verbose) {
             if(revert == "false") 
-                status <- "Reviewing"
-            else if(revert == "true") 
-                status <- "Reviewable"
-            HITs[i, ] <- c(hitlist[i], status, request$valid)
-            if(request$valid == TRUE & print == TRUE) {
-                if(revert == "false") 
-                    message(i, ": HIT (", hitlist[i], ") set as Reviewing")
-                if(revert == "true") 
-                    message(i, ": HIT (", hitlist[i], ") set as Reviewable")
-            }
-            else if(request$valid == FALSE & print == TRUE)
-                warning(i, ": Invalid Request for HIT ", hitlist[i])
-        }
+                message(i, ": HIT (", hitlist[i], ") set as Reviewing")
+            if(revert == "true") 
+                message(i, ": HIT (", hitlist[i], ") set as Reviewable")
+        } else if(!request$valid & verbose)
+            warning(i, ": Invalid Request for HIT ", hitlist[i])
     }
     HITs$Valid <- factor(HITs$Valid, levels=c('TRUE','FALSE'))
     return(HITs)

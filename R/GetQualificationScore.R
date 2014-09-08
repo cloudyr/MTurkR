@@ -1,54 +1,45 @@
 GetQualificationScore <-
 qualscore <-
-function (qual, workers, keypair = getOption('MTurkR.keypair'),
-    print = getOption('MTurkR.print'), 
-    browser = getOption('MTurkR.browser'), log.requests = getOption('MTurkR.log'),
-    sandbox = getOption('MTurkR.sandbox'), validation.test = getOption('MTurkR.test')) {
-    if(!is.null(keypair)) {
-        keyid <- keypair[1]
-        secret <- keypair[2]
-    } else
-        stop("No keypair provided or 'credentials' object not stored")
+function (qual, workers, verbose = getOption('MTurkR.verbose'), ...) {
+    # temporary check for `print` argument (remove after v1.0)
+    if('print' %in% names(list(...)) && is.null(verbose))
+        verbose <- list(...)$print
     operation <- "GetQualificationScore"
     if(is.factor(qual))
         qual <- as.character(qual)
+    if(length(qual)==1)
+        qual <- rep(qual, length(workers))
+    else if(length(qual) != length(workers))
+        stop("length(qual) != length(workers)")
     if(is.factor(workers))
         workers <- as.character(workers)
-    Qualifications <- NA
+    Qualifications <- 
+        setNames(data.frame(matrix(nrow = length(workers), ncol = 5)),
+                 c("QualificationTypeId", "WorkerId", "GrantTime", "Value", "Status"))
     for(i in 1:length(workers)) {
-        GETparameters <- paste("&QualificationTypeId=", qual, 
+        GETparameters <- paste("&QualificationTypeId=", qual[i], 
             "&SubjectId=", workers[i], sep = "")
-        auth <- authenticate(operation, secret)
-        if(browser == TRUE) {
-            request <- request(keyid, auth$operation, auth$signature, 
-                auth$timestamp, GETparameters, browser = browser, 
-                sandbox = sandbox, validation.test = validation.test)
-            if(validation.test)
-                return(invisible(request))
-        }
-        else {
-            request <- request(keyid, auth$operation, auth$signature, 
-                auth$timestamp, GETparameters, log.requests = log.requests, 
-                sandbox = sandbox, validation.test = validation.test)
-            if(validation.test)
-                return(invisible(request))
-            if(request$valid == TRUE) {
-                x <- QualificationsToDataFrame(xml = request$xml)
-                x$WorkerId <- workers[i]
-                if(i == 1) 
-                    Qualifications <- x
-                else Qualifications <- rbind(Qualifications, x)
-                if(print == TRUE) {
-                    message("Qualification (", qual, ") Score for ", 
-                            workers[i], ": ", Qualifications$Value[i])
-                }
+        request <- request(operation, GETparameters = GETparameters, ...)
+        if(is.null(request$valid))
+            return(request)
+        if(request$valid) {
+            x <- as.data.frame.Qualifications(xml.parsed = xmlParse(request$xml))
+            x$WorkerId <- workers[i]
+            Qualifications[i,] <- x
+            if(verbose) {
+                message("Qualification (", qual[i], ") Score for ", 
+                        workers[i], ": ", Qualifications$Value[i])
             }
-            else if(request$valid == FALSE & print == TRUE)
-                  warning("Invalid Request for worker ", workers[i])
+        } else {
+            Qualifications[i,] <- 
+                c(QualificationTypeId = qual[i], 
+                  WorkerId = workers[i],
+                  GrantTime = NA,
+                  Value = NA,
+                  Status = NA)
+            if(verbose)
+                warning("Invalid Request for worker ", workers[i])
         }
     }
-    if(browser == FALSE)
-        return(Qualifications)
-    else
-        return(NULL)
+    return(Qualifications)
 }

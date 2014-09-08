@@ -2,15 +2,10 @@ approve <-
 ApproveAssignment <-
 ApproveAssignments <-
 function (assignments, feedback = NULL, rejected = FALSE,
-    keypair = getOption('MTurkR.keypair'), 
-    print = getOption('MTurkR.print'), browser = getOption('MTurkR.browser'),
-    log.requests = getOption('MTurkR.log'), sandbox = getOption('MTurkR.sandbox'),
-    validation.test = getOption('MTurkR.test')) {
-    if(!is.null(keypair)) {
-        keyid <- keypair[1]
-        secret <- keypair[2]
-    } else
-        stop("No keypair provided or 'credentials' object not stored")
+    verbose = getOption('MTurkR.verbose'), ...) {
+    # temporary check for `print` argument (remove after v1.0)
+    if('print' %in% names(list(...)) && is.null(verbose))
+        verbose <- list(...)$print
     if(is.factor(assignments))
         assignments <- as.character(assignments)
     if(rejected == TRUE) 
@@ -35,42 +30,28 @@ function (assignments, feedback = NULL, rejected = FALSE,
             GETparameters <- paste(GETparameters, "&RequesterFeedback=", 
                 curlEscape(feedback.batch), sep = "")
         }
-        auth <- authenticate(operation, secret)
-        if(browser == TRUE) {
-            request <- request(keyid, auth$operation, auth$signature, 
-                auth$timestamp, GETparameters, browser = browser, 
-                sandbox = sandbox, validation.test = validation.test)
-            if(validation.test)
-                invisible(request)
-        }
-        else {
-            request <- request(keyid, auth$operation, auth$signature, 
-                auth$timestamp, GETparameters, log.requests = log.requests, 
-                sandbox = sandbox, validation.test = validation.test)
-            if(validation.test)
-                return(invisible(request))
-            if(print == TRUE) {
-                if (request$valid == TRUE) 
-                    message("Assignment ", assignment, " Approved", sep = "")
-                else if (request$valid == FALSE) 
-                    warning("Invalid Request for ", assignment)
-            }
+        request <- request(operation, GETparameters = GETparameters, ...)
+        if(is.null(request$valid))
             return(request)
+        if(verbose) {
+            if(request$valid) 
+                message("Assignment ", assignment, " Approved", sep = "")
+            else
+                warning("Invalid Request for ", assignment)
         }
+        return(request)
     }
     Assignments <- setNames(data.frame(matrix(nrow=length(assignments), ncol=3)),
                     c("AssignmentId", "Feedback", "Valid"))
     for(i in 1:length(assignments)) {
         x <- batch(assignments[i], feedback[i])
-        if(validation.test)
-            return(invisible(x))
         if (!is.null(feedback)) 
             Assignments[i, ] <- c(assignments[i], feedback[i], x$valid)
         else
             Assignments[i, ] <- c(assignments[i], "", x$valid)
     }
     Assignments$Valid <- factor(Assignments$Valid, levels=c('TRUE','FALSE'))
-    if(print == TRUE) 
+    if(verbose) 
         message(sum(x$valid), " Assignments Approved")
     return(Assignments)
 }

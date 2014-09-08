@@ -1,22 +1,26 @@
 request <-
-function (keyid = getOption('MTurkR.keypair')[1], operation, signature=NULL, timestamp=NULL, GETparameters, 
-    secret = getOption('MTurkR.keypair')[2],
-    version = "2012-03-25", service = "AWSMechanicalTurkRequester", 
-    browser = getOption('MTurkR.browser'), log.requests = getOption('MTurkR.log'),
-    sandbox = getOption('MTurkR.sandbox'), xml.parse = FALSE,
-    print.errors = TRUE, validation.test = getOption('MTurkR.test')) {
-    if(sandbox == TRUE) 
+function(operation, GETparameters = NULL,
+    keypair = getOption('MTurkR.keypair'),
+    browser = getOption('MTurkR.browser'),
+    log.requests = getOption('MTurkR.log'), 
+    sandbox = getOption('MTurkR.sandbox'),
+    verbose = getOption('MTurkR.verbose'),
+    validation.test = getOption('MTurkR.test'),
+    service = "AWSMechanicalTurkRequester",
+    version = "2012-03-25")
+{
+    if(sandbox) 
         host <- "https://mechanicalturk.sandbox.amazonaws.com/"
     else
         host <- "https://mechanicalturk.amazonaws.com/"
+    if(is.null(keypair))
+        stop("No keypair provided or 'credentials' object not stored")
+    keyid <- keypair[1]
+    secret <- keypair[2]
     host <- paste(host, "?Service=", service, sep='')
-    if(is.null(signature) & is.null(secret))
-        stop("Must supply 'secret' or 'signature'!")
-    else if(is.null(signature)){
-        timestamp <- format(Sys.time(), format = "%Y-%m-%dT%H:%M:%SZ", tz = "UTC")
-        signature <- base64Encode(hmac(secret, paste(service, operation, 
+    timestamp <- format(Sys.time(), format = "%Y-%m-%dT%H:%M:%SZ", tz = "UTC")
+    signature <- base64Encode(hmac(secret, paste(service, operation, 
             timestamp, sep = ""), algo = "sha1", serialize = FALSE, raw = TRUE))[1]
-    }
     urlparameters <- paste("&AWSAccessKeyId=", 
         keyid, "&Version=", version, "&Operation=", operation, 
         "&Timestamp=", timestamp, "&Signature=", curlEscape(signature), 
@@ -24,14 +28,24 @@ function (keyid = getOption('MTurkR.keypair')[1], operation, signature=NULL, tim
     request.url <- paste(host, urlparameters, sep='')
     if(validation.test){
         message("Request URL: ",request.url,'\n')
-        return(invisible(list(request.url=request.url)))
+        return(structure(list(operation = operation,
+                              request.id = NULL,
+                              request.url = request.url,
+                              valid = NULL,
+                              xml = NULL),
+                         class='MTurkResponse'))
     }
     else {
-        if(browser == TRUE)
+        if(browser == TRUE) {
             browseURL(request.url)
-        else {
+            return(structure(list(operation = operation,
+                                  request.id = NULL,
+                                  request.url = request.url,
+                                  valid = NULL,
+                                  xml = NULL),
+                             class='MTurkResponse'))
+        } else {
             h <- basicTextGatherer()
-            #curlPerform(url=request.url,
             curlPerform(url=host,
                         httpheader=c('Content-Type'='application/x-www-form-urlencoded'),
                         postfields=urlparameters,
@@ -118,45 +132,65 @@ function (keyid = getOption('MTurkR.keypair')[1], operation, signature=NULL, tim
                                           'Log contents were:\n',towrite2))
                         })
             }
-            if(valid == FALSE) {
-                if(print.errors == TRUE) {
-                    message("Request ", request.id, " not valid for API request:")
-                    temp.url <- gsub('=',' = ',request.url)
-                    if(sandbox) {
-                        message(paste(paste(strsplit(temp.url, "&")[[1]],
-                          collapse="\n                                             &"),'\n\n'))
-                    } else {
-                        message(paste(paste(strsplit(temp.url, "&")[[1]],
-                          collapse="\n                                     &"),'\n\n'))
+            if(!valid && verbose) {
+                message("Request ", request.id, " not valid for API request:")
+                temp.url <- gsub('=',' = ',request.url)
+                if(sandbox) {
+                    message(paste(paste(strsplit(temp.url, "&")[[1]],
+                      collapse="\n                                             &"),'\n\n'))
+                } else {
+                    message(paste(paste(strsplit(temp.url, "&")[[1]],
+                      collapse="\n                                     &"),'\n\n'))
+                }
+                ParseErrorCodes <- function(xml) {
+                    xml.errors <- xpathApply(xmlParse(xml), "//Error")
+                    errors <- setNames(data.frame(matrix(nrow = length(xml.errors), ncol = 2)),
+                                c("Code", "Message"))
+                    for(i in 1:length(xml.errors)) {
+                        errors[i,] <- c(xmlValue(xpathApply(xml.errors[[i]], "//Code")[[1]]),
+                                        xmlValue(xpathApply(xml.errors[[i]], "//Message")[[1]]))
                     }
-                    errors <- tryCatch(ParseErrorCodes(xml = response),
-                        error = function(e) e)
-                    if(!inherits(errors, 'error')){
-                        cat('\n')
-                        for (i in 1:dim(errors)[1])
-                            message("Error (", errors[i, 1], "): ", errors[i,2])
-                    }
+                    return(invisible(errors))
+                }
+                errors <- tryCatch(ParseErrorCodes(xml = response), error = function(e) e)
+                if(!inherits(errors, 'error')){
+                    cat('\n')
+                    for (i in 1:dim(errors)[1])
+                        message("Error (", errors[i, 1], "): ", errors[i,2])
                 }
             }
-            if(xml.parse == TRUE) {
-                xml.parsed <- xmlParse(response)
-                out <- list(request.url = request.url, request.id = request.id, 
-                            valid = valid, xml = response, xml.parsed = xml.parsed)
-            }
-            else
-                out <- list(request.url = request.url, request.id = request.id, 
-                            valid = valid, xml = response)
-            class(out) <- c('MTurkResponse',class(out))
-            return(invisible(out))
+            return(structure(list(operation = operation,
+                                  request.id = request.id, 
+                                  valid = valid, 
+                                  request.url = request.url,
+                                  xml = response), 
+                             class='MTurkResponse'))
         }
     }
 }
 
 print.MTurkResponse <- function(x,...){
-    cat('RequestId:   ',x$request.id,'\n')
-    cat('Valid?       ',x$valid,'\n')
-    cat('Request URL: ',gsub('&','\n',curlUnescape(x$request.url),'\n'))
-    cat('XML Response:\n')
-    print(xmlParse(x$response))
+    if(!is.null(x$operation))
+        cat('API Operation: ',x$operation,'\n')
+    if(!is.null(x$request.id))
+        cat('RequestId:     ',x$request.id,'\n')
+    if(!is.null(x$valid))
+        cat('Valid?         ',x$valid,'\n')
+    if(!is.null(x$request.url))
+        cat('Request URL:   ',gsub('&','\n',curlUnescape(x$request.url),'\n'))
+    if(!is.null(x$xml)){
+        cat('XML Response:\n')
+        print(xmlParse(x$response))
+    }
+    cat('\n')
     invisible(x)
+}
+
+as.data.frame.MTurkResponse <- function(x, ...){
+    xml.parsed <- xmlParse(x$xml)
+    n <- xmlName(xmlRoot(xml.parsed))
+    #class(x$xml) <- 'test' # something to switch to appropriate parsing function
+    # class(xml.parsed) <- switch(n, # list of switches here from API methods to as.data.frame methods )
+    out <- as.data.frame(xml.parsed)
+    invisible(out)
 }

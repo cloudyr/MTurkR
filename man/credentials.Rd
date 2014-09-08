@@ -13,7 +13,7 @@ credentials(keypair = NULL)
 }
 \value{A two-item character vector containing an AWS Access Key ID in the first position and the corresponding Secret Access Key in the second position.}
 \references{
-\href{https://aws-portal.amazon.com/gp/aws/securityCredentials}{AWS Access Credentials}
+\href{https://console.aws.amazon.com/iam/home?\#security_credential}{AWS Access Credentials}
 }
 \author{Thomas J. Leeper}
 %\note{}

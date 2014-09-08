@@ -6,14 +6,10 @@ function (qual, workers, value = "1", notify = FALSE, name = NULL,
     test = NULL, answerkey = NULL, test.duration = NULL, auto = NULL, 
     auto.value = NULL, conditional.statistic = NULL, conditional.comparator = NULL, 
     conditional.value = NULL, conditional.period = NULL, set.statistic.as.value = FALSE, 
-    keypair = getOption('MTurkR.keypair'), print = getOption('MTurkR.print'),
-    browser = getOption('MTurkR.browser'), log.requests = getOption('MTurkR.log'),
-    sandbox = getOption('MTurkR.sandbox'), validation.test = getOption('MTurkR.test')) {
-    if(!is.null(keypair)) {
-        keyid <- keypair[1]
-        secret <- keypair[2]
-    } else
-        stop("No keypair provided or 'credentials' object not stored")
+    verbose = getOption('MTurkR.verbose'), ...) {
+    # temporary check for `print` argument (remove after v1.0)
+    if('print' %in% names(list(...)) && is.null(verbose))
+        verbose <- list(...)$print
     operation <- "AssignQualification"
     if(is.factor(qual))
         qual <- as.character(qual)
@@ -31,37 +27,25 @@ function (qual, workers, value = "1", notify = FALSE, name = NULL,
     }
     worker <- NULL
     batch <- function(worker, value) {
-        GETparameters <- paste(    "&QualificationTypeId=", qual, 
-                                "&WorkerId=", worker,
-                                "&IntegerValue=", value,
-                                "&SendNotification=", tolower(notify), sep = "")
-        auth <- authenticate(operation, secret)
-        if(browser == TRUE) {
-            request <- request(keyid, auth$operation, auth$signature, 
-                auth$timestamp, GETparameters, browser = browser, 
-                sandbox = sandbox, validation.test = validation.test)
-            if(validation.test)
+        GETparameters <- paste("&QualificationTypeId=", qual, 
+                               "&WorkerId=", worker,
+                               "&IntegerValue=", value,
+                               "&SendNotification=", tolower(notify), sep = "")        
+        request <- request(operation, GETparameters = GETparameters, ...)
+        if(is.null(request$valid))
+            return(request)
+        if(verbose) {
+            if(request$valid == TRUE) {
+                message("Qualification (", qual, ") Assigned to worker ", worker)
                 return(invisible(request))
-        }
-        else {
-            request = request(keyid, auth$operation, auth$signature, 
-                auth$timestamp, GETparameters, log.requests = log.requests, 
-                sandbox = sandbox, validation.test = validation.test)
-            if(validation.test)
-                return(invisible(request))
-            if(print == TRUE) {
-                if(request$valid == TRUE) {
-                    message("Qualification (", qual, ") Assigned to worker ", worker)
-                    return(invisible(request))
-                }
-                else if(request$valid == FALSE) {
-                    warning("Invalid Request for worker ",worker)
-                    return(request)
-                }
             }
-            else
-                return(invisible(request))
+            else if(request$valid == FALSE) {
+                warning("Invalid Request for worker ",worker)
+                return(request)
+            }
         }
+        else
+            return(invisible(request))
     }
     if (!is.null(name)) {
         if (!is.null(qual)) 
@@ -72,11 +56,10 @@ function (qual, workers, value = "1", notify = FALSE, name = NULL,
             warning("QualificationTypeStatus set to 'Active'")
             status <- "active"
         }
-        type <- CreateQualificationType(keypair, name = name, 
-            description = description, keywords = keywords, status = status, 
-            retry.delay = retry.delay, test = test, answerkey = answerkey, 
-            test.duration = test.duration, auto = auto, auto.value = auto.value, 
-            log.requests = log.requests, sandbox = sandbox)
+        type <- CreateQualificationType(name = name, description = description,
+            keywords = keywords, status = status, retry.delay = retry.delay,
+            test = test, answerkey = answerkey, test.duration = test.duration, 
+            auto = auto, auto.value = auto.value, ...)
         if (type$valid == TRUE) 
             qual <- type$QualificationTypeId
         else
@@ -88,16 +71,11 @@ function (qual, workers, value = "1", notify = FALSE, name = NULL,
     if(is.null(conditional.statistic)) {
         for(i in 1:length(workers)) {
             x <- batch(workers[i], value)
-            if(validation.test)
-                return(invisible(x))
+            if(is.null(x$valid))
+                return(request)
             Qualifications[i, ] = c(workers[i], value, qual, notify, x$valid)
         }
-    }
-    else {
-        if(validation.test){
-            warning("validation.test not available for conditional qualification assignment")
-            return(invisible(NULL))
-        }
+    } else {
         if(is.null(conditional.comparator)) 
             stop("No comparator specified for conditional")
         value.integer <- c("NumberAssignmentsApproved", "NumberAssignmentsRejected", 
@@ -136,9 +114,8 @@ function (qual, workers, value = "1", notify = FALSE, name = NULL,
         if(is.na(conditional.value)) 
             stop("Conditional value is non-numeric")
         for(i in 1:length(workers)) {
-            x <- GetWorkerStatistic(keypair, worker, conditional.statistic, 
-                conditional.period, log.requests = log.requests, 
-                sandbox = sandbox)
+            x <- GetWorkerStatistic(worker, conditional.statistic, 
+                                    conditional.period, ...)
             if(set.statistic.as.value == TRUE) 
                 value <- x$value
             if(conditional.comparator == "LessThan") {

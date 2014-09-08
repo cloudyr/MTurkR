@@ -43,9 +43,7 @@ OpenQualificationPage()
 %\references{}
 \author{Thomas J. Leeper}
 %\note{}
-\seealso{
-\code{\link{APIReference}}
-}
+%\seealso{}
 \examples{
 \dontrun{
 ListOperations()

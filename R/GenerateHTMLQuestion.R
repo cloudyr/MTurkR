@@ -7,7 +7,8 @@ function (character = NULL, file = NULL, frame.height = 450) {
     string <- paste0(
         "<HTMLQuestion xmlns='http://mechanicalturk.amazonaws.com/AWSMechanicalTurkDataSchemas/2011-11-11/HTMLQuestion.xsd'><HTMLContent><![CDATA[",
         html,"]]></HTMLContent><FrameHeight>",frame.height,"</FrameHeight></HTMLQuestion>")
-    return(list(xml.parsed = xmlParse(string),
-                string = string, 
-                url.encoded = curlEscape(string)))
+    return(structure(list(xml.parsed = xmlParse(string),
+                          string = string, 
+                          url.encoded = curlEscape(string)), 
+                     class='HTMLQuestion'))
 }
