@@ -9,8 +9,6 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
     }
     else { # by default, style=="tcltk"
         
-        require(tcltk) || stop("The package 'tcltk' is required")
-        
         # setup some things for the wizard
         # temporary environment to store things when I want to use them across functions
         wizardenv <- new.env()
