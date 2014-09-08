@@ -7,8 +7,7 @@ Authors@R: c(person("Thomas J.", "Leeper", role = c("aut", "cre"),
              person("Solomon", "Messing", role = "ctb"),
              person("Sean", "Murphy", role = "ctb"))
 Maintainer: Thomas J. Leeper <thosjleeper@gmail.com>
-Imports: RCurl, digest, XML
-Suggests: tcltk
+Imports: RCurl, digest, XML, tcltk
 Description: Provides R access to the Amazon Mechanical Turk (MTurk) Requester API.
 License: GPL-2
 URL: https://github.com/leeper/MTurkR
