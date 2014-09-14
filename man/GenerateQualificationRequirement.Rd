@@ -40,11 +40,11 @@ q2 <- GenerateQualificationRequirement(c("Locale","Approved"),
                                        c("US",90), 
                                        preview = TRUE)
 # one QualificationRequirement using the `In` comparator
-q3 <- GenerateQualificationRequirement("Locale","In","US,UK")
+q3 <- GenerateQualificationRequirement("Locale","In","US,GB")
 # two QualificationRequirements using the `In` comparator
 q4 <- GenerateQualificationRequirement(c("Locale","Approved"), 
                                        c("==",">"), 
-                                       c("US,UK,DK",90), 
+                                       c("US,GB,DK",90), 
                                        preview = c(TRUE,FALSE))
 # `Exists` comparator
 q5 <- GenerateQualificationRequirement("Approved", "Exists", "")
