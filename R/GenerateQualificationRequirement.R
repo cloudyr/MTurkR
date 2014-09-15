@@ -67,7 +67,7 @@ function (qual, comparator, value, preview = NULL, qual.number = NULL) {
     # handle multiple LocaleValue
     ltmp <- unname(mapply(function(x = NULL, qn) { 
         v <- strsplit(x,',')[[1]]
-        paste0('QualificationRequirement.',qn,'.LocaleValue.Country.', seq_along(v),'=', v, collapse='&')
+        paste0('QualificationRequirement.',qn,'.LocaleValue.',seq_along(v),'.Country', '=', v, collapse='&')
     }, value, qual.number))
     # handle multiple IntegerValue
     itmp <- unname(mapply(function(x = NULL, qn) { 

@@ -1,5 +1,10 @@
 # CHANGES TO MTurkR 0.5 #
 
+## BUG FIXES ##
+* Corrected several related bugs (API version number, LocaleValue specification) that prevented the "In" comparator in a QualificationRequirement from working with multiple LocaleValues in API version 2013-11-15. (#50, h/t Haotian Zhou)
+
+# CHANGES TO MTurkR 0.5 #
+
 ## SIGNIFICANT USER-VISIBLE CHANGES ##
 * `GenerateQualificationRequirement` now supports new comparators (given MTurk API update on 2014-07-17): "DoesNotExist", "In", and "NotIn". The "DoesNotExist" comparator allows requesters to effectively block workers who do not have, e.g., a requester-defined qualification. The "In" and "NotIn" comparators allow a boolean OR logical in QualificationRequirements (e.g., allowing a worker to be from the US or the UK) rather than having to create two separate HITs with different Locale restrictions.
 * The `qual.number` argument to `GenerateQualificationRequirement` has been removed.
