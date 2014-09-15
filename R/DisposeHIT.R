@@ -29,9 +29,9 @@ function (hit = NULL, hit.type = NULL, response.group = NULL,
         if(is.null(request$valid))
             return(request)
         HITs[i, ] <- c(hitlist[i], request$valid)
-        if(request$valid == TRUE & print == TRUE) 
+        if(request$valid & verbose) 
             message(i, ": HIT ", hitlist[i], " Disposed")
-        else if(request$valid == FALSE & print == TRUE)
+        else if(!request$valid & verbose)
             warning(i, ": Invalid Request for HIT ", hitlist[i])
     }
     HITs$Valid <- factor(HITs$Valid, levels=c('TRUE','FALSE'))

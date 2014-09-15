@@ -65,7 +65,7 @@ function (hit, assignment = NULL, policy.level = NULL, retrieve.results = TRUE,
             }
         }
     }
-    else if(request$valid == FALSE & print == TRUE)
+    else if(!request$valid & verbose)
         warning("Invalid Request")
     return(ReviewResults)
 }

@@ -59,7 +59,7 @@ function (hit = NULL, hit.type = NULL, add.assignments = NULL,
         if(is.null(request$valid))
             return(request)
         HITs[i, ] <- c(hitlist[i], add.assignments, add.seconds, request$valid)
-        if(request$valid == TRUE & print == TRUE) {
+        if(request$valid & verbose) {
             if(!is.null(add.assignments) & !is.null(add.seconds)) 
                 message(i, ": HIT (", hitlist[i], ") Extended by ", 
                         add.assignments, " Assignments & ", add.seconds, " Seconds")
@@ -70,7 +70,7 @@ function (hit = NULL, hit.type = NULL, add.assignments = NULL,
                 message(i, ": HIT (", hitlist[i], ") Extended by ", 
                         add.seconds, " Seconds")
         }
-        else if(request$valid == FALSE & print == TRUE) {
+        else if(!request$valid & verbose) {
             warning(i, ": Invalid Request for HIT ", hitlist[i])
         }
     }
