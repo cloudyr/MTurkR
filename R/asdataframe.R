@@ -142,10 +142,16 @@ function(xml.parsed = NULL,
                 quals$Name[i] <- NA
             }
             quals$Comparator[i] <- xmlValue(xmlChildren(xmlnodeset[[i]])$Comparator)
-            if("LocaleValue" %in% names(xmlChildren(xmlnodeset[[i]]))) 
-                quals$Value[i] <- xmlValue(xmlChildren(xmlnodeset[[i]])$LocaleValue)
-            if("IntegerValue" %in% names(xmlChildren(xmlnodeset[[i]]))) 
-                quals$Value[i] <- xmlValue(xmlChildren(xmlnodeset[[i]])$IntegerValue)
+            if("LocaleValue" %in% names(xmlChildren(xmlnodeset[[i]]))) {
+                w <- which(names(xmlChildren(xmlnodeset[[i]])) == "LocaleValue")
+                locales <- sapply(xmlChildren(xmlnodeset[[i]])[w], xmlValue)
+                quals$Value[i] <- paste0(locales, collapse=",")
+            }
+            if("IntegerValue" %in% names(xmlChildren(xmlnodeset[[i]]))) {
+                w <- which(names(xmlChildren(xmlnodeset[[i]])) == "IntegerValue")
+                locales <- sapply(xmlChildren(xmlnodeset[[i]])[w], xmlValue)
+                quals$Value[i] <- paste0(locales, collapse=",")
+            }
             quals$RequiredToPreview[i] <- xmlValue(xmlChildren(xmlnodeset[[i]])$RequiredToPreview)
         }
         return(quals)
