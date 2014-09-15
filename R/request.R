@@ -1,13 +1,13 @@
 request <-
 function(operation, GETparameters = NULL,
     keypair = getOption('MTurkR.keypair'),
-    browser = getOption('MTurkR.browser'),
-    log.requests = getOption('MTurkR.log'), 
-    sandbox = getOption('MTurkR.sandbox'),
-    verbose = getOption('MTurkR.verbose'),
-    validation.test = getOption('MTurkR.test'),
+    browser = getOption('MTurkR.browser', FALSE),
+    log.requests = getOption('MTurkR.log', TRUE), 
+    sandbox = getOption('MTurkR.sandbox', FALSE),
+    verbose = getOption('MTurkR.verbose', TRUE),
+    validation.test = getOption('MTurkR.test', FALSE),
     service = "AWSMechanicalTurkRequester",
-    version = "2012-03-25")
+    version = NULL)
 {
     if(sandbox) 
         host <- "https://mechanicalturk.sandbox.amazonaws.com/"
@@ -21,10 +21,12 @@ function(operation, GETparameters = NULL,
     timestamp <- format(Sys.time(), format = "%Y-%m-%dT%H:%M:%SZ", tz = "UTC")
     signature <- base64Encode(hmac(secret, paste(service, operation, 
             timestamp, sep = ""), algo = "sha1", serialize = FALSE, raw = TRUE))[1]
-    urlparameters <- paste("&AWSAccessKeyId=", 
-        keyid, "&Version=", version, "&Operation=", operation, 
-        "&Timestamp=", timestamp, "&Signature=", curlEscape(signature), 
-        GETparameters, sep = "")
+    urlparameters <- paste("&AWSAccessKeyId=", keyid, 
+                           if(!is.null(version)) paste0("&Version=", version) else "", 
+                           "&Operation=", operation, 
+                           "&Timestamp=", timestamp, 
+                           "&Signature=", curlEscape(signature), 
+                           GETparameters, sep = "")
     request.url <- paste(host, urlparameters, sep='')
     if(validation.test){
         message("Request URL: ",request.url,'\n')
