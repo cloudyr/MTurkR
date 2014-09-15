@@ -2,7 +2,7 @@ GetReviewableHITs <-
 reviewable <-
 function (hit.type = NULL, status = NULL, response.group = "Minimal", 
     return.all = TRUE, pagenumber = "1", pagesize = "10", sortproperty = "Enumeration", 
-    sortdirection = "Ascending", verbose = getOption('MTurkR.verbose'), ...) {
+    sortdirection = "Ascending", verbose = getOption('MTurkR.verbose', TRUE), ...) {
     # temporary check for `print` argument (remove after v1.0)
     if('print' %in% names(list(...)) && is.null(verbose))
         verbose <- list(...)$print

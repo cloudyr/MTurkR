@@ -6,7 +6,7 @@
 \usage{
 GetReviewResultsForHIT(hit, assignment = NULL, policy.level = NULL,
                        retrieve.results = TRUE, retrieve.actions = TRUE,
-                       verbose = getOption('MTurkR.verbose'), ...)
+                       verbose = getOption('MTurkR.verbose', TRUE), ...)
 }
 \arguments{
   \item{hit}{A character string containing a HITId.}
@@ -14,7 +14,7 @@ GetReviewResultsForHIT(hit, assignment = NULL, policy.level = NULL,
   \item{policy.level}{Either \code{HIT} or \code{Assignment}. If omitted, the default behavior is to retrieve all data for both policy levels. }
   \item{retrieve.results}{Optionally retrieve ReviewResults. Default is \code{TRUE}.}
   \item{retrieve.actions}{Optionally retrieve ReviewActions. Default is \code{TRUE}.}
-  \item{verbose}{Optionally print the results of the API request to the standard output. Default is taken from \code{getOption('MturkR.verbose')}.}
+  \item{verbose}{Optionally print the results of the API request to the standard output. Default is taken from \code{getOption('MTurkR.verbose', TRUE)}.}
   \item{...}{Additional arguments passed to \code{\link{request}}.}
 }
 \details{A simple function to return the results of a ReviewPolicy. This is intended only for advanced users, who should reference MTurk documentation for further information.

@@ -5,7 +5,7 @@
 \description{Extend the time remaining on a HIT or the number of assignments available for the HIT.}
 \usage{
 ExtendHIT(hit = NULL, hit.type = NULL, add.assignments = NULL, add.seconds = NULL, 
-          unique.request.token = NULL, verbose = getOption('MTurkR.verbose'), ...)
+          unique.request.token = NULL, verbose = getOption('MTurkR.verbose', TRUE), ...)
 }
 \arguments{
   \item{hit}{An optional character string containing a HITId or a vector of character strings containing multiple HITIds.}
@@ -13,7 +13,7 @@ ExtendHIT(hit = NULL, hit.type = NULL, add.assignments = NULL, add.seconds = NUL
   \item{add.assignments}{An optional character string containing the number of assignmetns to add to the HIT. Must be between 1 and 1000000000.}
   \item{add.seconds}{An optional character string containing the amount of time to extend the HIT, in seconds (for example, returned by \code{\link{seconds}}). Must be between 1 hour (3600 seconds) and 365 days.}
   \item{unique.request.token}{An optional character string, included only for advanced users.}
-  \item{verbose}{Optionally print the results of the API request to the standard output. Default is taken from \code{getOption('MturkR.verbose')}.}
+  \item{verbose}{Optionally print the results of the API request to the standard output. Default is taken from \code{getOption('MTurkR.verbose', TRUE)}.}
   \item{...}{Additional arguments passed to \code{\link{request}}.}
 }
 \details{

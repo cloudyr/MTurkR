@@ -2,7 +2,7 @@ ExtendHIT <-
 extend <-
 function (hit = NULL, hit.type = NULL, add.assignments = NULL, 
     add.seconds = NULL, unique.request.token = NULL,
-    verbose = getOption('MTurkR.verbose'), ...) {
+    verbose = getOption('MTurkR.verbose', TRUE), ...) {
     # temporary check for `print` argument (remove after v1.0)
     if('print' %in% names(list(...)) && is.null(verbose))
         verbose <- list(...)$print

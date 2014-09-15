@@ -5,12 +5,12 @@
 \description{Test a HITType Notification, for example, to try out a HITType Notification before creating a HIT.}
 \usage{
 SendTestEventNotification(notification, test.event.type, 
-                          verbose = getOption('MTurkR.verbose'), ...)
+                          verbose = getOption('MTurkR.verbose', TRUE), ...)
 }
 \arguments{
   \item{notification}{A character string containing a URL query parameter-formatted Notification structure (e.g., returned by \code{\link{GenerateNotification}}).}
   \item{test.event.type}{A character string containing one of: \code{AssignmentAccepted}, \code{AssignmentAbandoned}, \code{AssignmentReturned}, \code{AssignmentSubmitted}, \code{HITReviewable}, \code{HITExpired} (the default), \code{Ping}.}
-  \item{verbose}{Optionally print the results of the API request to the standard output. Default is taken from \code{getOption('MturkR.verbose')}.}
+  \item{verbose}{Optionally print the results of the API request to the standard output. Default is taken from \code{getOption('MTurkR.verbose', TRUE)}.}
   \item{...}{Additional arguments passed to \code{\link{request}}.}
 }
 \details{

@@ -1,7 +1,7 @@
 SetHITAsReviewing <-
 reviewing <-
 function (hit = NULL, hit.type = NULL, revert = FALSE, 
-    verbose = getOption('MTurkR.verbose'), ...){
+    verbose = getOption('MTurkR.verbose', TRUE), ...){
     # temporary check for `print` argument (remove after v1.0)
     if('print' %in% names(list(...)) && is.null(verbose))
         verbose <- list(...)$print

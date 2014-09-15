@@ -6,13 +6,13 @@
 \usage{
 request(operation, GETparameters = NULL,
         keypair = getOption('MTurkR.keypair'),
-        browser = getOption('MTurkR.browser'),
-        log.requests = getOption('MTurkR.log'),
-        sandbox = getOption('MTurkR.sandbox'), 
-        verbose = getOption('MTurkR.verbose'),
-        validation.test = getOption('MTurkR.test'),
+        browser = getOption('MTurkR.browser', FALSE),
+        log.requests = getOption('MTurkR.log', TRUE),
+        sandbox = getOption('MTurkR.sandbox', FALSE), 
+        verbose = getOption('MTurkR.verbose', TRUE),
+        validation.test = getOption('MTurkR.test', FALSE),
         service = "AWSMechanicalTurkRequester",
-        version = "2012-03-25")
+        version = NULL)
 }
 \arguments{
   \item{operation}{The MTurk API operation to be performed.}
@@ -24,7 +24,7 @@ request(operation, GETparameters = NULL,
   \item{verbose}{Whether errors produced by the MTurk API request should be printed.}
   \item{validation.test}{Currently a logical that causes \code{request} to return the URL of the specified REST request. Default is \code{FALSE}. May additionally validate the request (and supply information about that validation) in the future.}
   \item{service}{The MTurk service to which the authenticated request will be sent. Supplied only for advanced users.}
-  \item{version}{The version of the MTurk API to use. Default is \dQuote{2012-03-25}, under which the MTurkR package was built.}
+  \item{version}{The version of the MTurk API to use.}
 }
 \details{This is an internal function that executes MTurk API requests. It is made available for use by advanced users to execute custom API requests.}
 \value{A list of class \dQuote{MTurkResponse} containing:

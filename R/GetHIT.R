@@ -3,7 +3,7 @@ gethit <-
 hit <-
 function(hit, response.group = NULL,
     return.hit.dataframe = TRUE, return.qual.dataframe = TRUE,
-    verbose = getOption('MTurkR.verbose'), ...){
+    verbose = getOption('MTurkR.verbose', TRUE), ...){
     # temporary check for `print` argument (remove after v1.0)
     if('print' %in% names(list(...)) && is.null(verbose))
         verbose <- list(...)$print

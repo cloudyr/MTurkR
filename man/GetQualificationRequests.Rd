@@ -8,7 +8,7 @@ GetQualificationRequests(qual = NULL, return.all = TRUE,
                         pagenumber = "1", pagesize = "10", 
                         sortproperty = "SubmitTime", sortdirection = "Ascending", 
                         return.qual.dataframe = TRUE,
-                        verbose = getOption('MTurkR.verbose'), ...)
+                        verbose = getOption('MTurkR.verbose', TRUE), ...)
 }
 \arguments{
   \item{qual}{An optional character string containing a QualificationTypeId to which the search should be restricted. If none is supplied, requests made for all QualificationTypes are returned.}
@@ -18,7 +18,7 @@ GetQualificationRequests(qual = NULL, return.all = TRUE,
   \item{sortproperty}{Either \dQuote{SubmitTime} or \dQuote{QualificationTypeId}. Ignored if \code{return.all=TRUE}. Most users can ignore this.}
   \item{sortdirection}{Either \dQuote{Ascending} or \dQuote{Descending}. Ignored if \code{return.all=TRUE}. Most users can ignore this.}
   \item{return.qual.dataframe}{A logical indicating whether the QualificationTypes should be returned as a dataframe. Default is \code{TRUE}.}
-  \item{verbose}{Optionally print the results of the API request to the standard output. Default is taken from \code{getOption('MturkR.verbose')}.}
+  \item{verbose}{Optionally print the results of the API request to the standard output. Default is taken from \code{getOption('MTurkR.verbose', TRUE)}.}
   \item{...}{Additional arguments passed to \code{\link{request}}.}
 }
 \details{

@@ -6,7 +6,7 @@
 \title{Retrieve MTurk account balance}
 \description{Retrieves the amount of money (in US Dollars) in your MTurk account. \code{SufficientFunds} provides a wrapper that checks whether your account has sufficient funds based upon specified characters of your HIT.}
 \usage{
-AccountBalance(verbose = getOption('MTurkR.verbose'), ...)
+AccountBalance(verbose = getOption('MTurkR.verbose', TRUE), ...)
 
 SufficientFunds(amount, assignments = NULL, hits = NULL, 
                 bonus.ct = NULL, bonus.amount = NULL, masters = FALSE, 
@@ -22,7 +22,7 @@ SufficientFunds(amount, assignments = NULL, hits = NULL,
   \item{turkfee}{Amazon's fee as percentage of payments. Default is 10-percent (as 0.10).}
   \item{turkmin}{Amazon's minimum per-assignment fee. Default is $0.005.}
   \item{mastersfee}{Amazon's additional charge for use of MTurk Masters. Default is 20-percent (as 0.20).}
-  \item{verbose}{Optionally print the results of the API request to the standard output. Default is taken from \code{getOption('MturkR.verbose')}.}
+  \item{verbose}{Optionally print the results of the API request to the standard output. Default is taken from \code{getOption('MTurkR.verbose', TRUE)}.}
   \item{...}{Additional arguments passed to \code{\link{request}}.}
 }
 \details{

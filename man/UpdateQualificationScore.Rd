@@ -5,14 +5,14 @@
 \description{Update a worker's score for a QualificationType that you created. Scores for built-in QualificationTypes (e.g., location, worker statistics) cannot be updated.}
 \usage{
 UpdateQualificationScore(qual, workers, values = NULL, increment = NULL, 
-                         verbose = getOption('MTurkR.verbose'), ...)
+                         verbose = getOption('MTurkR.verbose', TRUE), ...)
 }
 \arguments{
   \item{qual}{A character string containing a QualificationTypeId.}
   \item{workers}{A character string containing a WorkerId, or a vector of character strings containing multiple WorkerIds.}
   \item{values}{A character string containing an integer value to be assigned to the worker, or a vector of character strings containing integer values to be assigned to each worker (and thus must have length equal to the number of workers).}
   \item{increment}{An optional character string specifying, in lieu of \dQuote{values}, the amount that each worker's current QualfiicationScore should be increased.}
-  \item{verbose}{Optionally print the results of the API request to the standard output. Default is taken from \code{getOption('MturkR.verbose')}.}
+  \item{verbose}{Optionally print the results of the API request to the standard output. Default is taken from \code{getOption('MTurkR.verbose', TRUE)}.}
   \item{...}{Additional arguments passed to \code{\link{request}}.}
 }
 \details{

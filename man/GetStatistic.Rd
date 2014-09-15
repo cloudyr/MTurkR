@@ -9,13 +9,13 @@
 \description{Get a requester statistic or a statistic for a particular worker. \code{RequesterReport} and \code{WorkerReport} provide wrappers that return all available statistics.}
 \usage{
 GetStatistic(statistic, period = "LifeToDate", count = NULL,
-             response.group = NULL, verbose = getOption('MTurkR.verbose'), ...)
-RequesterReport(period = "LifeToDate", verbose = getOption('MTurkR.verbose'), ...)
+             response.group = NULL, verbose = getOption('MTurkR.verbose', TRUE), ...)
+RequesterReport(period = "LifeToDate", verbose = getOption('MTurkR.verbose', TRUE), ...)
 
 GetWorkerStatistic(worker, statistic, period = "LifeToDate", count = NULL,
-                   response.group = NULL, verbose = getOption('MTurkR.verbose'), ...)
+                   response.group = NULL, verbose = getOption('MTurkR.verbose', TRUE), ...)
 WorkerReport(worker, period = "LifeToDate", 
-             verbose = getOption('MTurkR.verbose'), ...)
+             verbose = getOption('MTurkR.verbose', TRUE), ...)
 }
 \arguments{
   \item{worker}{A character string containing a WorkerId.}
@@ -23,7 +23,7 @@ WorkerReport(worker, period = "LifeToDate",
   \item{period}{One of: \dQuote{OneDay}, \dQuote{SevenDays}, \dQuote{ThirtyDays}, \dQuote{LifeToDate}. Default is \dQuote{LifeToDate}.}
   \item{count}{If \code{period="OneDay"}, the number of days to return. Default is 1 (the most recent day).}
   \item{response.group}{An optional character string (or vector of character strings) specifying what details to return of \dQuote{Request}, \dQuote{Minimal}, or \dQuote{Parameters}. For more information, see \url{http://docs.aws.amazon.com/AWSMechTurk/latest/AWSMturkAPI/ApiReference_CommonParametersArticle.html}.}
-  \item{verbose}{Optionally print the results of the API request to the standard output. Default is taken from \code{getOption('MturkR.verbose')}.}
+  \item{verbose}{Optionally print the results of the API request to the standard output. Default is taken from \code{getOption('MTurkR.verbose', TRUE)}.}
   \item{...}{Additional arguments passed to \code{\link{request}}.}
 }
 \details{

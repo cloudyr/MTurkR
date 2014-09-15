@@ -1,7 +1,7 @@
 GetBonuses <-
 bonuses <-
 function (assignment = NULL, hit = NULL, hit.type = NULL, return.all = TRUE, 
-    pagenumber = "1", pagesize = "100", verbose = getOption('MTurkR.verbose'), ...) {
+    pagenumber = "1", pagesize = "100", verbose = getOption('MTurkR.verbose', TRUE), ...) {
     # temporary check for `print` argument (remove after v1.0)
     if('print' %in% names(list(...)) && is.null(verbose))
         verbose <- list(...)$print

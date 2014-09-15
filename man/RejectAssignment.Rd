@@ -6,12 +6,12 @@
 \description{Reject a Worker's assignment (or multiple assignments) submitted for a HIT. Feedback should be provided for why an assignment was rejected.}
 \usage{
 RejectAssignment(assignments, feedback = NULL, 
-                 verbose = getOption('MTurkR.verbose'), ...)
+                 verbose = getOption('MTurkR.verbose', TRUE), ...)
 }
 \arguments{
   \item{assignments}{A character string containing an AssignmentId, or a vector of multiple character strings containing multiple AssignmentIds, to reject.}
   \item{feedback}{An optional character string containing any feedback for a worker. This must have length 1 or length equal to the number of workers.}
-  \item{verbose}{Optionally print the results of the API request to the standard output. Default is taken from \code{getOption('MturkR.verbose')}.}
+  \item{verbose}{Optionally print the results of the API request to the standard output. Default is taken from \code{getOption('MTurkR.verbose', TRUE)}.}
   \item{...}{Additional arguments passed to \code{\link{request}}.}
 }
 \details{Reject assignments, by AssignmentId (as returned by \code{\link{GetAssignment}}). More advanced functionality to quickly reject many or all assignments (ala \code{\link{ApproveAllAssignments}}) is intentionally not provided.

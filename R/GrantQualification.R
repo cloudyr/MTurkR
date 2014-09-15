@@ -1,7 +1,7 @@
 GrantQualification <-
 GrantQualifications <-
 grantqual <-
-function(qual.requests, values, verbose = getOption('MTurkR.verbose'), ...) {
+function(qual.requests, values, verbose = getOption('MTurkR.verbose', TRUE), ...) {
     # temporary check for `print` argument (remove after v1.0)
     if('print' %in% names(list(...)) && is.null(verbose))
         verbose <- list(...)$print

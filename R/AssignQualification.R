@@ -6,7 +6,7 @@ function (qual, workers, value = "1", notify = FALSE, name = NULL,
     test = NULL, answerkey = NULL, test.duration = NULL, auto = NULL, 
     auto.value = NULL, conditional.statistic = NULL, conditional.comparator = NULL, 
     conditional.value = NULL, conditional.period = NULL, set.statistic.as.value = FALSE, 
-    verbose = getOption('MTurkR.verbose'), ...) {
+    verbose = getOption('MTurkR.verbose', TRUE), ...) {
     # temporary check for `print` argument (remove after v1.0)
     if('print' %in% names(list(...)) && is.null(verbose))
         verbose <- list(...)$print

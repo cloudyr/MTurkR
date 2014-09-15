@@ -5,13 +5,13 @@
 \description{Configure a notification to be sent when specific actions occur for the specified HITType.}
 \usage{
 SetHITTypeNotification(hit.type, notification = NULL, active = NULL, 
-                       verbose = getOption('MTurkR.verbose'), ...)
+                       verbose = getOption('MTurkR.verbose', TRUE), ...)
 }
 \arguments{
   \item{hit.type}{A character string specifying the HITTypeId of the HITType for which notifications are being configured.}
   \item{notification}{A character string containing a URL query parameter-formatted Notification structure (e.g., returned by \code{\link{GenerateNotification}}).}
   \item{active}{A logical indicating whether the Notification is active or inactive.}
-  \item{verbose}{Optionally print the results of the API request to the standard output. Default is taken from \code{getOption('MturkR.verbose')}.}
+  \item{verbose}{Optionally print the results of the API request to the standard output. Default is taken from \code{getOption('MTurkR.verbose', TRUE)}.}
   \item{...}{Additional arguments passed to \code{\link{request}}.}
 }
 \details{

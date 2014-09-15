@@ -5,12 +5,12 @@
 \title{Grant Qualification Request}
 \description{Grant a Worker's request for a Qualification.}
 \usage{
-GrantQualification(qual.requests, values, verbose = getOption('MTurkR.verbose'), ...)
+GrantQualification(qual.requests, values, verbose = getOption('MTurkR.verbose', TRUE), ...)
 }
 \arguments{
   \item{qual.requests}{A character string containing a QualificationRequestId (for example, returned by \code{\link{GetQualificationRequests}}), or a vector of QualificationRequestIds.}
   \item{values}{A character string containing the value of the Qualification to be assigned to the worker, or a vector of values of length equal ot hte number of QualificationRequests.}
-  \item{verbose}{Optionally print the results of the API request to the standard output. Default is taken from \code{getOption('MturkR.verbose')}.}
+  \item{verbose}{Optionally print the results of the API request to the standard output. Default is taken from \code{getOption('MTurkR.verbose', TRUE)}.}
   \item{...}{Additional arguments passed to \code{\link{request}}.}
 }
 \details{

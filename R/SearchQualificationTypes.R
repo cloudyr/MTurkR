@@ -3,7 +3,7 @@ searchquals <-
 function (query = NULL, only.mine = TRUE, only.requestable = FALSE, 
     return.all = FALSE, pagenumber = "1", pagesize = "10", sortproperty = "Name", 
     sortdirection = "Ascending", return.qual.dataframe = TRUE, 
-    verbose = getOption('MTurkR.verbose'), ...) {
+    verbose = getOption('MTurkR.verbose', TRUE), ...) {
     # temporary check for `print` argument (remove after v1.0)
     if('print' %in% names(list(...)) && is.null(verbose))
         verbose <- list(...)$print

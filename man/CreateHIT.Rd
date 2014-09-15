@@ -13,7 +13,7 @@ CreateHIT(hit.type = NULL, question = NULL, validate.question = FALSE,
           keywords = NULL, 
           auto.approval.delay = NULL, qual.req = NULL, 
           hitlayoutid = NULL, hitlayoutparameters = NULL, 
-          response.group = NULL, verbose = getOption('MTurkR.verbose'), ...)
+          response.group = NULL, verbose = getOption('MTurkR.verbose', TRUE), ...)
 }
 \arguments{
   \item{hit.type}{An optional character string specifying the HITTypeId that this HIT should be visibly grouped with (and whose properties, e.g. reward amount, this HIT should inherit).}
@@ -35,7 +35,7 @@ CreateHIT(hit.type = NULL, question = NULL, validate.question = FALSE,
   \item{hitlayoutid}{An optional character string including a HITLayoutId retrieved from a HIT template generated in the Requester User Interface, \url{https://requester.mturk.com/hit_templates}. If the HIT template includes variable placeholders, must also specify \code{hitlayoutparameters}.}
   \item{hitlayoutparameters}{An optional character string containing URL query parameter-formatted HITLayout parameters, for example returned by \code{\link{GenerateHITLayoutParameter}}. Must be specified along with a \code{hitlayoutid}.}
   \item{response.group}{An optional character string (or vector of character strings) specifying what details of each HIT to return of: \dQuote{Request}, \dQuote{Minimal}, \dQuote{HITDetail}, \dQuote{HITQuestion}, \dQuote{HITAssignmentSummary}. For more information, see \url{http://docs.aws.amazon.com/AWSMechTurk/latest/AWSMturkAPI/ApiReference_CommonParametersArticle.html}.}
-  \item{verbose}{Optionally print the results of the API request to the standard output. Default is taken from \code{getOption('MturkR.verbose')}.}
+  \item{verbose}{Optionally print the results of the API request to the standard output. Default is taken from \code{getOption('MTurkR.verbose', TRUE)}.}
   \item{...}{Additional arguments passed to \code{\link{request}}.}
 }
 \details{This function creates a new HIT and makes it available to workers. Characteristics of the HIT can either be specified by including a valid HITTypeId for \dQuote{hit.type} or creating a new HITType by atomically specifying the characteristics of a new HITType.

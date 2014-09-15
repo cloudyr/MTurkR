@@ -8,7 +8,7 @@ SearchQualificationTypes(query = NULL, only.mine = TRUE, only.requestable = FALS
                          return.all = FALSE, pagenumber = "1", pagesize = "10", 
                          sortproperty = "Name", sortdirection = "Ascending", 
                          return.qual.dataframe = TRUE,
-                         verbose = getOption('MTurkR.verbose'), ...)
+                         verbose = getOption('MTurkR.verbose', TRUE), ...)
 }
 \arguments{
   \item{query}{An optional character string containing a search query to be used to search among available QualificationTypes.}
@@ -20,7 +20,7 @@ SearchQualificationTypes(query = NULL, only.mine = TRUE, only.requestable = FALS
   \item{sortproperty}{API currently only supports \dQuote{Name}. Most users can ignore this.}
   \item{sortdirection}{Either \dQuote{Ascending} or \dQuote{Descending}. Ignored if \code{return.all=TRUE}. Most users can ignore this.}
   \item{return.qual.dataframe}{A logical indicating whether the QualificationTypes should be returned as a dataframe. Default is \code{TRUE}.}
-  \item{verbose}{Optionally print the results of the API request to the standard output. Default is taken from \code{getOption('MturkR.verbose')}.}
+  \item{verbose}{Optionally print the results of the API request to the standard output. Default is taken from \code{getOption('MTurkR.verbose', TRUE)}.}
   \item{...}{Additional arguments passed to \code{\link{request}}.}
 }
 \details{

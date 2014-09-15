@@ -8,10 +8,10 @@
 \description{Approve one or more submitted assignments, or approve all assignments for a given HIT or HITType. Also allows you to approve a previously rejected assignment. This function spends money from your MTurk account.}
 \usage{
 ApproveAssignment(assignments, feedback = NULL, rejected = FALSE, 
-                  verbose = getOption('MTurkR.verbose'), ...)
+                  verbose = getOption('MTurkR.verbose', TRUE), ...)
 
 ApproveAllAssignments(hit = NULL, hit.type = NULL, feedback = NULL, 
-                      verbose = getOption('MTurkR.verbose'), ...)
+                      verbose = getOption('MTurkR.verbose', TRUE), ...)
 }
 \arguments{
   \item{assignments}{A character string containing an AssignmentId, or a vector of multiple character strings containing multiple AssignmentIds, to approve.}
@@ -19,7 +19,7 @@ ApproveAllAssignments(hit = NULL, hit.type = NULL, feedback = NULL,
   \item{hit.type}{A character string containing a HITTypeId (or a vector of HITTypeIds) all of whom's HITs' assignments are to be approved.}
   \item{feedback}{An optional character string containing any feedback for a worker. This must have length 1 or length equal to the number of workers. Maximum of 1024 characters. For \code{ApproveAllAssignments}, must be length 1.}
   \item{rejected}{A logical indicating whether the assignment(s) had previously been rejected (default \code{FALSE}). Approval of previously rejected assignments must be conducted separately from other approvals.}
-  \item{verbose}{Optionally print the results of the API request to the standard output. Default is taken from \code{getOption('MturkR.verbose')}.}
+  \item{verbose}{Optionally print the results of the API request to the standard output. Default is taken from \code{getOption('MTurkR.verbose', TRUE)}.}
   \item{...}{Additional arguments passed to \code{\link{request}}.}
 }
 \details{

@@ -6,7 +6,7 @@
 \usage{
 GetQualifications(qual, status = NULL, return.all = TRUE, 
                   pagenumber = 1, pagesize = 100,
-                  verbose = getOption('MTurkR.verbose'), ...)
+                  verbose = getOption('MTurkR.verbose', TRUE), ...)
 }
 \arguments{
   \item{qual}{A character string containing a QualificationTypeId for a custom (i.e., not built-in) QualificationType.}
@@ -14,7 +14,7 @@ GetQualifications(qual, status = NULL, return.all = TRUE,
   \item{return.all}{A logical indicating whether all Qualifications (as opposed to a specified page of the search results) should be returned. Default is \code{TRUE}.}
   \item{pagenumber}{An optional character string indicating which page of search results should be returned. Most users can ignore this.}
   \item{pagesize}{An optional character string indicating how many search results should be returned by each request, between 1 and 100. Most users can ignore this.}
-  \item{verbose}{Optionally print the results of the API request to the standard output. Default is taken from \code{getOption('MturkR.verbose')}.}
+  \item{verbose}{Optionally print the results of the API request to the standard output. Default is taken from \code{getOption('MTurkR.verbose', TRUE)}.}
   \item{...}{Additional arguments passed to \code{\link{request}}.}
 }
 \details{

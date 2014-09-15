@@ -6,7 +6,7 @@ function (assignment = NULL, hit = NULL, hit.type = NULL, status = NULL,
     return.all = FALSE, pagenumber = "1", pagesize = "10", sortproperty = "SubmitTime", 
     sortdirection = "Ascending", response.group = NULL,
     return.assignment.dataframe = TRUE,
-    verbose = getOption('MTurkR.verbose'), ...) {
+    verbose = getOption('MTurkR.verbose', TRUE), ...) {
     # temporary check for `print` argument (remove after v1.0)
     if('print' %in% names(list(...)) && is.null(verbose))
         verbose <- list(...)$print

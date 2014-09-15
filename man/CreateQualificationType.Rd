@@ -9,7 +9,7 @@ CreateQualificationType(name, description, status, keywords = NULL,
                         test.duration = NULL,
                         validate.test = FALSE, validate.answerkey = FALSE,
                         auto = NULL, auto.value = NULL,
-                        verbose = getOption('MTurkR.verbose'), ...)
+                        verbose = getOption('MTurkR.verbose', TRUE), ...)
 }
 \arguments{
   \item{name}{A name for the QualificationType. This is visible to workers. It cannot be modified by \code{\link{UpdateQualificationType}}.}
@@ -24,7 +24,7 @@ CreateQualificationType(name, description, status, keywords = NULL,
   \item{validate.answerkey}{A logical specifying whether the \code{answerkey} parameter should be validated against the relevant MTurk schema prior to creating the QualificationType (operation will fail if it does not validate, and will return validation information). Default is \code{FALSE}.}
   \item{auto}{A logical indicating whether the Qualification is automatically granted to workers who request it. Default is \code{FALSE}.}
   \item{auto.value}{An optional parameter specifying the value that is automatically assigned to workers when they request it (if the Qualification is automatically granted).}
-  \item{verbose}{Optionally print the results of the API request to the standard output. Default is taken from \code{getOption('MturkR.verbose')}.}
+  \item{verbose}{Optionally print the results of the API request to the standard output. Default is taken from \code{getOption('MTurkR.verbose', TRUE)}.}
   \item{...}{Additional arguments passed to \code{\link{request}}.}
 }
 \details{

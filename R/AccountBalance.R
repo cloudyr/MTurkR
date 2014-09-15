@@ -1,7 +1,7 @@
 AccountBalance <-
 accountbalance <-
 getbalance <-
-function(verbose = getOption('MTurkR.verbose'), ...) 
+function(verbose = getOption('MTurkR.verbose', TRUE), ...) 
 {
     # temporary check for `print` argument (remove after v1.0)
     if('print' %in% names(list(...)) && is.null(verbose))

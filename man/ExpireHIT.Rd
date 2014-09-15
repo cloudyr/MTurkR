@@ -4,12 +4,12 @@
 \title{Expire HIT}
 \description{Force a HIT to expire immediately, as opposed to at its prespecified expiration time. Expired HITs can be extended with the \code{\link{ExtendHIT}} operation.}
 \usage{
-ExpireHIT(hit = NULL, hit.type = NULL, verbose = getOption('MTurkR.verbose'), ...)
+ExpireHIT(hit = NULL, hit.type = NULL, verbose = getOption('MTurkR.verbose', TRUE), ...)
 }
 \arguments{
   \item{hit}{A character string containing a HITId or a vector of character strings containing multiple HITIds.}
   \item{hit.type}{An optional character string containing a HITTypeId (or a vector of HITTypeIds).}
-  \item{verbose}{Optionally print the results of the API request to the standard output. Default is taken from \code{getOption('MturkR.verbose')}.}
+  \item{verbose}{Optionally print the results of the API request to the standard output. Default is taken from \code{getOption('MTurkR.verbose', TRUE)}.}
   \item{...}{Additional arguments passed to \code{\link{request}}.}
 }
 \details{

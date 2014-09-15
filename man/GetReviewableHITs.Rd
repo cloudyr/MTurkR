@@ -7,7 +7,7 @@
 GetReviewableHITs(hit.type = NULL, status = NULL, response.group = "Minimal", 
                   return.all = TRUE, pagenumber = "1", pagesize = "10", 
                   sortproperty = "Enumeration", sortdirection = "Ascending", 
-                  verbose = getOption('MTurkR.verbose'), ...)
+                  verbose = getOption('MTurkR.verbose', TRUE), ...)
 }
 \arguments{
   \item{hit.type}{An optional character string containing a HITTypeId to consider when looking for reviewable HITs.}
@@ -18,7 +18,7 @@ GetReviewableHITs(hit.type = NULL, status = NULL, response.group = "Minimal",
   \item{pagesize}{An optional character string indicating how many search results should be returned by each request, between 1 and 100. Most users can ignore this.}
   \item{sortproperty}{One of \dQuote{Title}, \dQuote{Reward}, \dQuote{Expiration}, \dQuote{CreationTime}, \dQuote{Enumeration}. Ignored if \code{return.all=TRUE}. Most users can ignore this.}
   \item{sortdirection}{Either \dQuote{Ascending} or \dQuote{Descending}. Ignored if \code{return.all=TRUE}. Most users can ignore this.}
-  \item{verbose}{Optionally print the results of the API request to the standard output. Default is taken from \code{getOption('MturkR.verbose')}.}
+  \item{verbose}{Optionally print the results of the API request to the standard output. Default is taken from \code{getOption('MTurkR.verbose', TRUE)}.}
   \item{...}{Additional arguments passed to \code{\link{request}}.}
 }
 \details{A simple function to return the HITIds of HITs currently in \dQuote{Reviewable} or \dQuote{Reviewing} status. To retrieve additional details about each of these HITs, see \code{\link{GetHIT}}. This is an alternative to \code{\link{SearchHITs}}.

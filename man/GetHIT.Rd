@@ -9,9 +9,9 @@
 \usage{
 GetHIT(hit, response.group = NULL,
        return.hit.dataframe = TRUE, return.qual.dataframe = TRUE,
-       verbose = getOption('MTurkR.verbose'), ...)
+       verbose = getOption('MTurkR.verbose', TRUE), ...)
 
-HITStatus(hit = NULL, hit.type = NULL, verbose = getOption('MTurkR.verbose'), ...)
+HITStatus(hit = NULL, hit.type = NULL, verbose = getOption('MTurkR.verbose', TRUE), ...)
 }
 \arguments{
   \item{hit}{An optional character string specifying the HITId of the HIT to be retrieved. Must specify \code{hit} xor \code{hit.type}.}
@@ -19,7 +19,7 @@ HITStatus(hit = NULL, hit.type = NULL, verbose = getOption('MTurkR.verbose'), ..
   \item{response.group}{An optional character string (or vector of character strings) specifying what details of each HIT to return of: \dQuote{Request}, \dQuote{Minimal}, \dQuote{HITDetail}, \dQuote{HITQuestion}, \dQuote{HITAssignmentSummary}. For more information, see \url{http://docs.aws.amazon.com/AWSMechTurk/latest/AWSMturkAPI/ApiReference_CommonParametersArticle.html}.}
   \item{return.hit.dataframe}{A logical indicating whether the dataframe of HITs should be returned. Default is \code{TRUE}.}
   \item{return.qual.dataframe}{A logical indicating whether the list of each HIT's QualificationRequirements (stored as dataframes in that list) should be returned. Default is \code{TRUE}.}
-  \item{verbose}{Optionally print the results of the API request to the standard output. Default is taken from \code{getOption('MturkR.verbose')}.}
+  \item{verbose}{Optionally print the results of the API request to the standard output. Default is taken from \code{getOption('MTurkR.verbose', TRUE)}.}
   \item{...}{Additional arguments passed to \code{\link{request}}.}
 }
 \details{

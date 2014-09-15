@@ -4,11 +4,11 @@
 \title{Dispose QualificationType}
 \description{Dispose of a QualificationType. This deletes the QualificationType, Qualification scores for all workers, and all records thereof.}
 \usage{
-DisposeQualificationType(qual, verbose = getOption('MTurkR.verbose'), ...)
+DisposeQualificationType(qual, verbose = getOption('MTurkR.verbose', TRUE), ...)
 }
 \arguments{
   \item{qual}{A character string containing a QualificationTypeId.}
-  \item{verbose}{Optionally print the results of the API request to the standard output. Default is taken from \code{getOption('MturkR.verbose')}.}
+  \item{verbose}{Optionally print the results of the API request to the standard output. Default is taken from \code{getOption('MTurkR.verbose', TRUE)}.}
   \item{...}{Additional arguments passed to \code{\link{request}}.}
 }
 \details{

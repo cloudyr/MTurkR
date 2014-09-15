@@ -10,7 +10,7 @@ GetAssignment(assignment = NULL, hit = NULL, hit.type = NULL, status = NULL,
               return.all = FALSE, pagenumber = "1", pagesize = "10", 
               sortproperty = "SubmitTime", sortdirection = "Ascending", 
               response.group = NULL, return.assignment.dataframe = TRUE,
-              verbose = getOption('MTurkR.verbose'), ...)
+              verbose = getOption('MTurkR.verbose', TRUE), ...)
 }
 \arguments{
   \item{assignment}{An optional character string specifying the AssignmentId of an assignment to return.}
@@ -24,7 +24,7 @@ GetAssignment(assignment = NULL, hit = NULL, hit.type = NULL, status = NULL,
   \item{sortdirection}{Either \dQuote{Ascending} or \dQuote{Descending}. Ignored if \code{return.all=TRUE}. Most users can ignore this.}
   \item{response.group}{An optional character string (or vector of character strings) specifying what details to return. If \code{assignment} is specified, \code{response.group} can include any of \dQuote{Request}, \dQuote{Minimal}, \dQuote{AssignmentFeedback}, \dQuote{HITDetail}, and/or \dQuote{HITQuestion}. If \code{hit} or \code{hit.type} is specified, \code{response.group} can include \dQuote{Request}, \dQuote{Minimal}, and/or \dQuote{AssignmentFeedback}. For more information, see \url{http://docs.aws.amazon.com/AWSMechTurk/latest/AWSMturkAPI/ApiReference_CommonParametersArticle.html}.}
   \item{return.assignment.dataframe}{A logical specifying whether the Assignment dataframe should be returned. Default is \code{TRUE}.}
-  \item{verbose}{Optionally print the results of the API request to the standard output. Default is taken from \code{getOption('MturkR.verbose')}.}
+  \item{verbose}{Optionally print the results of the API request to the standard output. Default is taken from \code{getOption('MTurkR.verbose', TRUE)}.}
   \item{...}{Additional arguments passed to \code{\link{request}}.}
 }
 \details{This function returns the requested assignments. The function must specify an AssignmentId xor a HITId xor a HITTypeId. If an AssignmentId is specified, only that assignment is returned. If a HIT or HITType is specified, default behavior is to return all assignments through a series of sequential (but invisible) API calls meaning that returning large numbers of assignments (or assignments for a large number of HITs in a single request) may be time consuming.

@@ -10,19 +10,19 @@
 \title{Block/Unblock Worker(s)}
 \description{Block or unblock a worker. This prevents a worker from completing any HITs for you while they are blocked, but does not affect their ability to complete work for other requesters or affect their worker statistics. \code{GetBlockedWorkers} retrieves your list of currently blocked workers.}
 \usage{
-BlockWorker(workers, reasons, verbose = getOption('MTurkR.verbose'), ...)
+BlockWorker(workers, reasons, verbose = getOption('MTurkR.verbose', TRUE), ...)
 
-UnblockWorker(workers, reasons = NULL, verbose = getOption('MTurkR.verbose'), ...)
+UnblockWorker(workers, reasons = NULL, verbose = getOption('MTurkR.verbose', TRUE), ...)
 
 GetBlockedWorkers(pagenumber = NULL, pagesize = NULL, 
-                  verbose = getOption('MTurkR.verbose'), ...)
+                  verbose = getOption('MTurkR.verbose', TRUE), ...)
 }
 \arguments{
   \item{workers}{A character string containing a WorkerId, or a vector of character strings containing multiple WorkerIds.}
   \item{reasons}{A character string containing a reason for blocking or unblocking a worker. This must have length 1 or length equal to the number of workers. It is required for \code{BlockWorker} and optional for \code{UnblockWorker}.}
   \item{pagenumber}{An optional integer (or character string) indicating which page of Blocked Workers search results should be returned. Most users can ignore this.}
   \item{pagesize}{An optional integer (or character string) indicating how many Blocked Workers should be returned per page of results. Most users can ignore this and the function will return the first 65,535 blocks.}
-  \item{verbose}{Optionally print the results of the API request to the standard output. Default is taken from \code{getOption('MturkR.verbose')}.}
+  \item{verbose}{Optionally print the results of the API request to the standard output. Default is taken from \code{getOption('MTurkR.verbose', TRUE)}.}
   \item{...}{Additional arguments passed to \code{\link{request}}.}
 }
 \details{

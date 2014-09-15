@@ -13,7 +13,7 @@ AssignQualification(qual, workers, value = "1", notify = FALSE,
                     conditional.statistic = NULL, conditional.comparator = NULL, 
                     conditional.value = NULL, conditional.period = NULL, 
                     set.statistic.as.value = FALSE, 
-                    verbose = getOption('MTurkR.verbose'), ...)
+                    verbose = getOption('MTurkR.verbose', TRUE), ...)
 }
 \arguments{
   \item{qual}{A character string containing a QualificationTypeId.}
@@ -35,7 +35,7 @@ AssignQualification(qual, workers, value = "1", notify = FALSE,
   \item{conditional.value}{An optional numeric or character string value against which workers scores will be compared. The QualificationType will only be assigned to those whose score on the specified statistic meet the comparison to this value.}
   \item{conditional.period}{An optional character string specifying the period for the statistic. Must be one of: \dQuote{OneDay}, \dQuote{SevenDays}, \dQuote{ThirtyDays}, \dQuote{LifeToDate}. Default is \dQuote{LifeToDate}.}
   \item{set.statistic.as.value}{An optional logical specifying whether the worker's value of the statistic should be used as the value they are assigned for the QualificationType. Default is \code{FALSE} and \code{value} is used instead.}
-  \item{verbose}{Optionally print the results of the API request to the standard output. Default is taken from \code{getOption('MturkR.verbose')}.}
+  \item{verbose}{Optionally print the results of the API request to the standard output. Default is taken from \code{getOption('MTurkR.verbose', TRUE)}.}
   \item{...}{Additional arguments passed to \code{\link{request}}.}
 }
 \details{

@@ -5,13 +5,13 @@
 \description{Disabling a HIT is probably not what you want to do. DisableHIT automatically removes the HIT from the MTurk server, approves (and thus pays for) all submitted and pending assignments, and then permanently deletes all assignment data.}
 \usage{
 DisableHIT( hit = NULL, hit.type = NULL, response.group = NULL, 
-            verbose = getOption('MTurkR.verbose'), ...)
+            verbose = getOption('MTurkR.verbose', TRUE), ...)
 }
 \arguments{
   \item{hit}{A character string containing a HITId or a vector of character strings containing multiple HITIds.}
   \item{hit.type}{An optional character string containing a HITTypeId (or a vector of HITTypeIds).}
   \item{response.group}{An optional character string specifying what details of each HIT to return of: \dQuote{Minimal}, \dQuote{HITQuestion}, \dQuote{HITDetail}, \dQuote{HITAssignmentSummary}. For more information, see \url{http://docs.amazonwebservices.com/AWSMechTurk/latest/AWSMturkAPI/ApiReference_HITDataStructureArticle.html}.}
-  \item{verbose}{Optionally print the results of the API request to the standard output. Default is taken from \code{getOption('MturkR.verbose')}.}
+  \item{verbose}{Optionally print the results of the API request to the standard output. Default is taken from \code{getOption('MTurkR.verbose', TRUE)}.}
   \item{...}{Additional arguments passed to \code{\link{request}}.}
 }
 \details{

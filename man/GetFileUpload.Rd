@@ -5,7 +5,7 @@
 \description{Get the URL for a file uploaded by a worker as part of a HIT, or download the file(s) directly to the working directory.}
 \usage{
 GetFileUpload(assignment, questionIdentifier, download = FALSE, file.ext = NULL, 
-              open.file.in.browser = FALSE, verbose = getOption('MTurkR.verbose'), ...)
+              open.file.in.browser = FALSE, verbose = getOption('MTurkR.verbose', TRUE), ...)
 }
 \arguments{
   \item{assignment}{A character string containing an AssignmentId, or a vector of character strings each containing an AssignmentId.}
@@ -13,7 +13,7 @@ GetFileUpload(assignment, questionIdentifier, download = FALSE, file.ext = NULL,
   \item{download}{A logical specifying whether the file(s) should be downloaded and saved in the working directory. Default is \code{FALSE}.}
   \item{file.ext}{An optional character string specifying the file extension of the uploaded files (used only if \code{download=TRUE}).}
   \item{open.file.in.browser}{A logical specifying whether the file should be opened in the user's default web browser.}
-  \item{verbose}{Optionally print the results of the API request to the standard output. Default is taken from \code{getOption('MturkR.verbose')}.}
+  \item{verbose}{Optionally print the results of the API request to the standard output. Default is taken from \code{getOption('MTurkR.verbose', TRUE)}.}
   \item{...}{Additional arguments passed to \code{\link{request}}.}
 }
 \details{

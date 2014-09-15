@@ -8,7 +8,7 @@ ChangeHITType(hit = NULL, old.hit.type = NULL, new.hit.type = NULL,
               title = NULL, description = NULL, reward = NULL, duration = NULL,
               keywords = NULL,
               auto.approval.delay = NULL, qual.req = NULL, 
-              verbose = getOption('MTurkR.verbose'), ...)
+              verbose = getOption('MTurkR.verbose', TRUE), ...)
 }
 \arguments{
   \item{hit}{An optional character string containing the HITId whose HITTypeId is to be changed, or a vector of character strings containing each of multiple HITIds to be changed.}
@@ -21,7 +21,7 @@ ChangeHITType(hit = NULL, old.hit.type = NULL, new.hit.type = NULL,
   \item{keywords}{An optional character string containing a comma-separated set of keywords by which workers can search for HITs of this HITType.}
   \item{auto.approval.delay}{An optional character string specifying the amount of time, in seconds (for example, as returned by \code{\link{seconds}}), before a submitted assignment is automatically granted.}
   \item{qual.req}{An optional character string containing one a QualificationRequirement data structure, as returned by \code{\link{GenerateQualificationRequirement}}.}
-  \item{verbose}{Optionally print the results of the API request to the standard output. Default is taken from \code{getOption('MturkR.verbose')}.}
+  \item{verbose}{Optionally print the results of the API request to the standard output. Default is taken from \code{getOption('MTurkR.verbose', TRUE)}.}
   \item{...}{Additional arguments passed to \code{\link{request}}.}
 }
 \details{
