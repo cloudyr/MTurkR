@@ -38,8 +38,12 @@ function (query = NULL, only.mine = TRUE, only.requestable = FALSE,
                             "<TotalNumResults>")[[1]][2], "</TotalNumResults>")[[1]][1])
         batch$batch.total <- length(xpathApply(xmlParse(batch$xml), "//QualificationTypeId"))
         if(return.qual.dataframe) {
-            if(batch$total > 0) 
+            if(batch$total > 0) {
+                s <- getOption("stringsAsFactors")
+                options("stringsAsFactors" = FALSE)
                 batch$quals <- as.data.frame.QualificationTypes(xml.parsed = xmlParse(batch$xml))
+                options("stringsAsFactors" = s)
+            }
         }
         return(batch)
     }

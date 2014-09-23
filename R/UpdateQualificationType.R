@@ -78,7 +78,10 @@ function (qual, description = NULL, status = NULL, retry.delay = NULL,
     if(is.null(request$valid))
         return(request)
     if(request$valid) {
+        s <- getOption("stringsAsFactors")
+        options("stringsAsFactors" = FALSE)
         QualificationType <- as.data.frame.QualificationTypes(xml.parsed = xmlParse(request$xml))
+        options("stringsAsFactors" = s)
         if(verbose) {
             message("QualificationType ", QualificationType$QualificationTypeId[1],
                     " Updated")

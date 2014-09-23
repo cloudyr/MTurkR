@@ -12,7 +12,10 @@ function(qual, verbose = getOption('MTurkR.verbose', TRUE), ...) {
     if(is.null(request$valid))
         return(request)
     if(request$valid) {
+        s <- getOption("stringsAsFactors")
+        options("stringsAsFactors" = FALSE)
         Qualifications <- as.data.frame.QualificationTypes(xml.parsed = xmlParse(request$xml))
+        options("stringsAsFactors" = s)
         if(verbose) 
             message("QualificationType Retrieved: ", qual)
     } else if(!request$valid) {

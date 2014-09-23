@@ -215,7 +215,7 @@ as.data.frame.QualificationTypes <- function(xml.parsed) {
                          "Test",
                          "AnswerKey")))
     } else
-        return(do.call(rbind.data.frame,out))
+        return(do.call(rbind.data.frame, out))
 }
 
 as.data.frame.QualificationRequests <- function(xml.parsed){

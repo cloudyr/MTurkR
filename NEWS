@@ -1,6 +1,7 @@
-# CHANGES TO MTurkR 0.5 #
+# CHANGES TO MTurkR 0.6 #
 
 ## BUG FIXES ##
+* Functions for QualificationTypes now return a data.frame containing character variables rather than factor variables, as this could cause unintended coercion when using `GenerateQualifiationType`. (h/t Haotian Zhou)
 * Corrected several related bugs (API version number, LocaleValue specification) that prevented the "In" comparator in a QualificationRequirement from working with multiple LocaleValues in API version 2013-11-15. (#50, h/t Haotian Zhou)
 
 # CHANGES TO MTurkR 0.5 #

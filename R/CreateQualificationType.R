@@ -70,7 +70,10 @@ function (name, description, status, keywords = NULL, retry.delay = NULL,
     if(is.null(request$valid))
         return(request)
     if(request$valid == TRUE) {
+        s <- getOption("stringsAsFactors")
+        options("stringsAsFactors" = FALSE)
         QualificationType <- as.data.frame.QualificationTypes(xml.parsed = xmlParse(request$xml))
+        options("stringsAsFactors" = s)
         if(verbose)
             message("QualificationType Created: ", QualificationType$QualificationTypeId[1])
         return(QualificationType)
