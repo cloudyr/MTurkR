@@ -35,7 +35,16 @@ Disable a HIT (and its assignment data). This is a somewhat risky function becau
 \code{\link{DisposeHIT}}
 }
 \examples{
-\dontrun{DisableHIT(hit="2MQB727M0IGF304GJ16S1F4VE3AYDQ")}
-\dontrun{DisableHIT(hit.type="2FFNCWYB49F9BBJWA4SJUNST5OFSOW")}
+\dontrun{
+# Disable a single HIT
+b <- GenerateExternalQuestion("http://www.example.com/","400")
+hit1 <- CreateHIT(hit.type="2FFNCWYB49F9BBJWA4SJUNST5OFSOW", 
+                  expiration = seconds(days = 1),
+                  question=b$string)
+DisableHIT(hit = hit1$HITId)
+
+# Disable all HITs of a given HITType
+DisableHIT(hit.type = hit1$HITTypeId)
+}
 }
 \keyword{HITs}

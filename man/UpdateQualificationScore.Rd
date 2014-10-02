@@ -35,8 +35,15 @@ Additionally, the \code{increment} parameter allows you to increase (or decrease
 }
 \examples{
 \dontrun{
-UpdateQualificationScore("2YCIA0RYNJ9262B1D82MPTUEXAMPLE","A1RO9UJNWXMU65",values="95")
-UpdateQualificationScore("2YCIA0RYNJ9262B1D82MPTUEXAMPLE","A1RO9UJNWXMU65",increment="1")
+qual1 <- 
+CreateQualificationType(name="Worked for me before",
+    description="This qualification is for people who have worked for me before",
+    status = "Active",
+    keywords="Worked for me before")
+AssignQualification(qual1$QualificationTypeId, "A1RO9UJNWXMU65", value="50")
+UpdateQualificationScore(qual1$QualificationTypeId, "A1RO9UJNWXMU65", value="95")
+UpdateQualificationScore(qual1$QualificationTypeId, "A1RO9UJNWXMU65", increment="1")
+DisposeQualificationType(qual1$QualificationTypeId)
 }
 }
 \keyword{Qualifications}

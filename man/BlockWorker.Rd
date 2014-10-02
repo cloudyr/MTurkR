@@ -49,9 +49,10 @@ GetBlockedWorkers(pagenumber = NULL, pagesize = NULL,
 %\seealso{}
 \examples{
 \dontrun{
-BlockWorker("A1RO9UEXAMPLE",reasons="Did not follow photo categorization HIT instructions.")
+% worker <- "A1RO9UJNWXMU65"
+BlockWorker(worker, reasons="Did not follow photo categorization HIT instructions.")
 GetBlockedWorkers()
-UnblockWorker("A1RO9UEXAMPLE")
+UnblockWorker(worker)
 }
 }
 \keyword{Workers}

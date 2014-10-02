@@ -7,13 +7,13 @@
 GenerateHITsFromTemplate(template, input, filenames = NULL, write.files = FALSE)
 }
 \arguments{
-  \item{template}{A file handle for an .html HIT template saved in the working directory.}
+  \item{template}{A character string or filename for an .html HIT template}
   \item{input}{A dataframe containing one row for each HIT to be created and columns named identically to the placeholders in the HIT template file. Operation will fail if variable names do not correspond.}
   \item{filenames}{An optional list of filenames for the HITs to be created. Must be equal to the number of rows in \code{input}.}
   \item{write.files}{A logical specifying whether HIT .html files should be created and stored in the working directory. Or, alternatively, whether HITs should be returned as character vectors in a list.}
 }
 \details{
-Generate HITs from a HIT template (containing placeholders for input data). The tool provides functionality analogous to the MTurk RUI HIT template and can be performed on .html files generated therein.
+Generate HITs from a HIT template (containing placeholders for input data of the form \code{\$\{variablename\}}). The tool provides functionality analogous to the MTurk RUI HIT template and can be performed on .html files generated therein.
 
 \code{hitsfromtemplate()} is an alias.
 }
@@ -28,9 +28,13 @@ Generate HITs from a HIT template (containing placeholders for input data). The 
 %\seealso{}
 \examples{
 \dontrun{
-a <- data.frame(c("HIT text 1","HIT text 2","HIT text 3"))
-names(a) <- "hitvariable"
-GenerateHITsFromTemplate("mynewhit.html",input=a,write.files=TRUE)
+a <- data.frame(hitvariable = c("HIT text 1","HIT text 2","HIT text 3"), stringsAsFactors=FALSE)
+temp <- '<div>
+${hitvariable}
+Question 1: <input type="text" name="var1"><br/>
+Question 2: <input type="text" name="var2">
+</div>'
+GenerateHITsFromTemplate(temp, input = a)
 }
 }
 \keyword{HITs}

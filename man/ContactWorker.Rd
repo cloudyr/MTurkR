@@ -39,11 +39,19 @@ b <- "Thanks for completing my HIT!
 I will pay a $.50 bonus if you complete a follow-up survey by Friday at 5:00pm.
 The survey can be completed at
 http://www.surveymonkey.com/s/pssurvey?c=A1RO9UEXAMPLE."
-c1 <- "A1RO9UEXAMPLE"
-d <- ContactWorker(subjects=a,msgs=b,workers=c)
 
+# contact one worker
+c1 <- "A1RO9UEXAMPLE"
+d <- ContactWorker(subjects = a,
+                   msgs = b,
+                   workers = c1)
+
+# contact multiple workers in batch
 c2 <- c("A1RO9EXAMPLE1","A1RO9EXAMPLE2","A1RO9EXAMPLE3")
-3 <- ContactWorker(subjects=a,msgs=b,workers=c2)
+e <- ContactWorker(subjects = a,
+                   msgs = b,
+                   workers = c2,
+                   batch = TRUE)
 }
 }
 \keyword{Workers}

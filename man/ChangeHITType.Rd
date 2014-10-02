@@ -42,16 +42,42 @@ This function changes the HITType of a specified HIT (or multiple specific HITs 
 }
 \examples{
 \dontrun{
-ChangeHITType(hit="2MQB727M0IGF304GJ16S1F4VE3AYDQ",
-              new.hit.type="2KAVWAVKI62N29TGK5Q9FQH6BRJQIY")
-ChangeHITType(old.hit.type="2FFNCWYB49F9BBJWA4SJUNST5OFSOW",
-              new.hit.type="2KAVWAVKI62N29TGK5Q9FQH6BRJQIY")
-ChangeHITType(hit="2MQB727M0IGF304GJ16S1F4VE3AYDQ",
-              title="10 Question Survey", 
-              description="Complete a 10-question survey about news coverage and your opinions", 
-              reward=".20", 
-              duration=seconds(hours=1), 
-              keywords="survey, questionnaire, politics")
+hittype1 <- 
+RegisterHITType(title = "10 Question Survey",
+                description =
+                  "Complete a 10-question survey about news coverage and your opinions",
+                reward = ".20", 
+                duration = seconds(hours=1), 
+                keywords = "survey, questionnaire, politics")
+a <- GenerateExternalQuestion("http://www.example.com/", "400")
+hit <- CreateHIT(hit.type = hittype1$HITTypeId, 
+                 assignments = 1,
+                 expiration = seconds(days=1),
+                 question = a$string)
+
+# change to HITType with new reward amount
+hittype2 <- 
+RegisterHITType(title = "10 Question Survey",
+                description =
+                  "Complete a 10-question survey about news coverage and your opinions",
+                reward = ".45", 
+                duration = seconds(hours=1), 
+                keywords = "survey, questionnaire, politics")
+ChangeHITType(hit = hit$HITId,
+              new.hit.type=hittype2$HITTypeId)
+
+# Change to new HITType, with arguments stated atomically
+ChangeHITType(hit = hit$HITId,
+              title = "10 Question Survey", 
+              description =
+                "Complete a 10-question survey about news coverage and your opinions", 
+              reward = ".20", 
+              duration = seconds(hours=1), 
+              keywords = "survey, questionnaire, politics")
+
+# expire and dispose HIT
+ExpireHIT(hit = hit$HITId)
+DisposeHIT(hit = hit$HITId)
 }
 }
 \keyword{HITs}

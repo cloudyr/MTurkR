@@ -33,10 +33,18 @@ A simple function to revoke a Qualification assigned to one or more workers.
 }
 \examples{
 \dontrun{
-a <- "2YCIA0RYNJ9262B1D82MPTUEXAMPLE"
-b <- "A1RO9UJNWXMU65"
-c <- "Performance has dropped below required level"
-RevokeQualification(qual=a,worker=b,reason=c)
+qual1 <- 
+AssignQualification(workers = "A1RO9UJNWXMU65",
+                    name = "Worked for me before",
+                    description = "This qualification is for people who have worked for me before",
+                    status = "Active",
+                    keywords = "Worked for me before")
+
+RevokeQualification(qual = qual1$QualificationTypeId,
+                    worker = qual1$WorkerId,
+                    reason = "No longer needed")
+
+DisposeQualificationType(qual1$QualificationTypeId)
 
 }
 }

@@ -1,5 +1,5 @@
 SufficientFunds <-
-function (amount, assignments = NULL, hits = NULL, bonus.ct = NULL, 
+function (amount = NULL, assignments = NULL, hits = NULL, bonus.ct = NULL, 
     bonus.amount = NULL, masters = FALSE, turkfee = 0.1, turkmin = 0.005, 
     mastersfee = 0.2, ...)
 {

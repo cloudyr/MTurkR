@@ -42,10 +42,24 @@ HITStatus(hit = NULL, hit.type = NULL, verbose = getOption('MTurkR.verbose', TRU
 }
 \examples{
 \dontrun{
-GetHIT("2MQB727M0IGF304GJ16S1F4VE3AYDQ")
-HITStatus("2MQB727M0IGF304GJ16S1F4VE3AYDQ")
-hits <- c("2MQB727M0IGF304GJ16S1F4VE3AYDQ","AM4DB727M0IGF304GJ16S1F4VE36JIQ")
-HITStatus(hits)
+# register HITType
+hittype <- 
+RegisterHITType(title="10 Question Survey",
+                description=
+                "Complete a 10-question survey about news coverage and your opinions",
+                reward=".20", 
+                duration=seconds(hours=1), 
+                keywords="survey, questionnaire, politics")
+
+a <- GenerateExternalQuestion("http://www.example.com/","400")
+hit1 <- 
+CreateHIT(hit.type = hittype$HITTypeId, question = a$string)
+
+GetHIT(hit1$HITId)
+HITStatus(hit1$HITId)
+
+# cleanup
+DisableHIT(hit1$HITId)
 }
 }
 \keyword{HITs}

@@ -27,7 +27,7 @@ Retrieve your current HITs (and, optionally, characteristics thereof). To view H
 
 \code{searchhits()} is an alias.
 }
-\value{Optionally a dataframe containing the HITs and a list of each HIT's QualificationRequirements (stored as dataframes in that list).}
+\value{A list containing a dataframe containing the HITs and a list of each HIT's QualificationRequirements (stored as dataframes in that list).}
 \references{
 \href{http://docs.amazonwebservices.com/AWSMechTurk/latest/AWSMturkAPI/ApiReference_SearchHITsOperation.html}{API Reference}
 }

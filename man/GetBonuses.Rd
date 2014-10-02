@@ -34,8 +34,8 @@ Retrieve bonuses previously paid to a specified HIT, Assignment, or HITType.
 }
 \examples{
 \dontrun{
-GetBonuses(hit="2MQB727M0IGF304GJ16S1F4VE3AYDQ")
-GetBonuses(assignment="26XXH0JPPSI23H54YVG7BKLO82DHNU")
+GetBonuses(hit = "2MQB727M0IGF304GJ16S1F4VE3AYDQ")
+GetBonuses(assignment = "26XXH0JPPSI23H54YVG7BKLO82DHNU")
 }
 }
 \keyword{Workers}

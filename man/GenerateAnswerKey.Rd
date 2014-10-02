@@ -28,6 +28,7 @@ AnswerKeyTemplate returns a list that can be used in the \code{questions} parame
 }
 \examples{
 \dontrun{
+
 qs <- list(list(QuestionIdentifier = "Question1",
                 AnswerOption = list(SelectionIdentifier="A", AnswerScore=15),
                 AnswerOption = list(SelectionIdentifier="B", AnswerScore=10),

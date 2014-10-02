@@ -18,6 +18,6 @@ seconds(days = NULL, hours = NULL, minutes = NULL, seconds = NULL)
 %\note{}
 %\seealso{}
 \examples{
-seconds(hours=5,seconds=15)
+seconds(hours=5, seconds=15)
 seconds(days=1)
 }

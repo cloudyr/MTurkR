@@ -28,10 +28,27 @@ Analogous functionality for producing .html files on the local workstation (e.g.
 }
 \examples{
 \dontrun{
-a <- GenerateHITLayoutParameter(names="hitvariable",values="Text for HIT 1")
-b <- GenerateHITLayoutParameter(names="hitvariable",values="Text for HIT 2")
-c <- GenerateHITLayoutParameter(names=c("hitvariable1","hitvariable2"),
-                                values=c("Headline for HIT1","Text for HIT 1"))
+a <- GenerateHITLayoutParameter(names = "hitvariable", 
+                                values = "Text for HIT 1")
+b <- GenerateHITLayoutParameter(names = "hitvariable", 
+                                values = "Text for HIT 2")
+c <- GenerateHITLayoutParameter(names = c("hitvariable1","hitvariable2"),
+                                values = c("Headline for HIT1","Text for HIT 1"))
+
+# create HIT using layout parameter
+hit1 <- 
+CreateHIT(title = "Survey",
+          description = "5 question survey",
+          reward = ".10",
+          expiration = seconds(days=4),
+          duration = seconds(hours = 1),
+          keywords = "survey, questionnaire",
+            # retrieved from MTurk web interface:
+          hitlayoutid = "23ZGOOGQSCM61T1H5H9U0U00OQWFFU", 
+          hitlayoutparameters = a)
+
+# cleanup
+DisableHIT(hit1$HITId)
 }
 }
 \keyword{HITs}

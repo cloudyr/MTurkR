@@ -32,13 +32,15 @@ A simple function to grant a bonus to one or more workers. The function is somew
 }
 \examples{
 \dontrun{
+# Grant a single bonus
 a <- "A1RO9UEXAMPLE"
 b <- "26XXH0JPPSI23H54YVG7BKLEXAMPLE"
 c <- ".50"
 d <- "Thanks for your great work on my HITs!"
-GrantBonus(workers=a,assignments=b,amounts=c,reasons=d)
+GrantBonus(workers=a, assignments=b, amounts=c, reasons=d)
 }
 \dontrun{
+# Grant bonuses to multiple workers
 a <- c("A1RO9EXAMPLE1","A1RO9EXAMPLE2","A1RO9EXAMPLE3")
 b <- 
 c("26XXH0JPPSI23H54YVG7BKLEXAMPLE1",
@@ -46,7 +48,7 @@ c("26XXH0JPPSI23H54YVG7BKLEXAMPLE1",
 "26XXH0JPPSI23H54YVG7BKLEXAMPLE3")
 c <- c(".50",".10",".25")
 d <- "Thanks for your great work on my HITs!"
-GrantBonus(workers=a,assignments=b,amounts=c,reasons=d)
+GrantBonus(workers=a, assignments=b, amounts=c, reasons=d)
 }
 }
 \keyword{Workers}

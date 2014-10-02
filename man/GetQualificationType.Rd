@@ -33,7 +33,13 @@ Retrieve characteristics of a specified QualificationType (as originally specifi
 }
 \examples{
 \dontrun{
-GetQualificationType("2YCIA0RYNJ9262B1D82MPTUEXAMPLE")
+qual1 <- 
+CreateQualificationType(name="Worked for me before",
+    description="This qualification is for people who have worked for me before",
+    status = "Active",
+    keywords="Worked for me before")
+GetQualificationType(qual1$QualificationTypeId)
+DisposeQualificationType(qual1$QualificationTypeId)
 }
 }
 \keyword{Qualifications}

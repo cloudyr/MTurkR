@@ -30,7 +30,17 @@ A function to retrive one or more scores for a specified QualificationType. To r
 }
 \examples{
 \dontrun{
-GetQualificationScore("2YCIA0RYNJ9262B1D82MPTUEXAMPLE","A1RO9UJNWXMU65")
+qual1 <- 
+AssignQualification(workers = "A1RO9UJNWXMU65",
+                    name = "Worked for me before",
+                    description = "This qualification is for people who have worked for me before",
+                    status = "Active",
+                    keywords = "Worked for me before")
+
+GetQualificationScore(qual1$QualificationTypeId, qual1$WorkerId)
+
+# cleanup
+DisposeQualificationType(qual1$QualificationTypeId)
 }
 }
 \keyword{Qualifications}

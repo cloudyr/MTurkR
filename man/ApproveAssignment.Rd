@@ -40,15 +40,15 @@ Approve assignments, by AssignmentId (as returned by \code{\link{GetAssignment}}
 }
 \examples{
 \dontrun{
-a <- ApproveAssignment(assignments="26XXH0JPPSI23H54YVG7BKLEXAMPLE")
+a <- ApproveAssignment(assignments = "26XXH0JPPSI23H54YVG7BKLEXAMPLE")
 
 b <- ApproveAssignment(
-assignments=c("26XXH0JPPSI23H54YVG7BKLEXAMPLE1","26XXH0JPPSI23H54YVG7BKLEXAMPLE2"),
-feedback="Great work!")
+assignments = c("26XXH0JPPSI23H54YVG7BKLEXAMPLE1","26XXH0JPPSI23H54YVG7BKLEXAMPLE2"),
+feedback = "Great work!")
 
-c <- ApproveAllAssignments(hit="2MQB727M0IGF304GJ16S1F4VE3AYDQ")
+c <- ApproveAllAssignments(hit = "2MQB727M0IGF304GJ16S1F4VE3AYDQ")
 
-d <- ApproveAllAssignments(hit.type="2FFNCWYB49F9BBJWA4SJUNST5OFSOW")
+d <- ApproveAllAssignments(hit.type = "2FFNCWYB49F9BBJWA4SJUNST5OFSOW")
 }
 }
 \keyword{Assignments}

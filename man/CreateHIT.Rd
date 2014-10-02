@@ -64,19 +64,33 @@ When creating a ExternalQuestion HITs, the \code{\link{GenerateHITsFromTemplate}
 \examples{
 \dontrun{
 a <- GenerateLayoutParameter("message","Text to display in HIT")
+hit1 <- 
 CreateHIT(hit.type="2FFNCWYB49F9BBJWA4SJUNST5OFSOW",
           hitlayoutid="23ZGOOGQSCM61T1H5H9U0U00OQWFFU", 
+          expiration = seconds(days = 4),
           hitlayoutparameters=a)
 
-b <- GenerateExternalQuestion("http://www.example.com/myhit.html","400")
-CreateHIT(hit.type="2FFNCWYB49F9BBJWA4SJUNST5OFSOW", question=b$string)
-
-CreateHIT(title="Survey",
-          description="5 question survey",
-          reward=".10",
-          duration=seconds(days=4),
-          keywords="survey, questionnaire",
+b <- GenerateExternalQuestion("http://www.example.com/","400")
+hit2 <- 
+CreateHIT(hit.type="2FFNCWYB49F9BBJWA4SJUNST5OFSOW", 
+          expiration = seconds(days = 4),
           question=b$string)
+
+hit3 <- 
+CreateHIT(title = "Survey",
+          description = "5 question survey",
+          reward = ".10",
+          expiration = seconds(days = 4),
+          duration = seconds(hours = 1),
+          keywords = "survey, questionnaire",
+          question = b$string)
+
+ExpireHIT(hit1$HITId)
+ExpireHIT(hit2$HITId)
+ExpireHIT(hit3$HITId)
+DisposeHIT(hit1$HITId)
+DisposeHIT(hit2$HITId)
+DisposeHIT(hit3$HITId)
 }
 }
 \keyword{HITs}

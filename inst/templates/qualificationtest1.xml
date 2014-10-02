@@ -1,0 +1,104 @@
+<QuestionForm xmlns="http://mechanicalturk.amazonaws.com/AWSMechanicalTurkDataSchemas/2005-10-01/QuestionForm.xsd">
+    <Overview>
+    <Title>Please read the following passage and answer the questions below based upon what you read.</Title>
+    <Text>
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras non enim id neque pharetra euismod. Nam ornare luctus ante. In non dui eu lacus volutpat aliquet et eget sapien. In facilisis tortor lorem. Sed ornare tortor ut metus ullamcorper vitae tristique sapien tincidunt. Nunc molestie lacinia dignissim. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; In pulvinar lectus ut nunc consequat pulvinar pretium dui ullamcorper. Duis id leo ut augue placerat rhoncus et pretium velit. Vestibulum ultricies, felis id hendrerit aliquet, massa tellus commodo nisi, id laoreet nisi metus nec elit.
+    </Text>
+    </Overview>
+    <Question>
+        <QuestionIdentifier>question1</QuestionIdentifier>
+        <IsRequired>true</IsRequired>
+        <QuestionContent>
+            <FormattedContent><![CDATA[
+            <p>Some question here</p>
+            ]]></FormattedContent>
+       </QuestionContent>
+       <AnswerSpecification>
+            <SelectionAnswer>
+                <StyleSuggestion>radiobutton</StyleSuggestion>
+                <Selections>
+                    <Selection>
+                        <SelectionIdentifier>1</SelectionIdentifier>
+                        <Text>First Answer</Text>
+                    </Selection>
+                    <Selection>
+                        <SelectionIdentifier>2</SelectionIdentifier>
+                        <Text>Second Answer</Text>
+                    </Selection>
+                    <Selection>
+                        <SelectionIdentifier>3</SelectionIdentifier>
+                        <Text>Third Answer</Text>
+                    </Selection>
+                    <Selection>
+                        <SelectionIdentifier>4</SelectionIdentifier>
+                        <Text>Fourth Answer</Text>
+                    </Selection>
+                </Selections>
+            </SelectionAnswer>
+        </AnswerSpecification>
+    </Question>
+    <Question>
+        <QuestionIdentifier>question2</QuestionIdentifier>
+        <IsRequired>true</IsRequired>
+        <QuestionContent>
+            <FormattedContent><![CDATA[
+            <p>Some question here</p>
+            ]]></FormattedContent>
+        </QuestionContent>
+        <AnswerSpecification>
+            <SelectionAnswer>
+                <StyleSuggestion>radiobutton</StyleSuggestion>
+                <Selections>
+                    <Selection>
+                        <SelectionIdentifier>1</SelectionIdentifier>
+                        <Text>First Answer</Text>
+                    </Selection>
+                    <Selection>
+                        <SelectionIdentifier>2</SelectionIdentifier>
+                        <Text>Second Answer</Text>
+                    </Selection>
+                    <Selection>
+                        <SelectionIdentifier>3</SelectionIdentifier>
+                        <Text>Third Answer</Text>
+                    </Selection>
+                    <Selection>
+                        <SelectionIdentifier>4</SelectionIdentifier>
+                        <Text>Fourth Answer</Text>
+                    </Selection>
+                </Selections>
+            </SelectionAnswer>
+        </AnswerSpecification>
+    </Question>
+    <Question>
+        <QuestionIdentifier>question3</QuestionIdentifier>
+        <IsRequired>true</IsRequired>
+        <QuestionContent>
+            <FormattedContent><![CDATA[
+            <p>Some question here</p>
+            ]]></FormattedContent>
+        </QuestionContent>
+        <AnswerSpecification>
+            <SelectionAnswer>
+                <StyleSuggestion>radiobutton</StyleSuggestion>
+                <Selections>
+                    <Selection>
+                        <SelectionIdentifier>1</SelectionIdentifier>
+                        <Text>First Answer</Text>
+                    </Selection>
+                    <Selection>
+                        <SelectionIdentifier>2</SelectionIdentifier>
+                        <Text>Second Answer</Text>
+                    </Selection>
+                    <Selection>
+                        <SelectionIdentifier>3</SelectionIdentifier>
+                        <Text>Third Answer</Text>
+                    </Selection>
+                    <Selection>
+                        <SelectionIdentifier>4</SelectionIdentifier>
+                        <Text>Fourth Answer</Text>
+                    </Selection>
+                </Selections>
+            </SelectionAnswer>
+        </AnswerSpecification>
+    </Question>
+</QuestionForm>

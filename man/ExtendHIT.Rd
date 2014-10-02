@@ -38,8 +38,19 @@ A useful function for adding time and/or additional assignments to a HIT. If the
 }
 \examples{
 \dontrun{
-ExtendHIT(hit="2MQB727M0IGF304GJ16S1F4VE3AYDQ",add.assignments="20")
-ExtendHIT(hit="2MQB727M0IGF304GJ16S1F4VE3AYDQ",add.seconds=seconds(days=1)))
+a <- GenerateExternalQuestion("http://www.example.com/","400")
+hit1 <- 
+CreateHIT(hit.type="2FFNCWYB49F9BBJWA4SJUNST5OFSOW", question = a$string)
+
+# add assignments
+ExtendHIT(hit = hit1$HITId, add.assignments = "20")
+
+# add time
+ExtendHIT(hit = hit1$HITId, add.seconds = seconds(days=1)))
+
+# cleanup
+DisableHIT(hit = hit1$HITId)
+
 }
 }
 \keyword{HITs}

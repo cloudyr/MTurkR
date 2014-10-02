@@ -48,12 +48,16 @@ A function to update the characteristics of a QualificationType. Name and keywor
 }
 \examples{
 \dontrun{
-qual1 <- CreateQualificationType(title="Worked for me before",
-            description="This qualification is for people who have worked for me before",
-            keywords="Worked for me before",sandbox=TRUE)
-qual2 <- UpdateQualificationType(qual.test,
-            description="This qualification is for everybody!",
-            auto=TRUE, auto.value="5", sandbox=TRUE)
+qual1 <- 
+CreateQualificationType(name="Worked for me before",
+    description="This qualification is for people who have worked for me before",
+    status = "Active",
+    keywords="Worked for me before")
+qual2 <- 
+UpdateQualificationType(qual1$QualificationTypeId,
+    description="This qualification is for everybody!",
+    auto=TRUE, auto.value="5")
+DisposeQualificationType(qual1$QualificationTypeId)
 }
 }
 \keyword{Qualifications}

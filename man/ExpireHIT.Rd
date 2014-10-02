@@ -34,7 +34,12 @@ A function to (prematurely) expire a HIT (or multiple HITs), thereby preventing 
 }
 \examples{
 \dontrun{
-ExpireHIT(hit="2MQB727M0IGF304GJ16S1F4VE3AYDQ")
+a <- GenerateExternalQuestion("http://www.example.com/","400")
+hit1 <- 
+CreateHIT(hit.type="2FFNCWYB49F9BBJWA4SJUNST5OFSOW", question = a$string)
+
+# expire HIT
+ExpireHIT(hit = hit1$HITId)
 }
 }
 \keyword{HITs}

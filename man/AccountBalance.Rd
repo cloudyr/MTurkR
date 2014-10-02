@@ -8,7 +8,7 @@
 \usage{
 AccountBalance(verbose = getOption('MTurkR.verbose', TRUE), ...)
 
-SufficientFunds(amount, assignments = NULL, hits = NULL, 
+SufficientFunds(amount = NULL, assignments = NULL, hits = NULL, 
                 bonus.ct = NULL, bonus.amount = NULL, masters = FALSE, 
                 turkfee = 0.1, turkmin = 0.005, mastersfee = 0.2, ...)
 }
@@ -40,7 +40,7 @@ SufficientFunds(amount, assignments = NULL, hits = NULL,
 \examples{
 \dontrun{
 AccountBalance()
-SufficientFunds(amount=".25", assignments="50", hits="5")
-SufficientFunds(bonus.ct="150", bonus.amount=".75")
+SufficientFunds(amount = ".25", assignments = "50", hits = "5")
+SufficientFunds(bonus.ct = "150", bonus.amount = ".75")
 }
 }

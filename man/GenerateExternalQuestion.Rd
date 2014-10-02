@@ -26,7 +26,7 @@ Note: \code{url} must be HTTPS. See \href{http://en.wikipedia.org/wiki/HTTP_Secu
 }
 \examples{
 \dontrun{
-GenerateExternalQuestion(url="http://www.example.com/myhit.html",frame.height="400")
+GenerateExternalQuestion(url="http://www.example.com/", frame.height="400")
 }
 }
 \keyword{HITs}

@@ -2,7 +2,7 @@
 \alias{MTurkR-package}
 \alias{MTurkR}
 \docType{package}
-\title{Access to the Amazon Mechanical Turk (MTurk) API via R.}
+\title{R Client for the MTurk Requester API}
 \description{
 This package provides access to the Amazon Mechanical Turk (MTurk) API via R, including all the basic API calls, plus additional wrappers to simplify multiple sequential calls and transform the XML returned by the API requests into R data structures (especially, dataframes). The package provides users of the MTurk Requester User Interface (RUI) with access to a variety of functions currently unavailable to them (the creation and maintenance of worker Qualifications, email notifications to workers through \code{\link{ContactWorker}}, and streamlined bonus payments through \code{\link{GrantBonus}}). It also provides users with all functions available in the RUI directly in R as well as a large number of other functions, with a relatively simple command-line interface.
 

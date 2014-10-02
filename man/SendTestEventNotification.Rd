@@ -31,9 +31,20 @@ Test a Notification configuration. The test mimics whatever the Notification con
 }
 \examples{
 \dontrun{
-a <- GenerateNotification("requester@example.com",event.type="HITExpired")
-SendTestEventNotification(a,test.event.type="HITReviewable") # no notification email will be sent
-SendTestEventNotification(a,test.event.type="HITExpired") # notification email will be sent
+hittype <- 
+RegisterHITType(title="10 Question Survey",
+                description=
+                "Complete a 10-question survey about news coverage and your opinions",
+                reward=".20", 
+                duration=seconds(hours=1), 
+                keywords="survey, questionnaire, politics")
+
+a <- GenerateNotification("requester@example.com", event.type = "HITExpired")
+SetHITTypeNotification(hit.type = hittype$HITTypeId, 
+                       notification = a,
+                       active = TRUE)
+# send test notification
+SendTestEventNotification(a, test.event.type="HITExpired")
 }
 }
 \keyword{Notifications}

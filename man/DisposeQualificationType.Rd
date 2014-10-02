@@ -33,6 +33,11 @@ A function to dispose of a QualificationType that is no longer needed. All infor
 }
 \examples{
 \dontrun{
-DisposeQualificationType("2YCIA0RYNJ9262B1D82MPTUEXAMPLE")
+qual1 <- 
+CreateQualificationType(name="Worked for me before",
+    description="This qualification is for people who have worked for me before",
+    status = "Active",
+    keywords="Worked for me before")
+DisposeQualificationType(qual1$QualificationTypeId)
 }
 }

@@ -26,9 +26,5 @@ GenerateNotification(destination, transport = "Email", event.type,
 
 \code{\link{SendTestEventNotification}}
 }
-\examples{
-\dontrun{
-a <- GenerateNotification("requester@example.com",event.type="HITExpired")
-}
-}
+%\examples{}
 \keyword{Notifications}

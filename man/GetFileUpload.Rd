@@ -30,7 +30,20 @@ Note that a FileUploadURL is only valid for 60 seconds (per MTurk documentation)
 %\seealso{}
 \examples{
 \dontrun{
-GetFileUpload("26XXH0JPPSI23H54YVG7BKLO82DHNU","dictation",download=TRUE)
+a <- GenerateExternalQuestion("http://www.example.com/","400")
+hit1 <- 
+CreateHIT(title = "Upload a file",
+          description = "Upload a file",
+          reward = ".10",
+          duration = seconds(days=1),
+          keywords = "file, upload",
+          question = a$string)
+ExpireHIT(hit1$HITId)
+a <- GetAssignments(hit = hit1$HITId)
+f <- GetFileUpload(a, "dictation", download=TRUE)
+
+# cleanup
+DisposeHIT(hit1$HITId)
 }
 }
 \keyword{Assignments}

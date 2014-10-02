@@ -47,8 +47,11 @@ Retrieve available QualificationTypes, optionally only those QualificationTypes 
 }
 \examples{
 \dontrun{
-SearchQualificationTypes(only.mine=TRUE,return.all=TRUE)
-SearchQualificationTypes(query="MIT",only.mine=FALSE,return.all=FALSE)
+SearchQualificationTypes(only.mine = TRUE, 
+                         return.all = TRUE)
+SearchQualificationTypes(query = "MIT", 
+                         only.mine = FALSE,
+                         return.all = FALSE)
 }
 }
 \keyword{Qualifications}

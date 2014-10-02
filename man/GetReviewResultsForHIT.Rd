@@ -34,9 +34,5 @@ GetReviewResultsForHIT(hit, assignment = NULL, policy.level = NULL,
 \seealso{
 \code{\link{CreateHIT}}
 }
-\examples{
-\dontrun{
-GetReviewResultsForHIT()
-}
-}
+%\examples{}
 \keyword{HITs}

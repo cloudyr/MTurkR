@@ -30,7 +30,13 @@ A function to change the status of one or more HITs (or all HITs of a given HITT
 }
 \examples{
 \dontrun{
-SetHITAsReviewing("2MQB727M0IGF304GJ16S1F4VE3AYDQ")
+a <- GenerateExternalQuestion("http://www.example.com/","400")
+hit1 <- 
+CreateHIT(hit.type="2FFNCWYB49F9BBJWA4SJUNST5OFSOW", question=a$string)
+SetHITAsReviewing(hit1$HITId)
+
+# cleanup
+DisableHIT(hit1$HITId)
 }
 }
 \keyword{HITs}

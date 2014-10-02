@@ -36,8 +36,20 @@ Note: The API operation underlying \code{SetHITTypeNotification} and \code{\link
 }
 \examples{
 \dontrun{
-a <- GenerateNotification("requester@example.com",event.type="HITExpired")
-SetHITTypeNotification(hit.type="2FFNCWYB49F9BBJWA4SJUNST5OFSOW",notification=a,active=TRUE)
+hittype <- 
+RegisterHITType(title="10 Question Survey",
+                description=
+                "Complete a 10-question survey about news coverage and your opinions",
+                reward=".20", 
+                duration=seconds(hours=1), 
+                keywords="survey, questionnaire, politics")
+
+a <- GenerateNotification("requester@example.com", event.type = "HITExpired")
+SetHITTypeNotification(hit.type = hittype$HITTypeId, 
+                       notification = a,
+                       active = TRUE)
+# send test notification
+SendTestEventNotification(a, test.event.type="HITExpired")
 }
 }
 \keyword{Notifications}

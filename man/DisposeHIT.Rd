@@ -36,8 +36,17 @@ Dispose of a HIT (and its assignment data) when it is no longer needed. Must spe
 }
 \examples{
 \dontrun{
-DisposeHIT(hit="2MQB727M0IGF304GJ16S1F4VE3AYDQ")
-DisposeHIT(hit.type="2FFNCWYB49F9BBJWA4SJUNST5OFSOW")
+# Dispose a single HIT
+b <- GenerateExternalQuestion("http://www.example.com/","400")
+hit1 <- 
+CreateHIT(hit.type = "2FFNCWYB49F9BBJWA4SJUNST5OFSOW", 
+          expiration = seconds(days = 1),
+          question=b$string)
+ExpireHIT(hit1$HITId) # must be expired before disposing
+DiposeHIT(hit1$HITId)
+
+# Dispose all HITs of a given HITType
+DisposeHIT(hit.type = hit1$HITTypeId)
 }
 }
 \keyword{HITs}

@@ -37,8 +37,18 @@ A practical use for this is with automatically granted QualificationTypes. After
 }
 \examples{
 \dontrun{
-GetQualifications("2YCIA0RYNJ9262B1D82MPTUEXAMPLE")
-GetQualifications("2YCIA0RYNJ9262B1D82MPTUEXAMPLE",status="Revoked")
+qual1 <- 
+AssignQualification(workers = "A1RO9UJNWXMU65",
+                    name = "Worked for me before",
+                    description = "This qualification is for people who have worked for me before",
+                    status = "Active",
+                    keywords = "Worked for me before")
+
+GetQualifications(qual1$QualificationTypeId)
+RevokeQualification(qual1$QualificationTypeId, qual1$WorkerId)
+GetQualifications(qual1$QualificationTypeId, status="Revoked")
+
+DisposeQualificationType(qual1$QualificationTypeId)
 }
 }
 \keyword{Qualifications}

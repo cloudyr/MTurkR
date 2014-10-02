@@ -1,7 +1,7 @@
 assignqual <-
 AssignQualification <-
 AssignQualifications <-
-function (qual, workers, value = "1", notify = FALSE, name = NULL, 
+function (qual = NULL, workers, value = "1", notify = FALSE, name = NULL, 
     description = NULL, keywords = NULL, status = NULL, retry.delay = NULL, 
     test = NULL, answerkey = NULL, test.duration = NULL, auto = NULL, 
     auto.value = NULL, conditional.statistic = NULL, conditional.comparator = NULL, 
@@ -11,7 +11,7 @@ function (qual, workers, value = "1", notify = FALSE, name = NULL,
     if('print' %in% names(list(...)) && is.null(verbose))
         verbose <- list(...)$print
     operation <- "AssignQualification"
-    if(is.factor(qual))
+    if(!is.null(qual) & is.factor(qual))
         qual <- as.character(qual)
     if(is.factor(workers))
         workers <- as.character(workers)
@@ -60,10 +60,7 @@ function (qual, workers, value = "1", notify = FALSE, name = NULL,
             keywords = keywords, status = status, retry.delay = retry.delay,
             test = test, answerkey = answerkey, test.duration = test.duration, 
             auto = auto, auto.value = auto.value, ...)
-        if (type$valid == TRUE) 
-            qual <- type$QualificationTypeId
-        else
-            stop("Could not create QualificationType")
+        qual <- as.character(type$QualificationTypeId)
     }
     qual.value <- value
     Qualifications <- setNames(data.frame(matrix(ncol=5, nrow=length(workers))),
@@ -73,7 +70,7 @@ function (qual, workers, value = "1", notify = FALSE, name = NULL,
             x <- batch(workers[i], value)
             if(is.null(x$valid))
                 return(request)
-            Qualifications[i, ] = c(workers[i], value, qual, notify, x$valid)
+            Qualifications[i, ] = c(workers[i], qual, value, notify, x$valid)
         }
     } else {
         if(is.null(conditional.comparator)) 
@@ -106,7 +103,7 @@ function (qual, workers, value = "1", notify = FALSE, name = NULL,
                 stop("Inappropriate comparator specified for conditional")
         }
         if(is.null(conditional.period) || !conditional.period %in% 
-            c("LifeTime", "ThirtyDays", "SevenDays", "OneDay")) 
+            c("LifeToDate", "ThirtyDays", "SevenDays", "OneDay")) 
             stop("Inappropriate or no period specified for conditional")
         if(is.null(conditional.value)) 
             stop("Statistic value not specified for conditional")
@@ -114,10 +111,10 @@ function (qual, workers, value = "1", notify = FALSE, name = NULL,
         if(is.na(conditional.value)) 
             stop("Conditional value is non-numeric")
         for(i in 1:length(workers)) {
-            x <- GetWorkerStatistic(worker, conditional.statistic, 
+            x <- GetWorkerStatistic(workers[i], conditional.statistic, 
                                     conditional.period, ...)
             if(set.statistic.as.value == TRUE) 
-                value <- x$value
+                value <- x
             if(conditional.comparator == "LessThan") {
                 if(as.numeric(x$value) < conditional.value) 
                     temp <- batch(workers[i], value)
