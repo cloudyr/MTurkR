@@ -33,8 +33,9 @@ function (graphics = FALSE, sandbox = NULL, ...)
             "Block Worker(s)", "Unblock Worker(s)", "Manage Qualifications", 
             "Requester Statistics", "Worker Statistics", "Open MTurk RUI Pages", 
             "Load MTurkR Log File/Entries", "Exit")
-        selection <- menu(menu.opts, title = "MTurkR Operations", 
-            graphics = graphics)
+        selection <- menu(menu.opts, 
+                          graphics = graphics,
+                          title = "MTurkR Operations")
         choice <- selection
         if (choice == 0) 
             choice <- 20
@@ -63,8 +64,9 @@ function (graphics = FALSE, sandbox = NULL, ...)
             keywords <- readline(prompt = "HIT Keywords (Workers will see this): ")
             reward <- readline(prompt = "HIT Reward (Amount to pay workers per assignment in US Dollars): ")
             duration <- readline(prompt = "HIT Duration (How long HIT should be available, in seconds): ")
-            question.type <- menu(c("MTurk RUI HITLayoutId", 
-                "External HTML Question"), title = "How do you want load question data?")
+            question.type <- menu(c("MTurk RUI HITLayoutId", "External HTML Question"), 
+                                  graphics = graphics, 
+                                  title = "How do you want load question data?")
             if (question.type == 0) 
                 wizard.menu()
             else if (question.type == 1) {
@@ -76,7 +78,9 @@ function (graphics = FALSE, sandbox = NULL, ...)
                 external.url <- readline(prompt = "URL: ")
                 question <- GenerateExternalQuestion(external.url, 400)
             }
-            quals <- menu(c("Yes", "No"), "Do you want to restrict the HIT with a QualificationRequirement?")
+            quals <- menu(c("Yes", "No"), 
+                          graphics = graphics,
+                          title = "Do you want to restrict the HIT with a QualificationRequirement?")
             if (quals == 1) {
                 qual.types <- as.data.frame(rbind(
                     c("Worker_PercentAssignmentsSubmitted", "00000000000000000000"),
@@ -94,6 +98,7 @@ function (graphics = FALSE, sandbox = NULL, ...)
                     c("Other", "")))
                 names(quals) <- c("Qualification", "QualificationTypeId")
                 qual.to.add <- menu(qual.types$Qualification, 
+                  graphics = graphics,
                   title = "Which QualificationRequirement would you like to add?")
                 if (qual.to.add %in% c(1:dim(qual.types[1]))) 
                   qual.to.add <- qual.types$QualificationTypeId[qual.to.add]
@@ -123,6 +128,7 @@ function (graphics = FALSE, sandbox = NULL, ...)
         }
         else if (choice == 5) {
             assign.or.hit <- menu(c("AssignmentId", "HITId"), 
+                graphics = graphics,
                 title = "Get Assignments by AssignmentId or HITId")
             if (assign.or.hit == 0) 
                 wizard.menu()
@@ -148,6 +154,7 @@ function (graphics = FALSE, sandbox = NULL, ...)
         else if (choice == 6) {
             hittoextend <- readline(prompt = "HITId to Extend: ")
             action <- menu(c("Add Time", "Add Assignments", "Add Time and Assignments"), 
+                graphics = graphics,
                 title = "Add Time or Assignments to HIT?")
             addtime <- NULL
             addunits <- NULL
@@ -175,28 +182,44 @@ function (graphics = FALSE, sandbox = NULL, ...)
             wizard.menu()
         }
         else if (choice == 8) {
-            assign.ct <- menu(c("One Assignment", "Multiple Assignments"), 
+            assign.ct <- menu(c("One Assignment", "Multiple Assignments", "All Assignments for HIT"), 
+                graphics = graphics,
                 title = "Approve one assignment or multiple assignments?")
-            if (assign.ct == 0) 
+            if (assign.ct == 0) {
                 wizard.menu()
-            else if (assign.ct == 1) 
+            } else if (assign.ct == 1) {
                 assignment <- readline(prompt = "AssignmentId to Approve: ")
-            else if (assign.ct == 2) {
+                approve <- try(ApproveAssignment(assignments = assignment, 
+                                                 verbose = TRUE, ...), silent = TRUE)
+                if (class(approve) == "try-error") 
+                    warning("An error occurred: ", approve)
+                else
+                    print(approve)
+            } else if (assign.ct == 2) {
                 count <- as.numeric(readline(prompt = "How many assignments to approve: "))
                 message("Enter each AssignmentId on own line:")
                 assignment <- scan(n = count, what = "character")
+                approve <- try(ApproveAssignment(assignments = assignment, 
+                                                 verbose = TRUE, ...), silent = TRUE)
+                if (class(approve) == "try-error") 
+                    warning("An error occurred: ", approve)
+                else
+                    print(approve)
+            } else if (assign.ct == 3) {
+                hittoapprove <- readline(prompt = "HITId to Approve: ")
+                approve <- try(ApproveAllAssignments(hit = hittoapprove, 
+                                                 verbose = TRUE, ...), silent = TRUE)
+                if (class(approve) == "try-error") 
+                    warning("An error occurred: ", approve)
+                else
+                    print(approve)
             }
-            approve <- try(ApproveAssignment(assignments = assignment, 
-                                             verbose = TRUE, ...), silent = TRUE)
-            if (class(approve) == "try-error") 
-                warning("An error occurred: ", approve)
-            else
-                print(approve)
             message()
             wizard.menu()
         }
         else if (choice == 9) {
             assign.ct <- menu(c("One Assignment", "Multiple Assignments"), 
+                graphics = graphics,
                 title = "Reject one assignment or multiple assignments?")
             if (assign.ct == 0) 
                 wizard.menu()
@@ -220,6 +243,7 @@ function (graphics = FALSE, sandbox = NULL, ...)
         }
         else if (choice == 10) {
             bonus.ct <- menu(c("Single Worker", "Multiple Workers"), 
+                graphics = graphics,
                 title = "Contact one worker or multiple workers?")
             if (bonus.ct == 0) 
                 wizard.menu()
@@ -249,6 +273,7 @@ function (graphics = FALSE, sandbox = NULL, ...)
         }
         else if (choice == 11) {
             bonus.ct <- menu(c("Single Worker", "Multiple Workers"), 
+                graphics = graphics,
                 title = "Contact one worker or multiple workers?")
             if (bonus.ct == 0) 
                 wizard.menu()
@@ -302,7 +327,9 @@ function (graphics = FALSE, sandbox = NULL, ...)
                 "Create a QualificationType", "Update a QualificationType", 
                 "View a QualificationType", "Search QualificationTypes", 
                 "List Built-In QualificationTypes")
-            qual.choice <- menu(qual.opts, title = "What would you like to do?")
+            qual.choice <- menu(qual.opts,
+                                graphics = graphics,
+                                title = "What would you like to do?")
             if (qual.choice == 0) 
                 wizard.menu()
             else if (qual.choice == 1) {
@@ -368,7 +395,9 @@ function (graphics = FALSE, sandbox = NULL, ...)
                 message("Which QualificationType do you want to update?")
                 qual <- readline(prompt = "QualificationTypeId: ")
                 update.opts <- c("Description", "Status", "Whether Qualification is Automatically Granted")
-                update.choice <- menu(update.opts, title = "What parameters do you want to update?")
+                update.choice <- menu(update.opts, 
+                                      graphics = graphics,
+                                      title = "What parameters do you want to update?")
                 if (update.choice == 0) 
                   wizard.menu()
                 else if (update.choice == 1) {
@@ -384,6 +413,7 @@ function (graphics = FALSE, sandbox = NULL, ...)
                 }
                 else if (update.choice == 2) {
                   status.choice <- menu(c("Active", "Inactive"), 
+                    graphics = graphics,
                     title = "Should QualificationType be Active or Inactive?")
                   if (status.choice == 0) 
                     wizard.menu()
@@ -400,7 +430,9 @@ function (graphics = FALSE, sandbox = NULL, ...)
                   wizard.menu()
                 }
                 else if (update.choice == 3) {
-                  auto.choice <- menu(c("Yes", "No"), title = "Should QualificationType be Automatically Granted?")
+                  auto.choice <- menu(c("Yes", "No"), 
+                                      graphics = graphics,
+                                      title = "Should QualificationType be Automatically Granted?")
                   if (auto.choice == 0) 
                     wizard.menu()
                   else if (auto.choice == 1) {
@@ -431,9 +463,9 @@ function (graphics = FALSE, sandbox = NULL, ...)
                 else print(getqual)
             }
             else if (qual.choice == 7) {
-                searchq <- menu(c("Only Qualifications I Created", 
-                  "All Qualifications"), title = "Which Qualifications do you want to search?", 
-                  graphics = graphics)
+                searchq <- menu(c("Only Qualifications I Created", "All Qualifications"), 
+                                graphics = graphics,
+                                title = "Which Qualifications do you want to search?")
                 if (searchq == 0) 
                   wizard.menu()
                 else if (searchq == 1) 
@@ -457,7 +489,9 @@ function (graphics = FALSE, sandbox = NULL, ...)
         }
         else if (choice == 15) {
             periods <- c("OneDay", "SevenDays", "ThirtyDays", "LifeToDate")
-            period.choice <- menu(periods, title = "For what period do you want Requester Statistics?")
+            period.choice <- menu(periods, 
+                                  graphics = graphics,
+                                  title = "For what period do you want Requester Statistics?")
             if (period.choice == 0) 
                 wizard.menu()
             else {
@@ -473,7 +507,9 @@ function (graphics = FALSE, sandbox = NULL, ...)
             message("For which worker do you want statistics?")
             workerid <- readline(prompt = "WorkerId: ")
             periods <- c("OneDay", "SevenDays", "ThirtyDays", "LifeToDate")
-            period.choice <- menu(periods, title = "For what period do you want Worker Statistics?")
+            period.choice <- menu(periods, 
+                                  graphics = graphics,
+                                  title = "For what period do you want Worker Statistics?")
             if (period.choice == 0) 
                 wizard.menu()
             else {
@@ -489,6 +525,7 @@ function (graphics = FALSE, sandbox = NULL, ...)
         else if (choice == 17) {
             rui.page <- menu(c("Worker Page", "HIT Management Page", 
                 "Qualifications", "API Reference", "Available HITs"), 
+                graphics = graphics,
                 title = "Which page do you want to open? ")
             if (rui.page == 0) 
                 wizard.menu()
@@ -525,9 +562,9 @@ function (graphics = FALSE, sandbox = NULL, ...)
                 mturkrlog <- readlogfile(filename = logfile)
             }
             log.opts <- c("View most recent MTurk response", 
-                "View another MTurk response", "Return to Wizard Main Menu")
-            log.choice <- menu(log.opts, title = "What to do next?")
-            if (log.choice %in% c(0, 3)) 
+                "View another MTurk response")
+            log.choice <- menu(log.opts, graphics = graphics, title = "What to do next?")
+            if (log.choice == 0) 
                 wizard.menu()
             else if (log.choice == 1) 
                 print(xmlParse(mturkrlog$Response[dim(mturkrlog)[1]]))
@@ -535,7 +572,9 @@ function (graphics = FALSE, sandbox = NULL, ...)
                 num.entries <- dim(mturkrlog)[1]
                 last.ten <- c(mturkrlog$Operation[num.entries:(num.entries - 
                   9)], "Specify a Log Entry")
-                entry <- menu(last.ten, title = "Pick from 10 most recent requests or choose 'Specific Entry'")
+                entry <- menu(last.ten, 
+                              graphics = graphics,
+                              title = "Pick from 10 most recent requests or choose 'Specific Entry'")
                 if (entry == 0) 
                   wizard.menu()
                 else if (entry == 11) {
