@@ -9,7 +9,15 @@ GenerateReviewPolicy(hitpolicy = NULL, assignpolicy = NULL)
   \item{hitpolicy}{An optional list.}
   \item{assignpolicy}{An optional list.}
 }
-\details{Convert an R list into a ReviewPolicy data structure. See examples.}
+\details{
+Convert an R list into a ReviewPolicy data structure. See examples.
+
+A ReviewPolicy works by testing whether an assignment or a set of assignments satisfies a particular condition. If that condition is satisfied, then specified actions are taken. ReviewPolicies come in two \dQuote{flavors}: Assignment-level ReviewPolicies take actions based on \dQuote{known} answers to questions in the HIT and HIT-level ReviewPolicies take actions based on agreement among multiple assignments. It is possible to specify both Assignment-level and HIT-level ReviewPolicies for the same HIT.
+
+Assignment-level ReviewPolicies involve checking whether than assignment includes particular (\dQuote{correct}) answers. For example, an assignment might be tested to see whether a correct answer is given to one question by each worker as a quality control measure. The ReviewPolicy works by checking whether a specified percentage of known answers are correct. So, if a ReviewPolicy specifies two known answers for a HIT and the worker gets one of those known answers correct, the ReviewPolicy scores the assignment at 50 (i.e., 50 percent). The ReviewPolicy can then be customized to take three kinds of actions depending on that score: \code{ApproveIfKnownAnswerScoreIsAtLeast} (approve the assignment automatically), \code{RejectIfKnownAnswerScoreIsLessThan} (reject the assignment automatically), and \code{ExtendIfKnownAnswerScoreIsLessThan} (add additional assignments and/or time to the HIT automatically). The various actions can be combined to, e.g., both reject an assignment and add further assignments if a score is below the treshhold, or reject below a threshhold and approve above, etc.
+
+HIT-level ReviewPolicies involve checking whether multiple assignments submitted for the same HIT \dQuote{agree} with one another. Agreement here is very strict: answers must be exactly the same across assignments for them to be a matched. As such, it is probably only appropriate to use closed-ended (e.g., multiple choice) questions for HIT-level ReviewPolicies otherwise ReviewPolicy actions might be taken on irrelevant differences (e.g., word capitalization, spacing, etc.). The ReviewPolicy works by checking whether answers to multiple assignments are the same (or at least whether a specified percentage of answers to a given question are the same). For example, if the goal is to categorize an image into one of three categories, the ReviewPolicy will check whether two of three workers agree on the categorization (known as the \dQuote{HIT Agreement Score}, which is a percentage of all workers who agree). Depending on the value of the HIT Agreement Score, actions can be taken. As of October 2014, only one action can be taken: \code{ExtendIfHITAgreementScoreIsLessThan} (extending the HIT in assignments by the number of assignments specified in \code{ExtendMaximumAssignments} or time as specified in  \code{ExtendMinimumTimeInSeconds}). Another agreement score (the \dQuote{Worker Agreement Score}), measured the percentage of a worker's responses that agree with other workers' answers. Depending on the Worker Agreement Score, two actions can be taken: \code{ApproveIfWorkerAgreementScoreIsAtLeast} (to approve the assignment automatically) or \code{RejectIfWorkerAgreementScoreIsLessThan} (to reject the assignment automatically, with an optional reject reason supplied with \code{RejectReason}). A logical value (\code{DisregardAssignmentIfRejected}) specifies whether to exclude rejected assignments from the calculation of the HIT Agreement Score. Note: An optional \code{DisregardAssignmentIfKnownAnswerScoreIsLessThan} excludes assignments if those assignments score below a specified \dQuote{known} answers threshold as determined by a separate Assignment-level ReviewPolicy.
+}
 \value{Returns a list containing one or two named lists, \code{HITReviewPolicy} and/or \code{AssignmentReviewPolicy} as parsed XML, string, and url-encoded string.}
 \references{
 \href{http://docs.amazonwebservices.com/AWSMechTurk/latest/AWSMturkAPI/ApiReference_QuestionFormDataStructureArticle.html}{API Reference: QuestionForm}
@@ -20,23 +28,84 @@ GenerateReviewPolicy(hitpolicy = NULL, assignpolicy = NULL)
 }
 \author{Thomas J. Leeper}
 %\note{}
-%\seealso{}
+\seealso{
+\code{\link{CreateHIT}}
+
+\code{\link{GetReviewResultsForHIT}}
+}
 \examples{
 \dontrun{
-# HIT-level review policy
-lista <- list(QuestionIds=c("Question1","Question2","Question5"),
-              QuestionIdAgreementThreshold=8,
-              ExtendMinimumTimeInSeconds=3600)
-hpolicy <- GenerateReviewPolicy(hitpolicy = lista)
+# HIT-level ReviewPolicies
+
+## Conditionally extend HIT based on HIT Agreement Score
+lista <- list(QuestionIds = c("Question1","Question2","Question5"),
+              QuestionAgreementThreshold = 49, # at least 50 percent agreement
+              ExtendIfHITAgreementScoreIsLessThan = 50,
+              ExtendMinimumTimeInSeconds = 3600,
+              DisregardAssignmentIfRejected = TRUE)
+policya <- GenerateReviewPolicy(hitpolicy = lista)
+
+## Conditionally approve and reject based on Worker Agreement Score
+listb <- list(QuestionIds = c("Question1","Question2","Question5"),
+              QuestionAgreementThreshold = 65, # at least two of three 'correct' answers
+              ApproveIfWorkerAgreementScoreIsAtLeast = 65,
+              RejectIfWorkerAgreementScoreIsLessThan = 34,
+              DisregardAssignmentIfRejected = TRUE)
+policyb <- GenerateReviewPolicy(hitpolicy = lista)
+
+# Attach an assignment review policy to a HIT
+hit1 <- 
+CreateHIT(title = "Survey",
+          description = "5 question survey",
+          reward = ".10",
+          expiration = seconds(days = 4),
+          duration = seconds(hours = 1),
+          keywords = "survey, questionnaire",
+          hit.review.policy = policya$HITReviewPolicy$string,
+          question = GenerateExternalQuestion("http://www.example.com/","400"))
+GetReviewResultsForHIT(hit1$HITId)
+ExpireHIT(hit1$HITId)
+
+# cleanup
+DisposeHIT(hit1$HITId)
 }
 \dontrun{
-# Assignment-level review policy
-listb <- list(AnswerKey=list(list(Key="QuestionId3", Value="B"),
-                             list(Key="QuestionId7", Value="A"),
-                             list(Key="QuestionId15",Value="C")),
-              ExtendIfKnownAnswerScoreIsLessThan=80,
-              ExtendMaximumAssignments=3)
-apolicy <- GenerateReviewPolicy(assignpolicy = listb)
+# Assignment-level ReviewPolicies
+
+## Conditional approval of assignments based on percent of correct answers
+lista <- list(AnswerKey = list(list(Key = "QuestionId1", Value = "B"),
+                               list(Key = "QuestionId2", Value = "A")),
+              ApproveIfKnownAnswerScoreIsAtLeast = 99)
+policya <- GenerateReviewPolicy(assignpolicy = lista)
+
+## Conditional rejection of assignments based on percent of correct answers
+listb <- list(AnswerKey = list(list(Key = "QuestionId1", Value = "B"),
+                               list(Key = "QuestionId2", Value = "A")),
+              RejectIfKnownAnswerScoreIsLessThan = 1)
+policyb <- GenerateReviewPolicy(assignpolicy = listb)
+
+## Conditionally extend HIT with more time and assignments based on score
+listc <- list(AnswerKey = list(list(Key = "QuestionId1", Value = "B")),
+              ExtendIfKnownAnswerScoreIsLessThan = 100,
+              ExtendMaximumAssignments = 2, # maximum value is 25
+              ExtendMinimumTimeInSeconds = seconds(hours = 1))
+policyc <- GenerateReviewPolicy(assignpolicy = listc)
+
+# Attach an assignment review policy to a HIT
+hit1 <- 
+CreateHIT(title = "Survey",
+          description = "5 question survey",
+          reward = ".10",
+          expiration = seconds(days = 4),
+          duration = seconds(hours = 1),
+          keywords = "survey, questionnaire",
+          assignment.review.policy = gsub("[[:space:]]", "", policya$AssignmentReviewPolicy$string),
+          question = GenerateExternalQuestion("http://www.example.com/","400"))
+GetReviewResultsForHIT(hit1$HITId)
+ExpireHIT(hit1$HITId)
+
+# cleanup
+DisposeHIT(hit1$HITId)
 }
 }
 \keyword{HITs}
