@@ -5,7 +5,8 @@
 \title{Grant Qualification Request}
 \description{Grant a Worker's request for a Qualification.}
 \usage{
-GrantQualification(qual.requests, values, verbose = getOption('MTurkR.verbose', TRUE), ...)
+GrantQualification(qual.requests, values, 
+                   verbose = getOption('MTurkR.verbose', TRUE), ...)
 }
 \arguments{
   \item{qual.requests}{A character string containing a QualificationRequestId (for example, returned by \code{\link{GetQualificationRequests}}), or a vector of QualificationRequestIds.}

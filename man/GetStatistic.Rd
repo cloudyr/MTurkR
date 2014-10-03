@@ -9,11 +9,14 @@
 \description{Get a requester statistic or a statistic for a particular worker. \code{RequesterReport} and \code{WorkerReport} provide wrappers that return all available statistics.}
 \usage{
 GetStatistic(statistic, period = "LifeToDate", count = NULL,
-             response.group = NULL, verbose = getOption('MTurkR.verbose', TRUE), ...)
-RequesterReport(period = "LifeToDate", verbose = getOption('MTurkR.verbose', TRUE), ...)
+             response.group = NULL, 
+             verbose = getOption('MTurkR.verbose', TRUE), ...)
+RequesterReport(period = "LifeToDate", 
+                verbose = getOption('MTurkR.verbose', TRUE), ...)
 
 GetWorkerStatistic(worker, statistic, period = "LifeToDate", count = NULL,
-                   response.group = NULL, verbose = getOption('MTurkR.verbose', TRUE), ...)
+                   response.group = NULL, 
+                   verbose = getOption('MTurkR.verbose', TRUE), ...)
 WorkerReport(worker, period = "LifeToDate", 
              verbose = getOption('MTurkR.verbose', TRUE), ...)
 }

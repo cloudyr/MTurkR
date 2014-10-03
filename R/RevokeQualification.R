@@ -32,12 +32,12 @@ function (qual, worker, reason = NULL, verbose = getOption('MTurkR.verbose', TRU
     else if(length(qual) > 1 & length(worker) == 1) {
         for(i in 1:length(qual)) {
             x <- batch(qual[i], worker[1], reason)
-            if (request$valid & verbose) {
-                message(i, ": Qualification (", qualbatch, ") for worker ", 
-                        workerbatch, " Revoked")
+            if(x$valid & verbose) {
+                message(i, ": Qualification (", qual[i], ") for worker ", 
+                        worker[1], " Revoked")
             }
-            else if(!request$valid & verbose)
-                warning(i, ": Invalid Request for worker ", workerbatch)
+            else if(!x$valid & verbose)
+                warning(i, ": Invalid Request for worker ", worker[1])
             Qualifications[i, ] <- c(worker[1], qual[i], if(!is.null(reason)) reason else "", x$valid)
         }
     }

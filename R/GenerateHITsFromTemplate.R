@@ -1,6 +1,6 @@
 GenerateHITsFromTemplate <-
 function (template, input, filenames = NULL, write.files = FALSE) {
-    if(!grepl("\\$\\{.+\\}",f))
+    if(!grepl("\\$\\{.+\\}", template))
         template <- readLines(template, warn = FALSE)
     HITs <- list()
     if(!length(grep("\\$\\{", template)) == ncol(input)) 
