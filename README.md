@@ -14,6 +14,7 @@ Possible applications of the package include:
 ## Installation ##
 
 [![Build Status](https://travis-ci.org/leeper/MTurkR.png?branch=master)](https://travis-ci.org/leeper/MTurkR)
+[![Build status](https://ci.appveyor.com/api/projects/status/432l8e6qycnfi8ci)](https://ci.appveyor.com/project/leeper/mturkr)
 
 To install the latest development version of **MTurkR** from GitHub:
 
@@ -23,7 +24,7 @@ To install the latest development version of **MTurkR** from GitHub:
     }
     install_github("leeper/MTurkR")
 
-The GitHub [master branch](https://github.com/leeper/MTurkR) should be considered stable, while [the develop branch](https://github.com/leeper/MTurkR/tree/develop) reflects current code that is a work in progress. Major releases are periodically pushed to CRAN. To install the latest version from CRAN, simply use:
+The GitHub [master branch](https://github.com/leeper/MTurkR) should be considered stable. Major releases are periodically pushed to CRAN. To install the latest version from CRAN, simply use:
 
     install.packages("MTurkR")
 
