@@ -10,7 +10,8 @@
 ApproveAssignment(assignments, feedback = NULL, rejected = FALSE, 
                   verbose = getOption('MTurkR.verbose', TRUE), ...)
 
-ApproveAllAssignments(hit = NULL, hit.type = NULL, feedback = NULL, 
+ApproveAllAssignments(hit = NULL, hit.type = NULL, annotation = NULL, 
+                      feedback = NULL, 
                       verbose = getOption('MTurkR.verbose', TRUE), ...)
 }
 \arguments{

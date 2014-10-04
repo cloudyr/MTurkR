@@ -2,7 +2,7 @@
 
 ## SIGNIFICANT USER-VISIBLE CHANGES ##
 
-* `HITStatus`, `AapproveAllAssignments`, `ChangeHITType`, `DisposeHIT`, `DisableHIT`, `ExpireHIT`, `ExtendHIT`, `GetAssignment`, `GetBonuses`, `SetHITAsReviewing` now include an optional `annotation` argument that can be used to apply the function to all HITs of a given "batch" created in the online Requester User Interface. (#51)
+* `HITStatus`, `ApproveAllAssignments`, `ChangeHITType`, `DisposeHIT`, `DisableHIT`, `ExpireHIT`, `ExtendHIT`, `GetAssignment`, `GetBonuses`, `SetHITAsReviewing` now include an optional `annotation` argument that can be used to apply the function to all HITs of a given "batch" created in the online Requester User Interface. (#51)
 * `GetFileUpload` no longer has a `file.ext` argument. Instead the file extension is taken from the uploaded file itself. The format of the filename for the downloaded file has also been clarified. (#45)
 
 ## DOCUMENTATION ##
