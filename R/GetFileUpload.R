@@ -16,17 +16,16 @@ function (assignment, questionIdentifier, download = FALSE, file.ext = NULL,
         if(is.null(request$valid))
             return(request)
         if(request$valid) {
-            url <- strsplit(strsplit(request$xml, "<FileUploadURL>")[[1]][2], "</FileUploadURL>")[[1]][1]
-            FileUploadURL[i, ] <- c(assignment[i], url, request$valid)
+            u <- strsplit(strsplit(request$xml, "<FileUploadURL>")[[1]][2], "</FileUploadURL>")[[1]][1]
+            FileUploadURL[i, ] <- c(assignment[i], u, request$valid)
             if(verbose) 
-              message("FileUploadURL for Assignment ", assignment[i], " Retrieved: ", url)
+                message("FileUploadURL for Assignment ", assignment[i], " Retrieved: ", u)
             if(open.file.in.browser) 
-              browseURL(url)
-            if(download.file) {
-                if(is.null(file.ext)) 
-                    file.ext = ""
-                download.file(url, paste(assignment, "file", file.ext, sep = ""), mode = "wb")
-            }
+                browseURL(u)
+            if(download.file)
+                download.file(u, paste(questionIdentifer, "_", 
+                                       assignment, "_", basename(u), 
+                                       sep = ""), mode = "wb")
         } else if(verbose) {
             message("Request for Assignment ", assignment[i], " failed")
         }
