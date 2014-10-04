@@ -8,11 +8,12 @@ ChangeHITType(hit = NULL, old.hit.type = NULL, new.hit.type = NULL,
               title = NULL, description = NULL, reward = NULL, duration = NULL,
               keywords = NULL,
               auto.approval.delay = NULL, qual.req = NULL, 
+              old.annotation = NULL,
               verbose = getOption('MTurkR.verbose', TRUE), ...)
 }
 \arguments{
-  \item{hit}{An optional character string containing the HITId whose HITTypeId is to be changed, or a vector of character strings containing each of multiple HITIds to be changed.}
-  \item{old.hit.type}{An optional character string containing the HITTypeId (or a vector of HITTypeIds) whose HITs are to be changed to the new HITTypeId.}
+  \item{hit}{An optional character string containing the HITId whose HITTypeId is to be changed, or a vector of character strings containing each of multiple HITIds to be changed. Must specify \code{hit} xor \code{old.hit.type} xor \code{annotation}.}
+  \item{old.hit.type}{An optional character string containing the HITTypeId (or a vector of HITTypeIds) whose HITs are to be changed to the new HITTypeId. Must specify \code{hit} xor \code{old.hit.type} xor \code{annotation}.}
   \item{new.hit.type}{An optional character string specifying the new HITTypeId that this HIT should be visibly grouped with (and whose properties, e.g. reward amount, this HIT should inherit).}
   \item{title}{An optional character string containing the title for the HITType. All HITs of this HITType will be visibly grouped to workers according to this title.}
   \item{description}{An optional character string containing a description of the HITType. This is visible to workers.}
@@ -21,6 +22,7 @@ ChangeHITType(hit = NULL, old.hit.type = NULL, new.hit.type = NULL,
   \item{keywords}{An optional character string containing a comma-separated set of keywords by which workers can search for HITs of this HITType.}
   \item{auto.approval.delay}{An optional character string specifying the amount of time, in seconds (for example, as returned by \code{\link{seconds}}), before a submitted assignment is automatically granted.}
   \item{qual.req}{An optional character string containing one a QualificationRequirement data structure, as returned by \code{\link{GenerateQualificationRequirement}}.}
+  \item{old.annotation}{An optional character string specifying the value of the \code{RequesterAnnotation} field for a batch of HITs to change the HITType of. This can be used to change the HITType for all HITs from a \dQuote{batch} created in the online Requester User Interface (RUI). To use a batch ID, the batch must be written in a character string of the form \dQuote{BatchId:78382;}, where \dQuote{73832} is the batch ID shown in the RUI. Must specify \code{hit} xor \code{old.hit.type} xor \code{annotation}.}
   \item{verbose}{Optionally print the results of the API request to the standard output. Default is taken from \code{getOption('MTurkR.verbose', TRUE)}.}
   \item{...}{Additional arguments passed to \code{\link{request}}.}
 }

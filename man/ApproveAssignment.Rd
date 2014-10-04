@@ -15,8 +15,9 @@ ApproveAllAssignments(hit = NULL, hit.type = NULL, feedback = NULL,
 }
 \arguments{
   \item{assignments}{A character string containing an AssignmentId, or a vector of multiple character strings containing multiple AssignmentIds, to approve.}
-  \item{hit}{A character string containing a HITId all of whom's assignments are to be approved.}
-  \item{hit.type}{A character string containing a HITTypeId (or a vector of HITTypeIds) all of whom's HITs' assignments are to be approved.}
+  \item{hit}{A character string containing a HITId all of whom's assignments are to be approved. Must specify \code{hit} xor \code{hit.type} xor \code{annotation}.}
+  \item{hit.type}{A character string containing a HITTypeId (or a vector of HITTypeIds) all of whose HITs' assignments are to be approved. Must specify \code{hit} xor \code{hit.type} xor \code{annotation}.}
+  \item{annotation}{An optional character string specifying the value of the \code{RequesterAnnotation} field for a batch of HITs. This can be used to approve all assignments for all HITs from a \dQuote{batch} created in the online Requester User Interface (RUI). To use a batch ID, the batch must be written in a character string of the form \dQuote{BatchId:78382;}, where \dQuote{73832} is the batch ID shown in the RUI. Must specify \code{hit} xor \code{hit.type} xor \code{annotation}.}
   \item{feedback}{An optional character string containing any feedback for a worker. This must have length 1 or length equal to the number of workers. Maximum of 1024 characters. For \code{ApproveAllAssignments}, must be length 1.}
   \item{rejected}{A logical indicating whether the assignment(s) had previously been rejected (default \code{FALSE}). Approval of previously rejected assignments must be conducted separately from other approvals.}
   \item{verbose}{Optionally print the results of the API request to the standard output. Default is taken from \code{getOption('MTurkR.verbose', TRUE)}.}
@@ -40,15 +41,21 @@ Approve assignments, by AssignmentId (as returned by \code{\link{GetAssignment}}
 }
 \examples{
 \dontrun{
-a <- ApproveAssignment(assignments = "26XXH0JPPSI23H54YVG7BKLEXAMPLE")
+# Approve one assignment
+ApproveAssignment(assignments = "26XXH0JPPSI23H54YVG7BKLEXAMPLE")
 
-b <- ApproveAssignment(
-assignments = c("26XXH0JPPSI23H54YVG7BKLEXAMPLE1","26XXH0JPPSI23H54YVG7BKLEXAMPLE2"),
-feedback = "Great work!")
+# Approve multiple assignments with the same feedback
+ApproveAssignment(assignments = c("26XXH0JPPSI23H54YVG7BKLEXAMPLE1",
+                                  "26XXH0JPPSI23H54YVG7BKLEXAMPLE2"),
+                  feedback = "Great work!")
 
-c <- ApproveAllAssignments(hit = "2MQB727M0IGF304GJ16S1F4VE3AYDQ")
 
-d <- ApproveAllAssignments(hit.type = "2FFNCWYB49F9BBJWA4SJUNST5OFSOW")
+# Approve all assignments for a given HIT
+ApproveAllAssignments(hit = "2MQB727M0IGF304GJ16S1F4VE3AYDQ")
+# Approve all assignments for a given HITType
+ApproveAllAssignments(hit.type = "2FFNCWYB49F9BBJWA4SJUNST5OFSOW")
+# Approve all assignments for a given batch from the RUI
+ApproveAllAssignments(annotation="BatchId:78382;")
 }
 }
 \keyword{Assignments}

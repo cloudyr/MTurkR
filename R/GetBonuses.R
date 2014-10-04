@@ -1,15 +1,16 @@
 GetBonuses <-
 bonuses <-
-function (assignment = NULL, hit = NULL, hit.type = NULL, return.all = TRUE, 
-    pagenumber = "1", pagesize = "100", verbose = getOption('MTurkR.verbose', TRUE), ...) {
+function(assignment = NULL, 
+         hit = NULL, 
+         hit.type = NULL, 
+         annotation = NULL,
+         return.all = TRUE, 
+         pagenumber = "1", pagesize = "100", 
+         verbose = getOption('MTurkR.verbose', TRUE), ...) {
     # temporary check for `print` argument (remove after v1.0)
     if('print' %in% names(list(...)) && is.null(verbose))
         verbose <- list(...)$print
     operation <- "GetBonusPayments"
-    if(is.null(hit) & is.null(hit.type) & is.null(assignment)) 
-        stop("Specify HITId xor AssignmentId xor HITType")
-    else if(!is.null(hit) & !is.null(hit.type) & !is.null(assignment)) 
-        stop("Specify HITId xor AssignmentId xor HITType")
     if(as.numeric(pagesize) < 1 || as.numeric(pagesize) > 100) 
         stop("'pagesize' must be in range (1,100)")
     if(as.numeric(pagenumber) < 1) 
@@ -27,8 +28,10 @@ function (assignment = NULL, hit = NULL, hit.type = NULL, return.all = TRUE,
         out <- request(operation, GETparameters = GETparameters, ...)
         return(out)
     }
-    
-    if(!is.null(hit) || !is.null(assignment)){
+    if((is.null(hit) & is.null(hit.type) & is.null(annotation) & is.null(assignment)) | 
+       (!is.null(hit) & !is.null(hit.type) & !is.null(annotation) & !is.null(assignment))) {
+        stop("Must provide 'assignment' xor 'hit' xor 'hit.type' xor 'annotation'")
+    } else if(!is.null(hit) || !is.null(assignment)){
         if(!is.null(hit)){
             obj <- hit
             type <- 'hit'
@@ -71,9 +74,18 @@ function (assignment = NULL, hit = NULL, hit.type = NULL, return.all = TRUE,
             warning("Invalid Request")
             return(request)
         }
-    } else if(!is.null(hit.type)) {
-        hitsearch <- SearchHITs(verbose = FALSE, return.qual.dataframe = FALSE, ...)
-        hitlist <- hitsearch$HITs$HITId[hitsearch$HITs$HITTypeId %in% hit.type]
+    } else if(!is.null(hit.type) | !is.null(annotation)) {
+        if(!is.null(hit.type)){
+            if(is.factor(hit.type))
+                hit.type <- as.character(hit.type)
+            hitsearch <- SearchHITs(verbose = FALSE, return.qual.dataframe = FALSE, ...)
+            hitlist <- hitsearch$HITs$HITId[hitsearch$HITs$HITTypeId %in% hit.type]
+        } else if(!is.null(annotation)){
+            if(is.factor(annotation))
+                annotation <- as.character(annotation)
+            hitsearch <- SearchHITs(verbose = FALSE, return.qual.dataframe = FALSE, ...)
+            hitlist <- hitsearch$HITs$HITId[hitsearch$HITs$RequesterAnnotation %in% annotation]
+        }
         if(length(hitlist) == 0) 
             stop("No HITs found for HITType")
         Bonuses <- list()

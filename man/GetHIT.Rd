@@ -11,11 +11,13 @@ GetHIT(hit, response.group = NULL,
        return.hit.dataframe = TRUE, return.qual.dataframe = TRUE,
        verbose = getOption('MTurkR.verbose', TRUE), ...)
 
-HITStatus(hit = NULL, hit.type = NULL, verbose = getOption('MTurkR.verbose', TRUE), ...)
+HITStatus(hit = NULL, hit.type = NULL, annotation = NULL,
+          verbose = getOption('MTurkR.verbose', TRUE), ...)
 }
 \arguments{
-  \item{hit}{An optional character string specifying the HITId of the HIT to be retrieved. Must specify \code{hit} xor \code{hit.type}.}
-  \item{hit.type}{An optional character string specifying the HITTypeId (or a vector of HITTypeIds) of the HIT(s) to be retrieved. Must specify \code{hit} xor \code{hit.type}, otherwise all HITs are returned in \code{HITStatus}.}
+  \item{hit}{An optional character string specifying the HITId of the HIT to be retrieved. Must specify \code{hit} xor \code{hit.type} xor \code{annotation}.}
+  \item{hit.type}{An optional character string specifying the HITTypeId (or a vector of HITTypeIds) of the HIT(s) to be retrieved. Must specify \code{hit} xor \code{hit.type} xor \code{annotation}, otherwise all HITs are returned in \code{HITStatus}.}
+  \item{annotation}{An optional character string specifying the value of the \code{RequesterAnnotation} field for a batch of HITs. This can be used to retrieve all HITs from a \dQuote{batch} created in the online Requester User Interface (RUI). To use a batch ID, the batch must be written in a character string of the form \dQuote{BatchId:78382;}, where \dQuote{73832} is the batch ID shown in the RUI. Must specify \code{hit} xor \code{hit.type} xor \code{annotation}, otherwise all HITs are returned in \code{HITStatus}.}
   \item{response.group}{An optional character string (or vector of character strings) specifying what details of each HIT to return of: \dQuote{Request}, \dQuote{Minimal}, \dQuote{HITDetail}, \dQuote{HITQuestion}, \dQuote{HITAssignmentSummary}. For more information, see \url{http://docs.aws.amazon.com/AWSMechTurk/latest/AWSMturkAPI/ApiReference_CommonParametersArticle.html}.}
   \item{return.hit.dataframe}{A logical indicating whether the dataframe of HITs should be returned. Default is \code{TRUE}.}
   \item{return.qual.dataframe}{A logical indicating whether the list of each HIT's QualificationRequirements (stored as dataframes in that list) should be returned. Default is \code{TRUE}.}
@@ -60,6 +62,10 @@ HITStatus(hit1$HITId)
 
 # cleanup
 DisableHIT(hit1$HITId)
+}
+\dontrun{
+# Get the status of all HITs from a given batch from the RUI
+HITStatus(annotation="BatchId:78382;")
 }
 }
 \keyword{HITs}

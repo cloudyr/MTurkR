@@ -2,11 +2,16 @@ assignment <-
 assignments <-
 GetAssignment <-
 GetAssignments <-
-function (assignment = NULL, hit = NULL, hit.type = NULL, status = NULL, 
-    return.all = FALSE, pagenumber = "1", pagesize = "10", sortproperty = "SubmitTime", 
-    sortdirection = "Ascending", response.group = NULL,
-    return.assignment.dataframe = TRUE,
-    verbose = getOption('MTurkR.verbose', TRUE), ...) {
+function(assignment = NULL, 
+         hit = NULL, 
+         hit.type = NULL, 
+         annotation = NULL,
+         status = NULL, 
+         return.all = FALSE, pagenumber = "1", pagesize = "10", 
+         sortproperty = "SubmitTime", sortdirection = "Ascending", 
+         response.group = NULL,
+         return.assignment.dataframe = TRUE,
+         verbose = getOption('MTurkR.verbose', TRUE), ...) {
     # temporary check for `print` argument (remove after v1.0)
     if('print' %in% names(list(...)) && is.null(verbose))
         verbose <- list(...)$print
@@ -37,7 +42,10 @@ function (assignment = NULL, hit = NULL, hit.type = NULL, status = NULL,
             }
         }
     }
-    if (!is.null(assignment)) {
+    if((is.null(assignment) & is.null(hit) & is.null(hit.type) & is.null(annotation)) | 
+       (!is.null(assignment) & !is.null(hit) & !is.null(hit.type) & !is.null(annotation))) {
+        stop("Must provide 'assignment' xor 'hit' xor 'hit.type' xor 'annotation'")
+    } else if (!is.null(assignment)) {
         operation <- "GetAssignment"
         for(i in 1:length(assignment)) {
             GETparameters <- paste("&AssignmentId=", assignment[i], GETresponsegroup, sep = "")
@@ -60,9 +68,7 @@ function (assignment = NULL, hit = NULL, hit.type = NULL, status = NULL,
             #QualificationRequirements = QualificationRequirements))
     } else {
         operation <- "GetAssignmentsForHIT"
-        if((is.null(hit) & is.null(hit.type)) | (!is.null(hit) & !is.null(hit.type))) 
-            stop("Must provide 'assignment' xor 'hit' xor 'hit.type'")
-        else if(!is.null(hit)){
+        if(!is.null(hit)){
             if(is.factor(hit))
                 hit <- as.character(hit)
             hitlist <- hit
@@ -72,9 +78,14 @@ function (assignment = NULL, hit = NULL, hit.type = NULL, status = NULL,
             hitsearch <- SearchHITs(verbose = FALSE, 
                                     return.qual.dataframe = FALSE, ...)
             hitlist <- hitsearch$HITs$HITId[hitsearch$HITs$HITTypeId %in% hit.type]
-            if(length(hitlist) == 0)
-                stop("No HITs found for HITType")
+        } else if(!is.null(annotation)) {
+            if(is.factor(annotation))
+                annotation <- as.character(annotation)
+            hitsearch <- SearchHITs(verbose = FALSE, return.qual.dataframe = FALSE, ...)
+            hitlist <- hitsearch$HITs$HITId[hitsearch$HITs$RequesterAnnotation %in% annotation]
         }
+        if(length(hitlist) == 0)
+            stop("No HITs found for HITType")
         if(return.all == TRUE | length(hitlist)>1) {
             sortproperty <- "SubmitTime"
             sortdirection <- "Ascending"

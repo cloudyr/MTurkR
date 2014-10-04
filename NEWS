@@ -1,6 +1,15 @@
 # CHANGES TO MTurkR 0.6 #
 
+## SIGNIFICANT USER-VISIBLE CHANGES ##
+
+* `HITStatus`, `AapproveAllAssignments`, `ChangeHITType`, `DisposeHIT`, `DisableHIT`, `ExpireHIT`, `ExtendHIT`, `GetAssignment`, `GetBonuses`, `SetHITAsReviewing` now include an optional `annotation` argument that can be used to apply the function to all HITs of a given "batch" created in the online Requester User Interface. (#51)
+
+## DOCUMENTATION ##
+
+* The MTurkR wiki (https://github.com/leeper/MTurkR/wiki) includes numerous updated code examples, including full documentation for both `wizard.simple` and `mturkr.wizard`, the MTurkR interactive interfaces.
+
 ## BUG FIXES ##
+* Fixed a bug in `SearchHITs` that was not passing `...` arguments ot `GetQualificationType`
 * Fixed a small bug in the batch (pagination) of `SearchQualificationTypes`.
 * Functions for QualificationTypes now return a data.frame containing character variables rather than factor variables, as this could cause unintended coercion when using `GenerateQualifiationType`. (h/t Haotian Zhou)
 * Corrected several related bugs (API version number, LocaleValue specification) that prevented the "In" comparator in a QualificationRequirement from working with multiple LocaleValues in API version 2013-11-15. (#50, h/t Haotian Zhou)

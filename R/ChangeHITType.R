@@ -3,13 +3,15 @@ changehittype <-
 function (hit = NULL, old.hit.type = NULL, new.hit.type = NULL, 
     title = NULL, description = NULL, reward = NULL, duration = NULL, 
     keywords = NULL, auto.approval.delay = NULL, qual.req = NULL, 
+    old.annotation = NULL,
     verbose = getOption('MTurkR.verbose', TRUE), ...) {
     # temporary check for `print` argument (remove after v1.0)
     if('print' %in% names(list(...)) && is.null(verbose))
         verbose <- list(...)$print
     operation <- "ChangeHITTypeOfHIT"
-    if((is.null(hit) & is.null(old.hit.type)) | (!is.null(hit) & !is.null(old.hit.type))) 
-        stop("Must provide 'hit' xor 'old.hit.type'")
+    if((is.null(hit) & is.null(old.hit.type) & is.null(old.annotation)) | 
+       (!is.null(hit) & !is.null(old.hit.type) & !is.null(old.annotation))) 
+        stop("Must provide 'hit' xor 'old.hit.type' xor 'old.annotation'")
     if(is.factor(hit))
         hit <- as.character(hit)
     if(!is.null(new.hit.type)) {
@@ -32,16 +34,21 @@ function (hit = NULL, old.hit.type = NULL, new.hit.type = NULL,
                 new.hit.type <- register$HITTypeId
         }
     }
-    if(!is.null(hit))
+    if(!is.null(hit)) {
         hitlist <- hit
-    else if(!is.null(old.hit.type)) {
+    } else if(!is.null(old.hit.type)) {
         if(is.factor(old.hit.type))
             old.hit.type <- as.character(old.hit.type)
         hitsearch <- SearchHITs(verbose = FALSE, return.qual.dataframe = FALSE, ...)
         hitlist <- hitsearch$HITs$HITId[hitsearch$HITs$HITTypeId %in% old.hit.type]
-        if(length(hitlist) == 0) 
-            stop("No HITs found for HITType")
-    }
+    } else if (!is.null(old.annotation)) {
+        if(is.factor(old.annotation))
+            old.annotation <- as.character(old.annotation)
+        hitsearch <- SearchHITs(verbose = FALSE, return.qual.dataframe = FALSE, ...)
+        hitlist <- hitsearch$HITs$HITId[hitsearch$HITs$RequesterAnnotation %in% old.annotation]
+    } 
+    if(length(hitlist) == 0) 
+        stop("No HITs found for HITType")
     HITs <- setNames(data.frame(matrix(ncol = 4, nrow=length(hitlist))),
                 c("HITId", "oldHITTypeId", "newHITTypeId", "Valid"))
     for(i in 1:length(hitlist)) {

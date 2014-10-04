@@ -1,10 +1,16 @@
 HITStatus <-
 status <-
-function (hit = NULL, hit.type = NULL, verbose = getOption('MTurkR.verbose', TRUE), ...){
+function (hit = NULL, 
+          hit.type = NULL, 
+          annotation = NULL,
+          verbose = getOption('MTurkR.verbose', TRUE), 
+          ...){
     # temporary check for `print` argument (remove after v1.0)
     if('print' %in% names(list(...)) && is.null(verbose))
         verbose <- list(...)$print
-    hitsearch <- SearchHITs(verbose = TRUE, return.qual.dataframe = FALSE, ...)
+    hitsearch <- SearchHITs(verbose = TRUE, 
+                            return.all = TRUE,
+                            return.qual.dataframe = FALSE, ...)
     HITs <- hitsearch$HITs
     if(is.null(HITs))
         return(HITs) # return if NULL
@@ -23,6 +29,10 @@ function (hit = NULL, hit.type = NULL, verbose = getOption('MTurkR.verbose', TRU
             if(is.factor(hit.type))
                 hit <- as.character(hit.type)
             HITs <- HITs[HITs$HITTypeId %in% hit.type, ]
+        } else if(!is.null(annotation)){
+            if(is.factor(annotation))
+                hit <- as.character(annotation)
+            HITs <- HITs[HITs$RequesterAnnotation %in% annotation, ]
         }
         if(dim(HITs)[1] == 0) {
             message("No HITs found!")
