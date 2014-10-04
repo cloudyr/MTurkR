@@ -104,7 +104,7 @@ function (response.group = NULL, return.all = TRUE, pagenumber = "1",
             if(length(allQuals)>0){
                 allNames <- character(length=length(allQuals))
                 for(i in 1:length(allQuals))
-                    allNames[i] <- GetQualificationType(allQuals[i], verbose = verbose, sandbox = sandbox)$Name
+                    allNames[i] <- GetQualificationType(allQuals[i], verbose = verbose, ...)$Name
                 for(i in 1:nrow(tmpdf)){
                     if(is.na(tmpdf$Name[i]))
                         tmpdf$Name[i] <- allNames[allQuals==tmpdf$QualificationTypeId[i]]
