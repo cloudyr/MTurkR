@@ -32,8 +32,7 @@ request(operation, GETparameters = NULL,
   \item{request.id}{The Request ID created by the API request.}
   \item{request.url}{The URL of the MTurk API REST request.}
   \item{valid}{A logical indicating whether or not the request was valid and thus executed as intended.}
-  \item{xml}{A character string containing the XML API response.}
-  
+  \item{xml}{A character string containing the XML API response.}  
 }
 \references{
 \href{http://docs.amazonwebservices.com/AWSMechTurk/latest/AWSMechanicalTurkRequester/MakingRequestsArticle.html}{API Reference}

@@ -18,7 +18,7 @@ Test a Notification configuration. The test mimics whatever the Notification con
 
 \code{notificationtest} is an alias.
 }
-\value{Potentially either an email sent to the email address specified in the \code{notification} parameter, or an AWS Simple Queue Service event. Otherwise, nothing.}
+\value{A dataframe containing the notification, the event type, and details on whether the request was valid.}
 \references{
 \href{http://docs.amazonwebservices.com/AWSMechTurk/latest/AWSMturkAPI/ApiReference_SendTestEventNotificationOperation.html}{API Reference}
 }

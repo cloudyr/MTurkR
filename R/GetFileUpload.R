@@ -6,8 +6,8 @@ function (assignment, questionIdentifier, download = FALSE, file.ext = NULL,
     if('print' %in% names(list(...)) && is.null(verbose))
         verbose <- list(...)$print
     operation <- "GetFileUploadURL"
-    FileUploadURL <- setNames(data.frame(matrix(nrow = length(assignment), ncol = 3)),
-                        c("Assignment", "RequestURL", "Valid"))
+    FileUploadURL <- setNames(data.frame(matrix(nrow = length(assignment), ncol = 4)),
+                        c("Assignment", "questionIdenfier", "RequestURL", "Valid"))
     for(i in 1:length(assignment)) {
         GETparameters <- paste("&AssignmentId=", curlEscape(assignment), 
                                "&QuestionIdentifier=", curlEscape(questionIdentifier), 
@@ -17,7 +17,7 @@ function (assignment, questionIdentifier, download = FALSE, file.ext = NULL,
             return(request)
         if(request$valid) {
             u <- strsplit(strsplit(request$xml, "<FileUploadURL>")[[1]][2], "</FileUploadURL>")[[1]][1]
-            FileUploadURL[i, ] <- c(assignment[i], u, request$valid)
+            FileUploadURL[i, ] <- c(assignment[i], questionIdentifier, u, request$valid)
             if(verbose) 
                 message("FileUploadURL for Assignment ", assignment[i], " Retrieved: ", u)
             if(open.file.in.browser) 

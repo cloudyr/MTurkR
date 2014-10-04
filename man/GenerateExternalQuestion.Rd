@@ -13,7 +13,7 @@ GenerateExternalQuestion(url, frame.height)
 
 Note: \code{url} must be HTTPS. See \href{http://en.wikipedia.org/wiki/HTTP_Secure}{Wikipedia:HTTP Secure} for details.
 }
-\value{A character string containing a URL query parameter-formatted ExternalQuestion data structure.}
+\value{A list containing \code{xml.parsed}, an XML data structure, \code{string}, xml formatted as a character string, and \code{url.encoded}, character string containing a URL query parameter-formatted HTMLQuestion data structure for use in the \code{question} parameter of \code{\link{CreateHIT}}.}
 \references{
 \href{http://docs.amazonwebservices.com/AWSMechTurk/latest/AWSMturkAPI/ApiReference_ExternalQuestionArticle.html}{API Reference}
 }
@@ -26,7 +26,19 @@ Note: \code{url} must be HTTPS. See \href{http://en.wikipedia.org/wiki/HTTP_Secu
 }
 \examples{
 \dontrun{
-GenerateExternalQuestion(url="http://www.example.com/", frame.height="400")
+a <- GenerateExternalQuestion(url="http://www.example.com/", frame.height="400")
+
+hit1 <- 
+CreateHIT(title = "Survey",
+          description = "5 question survey",
+          reward = ".10",
+          expiration = seconds(days = 4),
+          duration = seconds(hours = 1),
+          keywords = "survey, questionnaire",
+          question = a$string)
+
+ExpireHIT(hit1$HITId)
+DisposeHIT(hit1$HITId)
 }
 }
 \keyword{HITs}

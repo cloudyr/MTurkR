@@ -13,11 +13,11 @@ GenerateHITsFromTemplate(template, input, filenames = NULL, write.files = FALSE)
   \item{write.files}{A logical specifying whether HIT .html files should be created and stored in the working directory. Or, alternatively, whether HITs should be returned as character vectors in a list.}
 }
 \details{
-Generate HITs from a HIT template (containing placeholders for input data of the form \code{\$\{variablename\}}). The tool provides functionality analogous to the MTurk RUI HIT template and can be performed on .html files generated therein.
+Generate HITs from a HIT template (containing placeholders for input data of the form \code{\$\{variablename\}}). The tool provides functionality analogous to the MTurk RUI HIT template and can be performed on .html files generated therein. The HITs are returned as a list of character strings. If \code{write.files = TRUE}, a side effect occurs in the form of one or more .html files being written to the working directory, with filenames specified by the \code{filenames} option or, if \code{filenames=NULL} of the form \dQuote{NewHIT1.html}, \dQuote{NewHIT2.html}, etc.
 
 \code{hitsfromtemplate()} is an alias.
 }
-\value{If \code{write.files=FALSE}, a list containing a character string for each HIT generated from the template. Otherwise, one or more HITs in the form of .html files stored in the working directory, with filenames specified by the \code{filenames} option or, if \code{filenames=NULL} of the form \dQuote{NewHIT1.html}, \dQuote{NewHIT2.html}, etc.}
+\value{A list containing a character string for each HIT generated from the template.}
 \references{
 \href{http://docs.amazonwebservices.com/AWSMechTurk/latest/RequesterUI/CreatingaHITTemplate.html}{API Reference: Operation}
 

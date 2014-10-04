@@ -23,7 +23,7 @@ RegisterHITType(title, description, reward, duration, keywords = NULL,
 
 \code{hittype()} is an alias.
 }
-\value{A character string containing the HITTypeId of the newly registered HITType.}
+\value{A two-column dataframe containing the HITTypeId of the newly registered HITType and an indicator for whether the registration request was valid.}
 \references{
 \href{http://docs.amazonwebservices.com/AWSMechTurk/latest/AWSMturkAPI/ApiReference_RegisterHITTypeOperation.html}{API Reference: Operation}
 

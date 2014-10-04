@@ -23,7 +23,7 @@ If downloaded, files are saved in the local directory with names of the form \dQ
 
 \code{geturls()} is an alias.
 }
-\value{Depending on the specification, either a character string containing a temporary URL (which lasts 60 seconds) where the uploaded file can be downloaded, or the files themselves are opened in the user's default web browser, or directly downloaded and saved to the working directory.}
+\value{A dataframe containing the AssignmentId, questionIdenifier, temporary file URL, and an indicator of whether each request was valid.}
 \references{
 \href{http://docs.amazonwebservices.com/AWSMechTurk/latest/AWSMturkAPI/ApiReference_GetFileUploadURLOperation.html}{API Reference}
 }

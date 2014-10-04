@@ -71,5 +71,5 @@ function (hit.type = NULL, status = NULL, response.group = "Minimal",
     request$batch.total <- NULL
     if(verbose) 
         message(request$total, " HITs Retrieved")
-    return(data.frame(HITId = request$HITs))
+    return(data.frame(HITId = request$HITs, stringsAsFactors = FALSE))
 }

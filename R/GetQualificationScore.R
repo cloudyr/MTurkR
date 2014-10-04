@@ -14,8 +14,9 @@ function (qual, workers, verbose = getOption('MTurkR.verbose', TRUE), ...) {
     if(is.factor(workers))
         workers <- as.character(workers)
     Qualifications <- 
-        setNames(data.frame(matrix(nrow = length(workers), ncol = 5)),
-                 c("QualificationTypeId", "WorkerId", "GrantTime", "Value", "Status"))
+        setNames(data.frame(matrix(nrow = length(workers), ncol = 6)),
+                 c("QualificationTypeId", "WorkerId", "GrantTime",
+                   "Value", "Status", "Valid"))
     for(i in 1:length(workers)) {
         GETparameters <- paste("&QualificationTypeId=", qual[i], 
             "&SubjectId=", workers[i], sep = "")
@@ -25,6 +26,7 @@ function (qual, workers, verbose = getOption('MTurkR.verbose', TRUE), ...) {
         if(request$valid) {
             x <- as.data.frame.Qualifications(xml.parsed = xmlParse(request$xml))
             x$WorkerId <- workers[i]
+            x$Valid <- TRUE
             Qualifications[i,] <- x
             if(verbose) {
                 message("Qualification (", qual[i], ") Score for ", 
@@ -36,10 +38,12 @@ function (qual, workers, verbose = getOption('MTurkR.verbose', TRUE), ...) {
                   WorkerId = workers[i],
                   GrantTime = NA,
                   Value = NA,
-                  Status = NA)
+                  Status = NA,
+                  Valid = FALSE)
             if(verbose)
                 warning("Invalid Request for worker ", workers[i])
         }
     }
+    Qualifications$Valid <- factor(Qualifications$Valid, levels=c('TRUE','FALSE'))
     return(Qualifications)
 }

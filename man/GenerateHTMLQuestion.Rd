@@ -26,7 +26,19 @@ GenerateHTMLQuestion(character = NULL, file = NULL, frame.height = 450)
 }
 \examples{
 \dontrun{
-GenerateHTMLQuestion(file="mynewhit.html")
+a <- GenerateHTMLQuestion(file="mynewhit.html")
+
+hit1 <- 
+CreateHIT(title = "Survey",
+          description = "5 question survey",
+          reward = ".10",
+          expiration = seconds(days = 4),
+          duration = seconds(hours = 1),
+          keywords = "survey, questionnaire",
+          question = a$string)
+
+ExpireHIT(hit1$HITId)
+DisposeHIT(hit1$HITId)
 }
 }
 \keyword{HITs}

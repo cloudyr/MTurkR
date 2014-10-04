@@ -46,7 +46,7 @@ When creating a ExternalQuestion HITs, the \code{\link{GenerateHITsFromTemplate}
 
 \code{createhit()} and \code{create()} are aliases.
 }
-\value{A dataframe containing the HITId of the newly created HIT and other details as requested by the \code{ResponseGroup} option.}
+\value{A dataframe containing the HITId and other details of the newly created HIT.}
 \references{
 \href{http://docs.amazonwebservices.com/AWSMechTurk/latest/AWSMturkAPI/ApiReference_CreateHITOperation.html}{API Reference}
 }

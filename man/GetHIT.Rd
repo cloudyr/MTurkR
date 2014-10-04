@@ -29,7 +29,7 @@ HITStatus(hit = NULL, hit.type = NULL, annotation = NULL,
 
 \code{gethit()} and \code{hit()} are aliases for \code{GetHIT}. \code{status()} is an alias for \code{HITStatus}.
 }
-\value{Optionally a dataframe containing the HITs and a list of each HIT's QualificationRequirements (stored as dataframes in that list in the order that HITs were retrieved.). The exact characteristics of each HIT returned depend upon the \code{response.group} parameter.}
+\value{Optionally a one- or two-element list containing a dataframe of HIT details and, optionally, a list of each HIT's QualificationRequirements (stored as dataframes in that list in the order that HITs were retrieved.).}
 \references{
 \href{http://docs.amazonwebservices.com/AWSMechTurk/latest/AWSMturkAPI/ApiReference_GetHITOperation.html}{API Reference}
 }
