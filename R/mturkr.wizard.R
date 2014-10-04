@@ -3678,14 +3678,19 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
         tkadd(topMenu, "cascade", label = "Qualifications", menu = qualifications, underline = 0)
         helpmenu <- tkmenu(topMenu, tearoff = FALSE)
             # help menu
+            tkadd(helpmenu, "command", label = "MTurkR Wizard Documentation", command = function()
+                browseURL("https://github.com/leeper/MTurkR/wiki/Wizard-Graphical") )
+            tkadd(helpmenu, "command", label = "MTurkR Wiki", command = function()
+                browseURL("https://github.com/leeper/MTurkR/wiki") )
+            tkadd(helpmenu, "command", label = "MTurkR Code Demos", command = function(){
+                tkmessageBox(message="Coming soon!", type="ok")
+            })
+            tkadd(helpmenu, "separator")
             tkadd(helpmenu, "command", label = "MTurk Worker Site", command = function() browseURL("http://www.mturk.com") )
             tkadd(helpmenu, "command", label = "MTurk Requester Site", command = function() browseURL("http://requester.mturk.com") )
             tkadd(helpmenu, "command", label = "Package Website", command = function() browseURL("http://cran.r-project.org/web/packages/MTurkR/") )
             tkadd(helpmenu, "command", label = "MTurkR Documentation", command = function()
                 browseURL("http://cran.r-project.org/web/packages/MTurkR/MTurkR.pdf") )
-            tkadd(helpmenu, "command", label = "MTurkR Code Demos", command = function(){
-                tkmessageBox(message="Coming soon!", type="ok")
-            })
             tkadd(helpmenu, "separator")
             tkadd(helpmenu, "command", label = "About", command =  function() {
                 aboutbox <- tktoplevel()
