@@ -1,7 +1,10 @@
 GetFileUpload <-
 geturls <-
-function (assignment, questionIdentifier, download = FALSE, file.ext = NULL, 
-    open.file.in.browser = FALSE, verbose = getOption('MTurkR.verbose', TRUE), ...) {
+function(assignment, 
+         questionIdentifier, 
+         download = FALSE, 
+         open.file.in.browser = FALSE, 
+         verbose = getOption('MTurkR.verbose', TRUE), ...) {
     # temporary check for `print` argument (remove after v1.0)
     if('print' %in% names(list(...)) && is.null(verbose))
         verbose <- list(...)$print
@@ -23,7 +26,7 @@ function (assignment, questionIdentifier, download = FALSE, file.ext = NULL,
             if(open.file.in.browser) 
                 browseURL(u)
             if(download.file)
-                download.file(u, paste(questionIdentifer, "_", 
+                download.file(u, paste(questionIdentifier, "_", 
                                        assignment, "_", basename(u), 
                                        sep = ""), mode = "wb")
         } else if(verbose) {

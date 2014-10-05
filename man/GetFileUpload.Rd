@@ -4,7 +4,8 @@
 \title{Get Files Uploaded by Workers}
 \description{Get the URL for a file uploaded by a worker as part of a HIT, or download the file(s) directly to the working directory.}
 \usage{
-GetFileUpload(assignment, questionIdentifier, download = FALSE, open.file.in.browser = FALSE, 
+GetFileUpload(assignment, questionIdentifier, download = FALSE, 
+              open.file.in.browser = FALSE, 
               verbose = getOption('MTurkR.verbose', TRUE), 
               ...)
 }
