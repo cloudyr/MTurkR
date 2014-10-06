@@ -1,91 +1,110 @@
-GenerateReviewPolicy <-
-function (hitpolicy = NULL, assignpolicy = NULL) {
-    if(!is.null(hitpolicy)) {
-        hitpolicyname <- "SimplePlurality/2011-09-01"
-        hitreviewpolicy <- newXMLNode("HITReviewPolicy")
-        HITPolicyName <- newXMLNode("PolicyName", hitpolicyname, 
-            parent = hitreviewpolicy)
-        addChildren(hitreviewpolicy, HITPolicyName)
-        for(i in 1:length(hitpolicy)) {
-            newnode <- newXMLNode("Parameter", parent = hitreviewpolicy)
-            if(!names(hitpolicy)[i] %in% c("QuestionIds", "QuestionAgreementThreshold", 
-                "DisregardAssignmentIfRejected", "DisregardAssignmentIfKnownAnswerScoreIsLessThan", 
-                "ExtendIfHITAgreementScoreIsLessThan", "ExtendMaximumAssignments", 
-                "ExtendMinimumTimeInSeconds", "ApproveIfWorkerAgreementScoreIsAtLeast", 
-                "RejectIfWorkerAgreementScoreIsLessThan", "RejectReason")) 
-                stop("Inappropriate HIT ReviewPolicy Parameter hitpolicy[[", i, "]]")
-            if(names(hitpolicy)[i] == "QuestionIds") {
-                if(length(hitpolicy[[i]]) > 15) 
-                  stop("Max number of 'QuestionIds' is 15")
-                newsubnode1 <- newXMLNode("Key", "QuestionIDs", 
-                  parent = newnode)
-                addChildren(newnode, newsubnode1)
-                for(j in 1:length(hitpolicy[[i]])) {
-                  valuenode <- newXMLNode("Value", hitpolicy[[i]][j], 
-                    parent = newnode)
-                  addChildren(newnode, valuenode)
-                }
-            }
-            else {
-                newsubnode1 <- newXMLNode("Key", names(hitpolicy)[i], 
-                    parent = newnode)
-                newsubnode2 <- newXMLNode("Value", hitpolicy[[i]], 
-                    parent = newnode)
-            }
-        }
-        addChildren(hitreviewpolicy, newnode)
-        hitstring <- toString.XMLNode(hitreviewpolicy)
-        hitencoded <- curlEscape(hitstring)
+GenerateHITReviewPolicy <-
+function(...) {
+    l <- list(...)
+    h <- list()
+    
+    if(("ExtendIfHITAgreementScoreIsLessThan" %in% names(l)) &&
+       ((!"ExtendMaximumAssignments" %in% names(l)) | 
+        (!"ExtendMinimumTimeInSeconds" %in% names(l)) ) )
+        stop(paste0("ExtendMaximumAssignments and ExtendMinimumTimeInSeconds required",
+             " if using ExtendIfHITAgreementScoreIsLessThan"))
+    if("ExtendIfHITAgreementScoreIsLessThan" %in% names(l) &&
+       (as.numeric(l$ExtendIfHITAgreementScoreIsLessThan) > 100 | 
+        as.numeric(l$ExtendIfHITAgreementScoreIsLessThan) < 1)) {
+        stop("ExtendIfHITAgreementScoreIsLessThan must be between 0 and 100")
     }
-    if(!is.null(assignpolicy)) {
-        assignpolicyname <- "ScoreMyKnownAnswers/2011-09-01"
-        assignreviewpolicy <- newXMLNode("AssignmentReviewPolicy")
-        AssignPolicyName <- newXMLNode("PolicyName", assignpolicyname, 
-            parent = assignreviewpolicy)
-        addChildren(assignreviewpolicy, AssignPolicyName)
-        for(i in 1:length(assignpolicy)) {
-            newnode <- newXMLNode("Parameter", parent = assignreviewpolicy)
-            if(!names(assignpolicy)[i] %in% c("AnswerKey", "ApproveIfKnownAnswerScoreIsAtLeast", 
-                "ApproveReason", "RejectIfKnownAnswerScoreIsLessThan", 
-                "RejectReason", "ExtendIfKnownAnswerScoreIsLessThan", 
-                "ExtendMaximumAssignments", "ExtendMinimumTimeInSeconds")) 
-                stop("Inappropriate Assignment ReviewPolicy Parameter for assignpolicy[[", i, "]]")
-            if(names(assignpolicy)[i] == "AnswerKey") {
-                newsubnode1 <- newXMLNode("Key", "AnswerKey", parent = newnode)
-                addChildren(newnode, newsubnode1)
-                for(j in 1:length(assignpolicy[[i]])) {
-                    newsubnode2 <- newXMLNode("MapEntry", parent = newnode)
-                    newsubnode2a <- newXMLNode("Key", assignpolicy[[i]][[j]]$Key, 
-                        parent = newsubnode2)
-                    newsubnode2b <- newXMLNode("Value", assignpolicy[[i]][[j]]$Value, 
-                        parent = newsubnode2)
-                    addChildren(newsubnode2, c(newsubnode2a, newsubnode2b))
-                    addChildren(newnode, c(newsubnode2))
-                }
-            }
-            else {
-                newsubnode1 <- newXMLNode("Key", names(assignpolicy)[i], 
-                    parent = newnode)
-                newsubnode2 <- newXMLNode("Value", assignpolicy[[i]], 
-                    parent = newnode)
-                addChildren(newnode, c(newsubnode1, newsubnode2))
-            }
-            addChildren(assignreviewpolicy, newnode)
-        }
-        assignstring <- toString.XMLNode(assignreviewpolicy)
-        assignencoded <- curlEscape(assignstring)
+    # if("ExtendMaximumAssignments" %in% names(l) &&
+       # (as.numeric(l$ExtendMaximumAssignments) > 25 | 
+        # as.numeric(l$ExtendMaximumAssignments) < 2)) {
+        # stop("ExtendMaximumAssignments must be between 2 and 25")
+    # }
+    if("ExtendMinimumTimeInSeconds" %in% names(l) &&
+       (as.numeric(l$ExtendMinimumTimeInSeconds) > 31536000 | 
+        as.numeric(l$ExtendMinimumTimeInSeconds) < 3600)) {
+        stop("ExtendMinimumTimeInSeconds must be between one hour and one year")
     }
-    if(is.null(assignpolicy) & !is.null(hitpolicy)) {
-        return(list(HITReviewPolicy = list(xml.parsed = hitreviewpolicy, 
-            string = hitstring, url.encoded = hitencoded)))
+    if("DisregardAssignmentIfRejected" %in% names(l) &&
+       (!as.character(l$DisregardAssignmentIfRejected) %in% c("TRUE","FALSE"))) {
+        stop("DisregardAssignmentIfRejected must be TRUE or FALSE")
     }
-    else if(!is.null(assignpolicy) & is.null(hitpolicy)) {
-        return(list(AssignmentReviewPolicy = list(xml.parsed = assignreviewpolicy, 
-            string = assignstring, url.encoded = assignencoded)))
+    
+    h$PolicyName <- curlEscape("SimplePlurality/2011-09-01")
+    
+    if(length(l$QuestionIds) > 15)
+        stop("Max number of 'QuestionIds' is 15")
+    h[["Parameter.1.Key"]] <- "QuestionIds"
+    for(i in 1:length(l$QuestionIds)) {
+        h[[paste0("Parameter.1.Value.",i)]] <- l$QuestionIds[i]
     }
-    else {
-        return(list(HITReviewPolicy = list(xml.parsed = hitreviewpolicy, 
-            string = hitstring, url.encoded = hitencoded), AssignmentReviewPolicy = list(xml.parsed = assignreviewpolicy, 
-            string = assignstring, url.encoded = assignencoded)))
+    l$QuestionIds <- NULL
+    for(i in 1:length(l)){        
+        if(!names(l)[i] %in% c("QuestionAgreementThreshold", 
+            "DisregardAssignmentIfRejected", "DisregardAssignmentIfKnownAnswerScoreIsLessThan", 
+            "ExtendIfHITAgreementScoreIsLessThan", "ExtendMaximumAssignments", 
+            "ExtendMinimumTimeInSeconds", "ApproveIfWorkerAgreementScoreIsAtLeast", 
+            "RejectIfWorkerAgreementScoreIsLessThan", "RejectReason")) 
+            stop(paste0("Inappropriate HIT ReviewPolicy Parameter: ",names(l)[i]))
+        h[[paste0("Parameter.", i+1, ".Key")]] <- names(l)[i]
+        if(names(l)[i] == "DisregardAssignmentIfRejected")
+            h[[paste0("Parameter.", i+1, ".Value.1")]] <- unname(substring(as.character(l[i]), 1,1))
+        else
+            h[[paste0("Parameter.", i+1, ".Value.1")]] <- unname(l[i])
+    }    
+    names(h) <- paste0("HITReviewPolicy.", names(h))
+    hitstring <- paste0("&", paste(names(h), unlist(h), sep="=", collapse = "&"))
+    return(hitstring)
+}
+
+GenerateAssignmentReviewPolicy <-
+function(...) {
+    l <- list(...)
+    
+    if("ApproveIfKnownAnswerScoreIsAtLeast" %in% names(l) &&
+       (as.numeric(l$ApproveIfKnownAnswerScoreIsAtLeast) > 101 | 
+        as.numeric(l$ApproveIfKnownAnswerScoreIsAtLeast) < 1)) {
+        stop("ApproveIfKnownAnswerScoreIsAtLeast must be between 0 and 101")
     }
+    if("RejectIfKnownAnswerScoreIsLessThan" %in% names(l) &&
+       (as.numeric(l$RejectIfKnownAnswerScoreIsLessThan) > 101 | 
+        as.numeric(l$RejectIfKnownAnswerScoreIsLessThan) < 1)) {
+        stop("RejectIfKnownAnswerScoreIsLessThan must be between 0 and 101")
+    }
+    if("ExtendIfKnownAnswerScoreIsLessThan" %in% names(l) &&
+       (as.numeric(l$ExtendIfKnownAnswerScoreIsLessThan) > 101 | 
+        as.numeric(l$ExtendIfKnownAnswerScoreIsLessThan) < 1)) {
+        stop("ExtendIfKnownAnswerScoreIsLessThan must be between 0 and 101")
+    }
+    if("ExtendMaximumAssignments" %in% names(l) &&
+       (as.numeric(l$ExtendMaximumAssignments) > 25 | 
+        as.numeric(l$ExtendMaximumAssignments) < 2)) {
+        stop("ExtendMaximumAssignments must be between 2 and 25")
+    }
+    if("ExtendMinimumTimeInSeconds" %in% names(l) &&
+       (as.numeric(l$ExtendMinimumTimeInSeconds) > 31536000 | 
+        as.numeric(l$ExtendMinimumTimeInSeconds) < 3600)) {
+        stop("ExtendMinimumTimeInSeconds must be between one hour and one year")
+    }
+    
+    a <- list()
+    a$PolicyName <- curlEscape("ScoreMyKnownAnswers/2011-09-01")
+    
+    a[["Parameter.1.Key"]] = "AnswerKey"
+    ak <- l$AnswerKey
+    l$AnswerKey <- NULL
+    for(i in 1:length(ak)){
+        a[[paste0("Parameter.1.Value.", i,".Key")]] <- names(ak)[i]
+        a[[paste0("Parameter.1.Value.", i,".Value")]] <- ak[i]
+    }
+    for(i in 1:length(l)) {
+        if(!names(l)[i] %in% c("ApproveIfKnownAnswerScoreIsAtLeast", 
+            "ApproveReason", "RejectIfKnownAnswerScoreIsLessThan", 
+            "RejectReason", "ExtendIfKnownAnswerScoreIsLessThan", 
+            "ExtendMaximumAssignments", "ExtendMinimumTimeInSeconds")) 
+            stop("Inappropriate Assignment ReviewPolicy Parameter: ", names(l)[i])
+        a[[paste0("Parameter.", i+1, ".Key")]] <- names(l)[i]
+        a[[paste0("Parameter.", i+1, ".Value.1")]] <- unname(l[i])
+    }
+    names(a) <- paste0("AssignmentReviewPolicy.", names(a))
+    assignstring <- paste0("&", paste(names(a), unlist(a), sep="=", collapse = "&"))
+    return(assignstring)
 }
