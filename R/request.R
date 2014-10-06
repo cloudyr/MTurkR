@@ -103,8 +103,8 @@ function(operation, GETparameters = NULL,
                                  "Valid\t",
                                  "URL\t", 
                                  "Response", sep = "")
-                logfilename <- file.path(getOption('MTurkR.logdir'),"MTurkRlog.tsv")
-                if(!"MTurkRlog.tsv" %in% list.files(path=getOption('MTurkR.logdir'))) {
+                logfilename <- file.path(getOption('MTurkR.logdir', getwd()),"MTurkRlog.tsv")
+                if(!"MTurkRlog.tsv" %in% list.files(path=getOption('MTurkR.logdir', getwd()))) {
                     tryCatch(write(towrite, logfilename),
                         error=function(e){
                             warning('Writing to new MTurkR log failed!')

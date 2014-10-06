@@ -2,11 +2,13 @@
 
 ## SIGNIFICANT USER-VISIBLE CHANGES ##
 
+* `GenerateReviewPolicy` is removed in lieu of two new functions: `GenerateHITReviewPolicy` and `GenerateAssignmentReviewPolicy`, both of which have a simplified function API and include extensive examples in the documentaiton. The previous code never worked correctly, so this change should be unimportant. The use of `CreateHIT` remains unchanged. (#47)
 * `HITStatus`, `ApproveAllAssignments`, `ChangeHITType`, `DisposeHIT`, `DisableHIT`, `ExpireHIT`, `ExtendHIT`, `GetAssignment`, `GetBonuses`, `SetHITAsReviewing` now include an optional `annotation` argument that can be used to apply the function to all HITs of a given "batch" created in the online Requester User Interface. (#51)
 * `GetFileUpload` no longer has a `file.ext` argument. Instead the file extension is taken from the uploaded file itself. The format of the filename for the downloaded file has also been clarified. (#45)
 
 ## DOCUMENTATION ##
 
+* Examples for all functions have been substantially expanded and checked for accuracy.
 * The MTurkR wiki (https://github.com/leeper/MTurkR/wiki) includes numerous updated code examples, including full documentation for both `wizard.simple` and `mturkr.wizard`, the MTurkR interactive interfaces.
 
 ## BUG FIXES ##

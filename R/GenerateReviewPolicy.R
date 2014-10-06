@@ -92,8 +92,8 @@ function(...) {
     ak <- l$AnswerKey
     l$AnswerKey <- NULL
     for(i in 1:length(ak)){
-        a[[paste0("Parameter.1.Value.", i,".Key")]] <- names(ak)[i]
-        a[[paste0("Parameter.1.Value.", i,".Value")]] <- ak[i]
+        a[[paste0("Parameter.1.MapEntry.", i, ".Key")]] <- names(ak)[i]
+        a[[paste0("Parameter.1.MapEntry.", i, ".Value")]] <- ak[i]
     }
     for(i in 1:length(l)) {
         if(!names(l)[i] %in% c("ApproveIfKnownAnswerScoreIsAtLeast", 

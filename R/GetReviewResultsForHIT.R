@@ -1,7 +1,11 @@
 GetReviewResultsForHIT <-
 reviewresults <-
-function (hit, assignment = NULL, policy.level = NULL, retrieve.results = TRUE, 
-    retrieve.actions = TRUE, verbose = getOption('MTurkR.verbose', TRUE), ...) {
+function(hit, 
+         assignment = NULL, 
+         policy.level = NULL, 
+         retrieve.results = TRUE, 
+         retrieve.actions = TRUE, 
+         verbose = getOption('MTurkR.verbose', TRUE), ...) {
     # temporary check for `print` argument (remove after v1.0)
     if('print' %in% names(list(...)) && is.null(verbose))
         verbose <- list(...)$print
@@ -12,16 +16,16 @@ function (hit, assignment = NULL, policy.level = NULL, retrieve.results = TRUE,
         hit <- as.character(hit)
     GETparameters <- paste("&HITId=", hit, sep = "")
     if(!is.null(policy.level)) {
-        if(!policy.level %in% c("HIT", "Assignments")) 
-            stop("PolicyLevel must be 'HIT' | 'Assignments'")
-        GETparameters <- paste(GETparameters, "&PolicyLevel=", 
-            policy.level, sep = "")
+        if(!policy.level %in% c("HIT", "Assignment")) 
+            stop("PolicyLevel must be 'HIT' | 'Assignment'")
+        GETparameters <- 
+          paste(GETparameters, "&PolicyLevel=", policy.level, sep = "")
     }
     if(!is.null(assignment)) {
         if(is.factor(assignment))
             assignment <- as.character(assignment)
-        GETparameters <- paste(GETparameters, "&AssignmentId=", 
-            assignment, sep = "")
+        GETparameters <- 
+          paste(GETparameters, "&AssignmentId=", assignment, sep = "")
     }
     if(!is.null(retrieve.actions)) {
         if(!retrieve.actions %in% c(TRUE, FALSE)) 
@@ -50,22 +54,21 @@ function (hit, assignment = NULL, policy.level = NULL, retrieve.results = TRUE,
             if(is.null(ReviewResults)) 
                 message("0\n")
             else {
-              if("AssignmentReviewResult" %in% names(ReviewResults)) 
-                message(length(ReviewResults$AssignmentReviewResults), 
-                  " Assignment ReviewResults Retrieved")
-              if("AssignmentReviewAction" %in% names(ReviewResults)) 
-                message(length(ReviewResults$AssignmentReviewResults), 
-                  " Assignment ReviewActions Retrieved")
-              if("HITReviewResult" %in% names(ReviewResults)) 
-                message(length(ReviewResults$AssignmentReviewResults), 
-                  " HIT ReviewResults Retrieved")
-              if("HITReviewAction" %in% names(ReviewResults)) 
-                message(length(ReviewResults$AssignmentReviewResults), 
-                  " HIT ReviewActions Retrieved")
+                if("AssignmentReviewResult" %in% names(ReviewResults)) 
+                    message(length(ReviewResults$AssignmentReviewResults), 
+                            " Assignment ReviewResults Retrieved")
+                if("AssignmentReviewAction" %in% names(ReviewResults)) 
+                    message(length(ReviewResults$AssignmentReviewResults), 
+                            " Assignment ReviewActions Retrieved")
+                if("HITReviewResult" %in% names(ReviewResults)) 
+                    message(length(ReviewResults$AssignmentReviewResults), 
+                            " HIT ReviewResults Retrieved")
+                if("HITReviewAction" %in% names(ReviewResults)) 
+                    message(length(ReviewResults$AssignmentReviewResults), 
+                            " HIT ReviewActions Retrieved")
             }
         }
-    }
-    else if(!request$valid & verbose)
+    } else if(!request$valid & verbose)
         warning("Invalid Request")
     return(ReviewResults)
 }
