@@ -29,12 +29,33 @@ Generate HITs from a HIT template (containing placeholders for input data of the
 \examples{
 \dontrun{
 a <- data.frame(hitvariable = c("HIT text 1","HIT text 2","HIT text 3"), stringsAsFactors=FALSE)
-temp <- '<div>
-${hitvariable}
+temp <- '<html><head></head><body>
+<div>${hitvariable}<br/>
 Question 1: <input type="text" name="var1"><br/>
 Question 2: <input type="text" name="var2">
-</div>'
-GenerateHITsFromTemplate(temp, input = a)
+</div></body></html>'
+
+# create templates
+temps <- GenerateHITsFromTemplate(temp, input = a)
+
+# create HITs from template
+hittype1 <- 
+RegisterHITType(title="2 Question Survey",
+                description=
+                "Complete a 2-question survey",
+                reward=".20", 
+                duration=seconds(hours=1), 
+                keywords="survey, questionnaire, politics")
+hits <- lapply(temps, function(x) {
+    CreateHIT(hit.type = hittype1$HITTypeId, 
+              expiration = seconds(days = 1),
+              assignments = 2,
+              question = GenerateHTMLQuestion(x)$string)
+})
+
+# cleanup
+ExpireHIT(hit.type = hittype1$HITTypeId)
+DisposeHIT(hit.type = hittype1$HITTypeId)
 }
 }
 \keyword{HITs}
