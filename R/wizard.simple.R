@@ -16,15 +16,15 @@ function (graphics = FALSE, sandbox = NULL, ...)
         credentials(keypair)
     }
     else {
-        message("Your current MTurk Credentials are: ", keypair)
+        message("Your current MTurk Credentials are: ",
+                paste(keypair, collapse = "\n"))
     }
     if (is.null(sandbox)) 
         sandbox <- readline(prompt = "Use Sandbox? (Y/N): ")
-    if (sandbox %in% c("Yes", "YES", "yes", "TRUE", "true", "True", 
-        "1", TRUE)) 
-        sandbox <- TRUE
+    if (sandbox %in% c("Yes", "YES", "yes", "TRUE", "true", "True", "1", TRUE)) 
+        options(MTurkR.sandbox = TRUE)
     else
-        sandbox <- FALSE
+        options(MTurkR.sandbox = FALSE)
     wizard.menu <- function() {
         menu.opts <- c("Check Account Balance", "Check Sufficient Funds", 
             "Create HIT", "Check HIT Status", "Get Assignment(s)", 
@@ -52,8 +52,10 @@ function (graphics = FALSE, sandbox = NULL, ...)
             number <- readline("How many assignments per HIT: ")
             funds <- try(SufficientFunds(amount = pay, assignments = number, 
                          hits = hit, verbose = TRUE, ...), silent = TRUE)
-            if (class(funds) == "try-error") 
+            if(class(funds) == "try-error") 
                 warning("An error occurred: ", funds)
+            else
+                print(funds)
             message()
             wizard.menu()
         }
