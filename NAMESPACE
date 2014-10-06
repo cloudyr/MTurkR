@@ -178,14 +178,14 @@ export("AnswerKeyTemplate")
 export("GenerateAnswerKey")
 export("GenerateExternalQuestion")
 export("GenerateHITLayoutParameter")
-export("GenerateHITsFromTemplate")
 export("GenerateHTMLQuestion")
 export("GenerateNotification")
 export("GenerateQualificationRequirement")
-export("GenerateReviewPolicy")
+export("GenerateAssignmentReviewPolicy")
+export("GenerateHITReviewPolicy")
 
+export("GenerateHITsFromTemplate")
 export("hitsfromtemplate")
-
 
 # imports
 importFrom(digest, hmac)

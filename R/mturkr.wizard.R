@@ -717,11 +717,9 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                     hittowrite <- tclvalue(tkget(hit.entry,"0.0","end"))
                     assigntowrite <- tclvalue(tkget(assign.entry,"0.0","end"))
                     if(hittowrite=="")
-                        hittowrite <- NULL
+                        assign("hitreviewpolicy", hittowrite, envir=wizardenv) # assign 'reviewpolicy' to wizardenv
                     if(assigntowrite=="")
-                        assigntowrite <- NULL
-                    result <- GenerateReviewPolicy(hitpolicy=, assignpolicy=)
-                    assign("reviewpolicy",result,envir=wizardenv) # assign 'reviewpolicy' to wizardenv
+                        assign("assignreviewpolicy", assigntowrite, envir=wizardenv) # assign 'reviewpolicy' to wizardenv
                     tkdestroy(reviewpolicyDialog)
                 }
                 # layout
@@ -781,16 +779,14 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                     tkfocus(createDialog)
                 }
                 else {
-                    if(is.null(wizardenv$reviewpolicy)){
+                    if(is.null(wizardenv$hitreviewpolicy))
                         hitpolicy <- NULL
+                    else
+                        hitpolicy <- wizardenv$hitreviewpolicy
+                    if(is.null(wizardenv$assignreviewpolicy))
                         assignpolicy <- NULL
-                    }
-                    else{
-                        if(exists("reviewpolicy$AssignmentReviewPolicy",envir=wizardenv))
-                            assignpolicy <- wizardenv$reviewpolicy$AssignmentReviewPolicy
-                        if(exists("reviewpolicy$HITReviewPolicy",envir=wizardenv))
-                            hitpolicy <- wizardenv$reviewpolicy$HITReviewPolicy
-                    }
+                    else
+                        assignpolicy <- wizardenv$assignreviewpolicy
                     newhit <- CreateHIT(    hit.type=tclvalue(hittype),
                                             question=wizardenv$question,
                                             expiration=seconds(as.numeric(tclvalue(days)),

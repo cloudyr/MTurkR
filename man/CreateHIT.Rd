@@ -21,8 +21,8 @@ CreateHIT(hit.type = NULL, question = NULL, validate.question = FALSE,
   \item{validate.question}{A logical specifying whether the \code{question} parameter should be validated against the relevant MTurk schema prior to creating the HIT (operation will fail if it does not validate, and will return validation information). Default is \code{FALSE}.}
   \item{expiration}{The time (in seconds) that the HIT should be available to workers. Must be between 30 and 31536000 seconds.}
   \item{assignments}{A character string specifying the number of assignments}
-  \item{assignment.review.policy}{An optional character string containing an Assignment-level ReviewPolicy data structure as returned by \code{\link{GenerateReviewPolicy}}.}
-  \item{hit.review.policy}{An optional character string containing a HIT-level ReviewPolicy data structure as returned by \code{\link{GenerateReviewPolicy}}.}
+  \item{assignment.review.policy}{An optional character string containing an Assignment-level ReviewPolicy data structure as returned by \code{\link{GenerateAssignmentReviewPolicy}}.}
+  \item{hit.review.policy}{An optional character string containing a HIT-level ReviewPolicy data structure as returned by \code{\link{GenerateHITReviewPolicy}}.}
   \item{annotation}{An optional character string annotating the HIT. This is not visible to workers, but can be used as a label by which to identify the HIT from the API.}
   \item{unique.request.token}{An optional character string, included only for advanced users.}
   \item{title}{A character string containing the title for the HITType. All HITs of this HITType will be visibly grouped to workers according to this title. Maximum of 128 characters.}
@@ -63,7 +63,7 @@ When creating a ExternalQuestion HITs, the \code{\link{GenerateHITsFromTemplate}
 
 \code{\link{RegisterHITType}}
 
-\code{\link{GenerateReviewPolicy}}
+\code{\link{GenerateHITReviewPolicy}}
 
 \code{\link{GenerateQualificationRequirement}}
 }

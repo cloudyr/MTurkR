@@ -17,7 +17,7 @@ GetReviewResultsForHIT(hit, assignment = NULL, policy.level = NULL,
   \item{verbose}{Optionally print the results of the API request to the standard output. Default is taken from \code{getOption('MTurkR.verbose', TRUE)}.}
   \item{...}{Additional arguments passed to \code{\link{request}}.}
 }
-\details{A simple function to return the results of a ReviewPolicy. This is intended only for advanced users, who should reference MTurk documentation for further information or see the notes in \code{\link{GenerateReviewPolicy}}.
+\details{A simple function to return the results of a ReviewPolicy. This is intended only for advanced users, who should reference MTurk documentation for further information or see the notes in \code{\link{GenerateHITReviewPolicy}}.
 
 \code{reviewresults} is an alias.
 }
@@ -34,7 +34,7 @@ GetReviewResultsForHIT(hit, assignment = NULL, policy.level = NULL,
 \seealso{
 \code{\link{CreateHIT}}
 
-\code{\link{GenerateReviewPolicy}}
+\code{\link{GenerateHITReviewPolicy}}
 }
 %\examples{}
 \keyword{HITs}
