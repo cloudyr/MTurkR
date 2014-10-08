@@ -2279,7 +2279,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                     tkfocus(contactDialog)
                 }
                 else{
-                    workerid <- strsplit(workerid,',')[[1]]
+                    workerid <- strsplit(tclvalue(workerid),',')[[1]]
                     ContactWorker(subjects = tclvalue(emailsubject),
                                   msgs = bodytowrite, workers = tclvalue(workerid),
                                   verbose = TRUE, batch = TRUE, sandbox = sandbox)
