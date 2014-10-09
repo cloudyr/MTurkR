@@ -261,28 +261,22 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 if(tclvalue(title)==""){
                     tkmessageBox(message="Please enter a title!", type="ok")
                     tkfocus(registerDialog)
-                }
-                else if(tclvalue(description)==""){
+                } else if(tclvalue(description)==""){
                     tkmessageBox(message="Please enter a description!", type="ok")
                     tkfocus(registerDialog)
-                }
-                else if(tclvalue(reward)==""){
+                } else if(tclvalue(reward)==""){
                     tkmessageBox(message="Please enter a reward amount (in US dollars)!", type="ok")
                     tkfocus(registerDialog)
-                }
-                else if(tclvalue(daysd)=="" && tclvalue(hoursd)=="" && tclvalue(minsd)=="" && tclvalue(secsd)==""){
+                } else if(tclvalue(daysd)=="" && tclvalue(hoursd)=="" && tclvalue(minsd)=="" && tclvalue(secsd)==""){
                     tkmessageBox(message="Please enter a duration (that workers have to complete an assignment)!", type="ok")
                     tkfocus(registerDialog)
-                }
-                else if(tclvalue(keywords)==""){
+                } else if(tclvalue(keywords)==""){
                     tkmessageBox(message="Please enter some keywords!", type="ok")
                     tkfocus(registerDialog)
-                }
-                else if(tclvalue(daysa)=="" && tclvalue(hoursa)=="" && tclvalue(minsa)=="" && tclvalue(secsa)==""){
+                } else if(tclvalue(daysa)=="" && tclvalue(hoursa)=="" && tclvalue(minsa)=="" && tclvalue(secsa)==""){
                     tkmessageBox(message="Please enter a delay (after which assignments are automatically approved)!", type="ok")
                     tkfocus(registerDialog)
-                }
-                else {
+                } else {
                     newhittype <- RegisterHITType(  title = tclvalue(title),
                                                     description = tclvalue(description),
                                                     reward = tclvalue(reward),
@@ -302,8 +296,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                         assign("newHITTypeId", hittype$HITTypeId, envir=wizardenv) # write newHITTypeId to wizardenv environment
                         tkdestroy(registerDialog)
                         tkfocus(wizard)
-                    }
-                    else{
+                    } else {
                         tkmessageBox(message="RegisterHITType() failed for some reason. See console.",type="ok")
                         tkfocus(registerDialog)
                     }
@@ -315,12 +308,10 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                     if(tclvalue(qualid)==""){
                         tkmessageBox(message="Please enter a QualificationTypeId!", type="ok")
                         tkfocus(qualreqDialog)
-                    }
-                    else if(is.null(tkcurselection(complist))){
+                    } else if(is.null(tkcurselection(complist))){
                         tkmessageBox(message="Please enter a comparator!", type="ok")
                         tkfocus(qualreqDialog)
-                    }
-                    else {
+                    } else {
                         pos <- as.numeric(as.character(tkcurselection(complist)))+1 # listbox index starts at 0
                         selection <- complistitems[pos]
                         if(selection=="Exists")
@@ -567,8 +558,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                     if(question==""){
                         tkmessageBox(message="Please enter a question data structure!", type="ok")
                         tkfocus(addqDialog)
-                    }
-                    else {
+                    } else {
                         assign("question",question,envir=wizardenv) # assign 'question' to wizardenv
                     }
                 }
@@ -609,8 +599,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                     if(question==""){
                         tkmessageBox(message="Please enter a question data structure!", type="ok")
                         tkfocus(addqDialog)
-                    }
-                    else {
+                    } else {
                         assign("question",question,envir=wizardenv) # assign 'question' to wizardenv
                     }
                 }
@@ -654,12 +643,10 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                     if(tclvalue(layoutid)==""){
                         tkmessageBox(message="Please enter a HITLayoutId!", type="ok")
                         tkfocus(addqDialog)
-                    }
-                    else if(!length(lnames)==length(lvalues)){
+                    } else if(!length(lnames)==length(lvalues)){
                         tkmessageBox(message="Layout Names and Layout Values must have same length!", type="ok")
                         tkfocus(addqDialog)
-                    }
-                    else {
+                    } else {
                         assign("layout",tclvalue(layoutid),envir=wizardenv) # assign 'layout' to wizardenv
                         if(!lnames==""){
                             layoutparameters <- GenerateHITLayoutParameter(lnames,lvalues)
@@ -725,32 +712,30 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 # layout
                 reviewpolicyDialog <- tktoplevel()
                 tkwm.title(reviewpolicyDialog, "Add HIT/Assignment Review Policy")
-                entryform <- tkframe(reviewpolicyDialog, relief="groove", borderwidth=2)
-                    r <- 1
-                    tkgrid(ttklabel(entryform, text = "     "), row=r, column=1)
-                    tkgrid(ttklabel(entryform, text = "     "), row=r, column=4)
-                    r <- r + 1
-                    hit.entry <- tktext(entryform, height = 6, width = 75)
+                hitentryform <- ttklabelframe(reviewpolicyDialog, 
+                                              text = "HIT-level ReviewPolicy (optional)", 
+                                              borderwidth = 2)
+                    hit.entry <- tktext(hitentryform, height = 6, width = 75, bg = "white")
                     tkmark.set(hit.entry,"insert","0.0")
-                    tkgrid(tklabel(entryform, text = "HIT Review Policy (optional): "), row=r, column=2, columnspan=2, sticky="w")
-                    r <- r + 1
-                    tkgrid(hit.entry, row=r, column=2, columnspan=2)
-                    r <- r + 1
-                    assign.entry <- tktext(entryform, height = 6, width = 75)
+                    tkgrid(hit.entry, row=r)
+                tkgrid(hitentryform)
+                assignentryform <- ttklabelframe(reviewpolicyDialog, 
+                                                 text = "Assignment-level ReviewPolicy (optional)", 
+                                                 borderwidth = 2)
+                    assign.entry <- tktext(assignentryform, height = 6, width = 75, bg = "white")
                     tkmark.set(assign.entry,"insert","0.0")
-                    tkgrid(tklabel(entryform, text = "Assignment Review Policy (optional): "), row=r, column=2, columnspan=2, sticky="w")
-                    r <- r + 1
                     tkgrid(assign.entry, row=r, column=2, columnspan=2)
-                    r <- r + 1
-                    tkgrid(ttklabel(entryform, text = "     "), row=r)
-                tkgrid(entryform)
+                tkgrid(assignentryform)
                 # buttons
                 buttons <- tkframe(reviewpolicyDialog)
-                    OKbutton <- tkbutton(buttons,text="   OK   ",command=storepolicy)
-                    Cancelbutton <- tkbutton(buttons,text=" Cancel ",command=function() {tkdestroy(reviewpolicyDialog); tkfocus(wizard)})
                     r <- 1
-                    tkgrid(OKbutton, row = r, column = 2)
-                    tkgrid(Cancelbutton, row=r, column = 3)
+                    tkgrid(tkbutton(buttons, text = "   OK   ", 
+                                    command = storepolicy), row = r, column = 2
+                    tkgrid(tkbutton(buttons, text = " Cancel ",
+                                    command = function() {
+                                        tkdestroy(reviewpolicyDialog)
+                                        tkfocus(wizard)
+                                    }), row=r, column = 3
                 tkgrid(buttons)
                 
                 tkfocus(reviewpolicyDialog)
@@ -761,24 +746,19 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 if(tclvalue(hittype)==""){
                     tkmessageBox(message="Please enter a HITTypeId!", type="ok")
                     tkfocus(createDialog)
-                }
-                else if(tclvalue(annotate)==""){
+                } else if(tclvalue(annotate)==""){
                     tkmessageBox(message="Please enter a name (private) for the HIT!", type="ok")
                     tkfocus(createDialog)
-                }
-                else if(tclvalue(assigns)==""){
+                } else if(tclvalue(assigns)==""){
                     tkmessageBox(message="Please enter the number of assignments for the HIT!", type="ok")
                     tkfocus(createDialog)
-                }
-                else if(tclvalue(days)=="" && tclvalue(hours)=="" && tclvalue(mins)=="" && tclvalue(secs)==""){
+                } else if(tclvalue(days)=="" && tclvalue(hours)=="" && tclvalue(mins)=="" && tclvalue(secs)==""){
                     tkmessageBox(message="Please enter the amount of time the HIT should be available!", type="ok")
                     tkfocus(createDialog)
-                }
-                else if(is.null(wizardenv$layoutid) && is.null(wizardenv$question)){
+                } else if(is.null(wizardenv$layoutid) && is.null(wizardenv$question)){
                     tkmessageBox(message="Specify Question or HITLayout Parameters!", type="ok")
                     tkfocus(createDialog)
-                }
-                else {
+                } else {
                     if(is.null(wizardenv$hitreviewpolicy))
                         hitpolicy <- NULL
                     else
@@ -806,8 +786,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                         assign("newHITId",newhit$HITId,envir=wizardenv) # assign newHITId to wizardenv
                         tkdestroy(createDialog)
                         tkfocus(wizard)
-                    }
-                    else{
+                    } else{
                         tkmessageBox(message="CreateHIT() failed for some reason. See console.",type="ok")
                         tkfocus(createDialog)
                     }
@@ -986,8 +965,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 if(tclvalue(hitid)==""){
                     tkmessageBox(message="Please enter a HITId!", type="ok")
                     tkfocus(gethitDialog)
-                }
-                else {
+                } else {
                     tkdestroy(gethitDialog)
                     hit <- GetHIT(hit=tclvalue(hitid),verbose=FALSE, sandbox=sandbox)
                     #print(t(hit$HITs)[1:18,1])
@@ -1078,8 +1056,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 if(tclvalue(hitid)==""){
                     tkmessageBox(message="Please enter a HITId!", type="ok")
                     tkfocus(statusDialog)
-                }
-                else {
+                } else {
                     tkdestroy(statusDialog)
                     status <- HITStatus(hit=tclvalue(hitid), verbose=FALSE, sandbox=sandbox)
                     
@@ -1172,8 +1149,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 if(tclvalue(hitid)==""){
                     tkmessageBox(message="Please enter a HITId!", type="ok")
                     tkfocus(resultsDialog)
-                }
-                else {
+                } else {
                     tkdestroy(resultsDialog)
                     GetReviewResultsForHIT( hit=tclvalue(hitid),
                                             assignment=assignmentid,
@@ -1244,8 +1220,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 if(tclvalue(hitid)==""){
                     tkmessageBox(message="Please enter a HITId!", type="ok")
                     tkfocus(reviewingDialog)
-                }
-                else {
+                } else {
                     tkdestroy(reviewingDialog)
                     SetHITAsReviewing(hit = tclvalue(hitid), revert=revert, verbose=TRUE, sandbox=sandbox)
                     tkfocus(wizard)
@@ -1296,12 +1271,10 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 if(tclvalue(hitid)==""){
                     tkmessageBox(message="Please enter a HITId!", type="ok")
                     tkfocus(addassignDialog)
-                }
-                else if(tclvalue(assignments)==""){
+                } else if(tclvalue(assignments)==""){
                     tkmessageBox(message="Please enter a number of additional assignments!", type="ok")
                     tkfocus(addassignDialog)
-                }
-                else {
+                } else {
                     tkdestroy(addassignDialog)
                     ExtendHIT(hit=tclvalue(hitid),add.assignments=tclvalue(assignments), sandbox=sandbox)
                     tkfocus(wizard)
@@ -1352,12 +1325,10 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 if(tclvalue(hitid)==""){
                     tkmessageBox(message="Please enter a HITId!", type="ok")
                     tkfocus(extendDialog)
-                }
-                else if(tclvalue(days)=="" && tclvalue(hours)=="" && tclvalue(mins)=="" && tclvalue(secs)==""){
+                } else if(tclvalue(days)=="" && tclvalue(hours)=="" && tclvalue(mins)=="" && tclvalue(secs)==""){
                     tkmessageBox(message="Please enter an amount of time!", type="ok")
                     tkfocus(extendDialog)
-                }
-                else {
+                } else {
                     tkdestroy(extendDialog)
                     ExtendHIT(    hit=tclvalue(hitid),
                                 add.seconds=seconds(as.numeric(tclvalue(days)), 
@@ -1430,8 +1401,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 if(tclvalue(hitid)==""){
                     tkmessageBox(message="Please enter a HITId!", type="ok")
                     tkfocus(expireDialog)
-                }
-                else{
+                } else{
                     tkdestroy(expireDialog)
                     ExpireHIT(hit=tclvalue(hitid), sandbox=sandbox)
                 }
@@ -1477,15 +1447,13 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 if(tclvalue(hitid)==""){
                     tkmessageBox(message="Please enter a HITId!", type="ok")
                     tkfocus(disposeDialog)
-                }
-                else {
+                } else {
                     exit <- tkmessageBox(message = "Are you sure you want to dispose the HIT? This will delete all HIT and Assignment data.",
                                         icon = "question", type = "yesno", default = "no")
                     if(tclvalue(exit)=="yes"){
                         tkdestroy(disposeDialog)
                         DisposeHIT(hit=tclvalue(hitid), sandbox=sandbox)
-                    }
-                    else{
+                    } else{
                         tkfocus(disposeDialog)
                     }
                 }
@@ -1568,8 +1536,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 
                 tkfocus(currenthits)
                 tkwait.window(currenthits)
-            }
-            else {
+            } else {
                 tkmessageBox(message="No HITs found!", icon="info", type="ok")
                 tkfocus(wizard)
             }        
@@ -1581,14 +1548,14 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 if(tclvalue(assignment)==""){
                     tkmessageBox(message="Please enter an AssignmentId!", type="ok")
                     tkfocus(getassign1Dialog)
-                }
-                else {
+                } else {
                     tkdestroy(getassign1Dialog)
                     if(verbose){
                         results <- GetAssignment(assignment=tclvalue(assignment),verbose=TRUE, sandbox=sandbox)
                         print(results)
-                    } else
+                    } else {
                         results <- GetAssignment(assignment=tclvalue(assignment),verbose=FALSE, sandbox=sandbox)
+                    }
                     if(save==TRUE)
                         savetofile(results)
                     tkfocus(wizard)
@@ -1628,14 +1595,14 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 if(tclvalue(hitid)==""){
                     tkmessageBox(message="Please enter a HITId!", type="ok")
                     tkfocus(getassign2Dialog)
-                }
-                else {
+                } else {
                     tkdestroy(getassign2Dialog)
                     if(verbose){
                         results <- GetAssignment(hit=tclvalue(hitid),verbose=TRUE, sandbox=sandbox)
                         print(results)
-                    } else
+                    } else {
                         results <- GetAssignment(hit=tclvalue(hitid),verbose=FALSE, sandbox=sandbox)
+                    }
                     if(save==TRUE)
                         savetofile(results)
                     tkfocus(wizard)
@@ -1686,8 +1653,9 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                     if(verbose){
                         results <- GetAssignment(hit.type=tclvalue(hittype),verbose=TRUE, sandbox=sandbox)
                         print(results)
-                    } else
+                    } else {
                         results <- GetAssignment(hit.type=tclvalue(hittype),verbose=FALSE, sandbox=sandbox)
+                    }
                     if(save==TRUE)
                         savetofile(results)
                     
@@ -1738,16 +1706,14 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                     if(tclvalue(hitid)==""){
                         tkmessageBox(message="Please enter a HITId!", type="ok")
                         tkfocus(approveallDialog)
-                    }
-                    else {
+                    } else {
                         exit <- tkmessageBox(message = "Are you sure you want to approve all assignments for the HIT?",
                                         icon = "question", type = "yesno", default = "no")
                         if(tclvalue(exit)=="yes"){
                             tkdestroy(approveallDialog)
                             ApproveAllAssignments(hit=tclvalue(hitid), sandbox=sandbox)
                             tkfocus(wizard)
-                        }
-                        else
+                        } else
                             tkfocus(approveallDialog)
                     }
                 }
@@ -1782,13 +1748,12 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
             }
             # approve1 function
             approve1 <- function(){
-                if(tclvalue(feedback)=="")
+                if(tclvalue(feedback)=="") {
                     feedbackvalue <- NULL
-                else if(tclvalue(assignment)==""){
+                } else if(tclvalue(assignment)==""){
                     tkmessageBox(message="Please enter an AssignmentId!", type="ok")
                     tkfocus(approveDialog)
-                }
-                else {
+                } else {
                     ApproveAssignment(assignments=tclvalue(assignment), feedback=feedbackvalue, verbose=TRUE, sandbox=sandbox)
                     tkdestroy(approveDialog)
                     tkfocus(wizard)
@@ -1839,12 +1804,10 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 if(tclvalue(feedback)=="") {
                     tkmessageBox(message="Please enter a reason for rejection!", type="ok")
                     tkfocus(rejectDialog)
-                }
-                else if(tclvalue(assignment)==""){
+                } else if(tclvalue(assignment)==""){
                     tkmessageBox(message="Please enter an AssignmentId!", type="ok")
                     tkfocus(rejectDialog)
-                }
-                else {
+                } else {
                     RejectAssignment(assignments=tclvalue(assignment), feedback=tclvalue(feedback), verbose=TRUE, sandbox=sandbox)
                     tkdestroy(rejectDialog)
                     tkfocus(wizard)
@@ -1882,10 +1845,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                     
             tkfocus(rejectDialog)
         }
-        
-        
-        
-        
+   
         
         
         
@@ -1900,8 +1860,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                         searchWiz()
                         hitid <- wizardenv$searchresult$HITId # retrieve hitid from wizardenv environment
                         results <- GetAssignments(hit=hitid, return.all=TRUE, verbose=FALSE, sandbox=sandbox)
-                    }
-                    else if(type=="hittype"){
+                    } else if(type=="hittype"){
                         searchWiz()
                         hittypeid <- wizardenv$searchresult$HITTypeId # retrieve hittypeid from wizardenv environment
                         results <- GetAssignments(hit.type=hittypeid, return.all=TRUE, verbose=FALSE, sandbox=sandbox)
@@ -2059,8 +2018,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                         if(tclvalue(reason)==""){
                             tkmessageBox(message="Please enter a reason for the rejection!", type="ok")
                             tkfocus(rejreason)
-                        }
-                        else{
+                        } else{
                             tkdestroy(rejreason)
                             pos <- as.numeric(tkcurselection(sublist))+1
                             assignid <- wizardenv$submitted$AssignmentId[pos]
@@ -2098,8 +2056,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                             tkmessageBox(message="Please select an assignment!", type="ok")
                             tkdestroy(appreason)
                             tkfocus(approverejectDialog)
-                        }
-                        else{
+                        } else{
                             if(tclvalue(reason)=="")
                                 reason <- NULL
                             tkdestroy(appreason)
@@ -2223,19 +2180,19 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                     tkgrid(apprejectedbutton, row = r, column = 9, columnspan=2, rowspan=2)
                     r <- r + 3
                     popbutton <- tkbutton(entryform,text=" Repopulate Lists ",command=function(){
-                        for(i in 0:(length(sublist)-1)){
-                            tkdelete(sublist,i)
-                        }
-                        for(i in 0:(length(isapplist)-1)){
-                            tkdelete(isapplist,i)
-                        }
-                        for(i in 0:(length(isrejlist)-1)){
-                            tkdelete(isrejlist,i)
-                        }
-                        if(type=="hit")
-                            populate("hit")
-                        else if(type=="hit.type")
-                            populate("hit.type")
+                            for(i in 0:(length(sublist)-1)){
+                                tkdelete(sublist,i)
+                            }
+                            for(i in 0:(length(isapplist)-1)){
+                                tkdelete(isapplist,i)
+                            }
+                            for(i in 0:(length(isrejlist)-1)){
+                                tkdelete(isrejlist,i)
+                            }
+                            if(type=="hit") {
+                                populate("hit")
+                            } else if(type=="hit.type")
+                                populate("hit.type")
                         } )
                     tkgrid(popbutton, row = r, column = 2, columnspan=3)
                     r <- r + 1
@@ -2345,20 +2302,16 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 if(tclvalue(workerid)==""){
                     tkmessageBox(message="Please enter a WorkerId!", type="ok")
                     tkfocus(bonusDialog)
-                }
-                else if(tclvalue(assignmentid)==""){
+                } else if(tclvalue(assignmentid)==""){
                     tkmessageBox(message="Please enter an AssignmentId!", type="ok")
                     tkfocus(bonusDialog)
-                }
-                else if(tclvalue(amount)==""){
+                } else if(tclvalue(amount)==""){
                     tkmessageBox(message="Please enter an amount (in US Dollars)!", type="ok")
                     tkfocus(bonusDialog)
-                }
-                else if(tclvalue(reason)==""){
+                } else if(tclvalue(reason)==""){
                     tkmessageBox(message="Please enter a reason for the bonus!", type="ok")
                     tkfocus(bonusDialog)
-                }
-                else {
+                } else {
                     tkdestroy(bonusDialog)
                     GrantBonus( workers=tclvalue(workerid),
                                 assignments=tclvalue(assignmentid),
@@ -2552,8 +2505,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 tkgrid(buttons)
                 
                 tkfocus(blocklistDialog)
-            }
-            else {
+            } else {
                 tkmessageBox(message="No blocked workers found!", icon="info", type="ok")
                 tkfocus(wizard)
             }
@@ -2691,20 +2643,16 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 if(tclvalue(name)==""){
                     tkmessageBox(message="Please enter a name!", type="ok")
                     tkfocus(createqualWiz)
-                }
-                else if(tclvalue(desc)==""){
+                } else if(tclvalue(desc)==""){
                     tkmessageBox(message="Please enter a description!", type="ok")
                     tkfocus(createqualWiz)
-                }
-                else if(tclvalue(keywords)==""){
+                } else if(tclvalue(keywords)==""){
                     tkmessageBox(message="Please enter a name!", type="ok")
                     tkfocus(createqualWiz)
-                }
-                else if(tclvalue(auto)=="1" && tclvalue(auto.value)==""){
+                } else if(tclvalue(auto)=="1" && tclvalue(auto.value)==""){
                     tkmessageBox(message="If auto-granted, please enter an automatic value!", type="ok")
                     tkfocus(updatequalWiz)
-                }
-                else {
+                } else {
                     if(is.null(wizardenv$test)){
                         test <- NULL
                         answerkey <- NULL
@@ -2717,18 +2665,18 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                     if(!is.null(wizardenv$test)){
                         auto <- NULL
                         auto.value <- NULL
-                    }
-                    else {
+                    } else {
                         auto <- tclvalue(auto)
                         auto.value <- tclvalue(auto.value)
                     }
-                    if(tclvalue(days)=="" && tclvalue(hours)=="" && tclvalue(mins)=="" && tclvalue(secs)=="")
+                    if(tclvalue(days)=="" && tclvalue(hours)=="" && tclvalue(mins)=="" && tclvalue(secs)=="") {
                         delay <- NULL
-                    else
+                    } else {
                         delay <- seconds(as.numeric(tclvalue(days)),
                                          as.numeric(tclvalue(hours)),
                                          as.numeric(tclvalue(mins)),
                                          as.numeric(tclvalue(secs)))
+                    } 
                     statselect <- statusopts[as.numeric(as.character(tkcurselection(statuslist)))+1] # listbox index starts at 0
                     results <- CreateQualificationType(name=tclvalue(name), description=tclvalue(desc),
                                                        status=statselect, keywords = keywords,
@@ -2828,20 +2776,17 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 if(tclvalue(qualid)==""){
                     tkmessageBox(message="Please enter a QualificationTypeId!", type="ok")
                     tkfocus(updatequalWiz)
-                }
-                else if(tclvalue(auto)=="1" && tclvalue(auto.value)==""){
+                } else if(tclvalue(auto)=="1" && tclvalue(auto.value)==""){
                     tkmessageBox(message="If auto-granted, please enter an automatic value!", type="ok")
                     tkfocus(updatequalWiz)
-                }
-                else {
+                } else {
                     if(is.null(wizardenv$test)){
                         test <- NULL
                         answerkey <- NULL
                         test.duration <- NULL
                         auto <- tclvalue(auto)
                         auto.value <- tclvalue(auto.value)
-                    }
-                    else {
+                    } else {
                         test <- wizardenv$test$Test
                         answerkey <- wizardenv$test$AnswerKey
                         test.duration <- wizardenv$test$TestDurationInSeconds
@@ -2956,8 +2901,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 if(tclvalue(qualid)==""){
                     tkmessageBox(message="Please enter a QualificationTypeId!", type="ok")
                     tkfocus(getqualDialog)
-                }
-                else {
+                } else {
                     results <- GetQualificationType(qual=tclvalue(qualid), verbose=FALSE, sandbox=sandbox)
                     tkdestroy(getqualDialog)
                     print(t(results))
@@ -3013,15 +2957,13 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 if(tclvalue(qualid)==""){
                     tkmessageBox(message="Please enter a QualificationTypeId!", type="ok")
                     tkfocus(disposequalDialog)
-                }
-                else {
+                } else {
                     exit <- tkmessageBox(message = "Are you sure you want to dispose the Qualification?
                             This will delete all Qualification and Score data.", icon = "question", type = "yesno", default = "no")
                     if(tclvalue(exit)=="yes"){
                         tkdestroy(disposequalDialog)
                         results <- DisposeQualificationType(qual=tclvalue(qualid), verbose=FALSE, sandbox=sandbox)
-                    }
-                    else{
+                    } else{
                         tkfocus(disposequalDialog)
                     }
                     tkfocus(wizard)
@@ -3072,8 +3014,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 if(tclvalue(qualid)==""){
                     tkmessageBox(message="Please enter a QualificationTypeId!", type="ok")
                     tkfocus(getqualsDialog)
-                }
-                else {
+                } else {
                     tkdestroy(getqualsDialog)
                     results <- GetQualifications(qual=tclvalue(qualid), verbose=TRUE, return.all=TRUE, sandbox=sandbox)
                     print(results)
@@ -3125,12 +3066,10 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 if(tclvalue(qualid)==""){
                     tkmessageBox(message="Please enter a QualificationTypeId!", type="ok")
                     tkfocus(getscoreDialog)
-                }
-                else if(tclvalue(worker)==""){
+                } else if(tclvalue(worker)==""){
                     tkmessageBox(message="Please enter a WorkerId!", type="ok")
                     tkfocus(getscoreDialog)
-                }
-                else {
+                } else {
                     results <- GetQualificationScore(qual=tclvalue(qualid), workers=tclvalue(worker), verbose=FALSE, sandbox=sandbox)
                     tkdestroy(getscoreDialog)
                     tkmessageBox(message=paste("WorkerId ",results$WorkerId,"'s score: ",results$Value,sep=""), type="ok")
@@ -3284,8 +3223,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                     for(i in 1:dim(results)[1]){
                         output[dim(output)[1]+1,] <- c(paste("User-Defined:",results$Name[i]),results$QualificationTypeId[i])
                     }
-                }
-                else{
+                } else{
                     output <- results[,c("Name","QualificationTypeId")]
                     names(output) <- c("Qualification","QualificationTypeId")
                 }
@@ -3397,8 +3335,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                     if(tclvalue(value)==""){
                         tkmessageBox(message="Please enter a value!", type="ok")
                         tkfocus(grantreq)
-                    }
-                    else{
+                    } else {
                         tkdestroy(grantreq)
                         pos <- as.numeric(tkcurselection(qualreqlist))+1
                         qualreqid <- wizardenv$qualrequests$QualificationRequestId[pos]
@@ -3435,8 +3372,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                     if(as.character(tkcurselection(qualreqlist))==""){
                         tkmessageBox(message="Please select a Qualification Request!", type="ok")
                         tkfocus(rejreq)
-                    }
-                    else{
+                    } else {
                         if(tclvalue(reason)=="")
                             reason1 <- NULL
                         tkdestroy(rejreq)
