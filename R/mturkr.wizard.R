@@ -2211,7 +2211,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
             # function
             contact <- function(){
                 bodytowrite <- tclvalue(tkget(body.entry,"0.0","end"))
-                workers <- tclvalue(tkget(worker.entry,"0.0","end"))
+                workers <- strsplit(tclvalue(tkget(worker.entry,"0.0","end")),"[\n]+")[[1]]
                 if(tclvalue(emailsubject)==""){
                     tkmessageBox(message="Please enter an email subject!", type="ok")
                     tkfocus(contactDialog)
@@ -2248,47 +2248,47 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
             tkwm.title(contactDialog, "Contact MTurk Worker(s) via Email")
             # workerid, emailsubject, msg body
             entryform <- tkframe(contactDialog, relief="groove", borderwidth=2)
-                workerid <- tclVar()
-                emailsubject <- tclVar()
                 r <- 1
-                tkgrid(ttklabel(entryform, text = "     "), row=r, column=1)
-                tkgrid(ttklabel(entryform, text = "     "), row=r, column=4)
+                sframe <- ttklabelframe(entryform,
+                                        text = "Email Subject (max 200 char.):", 
+                                        borderwidth = 2)
+                    emailsubject <- tclVar()
+                    subject.entry <- tkentry(sframe, width = 50, textvariable=emailsubject)
+                    tkgrid(subject.entry)
+                tkgrid(sframe, row = r)
                 r <- r + 1
-                tkgrid(ttklabel(entryform, text = "     "), row=r)
+                bframe <- ttklabelframe(entryform,
+                                        text = "Email Body (max 4096 char.):", 
+                                        borderwidth = 2)
+                    chars <- tclVar('0')
+                    body.entry <- tktext(bframe, height = 10, width = 50)
+                    tkgrid(body.entry, column = 1, columnspan = 2)
+                    tkmark.set(body.entry,"insert","0.0")
+                    editModified <- function(){
+                        tclvalue(chars) <- 
+                          as.character(nchar(curlEscape(tclvalue(tkget(body.entry,"0.0","end")))))
+                    }
+                    tkbind(body.entry, "<<Modified>>", editModified)
+                    tkgrid(tklabel(bframe, text='Number of characters:'), row=2, column=1, sticky='w')
+                    tkgrid(tklabel(bframe, textvariable = chars), row=2, column=2, sticky='w')
+                tkgrid(bframe, row = r)
                 r <- r + 1
-                subject.entry <- tkentry(entryform, width = 50, textvariable=emailsubject)
-                tkgrid(tklabel(entryform, text = "Email Subject (max 200 char.): "), row=r, column=2)
-                tkgrid(subject.entry, row=r, column=3)
-                r <- r + 1
-                tkgrid(ttklabel(entryform, text = "     "), row=r)
-                r <- r + 1
-                chars <- tclVar('')
-                body.entry <- tktext(entryform, height = 8, width = 60)
-                tkmark.set(body.entry,"insert","0.0")
-                tkgrid(tklabel(entryform, text = "Email Body (max 4096 char.): "), row=r, column=2)
-                r <- r + 1
-                tkgrid(body.entry, row=r, column=2, columnspan=2)
-                r <- r + 1
-                tkgrid(tklabel(entryform, text='Number of characters:'), row=r, column=2, sticky='e')
-                tkgrid(tklabel(entryform, textvariable = chars), row=r, column=3, sticky='w')
-                r <- r + 1
-                worker.entry <- tktext(entryform, height = 20, width = 50)
-                tkmark.set(worker.entry,"insert","0.0")
-                tkgrid(tklabel(entryform, text = "WorkerId(s) (one per line): "), row=r, column=2)
-                tkgrid(worker.entry, row=r, column=3)
-                r <- r + 1
-                tkgrid(ttklabel(entryform, text = "     "), row=r)
+                wframe <- ttklabelframe(entryform,
+                                        text = "WorkerId(s) (one per line):", 
+                                        borderwidth = 2)
+                    worker.entry <- tktext(wframe, height = 10, width = 50)
+                    tkmark.set(worker.entry,"insert","0.0")
+                    tkgrid(worker.entry)
+                tkgrid(wframe, row = r)
             tkgrid(entryform)
             # buttons
             buttons <- tkframe(contactDialog)
-                OKbutton <- tkbutton(buttons,text="   OK   ",command=contact)
-                Cancelbutton <- tkbutton(buttons,text=" Cancel ",command=function() {tkdestroy(contactDialog); tkfocus(wizard)})
-                checkbutton <- tkbutton(buttons,text=" Check body length ",
-                    command= function() {tclvalue(chars) <- as.character(nchar(curlEscape(tclvalue(tkget(body.entry,"0.0","end")))))})
                 r <- 1
-                tkgrid(OKbutton, row = r, column = 1)
-                tkgrid(Cancelbutton, row=r, column = 2)
-                tkgrid(checkbutton, row=r, column = 3)
+                tkgrid(tkbutton(buttons,text="   OK   ",command=contact), row = r, column = 1)
+                tkgrid(tkbutton(buttons,text=" Cancel ", command = function() {
+                    tkdestroy(contactDialog)
+                    tkfocus(wizard)
+                }), row=r, column = 2)
             tkgrid(buttons)
             
             tkfocus(contactDialog)
@@ -2362,7 +2362,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
         blockWiz <- function(){
             # function
             block <- function(){
-                workers <- tclvalue(tkget(worker.entry,"0.0","end"))
+                workers <- strsplit(tclvalue(tkget(worker.entry,"0.0","end")),"[\n]+")[[1]]
                 if(!length(workers) || workers == ""){
                     tkmessageBox(message="Please enter at least one WorkerId!", type="ok")
                     tkfocus(blockDialog)
@@ -2415,7 +2415,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
         unblockWiz <- function(){
             # function
             unblock <- function(){
-                workers <- tclvalue(tkget(worker.entry,"0.0","end"))
+                workers <- strsplit(tclvalue(tkget(worker.entry,"0.0","end")),"[\n]+")[[1]]
                 if(!length(workers) || workers == ""){
                     tkmessageBox(message="Please enter at least one WorkerId!", type="ok")
                     tkfocus(unblockDialog)
@@ -3123,7 +3123,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
         updatescoreWiz <- function(){
             # function
             updatescore <- function(){
-                workers <- tclvalue(tkget(worker.entry,"0.0","end"))
+                workers <- strsplit(tclvalue(tkget(worker.entry,"0.0","end")),"[\n]+")[[1]]
                 if(tclvalue(qualid)==""){
                     tkmessageBox(message="Please enter a QualificationTypeId!", type="ok")
                     tkfocus(updatescoreDialog)
