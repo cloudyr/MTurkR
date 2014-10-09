@@ -1,3 +1,10 @@
+# CHANGES TO MTurkR 0.6 #
+
+## SIGNIFICANT USER-VISIBLE CHANGES ##
+
+* `mturkr.wizard` now allows users to enter multiple WorkerIds for several functions by simply pasting one WorkerId per line into a multi-line textbox. (#52, h/t Justin Weigand)
+
+
 # CHANGES TO MTurkR 0.5.5 #
 
 ## SIGNIFICANT USER-VISIBLE CHANGES ##
