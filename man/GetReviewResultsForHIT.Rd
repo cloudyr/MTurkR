@@ -6,6 +6,7 @@
 \usage{
 GetReviewResultsForHIT(hit, assignment = NULL, policy.level = NULL,
                        retrieve.results = TRUE, retrieve.actions = TRUE,
+                       pagenumber = 1, pagesize = 400,
                        verbose = getOption('MTurkR.verbose', TRUE), ...)
 }
 \arguments{
@@ -14,6 +15,9 @@ GetReviewResultsForHIT(hit, assignment = NULL, policy.level = NULL,
   \item{policy.level}{Either \code{HIT} or \code{Assignment}. If \code{NULL} (the default), all data for both policy levels is retrieved.}
   \item{retrieve.results}{Optionally retrieve ReviewResults. Default is \code{TRUE}.}
   \item{retrieve.actions}{Optionally retrieve ReviewActions. Default is \code{TRUE}.}
+  %\item{return.all}{A logical indicating whether all Qualifications (as opposed to a specified page of the search results) should be returned. Default is \code{TRUE}.}
+  \item{pagenumber}{An optional character string indicating which page of search results should be returned. Most users can ignore this.}
+  \item{pagesize}{An optional character string indicating how many search results should be returned by each request, between 1 and 400. Most users can ignore this.}
   \item{verbose}{Optionally print the results of the API request to the standard output. Default is taken from \code{getOption('MTurkR.verbose', TRUE)}.}
   \item{...}{Additional arguments passed to \code{\link{request}}.}
 }
