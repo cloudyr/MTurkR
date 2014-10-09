@@ -730,12 +730,12 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 buttons <- tkframe(reviewpolicyDialog)
                     r <- 1
                     tkgrid(tkbutton(buttons, text = "   OK   ", 
-                                    command = storepolicy), row = r, column = 2
+                                    command = storepolicy), row = r, column = 2)
                     tkgrid(tkbutton(buttons, text = " Cancel ",
                                     command = function() {
                                         tkdestroy(reviewpolicyDialog)
                                         tkfocus(wizard)
-                                    }), row=r, column = 3
+                                    }), row=r, column = 3)
                 tkgrid(buttons)
                 
                 tkfocus(reviewpolicyDialog)
