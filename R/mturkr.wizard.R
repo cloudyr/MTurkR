@@ -2332,19 +2332,18 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 assignmentid <- tclVar()
                 amount <- tclVar()
                 reason <- tclVar()
-                tkgrid(ttklabel(entryform, text = "     "))
-                worker.entry <- tkentry(entryform, width = 50, textvariable=workerid)
-                tkgrid(tklabel(entryform, text = "WorkerId: "), worker.entry)
-                tkgrid(ttklabel(entryform, text = "     "))
-                assignment.entry <- tkentry(entryform, width = 50, textvariable=assignmentid)
-                tkgrid(tklabel(entryform, text = "AssignmentId: "), assignment.entry)
-                tkgrid(ttklabel(entryform, text = "     "))
-                amount.entry <- tkentry(entryform, width = 50, textvariable=amount)
-                tkgrid(tklabel(entryform, text = "Bonus amount: $"), amount.entry)
-                tkgrid(ttklabel(entryform, text = "     "))
-                reason.entry <- tkentry(entryform, width = 50, textvariable=reason)
-                tkgrid(tklabel(entryform, text = "Reason for bonus: "), reason.entry)
-                tkgrid(ttklabel(entryform, text = "     "))
+                wframe <- ttklabelframe(entryform, text = "WorkerId")
+                    tkgrid(tkentry(wframe, width = 50, textvariable=workerid))
+                tkgrid(wframe, row = 1)
+                aframe <- ttklabelframe(entryform, text = "AssignmentId")
+                    tkgrid(tkentry(aframe, width = 50, textvariable=assignmentid))
+                tkgrid(aframe, row = 2)
+                bframe <- ttklabelframe(entryform, text = "Bonus Amount (in US $)")
+                    tkgrid(tkentry(bframe, width = 50, textvariable=amount))
+                tkgrid(bframe, row = 3)
+                rframe <- ttklabelframe(entryform, text = "Reason for bonus")
+                    tkgrid(tkentry(rframe, width = 50, textvariable=reason))
+                tkgrid(rframe, row = 4)
             tkgrid(entryform)
             # buttons
             buttons <- tkframe(bonusDialog)
@@ -2380,24 +2379,17 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
             }
             # layout
             blockDialog <- tktoplevel()
-            tkwm.title(blockDialog, "Block Worker")
+            tkwm.title(blockDialog, "Block Worker(s)")
             entryform <- tkframe(blockDialog, relief="groove", borderwidth=2)
-                workerid <- tclVar()
-                r <- 1
-                tkgrid(ttklabel(entryform, text = "     "), row=r)
-                worker.entry <- tkentry(entryform, width = 50, textvariable=workerid)
-                r <- r + 1
-                worker.entry <- tktext(entryform, height = 20, width = 50)
-                tkmark.set(worker.entry,"insert","0.0")
-                tkgrid(tklabel(entryform, text = "WorkerId(s) (one per line): "), row=r, column=2)
-                tkgrid(worker.entry, row=r, column=3)
-                reason <- tclVar()
-                r <- r + 1
-                worker.entry <- tkentry(entryform, width = 50, textvariable=reason)
-                tkgrid(tklabel(entryform, text = "Enter Reason (required): "), row=r, column=1, columnspan=3)
-                tkgrid(worker.entry, row=r, column=4, columnspan=5)
-                r <- r + 1
-                tkgrid(ttklabel(entryform, text = "     "), row=r)
+                wframe <- ttklabelframe(entryform, text = "WorkerId(s) (one per line): ")
+                    worker.entry <- tktext(wframe, height = 10, width = 50)
+                    tkgrid(worker.entry)
+                    tkmark.set(worker.entry,"insert","0.0")
+                tkgrid(wframe, row = 1)
+                rframe <- ttklabelframe(entryform, text = "Reason for block:")
+                    reason <- tclVar()
+                    tkgrid(tkentry(rframe, width = 50, textvariable=reason))
+                tkgrid(rframe, row = 2)
             tkgrid(entryform)
             # buttons
             buttons <- tkframe(blockDialog)
@@ -2436,24 +2428,17 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
             }
             # layout
             unblockDialog <- tktoplevel()
-            tkwm.title(unblockDialog, "Unblock Worker")
+            tkwm.title(unblockDialog, "Unblock Worker(s)")
             entryform <- tkframe(unblockDialog, relief="groove", borderwidth=2)
-                # hitid
-                workerid <- tclVar()
-                r <- 1
-                tkgrid(ttklabel(entryform, text = "     "), row=r)
-                r <- r + 1
-                worker.entry <- tktext(entryform, height = 20, width = 50)
-                tkmark.set(worker.entry,"insert","0.0")
-                tkgrid(tklabel(entryform, text = "WorkerId(s) (one per line): "), row=r, column=2)
-                tkgrid(worker.entry, row=r, column=3)
-                r <- r + 1
-                reason <- tclVar()
-                worker.entry <- tkentry(entryform, width = 50, textvariable=reason)
-                tkgrid(tklabel(entryform, text = "Enter Reason (optional): "), row=r, column=1, columnspan=3)
-                tkgrid(worker.entry, row=r, column=4, columnspan=5)
-                r <- r + 1
-                tkgrid(ttklabel(entryform, text = "     "), row=r)
+                wframe <- ttklabelframe(entryform, text = "WorkerId(s) (one per line): ")
+                    worker.entry <- tktext(wframe, height = 10, width = 50)
+                    tkgrid(worker.entry)
+                    tkmark.set(worker.entry,"insert","0.0")
+                tkgrid(wframe, row = 1)
+                rframe <- ttklabelframe(entryform, text = "Reason for unblock:")
+                    reason <- tclVar()
+                    tkgrid(tkentry(rframe, width = 50, textvariable=reason))
+                tkgrid(rframe, row = 2)
             tkgrid(entryform)
             # buttons
             buttons <- tkframe(unblockDialog)
@@ -2522,7 +2507,6 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 else {
                     reportperiod <- periods[as.numeric(tkcurselection(period.entry))+1]
                     tkdestroy(statDialog)
-                    #tkmessageBox(title = "", message = paste("Check: ",reportperiod,sep=""), type="ok")
                     WorkerReport(worker=tclvalue(workerid), period=reportperiod, sandbox=sandbox)
                     tkfocus(wizard)
                 }
@@ -2530,29 +2514,22 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
             # layout
             statDialog <- tktoplevel()
             tkwm.title(statDialog, "MTurk Worker Statistics")
-            entryform <- tkframe(statDialog, relief="groove", borderwidth=2)
-                # workerid
+            wframe <- ttklabelframe(statDialog, text = "WorkerId")
                 workerid <- tclVar()
-                r <- 1
-                tkgrid(ttklabel(entryform, text = "     "), row=r, column=1)
-                tkgrid(ttklabel(entryform, text = "     "), row=r, column=6)
-                r <- r + 1
-                tkgrid(tklabel(entryform, text = "WorkerId: "), row=r, column=2, columnspan=2)
-                worker.entry <- tkentry(entryform, width = 20, textvariable=workerid)
-                tkgrid(worker.entry, row=r, column=4)
-                # periods
-                r <- r + 1
+                worker.entry <- tkentry(wframe, width = 20, textvariable=workerid)
+                tkgrid(worker.entry)
+            tkgrid(wframe, row = 1)
+            pframe <- ttklabelframe(statDialog, text = "Report period")
                 periods <- c("OneDay","SevenDays","ThirtyDays","LifeToDate")
-                period.entry <- tklistbox(entryform,height=length(periods),width=20, selectmode="single",background="white")
-                tkgrid(tklabel(entryform,text="Report Period: "),row=r, column=2, columnspan=2)
-                tkgrid(period.entry, row=r, column=4, rowspan=4)
-                r <- r + 4
-                tkgrid(ttklabel(entryform, text = "     "), row=r)
+                period.entry <- tklistbox(pframe, 
+                                          height = length(periods), width=20, 
+                                          selectmode="single", background="white")
+                tkgrid(period.entry)
                 for (i in 1:length(periods)) {
                     tkinsert(period.entry,"end",periods[i])
                 }
                 tkselection.set(period.entry,3)
-            tkgrid(entryform)
+            tkgrid(pframe, row = 2)
             
             # buttons
             buttons <- tkframe(statDialog)
