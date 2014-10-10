@@ -148,44 +148,36 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
             # layout
             balDialog <- tktoplevel()
             tkwm.title(balDialog, "MTurk Account Balance Check")
-            entryform <- tkframe(balDialog, relief="groove", borderwidth=2)
-                amt <- tclVar("0")
-                assignct <- tclVar("0")
-                hitct <- tclVar("1")
-                bonusct <- tclVar("0")
-                bonusamt <- tclVar("0")
-                masters <- tclVar("0") # default to zero
-                r <- 1
-                tkgrid(ttklabel(entryform, text = "     "), row=r, column=1)
-                tkgrid(ttklabel(entryform, text = "     "), row=r, column=4)
-                r <- r + 1
-                entry.amt <- tkentry(entryform, width = 5, textvariable=amt)
-                tkgrid(tklabel(entryform, text = "Payment per assignment: $"), entry.amt, row=r, sticky="e")
-                r <- r + 1
-                entry.assignct <- tkentry(entryform, width = 5, textvariable=assignct)
-                tkgrid(tklabel(entryform, text = "Number of assignments: "), entry.assignct, row=r, sticky="e")
-                r <- r + 1
-                entry.hitct <- tkentry(entryform, width = 5, textvariable=hitct)
-                tkgrid(tklabel(entryform, text = "Number of HITs: "), entry.hitct, row=r, sticky="e")
-                r <- r + 1
-                entry.bonusct <- tkentry(entryform, width = 5, textvariable=bonusct)
-                tkgrid(tklabel(entryform, text = "Number of bonuses: "), entry.bonusct, row=r, sticky="e")
-                r <- r + 1
-                entry.bonusamt <- tkentry(entryform, width = 5, textvariable=bonusamt)
-                tkgrid(tklabel(entryform, text = "Payment per bonus: $"), entry.bonusamt, row=r, sticky="e")
-                r <- r + 1
-                entry.masters <- tkcheckbutton(entryform, variable=masters)
-                tkgrid(tklabel(entryform,text="Use MTurk Masters Workers? "), entry.masters, row=r, sticky="e")
-                r <- r + 1
-                tkgrid(ttklabel(entryform, text = "     "), row=r)
-            tkgrid(entryform)
+            amt <- tclVar("0")
+            assignct <- tclVar("0")
+            hitct <- tclVar("1")
+            bonusct <- tclVar("0")
+            bonusamt <- tclVar("0")
+            masters <- tclVar("0") # default to zero
+            aframe <- ttklabelframe(balDialog, text = "Payment per assignment (US $)")
+                tkgrid(tkentry(aframe, width = 5, textvariable=amt))
+            tkgrid(aframe, row = 1)
+            cframe <- ttklabelframe(balDialog, text = "Number of assignments")
+                tkgrid(tkentry(cframe, width = 5, textvariable=assignct))
+            tkgrid(cframe, row = 2)
+            hframe <- ttklabelframe(balDialog, text = "Number of HITs")
+                tkgrid(tkentry(hframe, width = 5, textvariable=hitct))
+            tkgrid(hframe, row = 3)
+            bframe <- ttklabelframe(balDialog, text = "Number of bonuses")
+                tkgrid(tkentry(bframe, width = 5, textvariable=bonusct))
+            tkgrid(bframe, row = 4)
+            baframe <- ttklabelframe(balDialog, text = "Payment per bonus (US $)")
+                tkgrid(tkentry(baframe, width = 5, textvariable=bonusamt))
+            tkgrid(baframe, row = 5)
+            mframe <- ttklabelframe(balDialog, text = "Use MTurk Masters Workers?")
+                tkgrid(tkcheckbutton(mframe, variable=masters))
+            tkgrid(baframe, row = 6)
             # buttons
             buttons <- tkframe(balDialog)
-                OKbutton <- tkbutton(buttons,text="   OK   ",command=function() {tkdestroy(balDialog); checksufficient()})
-                Cancelbutton <- tkbutton(buttons,text=" Cancel ",command=function() {tkdestroy(balDialog); tkfocus(wizard)})
-                r <- 1
-                tkgrid(OKbutton, row = r, column = 1)
-                tkgrid(Cancelbutton, row=r, column = 2)
+                tkgrid(tkbutton(buttons,text="   OK   ",command=function() {tkdestroy(balDialog); checksufficient()}), 
+                       row = 1, column = 1)
+                tkgrid(tkbutton(buttons,text=" Cancel ",command=function() {tkdestroy(balDialog); tkfocus(wizard)}), 
+                       row = 1, column = 2)
             tkgrid(buttons)
             
             tkfocus(balDialog)
@@ -243,13 +235,11 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
             }
             # buttons
             buttons <- tkframe(logDialog)
-                r <- 1
-                displaybutton <- tkbutton(buttons, text=" Display entry ", command=function() displaylogentry(n=as.numeric(tkcurselection(loglist))+1))
-                cancelbutton <- tkbutton(buttons, text=" Close ", command=function() tkdestroy(logDialog) )
-                tkgrid(displaybutton, row=r, column=1)
-                tkgrid(cancelbutton, row=r, column=2)
+                tkgrid(tkbutton(buttons, text=" Display entry ", command=function() displaylogentry(n=as.numeric(tkcurselection(loglist))+1)), 
+                       row = 1, column=1)
+                tkgrid(tkbutton(buttons, text=" Close ", command=function() tkdestroy(logDialog) ), 
+                       row = 1, column=2)
             tkgrid(buttons, row = 2, column = 1)
-                    
             tkfocus(logDialog)
         }
         
@@ -339,55 +329,45 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 # layout
                 qualreqDialog <- tktoplevel()
                 tkwm.title(qualreqDialog, "Generate QualificationRequirement")
-                entryform <- tkframe(qualreqDialog, relief="groove", borderwidth=2)
-                    qualvalue <- tclVar()
-                    required <- tclVar("0")
-                    r <- 1
-                    tkgrid(ttklabel(entryform, text = "     "), row=r, column=1)
-                    tkgrid(ttklabel(entryform, text = "     "), row=r, column=8)
-                    r <- r + 1
+                qframe <- ttklabelframe(qualreqDialog, text = "QualificationTypeId")
                     qualid <- tclVar()
-                    qualid.entry <- tkentry(entryform, width = 50, textvariable=qualid)
-                    tkgrid(tklabel(entryform, text = "QualificationTypeId: "), row=r, column=2, columnspan=4, sticky="e")
-                    tkgrid(qualid.entry, row=r, column=6, columnspan=2, sticky="w")
-                    r <- r + 1
-                    tkgrid(tklabel(entryform,text="Qualification Required for HIT Preview: "), row=r, column=2, columnspan=4, sticky="e")
-                    required.entry <- tkcheckbutton(entryform, variable=required)
-                    tkgrid(required.entry, row=r, column=6, sticky="w")
-                    r <- r + 2
-                    tkgrid(tklabel(entryform,text="Score is: "), row=r, column=2, rowspan=2, sticky="e")
-                    scr <- tkscrollbar(entryform, repeatinterval=4, command=function(...) tkyview(complist,...))
-                    complist <- tklistbox(    entryform, height=3, width=7, selectmode="single",
-                                            yscrollcommand=function(...) tkset(scr,...), background="white")
-                    tkgrid(complist, scr, row=r, column=3, rowspan=2, sticky="e")
-                    tkgrid.configure(scr, column=4, rowspan=2, sticky="w")
-                    complistitems <- c("<","<=",">",">=","==","!=","Exists")
+                    tkgrid(tkentry(qframe, width = 50, textvariable=qualid))
+                tkgrid(qframe, row = 1)
+                rframe <- ttklabelframe(qualreqDialog, text = "Required for HIT Preview?")
+                    required <- tclVar("0")
+                    tkgrid(tkcheckbutton(rframe, variable=required))
+                tkgrid(rframe, row = 2)
+                cframe <- ttklabelframe(qualreqDialog, text = "Score is:")
+                    required <- tclVar("0")
+                    tkgrid(tkcheckbutton(cframe, variable=required))
+                    scr <- tkscrollbar(cframe, repeatinterval=4, command=function(...) tkyview(complist,...))
+                    complist <- tklistbox(cframe, height=3, width=7, selectmode="single",
+                                          yscrollcommand=function(...) tkset(scr,...), background="white")
+                    tkgrid(complist, scr, row=1, column=1, sticky="e")
+                    tkgrid.configure(scr, row=1, column=2, sticky="w")
+                    complistitems <- c("<","<=",">",">=","==","!=","Exists","DoesNotExist")
                     for (i in 1:length(complistitems)) {
                         tkinsert(complist,"end",complistitems[i])
                     }
                     tkselection.set(complist,0)
-                    tkgrid(tklabel(entryform,text="value: "), row=r, column=5, rowspan=2, sticky="w")
-                    qual.entry <- tkentry(entryform, width=10, textvariable=qualvalue)
-                    tkgrid(qual.entry, row=r, column=6, rowspan=2, sticky="w")
-                    tkgrid(tklabel(entryform,text="(Required except for 'Exists')"), row=r, column=7, rowspan=2, sticky="w")
-                    r <- r + 2
-                    tkgrid(ttklabel(entryform, text = "     "), row=r, column=1)
-                tkgrid(entryform)
+                tkgrid(cframe, row = 3)
+                vframe <- ttklabelframe(qualreqDialog, text = "Value")
+                    qualvalue <- tclVar()
+                    tkgrid(tkentry(vframe, width=10, textvariable=qualvalue))
+                    tkgrid(tklabel(vframe,text="(Required except for 'Exists' and 'DoesNotExist')"))
+                tkgrid(vframe, row = 4)
                 # buttons
                 buttons <- tkframe(qualreqDialog)
                     populate <- function(){
                         result <- searchqualsWiz()
                         tclvalue(qualid) <<- wizardenv$qualresult$QualificationTypeId # retrieve qualid from wizardenv environment
                     }
-                    r <- 1
                     populatebutton <- tkbutton(buttons, text="Search for QualificationTypes", command=populate)
                     OKbutton <- tkbutton(buttons, text="   OK   ", command=genqual)
                     Cancelbutton <- tkbutton(buttons, text=" Cancel ", command=function(){tkdestroy(qualreqDialog); tkfocus(wizard)})
-                    tkgrid(populatebutton, row=r, column=1)
-                    tkgrid(OKbutton, row=r, column=2)
-                    tkgrid(Cancelbutton, row=r, column=3)
-                    r <- r + 1
-                    tkgrid(ttklabel(entryform, text = "     "), row=r, column=1)
+                    tkgrid(populatebutton, row=1, column=1)
+                    tkgrid(OKbutton, row=1, column=2)
+                    tkgrid(Cancelbutton, row=1, column=3)
                 tkgrid(buttons)
             
                 tkfocus(qualreqDialog)
