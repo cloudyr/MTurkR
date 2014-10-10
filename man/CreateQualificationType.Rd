@@ -16,13 +16,13 @@ CreateQualificationType(name, description, status, keywords = NULL,
   \item{description}{A longer description of the QualificationType. This is visible to workers. Maximum of 2000 characters.}
   \item{status}{A character vector of \dQuote{Active} or \dQuote{Inactive}, indicating whether the QualificationType should be active and visible.}
   \item{keywords}{An optional character string containing a comma-separated set of keywords by which workers can search for the QualificationType. Maximum 1000 characters. These cannot be modified by \code{\link{UpdateQualificationType}}.}
-  \item{retry.delay}{An optional time (in seconds) indicating how long workers have to wait before requesting the QualificationType after an initial rejection.}
+  \item{retry.delay}{An optional time (in seconds) indicating how long workers have to wait before requesting the QualificationType after an initial rejection. If not specified, retries are disabled and Workers can request a Qualification of this type only once, even if the Worker has not been granted the Qualification.}
   \item{test}{An optional character string consisting of a QuestionForm data structure, used as a test a worker must complete before the  QualificationType is granted to them.}
   \item{answerkey}{An optional character string consisting of an AnswerKey data structure, used to automatically score the test, perhaps as returned by \code{\link{GenerateAnswerKey}}.}
   \item{test.duration}{An optional time (in seconds) indicating how long workers have to complete the test.}
   \item{validate.test}{A logical specifying whether the \code{test} parameter should be validated against the relevant MTurk schema prior to creating the QualificationType (operation will fail if it does not validate, and will return validation information). Default is \code{FALSE}.}
   \item{validate.answerkey}{A logical specifying whether the \code{answerkey} parameter should be validated against the relevant MTurk schema prior to creating the QualificationType (operation will fail if it does not validate, and will return validation information). Default is \code{FALSE}.}
-  \item{auto}{A logical indicating whether the Qualification is automatically granted to workers who request it. Default is \code{FALSE}.}
+  \item{auto}{A logical indicating whether the Qualification is automatically granted to workers who request it. Default is \code{NULL} meaning \code{FALSE}.}
   \item{auto.value}{An optional parameter specifying the value that is automatically assigned to workers when they request it (if the Qualification is automatically granted).}
   \item{verbose}{Optionally print the results of the API request to the standard output. Default is taken from \code{getOption('MTurkR.verbose', TRUE)}.}
   \item{...}{Additional arguments passed to \code{\link{request}}.}
