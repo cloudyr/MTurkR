@@ -5,6 +5,11 @@
 * `mturkr.wizard` now allows users to enter multiple WorkerIds for several functions by simply pasting one WorkerId per line into a multi-line textbox. (#52, h/t Justin Weigand)
 * `GetReviewResultsForHIT` now has `pagenumber` and `pagesize` arguments to control pagination of results. (#54)
 
+## BUG FIXES ##
+
+* Fixed a few XML-related bugs in `as.data.frame.QuestionForm` and `as.data.frame.AnswerKey`.
+
+
 # CHANGES TO MTurkR 0.5.5 #
 
 ## SIGNIFICANT USER-VISIBLE CHANGES ##

@@ -43,8 +43,7 @@ function (qual, description = NULL, status = NULL, retry.delay = NULL,
                 return(validation)
             }
         }
-        qform <- as.data.frame.QuestionForm(xmlParse(test))
-        t.temp <- unique(qform$QuestionIdentifier[qform$Element=='Question'])
+        t.temp <- unique(as.data.frame.QuestionForm(xmlParse(test))$Question$QuestionIdentifier)
         a.temp <- unique(as.data.frame.AnswerKey(xmlParse(answerkey))$Questions$QuestionIdentifier)
         if(!sum(a.temp %in% t.temp) == length(a.temp)) 
             stop("One or more QuestionIdentifiers in AnswerKey not in QuestionForm")

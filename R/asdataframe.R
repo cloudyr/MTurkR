@@ -283,27 +283,23 @@ as.data.frame.Qualifications <- function(xml.parsed) {
 as.data.frame.QuestionForm <- function(xml.parsed) {
     qform <- xmlChildren(xmlChildren(xml.parsed)$QuestionForm)
     n <- names(qform)
-    out <- mapply(function(x, name){
+    out <- mapply(function(x, name, elementnumber){
         if(name=='Question'){
-            list(Element = 'Question',
+            list(ElementNumber = elementnumber,
+                 Element = 'Question',
                  QuestionIdentifier = xmlValue(xmlChildren(x)$QuestionIdentifier),
                  DisplayName = xmlValue(xmlChildren(x)$DisplayName),
                  IsRequired = xmlValue(xmlChildren(x)$IsRequired),
                  QuestionContent = xmlValue(xmlChildren(x)$QuestionContent),
                  AnswerSpecification = xmlValue(xmlChildren(x)$AnswerSpecification) )
         } else if(name=='Overview'){
-            # this doesn't handle multiple elements well
-            list(Element = 'Overview',
-                 Title = xmlValue(xmlChildren(x)$Title),
-                 Text = xmlValue(xmlChildren(x)$Text),
-                 List = sapply(xmlChildren(x)$Text, xmlValue),
-                 Binary = xmlToList(xmlChildren(x)$Binary),
-                 Application = xmlToList(xmlChildren(x)$Application),
-                 EmbeddedBinary = xmlToList(xmlChildren(x)$EmbeddedBinary),
-                 FormattedContent = xmlChildren(x)$FormattedContent )
+            append(list(ElementNumber = elementnumber, 
+                        Element = 'Overview'),
+                lapply(xmlChildren(x), xmlValue))
         }
-    }, qform, n)
-    return(do.call('rbind',out))
+    }, qform, n, elementnumber = seq_along(n))
+    return(list(Question = do.call('rbind.data.frame',out[names(out)=="Question"]), 
+                Overview = do.call('rbind.data.frame',out[names(out)=="Overview"])))
 }
 
 as.data.frame.HTMLQuestion <- function(xml.parsed) {
@@ -331,7 +327,7 @@ as.data.frame.ExternalQuestion <- function(xml.parsed) {
 as.data.frame.AnswerKey <- function(xml.parsed) {
     nodes <- xmlChildren(xmlChildren(xml.parsed)$AnswerKey)
     # need to change this to an xpath expression:
-    answerkey <- data.frame(matrix(nrow = length(strsplit(toString(xml.parsed),'/AnswerOption')[[1]])-1,
+    answerkey <- data.frame(matrix(nrow = length(strsplit(toString.XMLNode(xml.parsed),'/AnswerOption')[[1]])-1,
                                    ncol = 3))
     names(answerkey) <- c("QuestionIdentifier", "SelectionIdentifier", "AnswerScore")
     k <- 1
