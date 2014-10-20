@@ -246,7 +246,7 @@ function (graphics = FALSE, sandbox = NULL, ...)
         else if (choice == 10) {
             bonus.ct <- menu(c("Single Worker", "Multiple Workers"), 
                 graphics = graphics,
-                title = "Contact one worker or multiple workers?")
+                title = "Bonus one worker or multiple workers?")
             if (bonus.ct == 0) 
                 wizard.menu()
             else if (bonus.ct == 1) {
@@ -274,30 +274,58 @@ function (graphics = FALSE, sandbox = NULL, ...)
             wizard.menu()
         }
         else if (choice == 11) {
-            bonus.ct <- menu(c("Single Worker", "Multiple Workers"), 
+            contact.ct <- menu(c("Single Worker", "Multiple Workers"), 
                 graphics = graphics,
                 title = "Contact one worker or multiple workers?")
-            if (bonus.ct == 0) 
+            if (contact.ct == 0) 
                 wizard.menu()
-            else if (bonus.ct == 1) {
+            else if (contact.ct == 1) {
                 worker <- readline(prompt = "WorkerId to Notify: ")
                 subject <- readline(prompt = "Email Subject Line: ")
                 txt <- readline(prompt = "Email body text: ")
             }
-            else if (bonus.ct == 2) {
+            else if (contact.ct == 2) {
                 subject <- readline(prompt = "Email Subject Line: ")
                 txt <- readline(prompt = "Email body text: ")
                 count <- as.numeric(readline(prompt = "How many workers to notify: "))
                 message("Enter each WorkerId on own line:")
                 worker <- scan(n = count, what = "character")
             }
-            notify <- try(ContactWorkers(subjects = subject, msgs = txt,
-                                         workers = worker, verbose = FALSE, ...), 
-                silent = TRUE)
-            if (class(notify) == "try-error") 
-                warning("An error occurred: ", notify)
-            else
-                print(notify)
+            txt <- gsub("\\n","\n",txt, fixed = TRUE)
+            txt <- gsub("\\t","\t",txt, fixed = TRUE)
+            txtToPrint <- 
+                c("Your message will look like this:\n\n",
+                "Subject:",subject,"\n\nBody:\n\n",
+                "Message from [Your Requester Name]\n",
+                "---------------------------------\n",
+                txt,
+                "\n---------------------------------\n",
+                "\n",
+                "Greetings from Amazon Mechanical Turk,\n",
+                "\n",
+                "The message above was sent by an Amazon Mechanical Turk user.\n",
+                "Please review the message and respond to it as you see fit.\n",
+                "\n",
+                "Sincerely,\n",
+                "Amazon Mechanical Turk\n",
+                "https://workersandbox.mturk.com\n",
+                "410 Terry Avenue North\n",
+                "SEATTLE, WA 98109-5210 USA\n")
+            message(txtToPrint)
+            continue <- menu(c("Accept Message and Proceed", "Cancel and Return to Main Menu"), 
+                graphics = graphics,
+                title = "What would you like to do?")
+            if(continue == 1) {
+                notify <- try(ContactWorkers(subjects = subject, 
+                                             msgs = txt,
+                                             workers = worker, 
+                                             verbose = FALSE, ...), 
+                              silent = TRUE)
+                if (class(notify) == "try-error") 
+                    warning("An error occurred: ", notify)
+                else
+                    print(notify)
+            }
             message()
             wizard.menu()
         }
