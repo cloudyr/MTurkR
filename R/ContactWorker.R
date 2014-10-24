@@ -29,9 +29,7 @@ function (subjects, msgs, workers, batch = FALSE,
         Notifications$WorkerId <- workers
         Notifications$Subject <- subjects
         Notifications$Message <- msgs
-        #Notifications <- setNames(data.frame(matrix(nrow = nbatches, ncol = 6)),
-        #                    c("Batch", "FirstWorkerId", "LastWorkerId", 
-        #                    "Subject", "Message", "Valid"))
+        
         i <- 1
         j <- 1
         while(j <= nbatches) {
@@ -41,28 +39,24 @@ function (subjects, msgs, workers, batch = FALSE,
             if(j == nbatches) {
                 workerbatch <- workers[i:(i + (lastbatch - 1))]
                 upper <- lastbatch
-            }
-            else {
+            } else {
                 workerbatch <- workers[i:(i + 99)]
                 upper <- 100
             }
-            for(k in 1:upper) {
-                GETworkers <- paste(GETworkers, "&WorkerId.", k,
-                                    "=", workerbatch[k], sep = "")
-                if(k == 1) 
-                    firstworker <- workerbatch[k]
-                else if(k == upper) 
-                    lastworker <- workerbatch[k]
-            }
-            GETparameters <- paste("&Subject=", curlEscape(subjects), 
-                                   "&MessageText=", curlEscape(msgs), GETworkers, 
-                                   sep = "")
+            GETworkers <- paste0("&WorkerId.", seq_along(workerbatch), "=", 
+                                 workerbatch, collapse = "")
+            firstworker <- workerbatch[1]
+            lastworker <- workerbatch[upper]
+            GETparameters <- paste0("&Subject=", curlEscape(subjects), 
+                                   "&MessageText=", curlEscape(msgs), GETworkers)
             request <- request(operation, GETparameters = GETparameters, ...)
             if(is.null(request$valid))
                 return(request)
-            Notifications$Valid[i:(i + (lastbatch - 1))] <- request$valid
-            #Notifications[j, ] <- c(nbatches, firstworker, lastworker,
-            #                        subjects, msgs, request$valid)
+            if(j == nbatches) {
+                Notifications$Valid[i:(i + (lastbatch - 1))] <- request$valid
+            } else {
+                Notifications$Valid[i:(i + 99)] <- request$valid
+            }
             if(request$valid == TRUE) {
                 if(verbose)
                     message(j, ": Workers ", firstworker, " to ",lastworker, " Notified")
@@ -77,16 +71,14 @@ function (subjects, msgs, workers, batch = FALSE,
                     for(i in 1:length(x))
                         Notifications$Valid[Notifications$Worker==x[[i]][1]] <- 'HardFailure'
                 }
-            }
-            else if(request$valid == FALSE) {
+            } else if(request$valid == FALSE) {
                 if(verbose) 
                     warning(j,": Invalid Request for workers ",firstworker," to ",lastworker)
             }
             i <- i + 100
             j <- j + 1
         }
-    }
-    else {
+    } else {
         for(i in 1:length(subjects)) {
             if(nchar(curlEscape(subjects[i])) > 200) 
                 stop(paste("Subject ", i, " Too Long (200 char max)", sep = ""))
