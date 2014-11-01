@@ -7,6 +7,7 @@
 
 ## BUG FIXES ##
 
+* Fixed a possible bug in `ContactWorkers` batch mode that sent multiple emails to the same worker(s). (#58, h/t Andy Guess)
 * Fixed a few XML-related bugs in `as.data.frame.QuestionForm` and `as.data.frame.AnswerKey`.
 
 
