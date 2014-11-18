@@ -7,7 +7,7 @@ function (notification, test.event.type = "HITExpired",
         verbose <- list(...)$print
     operation <- "SendTestEventNotification"
     if(!test.event.type %in% c("AssignmentAccepted", "AssignmentAbandoned", 
-        "AssignmentReturned", "AssignmentSubmitted", "HITReviewable", "HITExpired")) 
+        "AssignmentReturned", "AssignmentSubmitted", "HITReviewable", "HITExpired", "Ping")) 
         stop("Inappropriate TestEventType specified")
     GETparameters <- notification
     GETparameters <- paste(GETparameters, "&TestEventType=", test.event.type, sep = "")

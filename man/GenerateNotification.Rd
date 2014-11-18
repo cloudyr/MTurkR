@@ -18,6 +18,8 @@ GenerateNotification(destination, transport = "Email", event.type,
 \value{A character string containing a URL query parameter-formatted Notification data structure.}
 \references{
 \href{http://docs.amazonwebservices.com/AWSMechTurk/latest/AWSMturkAPI/ApiReference_NotificationDataStructureArticle.html}{API Reference}
+
+\href{http://docs.amazonwebservices.com/AWSMechTurk/latest/AWSMechanicalTurkRequester/Concepts_NotificationsArticle.html}{API Reference: Concept}
 }
 \author{Thomas J. Leeper}
 %\note{}

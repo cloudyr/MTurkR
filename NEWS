@@ -5,6 +5,10 @@
 * `mturkr.wizard` now allows users to enter multiple WorkerIds for several functions by simply pasting one WorkerId per line into a multi-line textbox. (#52, h/t Justin Weigand)
 * `GetReviewResultsForHIT` now has `pagenumber` and `pagesize` arguments to control pagination of results. (#54)
 
+## DOCUMENTATION ##
+
+* Examples of Amazon Simple Queue Service (SQS) notifications have been added, along with a detailed tutorial on the MTurk wiki. (#80)
+
 ## BUG FIXES ##
 
 * Fixed a possible bug in `ContactWorkers` batch mode that sent multiple emails to the same worker(s). (#58, h/t Andy Guess)
