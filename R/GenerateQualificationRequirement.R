@@ -50,7 +50,7 @@ function (qual, comparator, value, preview = NULL, qual.number = NULL) {
         if(qual[i] %in% c("2NDP2L92HECWY8NS8H3CK0CP5L9GHO", 
                             "21VZU98JHSTLZ5BPP4A9NOBJEK3DPG",
                             "2F1QJWKUDD8XADTFD2Q0G6UTO95ALH") && 
-                        !comparator == "Exists") 
+                        (!comparator %in% c("Exists","DoesNotExist"))) 
             stop("Masters qualifications can only accept 'Exists' comparator")
         if(comparator[i] %in% c("Exists","DoesNotExist") & !is.null(value[i])) 
             value[i] <- ""

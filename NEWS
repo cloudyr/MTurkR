@@ -7,7 +7,8 @@
 
 ## DOCUMENTATION ##
 
-* Examples of Amazon Simple Queue Service (SQS) notifications have been added, along with a detailed tutorial on the MTurk wiki. (#80)
+* Documentation of generating a Masters QualificationRequirement has been slightly clarified.
+* Examples of Amazon Simple Queue Service (SQS) notifications have been added, along with a detailed tutorial on the MTurk wiki. (#60)
 
 ## BUG FIXES ##
 

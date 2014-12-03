@@ -71,16 +71,16 @@ When creating a ExternalQuestion HITs, the \code{\link{GenerateHITsFromTemplate}
 \dontrun{
 a <- GenerateLayoutParameter("message","Text to display in HIT")
 hit1 <- 
-CreateHIT(hit.type="2FFNCWYB49F9BBJWA4SJUNST5OFSOW",
-          hitlayoutid="23ZGOOGQSCM61T1H5H9U0U00OQWFFU", 
+CreateHIT(hit.type = "2FFNCWYB49F9BBJWA4SJUNST5OFSOW",
+          hitlayoutid = "23ZGOOGQSCM61T1H5H9U0U00OQWFFU", 
           expiration = seconds(days = 4),
-          hitlayoutparameters=a)
+          hitlayoutparameters = a)
 
-b <- GenerateExternalQuestion("http://www.example.com/","400")
+b <- GenerateExternalQuestion("https://www.example.com/","400")
 hit2 <- 
-CreateHIT(hit.type="2FFNCWYB49F9BBJWA4SJUNST5OFSOW", 
+CreateHIT(hit.type = "2FFNCWYB49F9BBJWA4SJUNST5OFSOW", 
           expiration = seconds(days = 4),
-          question=b$string)
+          question = b$string)
 
 hit3 <- 
 CreateHIT(title = "Survey",
