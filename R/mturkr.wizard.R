@@ -2603,9 +2603,6 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 } else if(tclvalue(desc)==""){
                     tkmessageBox(message="Please enter a description!", type="ok")
                     tkfocus(createqualWiz)
-                } else if(tclvalue(keywords)==""){
-                    tkmessageBox(message="Please enter a name!", type="ok")
-                    tkfocus(createqualWiz)
                 } else if(tclvalue(auto)=="1" && tclvalue(auto.value)==""){
                     tkmessageBox(message="If auto-granted, please enter an automatic value!", type="ok")
                     tkfocus(updatequalWiz)
