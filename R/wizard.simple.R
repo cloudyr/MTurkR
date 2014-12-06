@@ -353,16 +353,17 @@ function (graphics = FALSE, sandbox = NULL, ...)
         }
         else if (choice == 14) {
             qual.opts <- c("Get Worker(s) By Qualification", 
-                "Get a Qualification Score", "Update Worker(s) Qualification Score", 
+                "Assign a Qualification", "Get a Qualification Score", 
+                "Update Worker(s) Qualification Score", 
                 "Create a QualificationType", "Update a QualificationType", 
                 "View a QualificationType", "Search QualificationTypes", 
                 "List Built-In QualificationTypes")
             qual.choice <- menu(qual.opts,
                                 graphics = graphics,
                                 title = "What would you like to do?")
-            if (qual.choice == 0) 
+            if (qual.choice == 0) {
                 wizard.menu()
-            else if (qual.choice == 1) {
+            } else if (qual.choice == 1) {
                 message("For which QualificationType do you want to retrieve workers?")
                 qual <- readline(prompt = "QualificationTypeId: ")
                 if (qual == "") 
@@ -372,8 +373,33 @@ function (graphics = FALSE, sandbox = NULL, ...)
                     warning("An error occurred: ", getqual)
                 else
                     print(getqual)
-            }
-            else if (qual.choice == 2) {
+            } else if (qual.choice == 2) {
+                message("Which QualificationType do you want to assign to a worker?")
+                qual <- readline(prompt = "QualificationTypeId: ")
+                    w.ct <- menu(c("Single Worker", "Multiple Workers"), 
+                    graphics = graphics,
+                    title = "Assign (same score) to one worker or multiple workers?")
+                if (w.ct == 0) {
+                    wizard.menu()
+                } else if (w.ct == 1) {
+                    worker <- readline(prompt = "WorkerId to Notify: ")
+                } else if (w.ct == 2) {
+                    count <- as.numeric(readline(prompt = "How many workers to notify: "))
+                    message("Enter each WorkerId on own line:")
+                    worker <- scan(n = count, what = "character")
+                    worker <- worker[worker != ""]
+                }
+                message("What value do you want to assign for the qualification?")
+                value <- readline(prompt = "Value: ")
+                if (qual == "" | worker == "") 
+                    wizard.menu()
+                getqual <- try(AssignQualification(qual, worker, value, verbose = TRUE, ...), 
+                               silent = TRUE)
+                if (class(getqual) == "try-error") 
+                    warning("An error occurred: ", getqual)
+                else
+                    print(getqual)
+            } else if (qual.choice == 3) {
                 message("For which QualificationType do you want to retrieve workers?")
                 qual <- readline(prompt = "QualificationTypeId: ")
                 message("For what worker do you want to retrieve the score?")
@@ -386,9 +412,8 @@ function (graphics = FALSE, sandbox = NULL, ...)
                     warning("An error occurred: ", getqual)
                 else
                     print(getqual)
-            }
-            else if (qual.choice == 3) {
-                message("For which QualificationType do you want to retrieve workers?")
+            } else if (qual.choice == 4) {
+                message("Which QualificationType do you want to update for a worker?")
                 qual <- readline(prompt = "QualificationTypeId: ")
                 message("For what worker do you want to retrieve the score?")
                 worker <- readline(prompt = "WorkerId: ")
@@ -402,8 +427,7 @@ function (graphics = FALSE, sandbox = NULL, ...)
                     warning("An error occurred: ", getqual)
                 else
                     print(getqual)
-            }
-            else if (qual.choice == 4) {
+            } else if (qual.choice == 5) {
                 message("Please enter information for QualificationType below")
                 name <- readline(prompt = "Name for QualificationType (Workers can see this): ")
                 description <- readline(prompt = "Description QualificationType (Workers can see this): ")
@@ -420,8 +444,7 @@ function (graphics = FALSE, sandbox = NULL, ...)
                     warning("An error occurred: ", getqual)
                 else
                     print(getqual)
-            }
-            else if (qual.choice == 5) {
+            } else if (qual.choice == 6) {
                 message("Which QualificationType do you want to update?")
                 qual <- readline(prompt = "QualificationTypeId: ")
                 update.opts <- c("Description", "Status", "Whether Qualification is Automatically Granted")
@@ -440,8 +463,7 @@ function (graphics = FALSE, sandbox = NULL, ...)
                     print(getqual)
                   message()
                   wizard.menu()
-                }
-                else if (update.choice == 2) {
+                } else if (update.choice == 2) {
                   status.choice <- menu(c("Active", "Inactive"), 
                     graphics = graphics,
                     title = "Should QualificationType be Active or Inactive?")
@@ -458,8 +480,7 @@ function (graphics = FALSE, sandbox = NULL, ...)
                   else print(getqual)
                   message()
                   wizard.menu()
-                }
-                else if (update.choice == 3) {
+                } else if (update.choice == 3) {
                   auto.choice <- menu(c("Yes", "No"), 
                                       graphics = graphics,
                                       title = "Should QualificationType be Automatically Granted?")
@@ -481,8 +502,7 @@ function (graphics = FALSE, sandbox = NULL, ...)
                   message()
                   wizard.menu()
                 }
-            }
-            else if (qual.choice == 6) {
+            } else if (qual.choice == 7) {
                 message("Which QualificationType do you want to view?")
                 qual <- readline(prompt = "QualificationTypeId: ")
                 if (qual == "") 
@@ -491,8 +511,7 @@ function (graphics = FALSE, sandbox = NULL, ...)
                 if (class(getqual) == "try-error") 
                   warning("An error occurred: ", getqual)
                 else print(getqual)
-            }
-            else if (qual.choice == 7) {
+            } else if (qual.choice == 8) {
                 searchq <- menu(c("Only Qualifications I Created", "All Qualifications"), 
                                 graphics = graphics,
                                 title = "Which Qualifications do you want to search?")
@@ -507,8 +526,7 @@ function (graphics = FALSE, sandbox = NULL, ...)
                 if (class(getqual) == "try-error") 
                   warning("An error occurred: ", getqual)
                 else print(getqual)
-            }
-            else if (qual.choice == 8) {
+            } else if (qual.choice == 9) {
                 getqual <- try(ListQualificationTypes(), silent = TRUE)
                 if (class(getqual) == "try-error") 
                   warning("An error occurred: ", getqual)
