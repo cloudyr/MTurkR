@@ -16,6 +16,8 @@ RejectQualification(qual.request, reason = NULL,
 }
 \details{Qualifications are publicly visible to workers on the MTurk website and workers can request Qualifications (e.g., when a HIT requires a QualificationType that they have not been assigned). QualificationRequests can be retrieved via \code{\link{GetQualificationRequests}}. This function rejects specified qualification requests.
 
+Note that rejecting a qualification is not the same as revoking a worker's Qualification. For example, if a worker already has a score of 100 on a given QualificationType and then requests the same QualificationType, a \code{RejectQualification} leaves the worker's existing Qualification in place. Use \code{\link{RevokeQualification}} to entirely remove a worker's Qualification.
+
 \code{RejectQualifications()} and \code{rejectrequest()} are aliases.
 }
 \value{A dataframe containing the QualificationRequestId, reason for rejection (if applicable), and whether each request was valid.}
