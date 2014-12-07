@@ -10,12 +10,14 @@ GrantQualification(qual.requests, values,
 }
 \arguments{
   \item{qual.requests}{A character string containing a QualificationRequestId (for example, returned by \code{\link{GetQualificationRequests}}), or a vector of QualificationRequestIds.}
-  \item{values}{A character string containing the value of the Qualification to be assigned to the worker, or a vector of values of length equal ot hte number of QualificationRequests.}
+  \item{values}{A character string containing the value of the Qualification to be assigned to the worker, or a vector of values of length equal to the number of QualificationRequests.}
   \item{verbose}{Optionally print the results of the API request to the standard output. Default is taken from \code{getOption('MTurkR.verbose', TRUE)}.}
   \item{...}{Additional arguments passed to \code{\link{request}}.}
 }
 \details{
 Qualifications are publicly visible to workers on the MTurk website and workers can request Qualifications (e.g., when a HIT requires a QualificationType that they have not been assigned). QualificationRequests can be retrieved via \code{\link{GetQualificationRequests}}. This function grants specified qualification requests. Requests can be rejected with \code{\link{RejectQualifications}}.
+
+Note that granting a qualification may have the consequence of modifying a worker's existing qualification score. For example, if a worker already has a score of 100 on a given QualificationType and then requests the same QualificationType, a \code{GrantQualification} action might increase or decrease that worker's qualification score.
 
 \code{GrantQualifications()} and \code{grantqual()} are aliases.
 }
