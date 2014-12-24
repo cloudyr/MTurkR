@@ -14,9 +14,6 @@ build_script:
 test_script:
   - travis-tool.sh run_tests
 
-after_script:
-  - travis-tool.sh dump_logs
-
 artifacts:
   - path: '*.Rcheck\**\*.log'
     name: Logs
