@@ -39,3 +39,5 @@ If you experience problems using MTurkR, you can:
   - Check the status of the MTurk Requester API on the [AWS Service Health Dashboard](http://status.aws.amazon.com/)
   - Contact the package maintainer [via email](mailto:thosjleeper@gmail.com) or on [Twitter](https://twitter.com/thosjleeper)
 
+---
+[![cloudyr project logo](http://i.imgur.com/JHS98Y7.png)](https://github.com/cloudyr)
