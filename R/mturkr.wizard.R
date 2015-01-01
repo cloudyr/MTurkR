@@ -3,11 +3,9 @@ mturkr.wizard <-
 function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
     if(style=="simple"){
         wizard.simple(graphics=FALSE, sandbox=sandbox)
-    }
-    else if(style=="simpleGUI"){
+    } else if(style=="simpleGUI"){
         wizard.simple(graphics=TRUE, sandbox=sandbox)
-    }
-    else { # by default, style=="tcltk"
+    } else { # by default, style=="tcltk"
         
         # setup some things for the wizard
         # temporary environment to store things when I want to use them across functions
@@ -19,9 +17,9 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
             if(tclvalue(exit)=="yes"){
                 tkdestroy(wizard)
                 bringToTop(-1)
-            }
-            else
+            } else {
                 tkfocus(wizard)
+            }
         }
         
         ##----------------------##
@@ -56,21 +54,18 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 accesskey <- tclVar(getOption('MTurkR.keypair')[1])
                 secretkey <- tclVar(getOption('MTurkR.keypair')[2])
             }
-            entryform <- tkframe(credDialog, relief="groove", borderwidth=2)
-                accesskey.entry <- tkentry(credDialog, width = 50, textvariable=accesskey)
-                secretkey.entry <- tkentry(credDialog, width = 50, textvariable=secretkey)
-                tkgrid(tklabel(entryform, text = "       "))
-                tkgrid(tklabel(entryform, text = "MTurk Access Key ID"), accesskey.entry)
-                tkgrid(tklabel(entryform, text = "MTurk Secret Key"), secretkey.entry)
-                tkgrid(tklabel(entryform, text = "       "))
-            tkgrid(entryform)
+            aframe <- ttklabelframe(credDialog, text = "MTurk Access Key ID")
+            bframe <- ttklabelframe(credDialog, text = "MTurk Secret Access Key")
+            tkentry(a, width = 50, textvariable=accesskey)
+            tkentry(b, width = 50, textvariable=secretkey)
+            tkgrid(aframe, row = 1)
+            tkgrid(bframe, row = 2)
             # buttons
             buttons <- tkframe(credDialog)
-                r <- 1
                 OKbutton <- tkbutton(buttons, text = "   OK   ", command = credOK)
                 Cancelbutton <- tkbutton(buttons, text = " Cancel ", command = function(){tkdestroy(credDialog); tkfocus(wizard)})
-                tkgrid(OKbutton, row = r, column = 1)
-                tkgrid(Cancelbutton, row=r, column = 2)
+                tkgrid(OKbutton, row = 1, column = 1)
+                tkgrid(Cancelbutton, row =1, column = 2)
             tkgrid(buttons)
             
             tkfocus(credDialog)
