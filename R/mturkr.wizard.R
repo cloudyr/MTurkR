@@ -3166,15 +3166,6 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
             populate()
         }
         
-        
-        # print MTurkR code demos to console
-        printdemos <- function(){
-        
-            # PRINT CODE DEMOS TO CONSOLE
-        
-        }
-        
-        
         ##----------------------##
         ##     WIZARD LAYOUT    ##
         ##----------------------##
