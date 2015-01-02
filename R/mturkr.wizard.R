@@ -1552,18 +1552,9 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 tkdestroy(approveDialog)
                 approveallDialog <- tktoplevel()
                 tkwm.title(approveallDialog, "Approve All Assignments")
-                entryform <- tkframe(approveallDialog, relief="groove", borderwidth=2)
-                    hitid <- tclVar()
-                    r <- 1
-                    tkgrid(ttklabel(entryform, text = "     "), row=r, column=1)
-                    tkgrid(ttklabel(entryform, text = "     "), row=r, column=5)
-                    r <- r + 1
-                    hit.entry <- wzentry(entryform, width = 50, textvariable=hitid)
-                    tkgrid(tklabel(entryform, text = "Enter HITId: "), row=r, column=2)
-                    tkgrid(hit.entry, row=r, column=3)
-                    r <- r + 1
-                    tkgrid(ttklabel(entryform, text = "     "), row=r, column=1)
-                tkgrid(entryform)
+                aframe <- ttklabelframe(approveallDialog, text = "HITId: ")
+                tkgrid(wzentry(aframe, width = 50, textvariable=hitid))
+                tkgrid(aframe)
                 # buttons
                 popbuttons(approveallDialog, okfun = approveallforhit, 
                            cancelfun = function(){tkdestroy(approveallDialog); tkfocus(wizard)}, 
@@ -1587,28 +1578,16 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
             # layout
             approveDialog <- tktoplevel()
             tkwm.title(approveDialog, "Approve Assignments")
-            entryform <- tkframe(approveDialog, relief="groove", borderwidth=2)
-                approveallbutton <- tkbutton(entryform,text="Approve All Assignments for a HIT?",command=approveall)
-                r <- 1
-                tkgrid(ttklabel(entryform, text = "     "), row=r, column=1)
-                tkgrid(ttklabel(entryform, text = "     "), row=r, column=4)
-                r <- r + 1
-                tkgrid(approveallbutton, row=r, columnspan=4)
-                r <- r + 1
-                tkgrid(ttklabel(entryform, text = "     "), row=r)
-                assignment <- tclVar()
-                assign.entry <- wzentry(entryform, width = 50, textvariable=assignment)
-                r <- r + 1
-                tkgrid(tklabel(entryform, text = "Enter AssignmentId: "), row=r, column=2)
-                tkgrid(assign.entry, row=r, column=3)
-                r <- r + 1
-                feedback <- tclVar()
-                feedback.entry <- wzentry(entryform, width = 50, textvariable=feedback)
-                tkgrid(tklabel(entryform, text = "Enter Feedback (optional): "), row=r, column=2)
-                tkgrid(feedback.entry, row=r, column=3)
-                r <- r + 1
-                tkgrid(ttklabel(entryform, text = "     "), row=r)
-            tkgrid(entryform)
+            approveallbutton <- tkbutton(approveDialog,text="Approve All Assignments for a HIT?",command=approveall)
+            aframe <- ttklabelframe(approveDialog, text = "AssignmentId: ")
+            assignment <- tclVar()
+            tkgrid(wzentry(aframe, width = 50, textvariable=assignment))
+            bframe <- ttklabelframe(approveDialog, text = "Feedback for worker (optional): ")
+            feedback <- tclVar()
+            tkgrid(wzentry(bframe, width = 50, textvariable=feedback))
+            tkgrid(aframe)
+            tkgrid(bframe)
+            
             # buttons
             okcancel(approveDialog, okfun = approve1, cancelfun = function() {tkdestroy(approveDialog); tkfocus(wizard)})
                 
@@ -1636,24 +1615,14 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
             # layout
             rejectDialog <- tktoplevel()
             tkwm.title(rejectDialog, "Reject Assignments")
-            entryform <- tkframe(rejectDialog, relief="groove", borderwidth=2)
-                r <- 1
-                tkgrid(ttklabel(entryform, text = "     "), row=r, column=1)
-                tkgrid(ttklabel(entryform, text = "     "), row=r, column=4)
-                r <- r + 1
-                assignment <- tclVar()
-                assign.entry <- wzentry(entryform, width = 50, textvariable=assignment)
-                tkgrid(tklabel(entryform, text = "Enter AssignmentId: "), row=r, column=2)
-                tkgrid(assign.entry, row=r, column=3)
-                r <- r + 1
-                feedback <- tclVar()
-                feedback.entry <- wzentry(entryform, width = 50, textvariable=feedback)
-                tkgrid(tklabel(entryform, text = "Enter Feedback (required): "), row=r, column=2)
-                tkgrid(feedback.entry, row=r, column=3)
-                r <- r + 1
-                tkgrid(ttklabel(entryform, text = "     "), row=r, column=1)
-            tkgrid(entryform)
-            # buttons
+            aframe <- ttklabelframe(rejectDialog, text = "AssignmentId: ")
+            assignment <- tclVar()
+            tkgrid(wzentry(aframe, width = 50, textvariable=assignment))
+            bframe <- ttklabelframe(rejectDialog, text = "Feedback for worker (required): ")
+            feedback <- tclVar()
+            tkgrid(wzentry(bframe, width = 50, textvariable=feedback))
+            tkgrid(aframe)
+            tkgrid(bframe)
             okcancel(rejectDialog, okfun = reject, cancelfun = function() {tkdestroy(rejectDialog); tkfocus(wizard)})
                 
             tkfocus(rejectDialog)
