@@ -45,8 +45,12 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
             invisible(NULL)
         }            
         
-        ## temporary environment to store things when I want to use them across functions
+        ## temporary environment to store variables used across functions
         wizardenv <- new.env()
+        wizardenv$qualresult <- list()
+        wizardenv$qualresult$QualificationTypeId <- ""
+        wizardenv$searchresult <- list()
+        wizardenv$searchresult$hitid <- ""
         
         ## exit wizard procedure
         exitWiz <- function() {
@@ -1237,10 +1241,8 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
         # search HITs
         searchWiz <- function(){
             results <- SearchHITs(verbose=FALSE)
-            #print(results$HITs[,c("HITId","HITTypeId","RequesterAnnotation")])
             # populate scrollable listbox
             if(!is.null(results)) {
-                
                 currenthits <-tktoplevel()
                 tkgrab.set(currenthits)
                 tkwm.title(currenthits, "Current HITs")
@@ -2606,6 +2608,65 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
             tkfocus(getscoreDialog)
         }
         
+        # assign qualification to worker
+        assignqualWiz <- function(){
+            # function
+            assignscore <- function(){
+                workers <- strsplit(tclvalue(tkget(worker.entry,"0.0","end")),"[\n]+")[[1]]
+                if(tclvalue(qualid)==""){
+                    tkmessageBox(message="Please enter a QualificationTypeId!", type="ok")
+                    tkfocus(updatescoreDialog)
+                } else if(!length(workers) || workers == ""){
+                    tkmessageBox(message="Please enter at least one WorkerId!", type="ok")
+                    tkfocus(updatescoreDialog)
+                } else if(tclvalue(score)=="" && tclvalue(increment)==""){
+                    tkmessageBox(message="Please enter a score!", type="ok")
+                    tkfocus(updatescoreDialog)
+                } else {
+                    if(tclvalue(score) == "")
+                        score <- NULL
+                    if(tclvalue(increment) == "")
+                        increment <- NULL
+                    workers <- gsub("[[:space:]]", "", workers)
+                    results <- AssignQualification(qual = tclvalue(qualid), 
+                                                   workers = workers, 
+                                                   values = score, 
+                                                   verbose = TRUE, 
+                                                   sandbox = sandbox)
+                    tkdestroy(assignqualDialog)
+                    tkfocus(wizard)
+                }
+            }
+            
+            assignqualDialog <- tktoplevel()
+            tkwm.title(assignqualDialog, "Assign Qualification to Worker")
+            qualid <- tclVar()
+            score <- tclVar()
+            notify <- tclVar(1)
+            entry <- tkframe(assignqualDialog)
+            aframe <- ttklabelframe(entry, text = "QualificationTypeId: ")
+            tkgrid(wzentry(aframe, width = 50, textvariable = qualid))
+            bframe <- ttklabelframe(entry, text = "WorkerId(s) (one per line): ")
+                worker.entry <- tktext(bframe, height = 20, width = 50, background = "white")
+                tkmark.set(worker.entry,"insert","0.0")
+                tkgrid(worker.entry)
+            cframe <- ttklabelframe(entry, text = "Specify new score value: ")
+                tkgrid(tklabel(cframe, text = "New score: "), row = 1, column = 1, sticky="e")
+                tkgrid(wzentry(cframe, width = 10, textvariable=score), row = 1, column=2, sticky="w")
+            dframe <- ttklabelframe(entry, text = "Notify workers? ")
+                tkgrid(tklabel(dframe, text = "Yes "), row = 1, column = 1, sticky="e")
+                tkgrid(tkcheckbutton(dframe, variable = notify), row = 1, column=2, sticky="w")
+            tkgrid(aframe, sticky = "w", column = 1, columnspan = 2)
+            tkgrid(bframe, sticky = "w", column = 1, columnspan = 2)
+            tkgrid(cframe, sticky = "w", row = 3, column = 1)
+            tkgrid(dframe, sticky = "w", row = 3, column = 2)
+            tkgrid(entry)
+            popbuttons(assignqualDialog, okfun = assignscore, 
+                       cancelfun = function(){tkdestroy(assignqualDialog); tkfocus(wizard)}, 
+                       poptype = "SearchQual")
+            tkfocus(assignqualDialog)
+        }
+        
         # update worker score
         updatescoreWiz <- function(){
             # function
@@ -3037,9 +3098,10 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
             #tkadd(qualifications, "command", label = "Approve Qualification Requests", command = approverequestsWiz)
             #tkadd(qualifications, "command", label = "Reject Qualification Requests", command = rejectrequestsWiz)
             tkadd(qualifications, "separator")
-            tkadd(qualifications, "command", label = "Get Worker(s) By Qualification", command = getworkersbyqualWiz)
+            tkadd(qualifications, "command", label = "Assign Qualification to Worker(s)", command = assignqualWiz)
             tkadd(qualifications, "command", label = "Get Worker Score(s)", command = getscoreWiz)
             tkadd(qualifications, "command", label = "Update Worker Score(s)", command = updatescoreWiz)
+            tkadd(qualifications, "command", label = "Get Worker(s) By Qualification", command = getworkersbyqualWiz)
             tkadd(qualifications, "separator")
             tkadd(qualifications, "command", label = "List Built-In QualificationTypes", command = function() print(ListQualificationTypes()) )
         tkadd(topMenu, "cascade", label = "Qualifications", menu = qualifications, underline = 0)
