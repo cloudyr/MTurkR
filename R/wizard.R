@@ -11,14 +11,14 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
         
         ## functions
         wzentry <- function(parent, ...) tkentry(parent, ..., background = "white")
-        okcancel <- function(parent, okfun, cancelfun) {
+        okcancel <- function(parent, okfun, cancelfun, ...) {
             buttons <- tkframe(parent)
                 tkgrid(tkbutton(buttons, text = "   OK   ", command = okfun), row = 1, column = 1)
                 tkgrid(tkbutton(buttons, text = " Cancel ", command = cancelfun), row = 1, column = 2)
-            tkgrid(buttons)
+            tkgrid(buttons, ...)
             invisible(NULL)
         }
-        popbuttons <- function(parent, okfun, cancelfun, poptype = "RegisterHIT") {
+        popbuttons <- function(parent, okfun, cancelfun, poptype = "RegisterHIT", ...) {
             buttons <- tkframe(parent)
                 if(poptype == "RegisterHIT") {
                     populate <- function(){
@@ -41,7 +41,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 }
                 tkgrid(tkbutton(buttons, text = "   OK   ", command = okfun), row = 1, column = 2)
                 tkgrid(tkbutton(buttons, text = " Cancel ", command = cancelfun), row =1, column = 3)
-            tkgrid(buttons)
+            tkgrid(buttons, ...)
             invisible(NULL)
         }            
         
@@ -2291,120 +2291,116 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 if(tclvalue(name)==""){
                     tkmessageBox(message="Please enter a name!", type="ok")
                     tkfocus(createqualWiz)
-                } else if(tclvalue(desc)==""){
+                    return(NULL)
+                }
+                if(tclvalue(desc)==""){
                     tkmessageBox(message="Please enter a description!", type="ok")
                     tkfocus(createqualWiz)
-                } else if(tclvalue(auto)=="1" && tclvalue(auto.value)==""){
-                    tkmessageBox(message="If auto-granted, please enter an automatic value!", type="ok")
-                    tkfocus(updatequalWiz)
-                } else {
-                    if(is.null(wizardenv$test)){
-                        test <- NULL
-                        answerkey <- NULL
-                        test.duration <- NULL
-                    }
-                    if(tclvalue(keywords)=="")
-                        keywords <- NULL
-                    else 
-                        keywords <- tclvalue(keywords)
-                    if(!is.null(wizardenv$test)){
-                        auto <- NULL
-                        auto.value <- NULL
-                    } else {
-                        auto <- tclvalue(auto)
-                        auto.value <- tclvalue(auto.value)
-                    }
-                    if(tclvalue(days)=="" && tclvalue(hours)=="" && tclvalue(mins)=="" && tclvalue(secs)=="") {
-                        delay <- NULL
-                    } else {
-                        delay <- seconds(as.numeric(tclvalue(days)),
-                                         as.numeric(tclvalue(hours)),
-                                         as.numeric(tclvalue(mins)),
-                                         as.numeric(tclvalue(secs)))
-                    } 
-                    statselect <- statusopts[as.numeric(as.character(tkcurselection(statuslist)))+1] # listbox index starts at 0
-                    results <- CreateQualificationType(name=tclvalue(name), description=tclvalue(desc),
-                                                       status=statselect, keywords = keywords,
-                                                       retry.delay = delay,
-                                                       test = test, answerkey = answerkey, test.duration = test.duration,
-                                                       auto = auto, auto.value = auto.value,
-                                                       verbose = TRUE, sandbox=sboxval())
-                    tkdestroy(createqualWiz)
-                    tkfocus(wizard)
+                    return(NULL)
                 }
+                if(is.null(wizardenv$test)){
+                    test <- NULL
+                    answerkey <- NULL
+                    test.duration <- NULL
+                }
+                if(tclvalue(keywords)=="")
+                    keywords <- NULL
+                else 
+                    keywords <- tclvalue(keywords)
+                if(is.null(wizardenv$test)){
+                    test <- NULL
+                    answerkey <- NULL
+                    test.duration <- NULL
+                    temp <- tclvalue(auto.value)
+                    if(temp=="") {
+                        auto.value <- NULL
+                        auto <- FALSE
+                    } else {
+                        auto.value <- temp
+                        auto <- TRUE
+                    }
+                } else {
+                    test <- wizardenv$test$Test
+                    answerkey <- wizardenv$test$AnswerKey
+                    test.duration <- wizardenv$test$TestDurationInSeconds
+                    auto <- NULL
+                    auto.value <- NULL
+                }
+                if(tclvalue(days)=="" && tclvalue(hours)=="" && tclvalue(mins)=="" && tclvalue(secs)=="") {
+                    delay <- NULL
+                } else {
+                    delay <- seconds(as.numeric(tclvalue(days)),
+                                     as.numeric(tclvalue(hours)),
+                                     as.numeric(tclvalue(mins)),
+                                     as.numeric(tclvalue(secs)))
+                } 
+                statselect <- statusopts[as.numeric(as.character(tkcurselection(statuslist)))+1] # listbox index starts at 0
+                results <- CreateQualificationType(name=tclvalue(name), description=tclvalue(desc),
+                                                   status=statselect, keywords = keywords,
+                                                   retry.delay = delay,
+                                                   test = test, answerkey = answerkey, test.duration = test.duration,
+                                                   auto = auto, auto.value = auto.value,
+                                                   verbose = TRUE, sandbox=sboxval())
+                tkdestroy(createqualWiz)
+                tkfocus(wizard)
             }
             
             assign("test",NULL,envir=wizardenv)
             
             createqualDialog <- tktoplevel()
             tkwm.title(createqualDialog, "Create QualificationType")
-            entryform <- tkframe(createqualDialog, relief="groove", borderwidth=2)
-                name <- tclVar()
-                desc <- tclVar()
-                keywords <- tclVar()
-                auto <- tclVar("0")
-                auto.value <- tclVar()
-                r <- 1
-                tkgrid(ttklabel(entryform, text = "     "), row=r, column=1)
-                tkgrid(ttklabel(entryform, text = "     "), row=r, column=11)
-                r <- r + 1
-                tkgrid(tklabel(entryform, text = "Name for QualificationType: "), row=r, column=2, sticky="e")
-                name.entry <- wzentry(entryform, width = 20, textvariable=name)
-                tkgrid(name.entry, row=r, column=3, columnspan=8, sticky="w")
-                r <- r + 1
-                tkgrid(tklabel(entryform, text = "Description: "), row=r, column=2, sticky="e")
-                desc.entry <- wzentry(entryform, width = 40, textvariable=desc)
-                tkgrid(desc.entry, row=r, column=3, columnspan=8, sticky="w")
-                r <- r + 1
-                tkgrid(tklabel(entryform, text = "Keywords (comma-separated): "), row=r, column=2, sticky="e")
-                keywords.entry <- wzentry(entryform, width = 40, textvariable=keywords)
-                tkgrid(keywords.entry, row=r, column=3, columnspan=8, sticky="w")
-                r <- r + 1
-                tkgrid(tklabel(entryform, text = "Status: "), row=r, column=2, sticky="e")
-                statuslist <- tklistbox(entryform, height=2, width=20, selectmode="single", background="white")
+            name <- tclVar()
+            desc <- tclVar()
+            keywords <- tclVar()
+            auto.value <- tclVar()
+            aframe <- ttklabelframe(createqualDialog, text = "Public Name for QualificationType:")
+                tkgrid(wzentry(aframe, width = 60, textvariable=name))
+            tkgrid(aframe, sticky = "w", row = 1, column = 1, columnspan = 2)
+            bframe <- ttklabelframe(createqualDialog, text = "Public Description:")
+                tkgrid(wzentry(bframe, width = 60, textvariable=desc))
+            tkgrid(bframe, sticky = "w", row = 2, column = 1, columnspan = 2)
+            cframe <- ttklabelframe(createqualDialog, text = "Keywords (comma-separated):")
+                tkgrid(wzentry(cframe, width = 60, textvariable=keywords))
+            tkgrid(cframe, sticky = "w", row = 3, column = 1, columnspan = 2)
+            dframe <- ttklabelframe(createqualDialog, text = "Status:")
+                statuslist <- tklistbox(dframe, height=2, width=20, selectmode="single", background="white")
                     statusopts <- c("Active","Inactive")
                     tkinsert(statuslist,"end", statusopts[1])
                     tkinsert(statuslist,"end", statusopts[2])
                     tkselection.set(statuslist,0)
-                tkgrid(statuslist, row=r, column=3, columnspan=3, sticky="w")
-                r <- r + 2
-                tkgrid(tklabel(entryform, text = "Granted automatically upon request? "), row=r, column=2, sticky="e")
-                auto.entry <- tkcheckbutton(entryform, variable=auto)
-                tkgrid(auto.entry, row=r, column=3, columnspan=3, sticky="w")
-                r <- r + 1
-                tkgrid(tklabel(entryform, text = "Automatic Value (if granted automatically; optional): "), row=r, column=2, sticky="e")
-                value.entry <- wzentry(entryform, width = 15, textvariable=auto.value)
-                tkgrid(value.entry, row=r, column=3, columnspan=3, sticky="w")
-                r <- r + 1
-                tkgrid(tklabel(entryform, text = "How long should workers have to wait to retry?"), row=r, column=2, sticky="e")
-                tkgrid(tklabel(entryform, text = "(Leave all blank to disable retries.)"), row=r+1, column=2, sticky="e")
+                tkgrid(statuslist)
+            tkgrid(dframe, sticky = "w", row = 4, column = 1, columnspan = 2)
+            eframe <- ttklabelframe(createqualDialog, text = "Granted automatically?")
+                tkgrid(tklabel(eframe, text = "If so, set score: "))
+                tkgrid(wzentry(eframe, width = 15, textvariable=auto.value))
+            tkgrid(eframe, sticky = "w", row = 5, column = 1)
+            hframe <- ttklabelframe(createqualDialog, text = "Qualification Test: ")
+                tkgrid(tkbutton(hframe, text=" Add Optional Test ", command=qualtest))
+                tkgrid(tklabel(hframe, text = "Use instead of automatic value"))
+            tkgrid(hframe, sticky = "w", row = 5, column = 2)
+            gframe <- ttklabelframe(createqualDialog, text = "How long should workers have to wait to retry?")
                 days <- tclVar("")
                 hours <- tclVar("")
                 mins <- tclVar("")
                 secs <- tclVar("")
-                days.entry <- wzentry(entryform, width = 5, textvariable=days)
-                hours.entry <- wzentry(entryform, width = 5, textvariable=hours)
-                mins.entry <- wzentry(entryform, width = 5, textvariable=mins)
-                secs.entry <- wzentry(entryform, width = 5, textvariable=secs)
-                tkgrid(tklabel(entryform, text = "Days: "), row=r, column=3, rowspan=2)
-                tkgrid(days.entry, row=r, column=4, rowspan=2)
-                tkgrid(tklabel(entryform, text = "Hours: "), row=r, column=5, rowspan=2)
-                tkgrid(hours.entry, row=r, column=6, rowspan=2)
-                tkgrid(tklabel(entryform, text = "Minutes: "), row=r, column=7, rowspan=2)
-                tkgrid(mins.entry, row=r, column=8, rowspan=2)
-                tkgrid(tklabel(entryform, text = "Seconds: "), row=r, column=9, rowspan=2)
-                tkgrid(secs.entry, row=r, column=10, rowspan=2)
-                r <- r + 2
-                tkgrid(tklabel(entryform, text = "Add Qualification Test (optional; instead of automatic value): "), row=r, column=2, sticky="e")
-                testbutton <- tkbutton(entryform,text=" Add Test ",command=qualtest)
-                tkgrid(testbutton, row=r, column=3, columnspan=3, sticky="w")
-                r <- r + 1
-                tkgrid(ttklabel(entryform, text = "     "), row=r)
-            tkgrid(entryform)
-            
-            # button
-            okcancel(createqualDialog, okfun = create, cancelfun = function() {tkdestroy(createqualDialog); tkfocus(wizard)})
-                
+                days.entry <- wzentry(gframe, width = 5, textvariable=days)
+                hours.entry <- wzentry(gframe, width = 5, textvariable=hours)
+                mins.entry <- wzentry(gframe, width = 5, textvariable=mins)
+                secs.entry <- wzentry(gframe, width = 5, textvariable=secs)
+                tkgrid(tklabel(gframe, text = "Days: "), row=1, column=1)
+                tkgrid(days.entry, row=1, column=2)
+                tkgrid(tklabel(gframe, text = "Hours: "), row=1, column=3)
+                tkgrid(hours.entry, row=1, column=4)
+                tkgrid(tklabel(gframe, text = "Minutes: "), row=1, column=5)
+                tkgrid(mins.entry, row=1, column=6)
+                tkgrid(tklabel(gframe, text = "Seconds: "), row=1, column=7)
+                tkgrid(secs.entry, row=1, column=8)
+                tkgrid(tklabel(gframe, text = "(Leave all blank to disable retries.)"), row=2, column=1, columnspan = 8, sticky = "w")
+            tkgrid(gframe, sticky = "w", row = 6, column = 1, columnspan = 2)
+            okcancel(createqualDialog, 
+                     okfun = create, 
+                     cancelfun = function() {tkdestroy(createqualDialog); tkfocus(wizard)}, 
+                     column = 1, columnspan = 2)
             tkfocus(createqualDialog)
         }
         
@@ -2415,112 +2411,102 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 if(tclvalue(qualid)==""){
                     tkmessageBox(message="Please enter a QualificationTypeId!", type="ok")
                     tkfocus(updatequalWiz)
-                } else if(tclvalue(auto)=="1" && tclvalue(auto.value)==""){
-                    tkmessageBox(message="If auto-granted, please enter an automatic value!", type="ok")
-                    tkfocus(updatequalWiz)
-                } else {
-                    if(is.null(wizardenv$test)){
-                        test <- NULL
-                        answerkey <- NULL
-                        test.duration <- NULL
-                        auto <- tclvalue(auto)
-                        auto.value <- tclvalue(auto.value)
-                    } else {
-                        test <- wizardenv$test$Test
-                        answerkey <- wizardenv$test$AnswerKey
-                        test.duration <- wizardenv$test$TestDurationInSeconds
-                        auto <- NULL
-                        auto.value <- NULL
-                    }
-                    if(tclvalue(days)=="" && tclvalue(hours)=="" && tclvalue(mins)=="" && tclvalue(secs)=="")
-                        delay <- NULL
-                    else
-                        delay <- seconds(as.numeric(tclvalue(days)),
-                                         as.numeric(tclvalue(hours)),
-                                         as.numeric(tclvalue(mins)),
-                                         as.numeric(tclvalue(secs)))
-                    statselect <- statusopts[as.numeric(as.character(tkcurselection(statuslist)))+1] # listbox index starts at 0
-                    qual <- UpdateQualificationType(qual=tclvalue(qualid),
-                                                    description=tclvalue(desc),
-                                                    status=statselect,
-                                                    retry.delay=delay,
-                                                    test = test, answerkey = answerkey, test.duration = test.duration,
-                                                    auto = auto, auto.value = auto.value,
-                                                    verbose=FALSE, sandbox=sboxval()
-                                                    )
-                    tkdestroy(updatequalDialog)
-                    tkfocus(wizard)
+                    return(NULL)
                 }
+                if(is.null(wizardenv$test)){
+                    test <- NULL
+                    answerkey <- NULL
+                    test.duration <- NULL
+                    temp <- tclvalue(auto.value)
+                    if(temp=="") {
+                        auto.value <- NULL
+                        auto <- FALSE
+                    } else {
+                        auto.value <- temp
+                        auto <- TRUE
+                    }
+                } else {
+                    test <- wizardenv$test$Test
+                    answerkey <- wizardenv$test$AnswerKey
+                    test.duration <- wizardenv$test$TestDurationInSeconds
+                    auto <- NULL
+                    auto.value <- NULL
+                }
+                if(tclvalue(days)=="" && tclvalue(hours)=="" && tclvalue(mins)=="" && tclvalue(secs)=="")
+                    delay <- NULL
+                else
+                    delay <- seconds(as.numeric(tclvalue(days)),
+                                     as.numeric(tclvalue(hours)),
+                                     as.numeric(tclvalue(mins)),
+                                     as.numeric(tclvalue(secs)))
+                statselect <- statusopts[as.numeric(as.character(tkcurselection(statuslist)))+1] # listbox index starts at 0
+                qual <- UpdateQualificationType(qual=tclvalue(qualid),
+                                                description=tclvalue(desc),
+                                                status=statselect,
+                                                retry.delay=delay,
+                                                test = test, answerkey = answerkey, test.duration = test.duration,
+                                                auto = auto, auto.value = auto.value,
+                                                verbose=FALSE, sandbox=sboxval()
+                                                )
+                tkdestroy(updatequalDialog)
+                tkfocus(wizard)
             }
             
             assign("test",NULL,envir=wizardenv)
             
             updatequalDialog <- tktoplevel()
             tkwm.title(updatequalDialog, "Update QualificationType")
-            entryform <- tkframe(updatequalDialog, relief="groove", borderwidth=2)
-                qualid <- tclVar()
-                desc <- tclVar()
-                auto <- tclVar("0")
-                auto.value <- tclVar()
-                r <- 1
-                tkgrid(ttklabel(entryform, text = "     "), row=r, column=1)
-                tkgrid(ttklabel(entryform, text = "     "), row=r, column=11)
-                r <- r + 1
-                tkgrid(tklabel(entryform, text = "QualificationTypeId: "), row=r, column=2, sticky="e")
-                qualid.entry <- wzentry(entryform, width = 40, textvariable=qualid)
-                tkgrid(qualid.entry, row=r, column=3, columnspan=8, sticky="w")
-                r <- r + 1
-                tkgrid(tklabel(entryform, text = "Description (optional): "), row=r, column=2, sticky="e")
-                desc.entry <- wzentry(entryform, width = 40, textvariable=desc)
-                tkgrid(desc.entry, row=r, column=3, columnspan=8, sticky="w")
-                r <- r + 1
-                tkgrid(tklabel(entryform, text = "Status (optional): "), row=r, column=2, sticky="e")
-                statuslist <- tklistbox(entryform, height=2, width=20, selectmode="single", background="white")
+            qualid <- tclVar()
+            desc <- tclVar()
+            keywords <- tclVar()
+            auto.value <- tclVar()
+            aframe <- ttklabelframe(updatequalDialog, text = "QualificationTypeId")
+                tkgrid(wzentry(aframe, width = 60, textvariable=qualid))
+            tkgrid(aframe, sticky = "w", row = 1, column = 1, columnspan = 2)
+            bframe <- ttklabelframe(updatequalDialog, text = "Public Description:")
+                tkgrid(wzentry(bframe, width = 60, textvariable=desc))
+            tkgrid(bframe, sticky = "w", row = 2, column = 1, columnspan = 2)
+            cframe <- ttklabelframe(updatequalDialog, text = "Keywords (comma-separated):")
+                tkgrid(wzentry(cframe, width = 60, textvariable=keywords))
+            tkgrid(cframe, sticky = "w", row = 3, column = 1, columnspan = 2)
+            dframe <- ttklabelframe(updatequalDialog, text = "Status:")
+                statuslist <- tklistbox(dframe, height=2, width=20, selectmode="single", background="white")
                     statusopts <- c("Active","Inactive")
                     tkinsert(statuslist,"end", statusopts[1])
                     tkinsert(statuslist,"end", statusopts[2])
                     tkselection.set(statuslist,0)
-                tkgrid(statuslist, row=r, column=3, columnspan=3, sticky="w")
-                r <- r + 2
-                tkgrid(tklabel(entryform, text = "Granted automatically upon request?"), row=r, column=2, sticky="e")
-                auto.entry <- tkcheckbutton(entryform, variable=auto)
-                tkgrid(auto.entry, row=r, column=3, columnspan=3, sticky="w")
-                r <- r + 1
-                tkgrid(tklabel(entryform, text = "Automatic Value (if granted automatically; optional): "), row=r, column=2, sticky="e")
-                value.entry <- wzentry(entryform, width = 15, textvariable=auto.value)
-                tkgrid(value.entry, row=r, column=3, columnspan=3, sticky="w")
-                r <- r + 1
-                tkgrid(tklabel(entryform, text = "How long should workers have to wait to retry?"), row=r, column=2, sticky="e")
-                tkgrid(tklabel(entryform, text = "(Leave all blank to disable retries.)"), row=r+1, column=2, sticky="e")
+                tkgrid(statuslist)
+            tkgrid(dframe, sticky = "w", row = 4, column = 1, columnspan = 2)
+            eframe <- ttklabelframe(updatequalDialog, text = "Granted automatically?")
+                tkgrid(tklabel(eframe, text = "If so, set score: "))
+                tkgrid(wzentry(eframe, width = 15, textvariable=auto.value))
+            tkgrid(eframe, sticky = "w", row = 5, column = 1)
+            hframe <- ttklabelframe(updatequalDialog, text = "Qualification Test: ")
+                tkgrid(tkbutton(hframe, text=" Add Optional Test ", command=qualtest))
+                tkgrid(tklabel(hframe, text = "Use instead of automatic value"))
+            tkgrid(hframe, sticky = "w", row = 5, column = 2)
+            gframe <- ttklabelframe(updatequalDialog, text = "How long should workers have to wait to retry?")
                 days <- tclVar("")
                 hours <- tclVar("")
                 mins <- tclVar("")
                 secs <- tclVar("")
-                days.entry <- wzentry(entryform, width = 5, textvariable=days)
-                hours.entry <- wzentry(entryform, width = 5, textvariable=hours)
-                mins.entry <- wzentry(entryform, width = 5, textvariable=mins)
-                secs.entry <- wzentry(entryform, width = 5, textvariable=secs)
-                tkgrid(tklabel(entryform, text = "Days: "), row=r, column=3, rowspan=2)
-                tkgrid(days.entry, row=r, column=4, rowspan=2)
-                tkgrid(tklabel(entryform, text = "Hours: "), row=r, column=5, rowspan=2)
-                tkgrid(hours.entry, row=r, column=6, rowspan=2)
-                tkgrid(tklabel(entryform, text = "Minutes: "), row=r, column=7, rowspan=2)
-                tkgrid(mins.entry, row=r, column=8, rowspan=2)
-                tkgrid(tklabel(entryform, text = "Seconds: "), row=r, column=9, rowspan=2)
-                tkgrid(secs.entry, row=r, column=10, rowspan=2)
-                r <- r + 2
-                tkgrid(tklabel(entryform, text = "Add Qualification Test (optional; instead of automatic value): "), row=r, column=2, sticky="e")
-                testbutton <- tkbutton(entryform,text=" Add Test ",command=qualtest)
-                tkgrid(testbutton, row=r, column=3, columnspan=3, sticky="w")
-                r <- r + 1
-                tkgrid(ttklabel(entryform, text = "     "), row=r)
-            tkgrid(entryform)
-            
-            # button
+                days.entry <- wzentry(gframe, width = 5, textvariable=days)
+                hours.entry <- wzentry(gframe, width = 5, textvariable=hours)
+                mins.entry <- wzentry(gframe, width = 5, textvariable=mins)
+                secs.entry <- wzentry(gframe, width = 5, textvariable=secs)
+                tkgrid(tklabel(gframe, text = "Days: "), row=1, column=1)
+                tkgrid(days.entry, row=1, column=2)
+                tkgrid(tklabel(gframe, text = "Hours: "), row=1, column=3)
+                tkgrid(hours.entry, row=1, column=4)
+                tkgrid(tklabel(gframe, text = "Minutes: "), row=1, column=5)
+                tkgrid(mins.entry, row=1, column=6)
+                tkgrid(tklabel(gframe, text = "Seconds: "), row=1, column=7)
+                tkgrid(secs.entry, row=1, column=8)
+                tkgrid(tklabel(gframe, text = "(Leave all blank to disable retries.)"), row=2, column=1, columnspan = 8, sticky = "w")
+            tkgrid(gframe, sticky = "w", row = 6, column = 1, columnspan = 2)
             popbuttons(updatequalDialog, okfun = updateq, 
                        cancelfun = function(){tkdestroy(updatequalDialog); tkfocus(wizard)}, 
-                       poptype = "SearchQual")
-            
+                       poptype = "SearchQual", column = 1, columnspan = 2)
             tkfocus(updatequalDialog)
         }
         
