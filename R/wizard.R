@@ -1305,18 +1305,10 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
             
             getassign1Dialog <- tktoplevel()
             tkwm.title(getassign1Dialog, "Get Assignment")
-            entryform <- tkframe(getassign1Dialog, relief="groove", borderwidth=2)
-                entryform <- tkframe(getassign1Dialog, relief="groove", borderwidth=2)
-                assignment <- tclVar()
-                r <- 1
-                tkgrid(ttklabel(entryform, text = "     "), row=r)
-                assign.entry <- wzentry(entryform, width = 50, textvariable=assignment)
-                r <- r + 1
-                tkgrid(tklabel(entryform, text = "Enter AssignmentId: "), row=r, column=1)
-                tkgrid(assign.entry, row=r, column=2, columnspan=4)
-                r <- r + 1
-                tkgrid(ttklabel(entryform, text = "     "), row=r)
-            tkgrid(entryform)
+            aframe <- ttklabelframe(getassign1Dialog, text = "AssignmentId:")
+            assignment <- tclVar()
+            tkgrid(wzentry(aframe, width = 50, textvariable=assignment))
+            tkgrid(aframe)
             buttons <- tkframe(getassign1Dialog)
                 printbutton <- tkbutton(buttons, text=" Print to Console ", command=function() getassign(TRUE,FALSE) )
                 savebutton <- tkbutton(buttons, text=" Save to File ", command=function() getassign(FALSE,TRUE) )
@@ -1350,17 +1342,10 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
             
             getassign2Dialog <- tktoplevel()
             tkwm.title(getassign2Dialog, "Get Assignment")
-            entryform <- tkframe(getassign2Dialog,relief="groove",borderwidth=2)
-                hitid <- tclVar()
-                r <- 1
-                tkgrid(ttklabel(entryform, text = "     "), row=r)
-                hit.entry <- wzentry(entryform, width = 50, textvariable=hitid)
-                r <- r + 1
-                tkgrid(tklabel(entryform, text = "Enter HITId: "), row=r, column=1)
-                tkgrid(hit.entry, row=r, column=2, columnspan=4)
-                r <- r + 1
-                tkgrid(ttklabel(entryform, text = "     "), row=r)
-            tkgrid(entryform)
+            aframe <- ttklabelframe(getassign2Dialog, text = "HITId:")
+            hitid <- tclVar()
+            tkgrid(wzentry(aframe, width = 50, textvariable=hitid))
+            tkgrid(aframe)
             buttons <- tkframe(getassign2Dialog)
                 populate <- function(){
                     searchWiz()
@@ -1402,17 +1387,10 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
             
             getassign3Dialog <- tktoplevel()
             tkwm.title(getassign3Dialog, "Get Assignment")
-            entryform <- tkframe(getassign3Dialog,relief="groove",borderwidth=2)
-                hittype <- tclVar()
-                r <- 1
-                tkgrid(ttklabel(entryform, text = "     "), row=r)
-                hittype.entry <- wzentry(entryform, width = 50, textvariable=hittype)
-                r <- r + 1
-                tkgrid(tklabel(entryform, text = "Enter HITTypeId: "), row=r, column=1)
-                tkgrid(hittype.entry, row=r, column=2, columnspan=4)
-                r <- r + 1
-                tkgrid(ttklabel(entryform, text = "     "), row=r)
-            tkgrid(entryform)
+            aframe <- ttklabelframe(getassign3Dialog, text = "HITTypeId:")
+            hittype <- tclVar()
+            tkgrid(wzentry(aframe, width = 50, textvariable=hittype))
+            tkgrid(aframe)
             buttons <- tkframe(getassign3Dialog)
                 populate <- function(){
                     searchWiz()
@@ -1429,6 +1407,41 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 tkgrid(Cancelbutton, row=r, column = 4)
             tkgrid(buttons)
             tkfocus(getassign3Dialog)
+        }
+        
+        getassign4Wiz <- function(){    # by Annotation
+            getassign <- function(verbose, save){
+                if(tclvalue(annotation)==""){
+                    tkmessageBox(message="Please enter an Annotation value!", type="ok")
+                    tkfocus(getassign3Dialog)
+                } else {
+                    tkdestroy(getassign3Dialog)
+                    if(verbose){
+                        print(GetAssignment(annotation = tclvalue(annotation), verbose=TRUE, sandbox=sboxval()))
+                    } else {
+                        results <- GetAssignment(annotation = tclvalue(annotation), verbose=FALSE, sandbox=sboxval())
+                    }
+                    if(save==TRUE)
+                        savetofile(results)
+                    tkfocus(wizard)
+                }
+            }
+            getassign4Dialog <- tktoplevel()
+            tkwm.title(getassign4Dialog, "Get Assignment")
+            aframe <- ttklabelframe(getassign4Dialog, text = "Requester Annotation:")
+            annotation <- tclVar()
+            tkgrid(wzentry(aframe, width = 50, textvariable=annotation))
+            tkgrid(aframe)
+            buttons <- tkframe(getassign4Dialog)
+                printbutton <- tkbutton(buttons, text=" Print to Console ", command=function() getassign(TRUE,FALSE) )
+                savebutton <- tkbutton(buttons, text=" Save to File ", command=function() getassign(FALSE,TRUE) )
+                Cancelbutton <- tkbutton(buttons,text=" Cancel ",command=function() {tkdestroy(getassign4Dialog); tkfocus(wizard)})
+                r <- 1
+                tkgrid(printbutton, row = r, column = 2)
+                tkgrid(savebutton, row = r, column = 3)
+                tkgrid(Cancelbutton, row=r, column = 4)
+            tkgrid(buttons)
+            tkfocus(getassign4Dialog)
         }
         
         
@@ -3103,6 +3116,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 tkadd(getassign, "command", label = "By AssignmentId", command = getassign1Wiz)
                 tkadd(getassign, "command", label = "By HITId", command = getassign2Wiz)
                 tkadd(getassign, "command", label = "By HITTypeId", command = getassign3Wiz)
+                tkadd(getassign, "command", label = "By Annotation/Batch", command = getassign4Wiz)
                 tkadd(assignments, "cascade", label = "Get Assignment(s)", menu = getassign, underline = 0)
             tkadd(assignments, "command", label = "Get ReviewResults for HIT", command = reviewresultsWiz)
             tkadd(assignments, "separator")
