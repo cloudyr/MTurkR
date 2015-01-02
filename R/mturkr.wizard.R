@@ -19,7 +19,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
             invisible(NULL)
         }
         popbuttons <- function(parent, okfun, cancelfun, poptype = "RegisterHIT") {
-            buttons <- tkframe(substitute(parent))
+            buttons <- tkframe(parent)
                 if(poptype == "RegisterHIT") {
                     populate <- function(){
                         registerWiz()
@@ -1621,7 +1621,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 tkgrid(ttklabel(entryform, text = "     "), row=r)
             tkgrid(entryform)
             # buttons
-            okcancel(approveDialog, okfun = approval, cancelfun = function() {tkdestroy(approveDialog); tkfocus(wizard)})
+            okcancel(approveDialog, okfun = approve1, cancelfun = function() {tkdestroy(approveDialog); tkfocus(wizard)})
                 
             tkfocus(approveDialog)
         }
