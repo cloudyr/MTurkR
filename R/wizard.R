@@ -2244,51 +2244,42 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                                         as.numeric(tclvalue(hours)),
                                         as.numeric(tclvalue(mins)),
                                         as.numeric(tclvalue(secs)))
-                test <- list(    Test=testtowrite,
-                                AnswerKey=answertowrite,
-                                TestDurationInSeconds=testduration )
-                assign("test",test,envir=wizardenv)
+                test <- list(Test=testtowrite,
+                             AnswerKey=answertowrite,
+                             TestDurationInSeconds=testduration )
+                assign("test", test, envir=wizardenv)
             }
             
             testDialog <- tktoplevel()
             tkwm.title(testDialog, "Configure Qualification Test")
-            entryform <- tkframe(testDialog, relief="groove", borderwidth=2)
-                r <- 1
-                tkgrid(ttklabel(entryform, text = "     "), row=r, column=1)
-                tkgrid(ttklabel(entryform, text = "     "), row=r, column=11)
-                r <- r + 1
-                test.entry <- tktext(entryform, height = 6, width = 75)
+            aframe <- ttklabelframe(testDialog, text = "Qualification Test XML:")
+                test.entry <- tktext(aframe, height = 6, width = 75, background = "white")
                 tkmark.set(test.entry,"insert","0.0")
-                tkgrid(tklabel(entryform, text = "Qualification Test: "), row=r, column=2, columnspan=9, sticky="w")
-                r <- r + 1
-                tkgrid(test.entry, row=r, column=2, columnspan=9)
-                r <- r + 1
-                answer.entry <- tktext(entryform, height = 6, width = 75)
+                tkgrid(test.entry)
+            bframe <- ttklabelframe(testDialog, text = "AnswerKey XML (optional):")
+                answer.entry <- tktext(bframe, height = 6, width = 75, background = "white")
                 tkmark.set(answer.entry,"insert","0.0")
-                tkgrid(tklabel(entryform, text = "Qualification Test AnswerKey (optional): "), row=r, column=2, columnspan=9, sticky="w")
-                r <- r + 1
-                tkgrid(answer.entry, row=r, column=2, columnspan=9)
-                r <- r + 1
-                tkgrid(tklabel(entryform, text = "How long should the test last?"), row=r, column=2)
+                tkgrid(answer.entry)
+            tkgrid(aframe)
+            tkgrid(bframe)
+            cframe <- ttklabelframe(testDialog, text = "How long should the test last?")
                 days <- tclVar("0")
                 hours <- tclVar("0")
                 mins <- tclVar("0")
                 secs <- tclVar("0")
-                days.entry <- wzentry(entryform, width = 5, textvariable=days)
-                hours.entry <- wzentry(entryform, width = 5, textvariable=hours)
-                mins.entry <- wzentry(entryform, width = 5, textvariable=mins)
-                secs.entry <- wzentry(entryform, width = 5, textvariable=secs)
-                tkgrid(tklabel(entryform, text = "Days: "), row=r, column=3)
-                tkgrid(days.entry, row=r, column=4)
-                tkgrid(tklabel(entryform, text = "Hours: "), row=r, column=5)
-                tkgrid(hours.entry, row=r, column=6)
-                tkgrid(tklabel(entryform, text = "Minutes: "), row=r, column=7)
-                tkgrid(mins.entry, row=r, column=8)
-                tkgrid(tklabel(entryform, text = "Seconds: "), row=r, column=9)
-                tkgrid(secs.entry, row=r, column=10)
-                r <- r + 1
-                tkgrid(ttklabel(entryform, text = "     "), row=r)
-            tkgrid(entryform)
+                days.entry <- wzentry(cframe, width = 5, textvariable=days)
+                hours.entry <- wzentry(cframe, width = 5, textvariable=hours)
+                mins.entry <- wzentry(cframe, width = 5, textvariable=mins)
+                secs.entry <- wzentry(cframe, width = 5, textvariable=secs)
+                tkgrid(tklabel(cframe, text = "Days: "), row=1, column=1)
+                tkgrid(days.entry, row=1, column=2)
+                tkgrid(tklabel(cframe, text = "Hours: "), row=1, column=3)
+                tkgrid(hours.entry, row=1, column=4)
+                tkgrid(tklabel(cframe, text = "Minutes: "), row=1, column=5)
+                tkgrid(mins.entry, row=1, column=6)
+                tkgrid(tklabel(cframe, text = "Seconds: "), row=1, column=7)
+                tkgrid(secs.entry, row=1, column=8)
+            tkgrid(cframe, sticky = "w")
             okcancel(testDialog, okfun = storetest, cancelfun = function() {tkdestroy(testDialog); tkfocus(wizard)})
             tkfocus(testDialog)
         }
