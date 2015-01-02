@@ -375,7 +375,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 # buttons
                 popbuttons(qualreqDialog, okfun = genqual, 
                            cancelfun = function(){tkdestroy(qualreqDialog); tkfocus(wizard)}, 
-                           poptype = "Qual")
+                           poptype = "SearchQual")
                 
                 tkfocus(qualreqDialog)
             }
@@ -1069,34 +1069,23 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
             # layout
             resultsDialog <- tktoplevel()
             tkwm.title(resultsDialog, "Get ReviewResults for HIT")
-            entryform <- tkframe(resultsDialog, relief="groove", borderwidth=2)
-                hitlevel <- tclVar("1")
-                assignlevel <- tclVar("1")
-                r <- 1
-                tkgrid(ttklabel(entryform, text = "     "), row=r, column=1)
-                tkgrid(ttklabel(entryform, text = "     "), row=r, column=6)
-                r <- r + 1
-                hitid <- tclVar()
-                hit.entry <- wzentry(entryform, width = 50, textvariable=hitid)
-                tkgrid(tklabel(entryform, text = "HITId: "), row=r, column=2, sticky="e")
-                tkgrid(hit.entry, row=r, column=3, columnspan=2, sticky="w")
-                r <- r + 1
-                assignmentid <- tclVar()
-                assign.entry <- wzentry(entryform, width = 50, textvariable=assignmentid)
-                tkgrid(tklabel(entryform, text = "AssignmentId: "), row=r, column=2, sticky="e")
-                tkgrid(assign.entry, row=r, column=3, columnspan=2, sticky="w")
-                r <- r + 1
-                tkgrid(tklabel(entryform, text = "Policy Level(s): "), row=r, column=2, sticky="e")
-                tkgrid(tklabel(entryform, text = "HIT: "), row=r, column=3, sticky="w")
-                hitlevel.entry <- tkcheckbutton(entryform, variable=hitlevel)
-                tkgrid(hitlevel.entry, row=r, column=4, sticky="w")
-                r <- r + 1
-                tkgrid(tklabel(entryform, text = "Assignment: "), row=r, column=3, sticky="w")
-                assignlevel.entry <- tkcheckbutton(entryform, variable=assignlevel)
-                tkgrid(assignlevel.entry, row=r, column=4, sticky="w")
-                r <- r + 1
-                tkgrid(ttklabel(entryform, text = "     "), row=r)
-            tkgrid(entryform)
+            hitlevel <- tclVar("1")
+            assignlevel <- tclVar("1")
+            hitid <- tclVar()
+            assignmentid <- tclVar()
+            aframe <- ttklabelframe(resultsDialog, text = "HITId: ")
+            tkgrid(wzentry(aframe, width = 50, textvariable=hitid))
+            bframe <- ttklabelframe(resultsDialog, text = "AssignmentId: ")
+            tkgrid(wzentry(bframe, width = 50, textvariable=assignmentid))
+            cframe <- ttklabelframe(resultsDialog, text = "Policy Level(s): ")
+            tkgrid(tklabel(cframe, text = "HIT: "), row=1, column=1, sticky="w")
+            tkgrid(tkcheckbutton(cframe, variable=hitlevel), row = 1, column = 2, sticky = "w")
+            tkgrid(tklabel(cframe, text = "Assignment: "), row=2, column=1, sticky="w")
+            tkgrid(tkcheckbutton(cframe, variable=assignlevel), row = 2, column = 2, sticky = "w")
+            tkgrid(aframe)
+            tkgrid(bframe)
+            tkgrid(cframe, sticky = "w")
+            
             # button
             popbuttons(resultsDialog, okfun = getreview, 
                        cancelfun = function(){tkdestroy(resultsDialog); tkfocus(wizard)}, 
@@ -2631,7 +2620,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
             # button
             popbuttons(updatequalDialog, okfun = updateq, 
                        cancelfun = function(){tkdestroy(updatequalDialog); tkfocus(wizard)}, 
-                       poptype = "Qual")
+                       poptype = "SearchQual")
             
             tkfocus(updatequalDialog)
         }
@@ -2654,18 +2643,10 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
             # layout
             getqualDialog <- tktoplevel()
             tkwm.title(getqualDialog, "Get QualificationType")
-            entryform <- tkframe(getqualDialog, relief="groove", borderwidth=2)
-                qualid <- tclVar()
-                r <- 1
-                tkgrid(ttklabel(entryform, text = "     "), row=r, column=1)
-                tkgrid(ttklabel(entryform, text = "     "), row=r, column=4)
-                r <- r + 1
-                qual.entry <- wzentry(entryform, width = 50, textvariable=qualid)
-                tkgrid(tklabel(entryform, text = "QualificationTypeId: "), row=r, column=2, sticky="e")
-                tkgrid(qual.entry, row=r, column=3, sticky="w")
-                r <- r + 1
-                tkgrid(ttklabel(entryform, text = "     "))
-            tkgrid(entryform)
+            qualid <- tclVar()
+            aframe <- ttklabelframe(getqualDialog, text = "QualificationTypeId: ")
+            tkgrid(wzentry(aframe, width = 50, textvariable = qualid))
+            tkgrid(aframe, sticky = "w")
             
             # buttons
             buttons <- tkframe(getqualDialog)
@@ -2715,23 +2696,15 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
             # layout
             disposequalDialog <- tktoplevel()
             tkwm.title(disposequalDialog, "Dispose QualificationType")
-            entryform <- tkframe(disposequalDialog, relief="groove", borderwidth=2)
-                qualid <- tclVar()
-                r <- 1
-                tkgrid(ttklabel(entryform, text = "     "), row=r, column=1)
-                tkgrid(ttklabel(entryform, text = "     "), row=r, column=4)
-                r <- r + 1
-                qual.entry <- wzentry(entryform, width = 50, textvariable=qualid)
-                tkgrid(tklabel(entryform, text = "QualificationTypeId: "), row=r, column=2, sticky="e")
-                tkgrid(qual.entry, row=r, column=3, sticky="w")
-                r <- r + 1
-                tkgrid(ttklabel(entryform, text = "     "))
-            tkgrid(entryform)
+            qualid <- tclVar()
+            aframe <- ttklabelframe(disposequalDialog, text = "QualificationTypeId: ")
+            tkgrid(wzentry(aframe, width = 50, textvariable = qualid))
+            tkgrid(aframe, sticky = "w")
             
             # buttons
             popbuttons(disposequalDialog, okfun = disposequal, 
                        cancelfun = function(){tkdestroy(disposequalDialog); tkfocus(wizard)}, 
-                       poptype = "Qual")
+                       poptype = "SearchQual")
             
             tkfocus(disposequalDialog)
         }
@@ -2754,23 +2727,15 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
             # layout
             getqualsDialog <- tktoplevel()
             tkwm.title(getqualsDialog, "Get Qualifications for QualificationType")
-            entryform <- tkframe(getqualsDialog, relief="groove", borderwidth=2)
-                qualid <- tclVar()
-                r <- 1
-                tkgrid(ttklabel(entryform, text = "     "), row=r, column=1)
-                tkgrid(ttklabel(entryform, text = "     "), row=r, column=4)
-                r <- r + 1
-                qual.entry <- wzentry(entryform, width = 50, textvariable=qualid)
-                tkgrid(tklabel(entryform, text = "QualificationTypeId: "), row=r, column=2, sticky="e")
-                tkgrid(qual.entry, row=r, column=3, sticky="w")
-                r <- r + 1
-                tkgrid(ttklabel(entryform, text = "     "))
-            tkgrid(entryform)
+            qualid <- tclVar()
+            aframe <- ttklabelframe(getqualsDialog, text = "QualificationTypeId: ")
+            tkgrid(wzentry(aframe, width = 50, textvariable = qualid))
+            tkgrid(aframe, sticky = "w")
             
             # buttons
             popbuttons(getqualsDialog, okfun = getquals, 
                        cancelfun = function(){tkdestroy(getqualsDialog); tkfocus(wizard)}, 
-                       poptype = "Qual")
+                       poptype = "SearchQual")
             
             tkfocus(getqualsDialog)
         }
@@ -2779,6 +2744,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
         getscoreWiz <- function(){
             # function
             getscore <- function(){
+                workers <- strsplit(tclvalue(tkget(worker.entry,"0.0","end")),"[\n]+")[[1]]
                 if(tclvalue(qualid)==""){
                     tkmessageBox(message="Please enter a QualificationTypeId!", type="ok")
                     tkfocus(getscoreDialog)
@@ -2786,38 +2752,30 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                     tkmessageBox(message="Please enter a WorkerId!", type="ok")
                     tkfocus(getscoreDialog)
                 } else {
-                    results <- GetQualificationScore(qual=tclvalue(qualid), workers=tclvalue(worker), verbose=FALSE, sandbox=sandbox)
+                    workers <- gsub("[[:space:]]", "", workers)
+                    results <- GetQualificationScore(qual=tclvalue(qualid), workers=workers, verbose=FALSE, sandbox=sandbox)
                     tkdestroy(getscoreDialog)
-                    tkmessageBox(message=paste("WorkerId ",results$WorkerId,"'s score: ",results$Value,sep=""), type="ok")
                     tkfocus(wizard)
                 }
             }
             
             # layout
             getscoreDialog <- tktoplevel()
-            tkwm.title(getscoreDialog, "Get Worker's Qualification Score")
-            entryform <- tkframe(getscoreDialog, relief="groove", borderwidth=2)
-                qualid <- tclVar()
-                worker <- tclVar()
-                r <- 1
-                tkgrid(ttklabel(entryform, text = "     "), row=r, column=1)
-                tkgrid(ttklabel(entryform, text = "     "), row=r, column=4)
-                r <- r + 1
-                qual.entry <- wzentry(entryform, width = 50, textvariable=qualid)
-                tkgrid(tklabel(entryform, text = "QualificationTypeId: "), row=r, column=2, sticky="e")
-                tkgrid(qual.entry, row=r, column=3, sticky="w")
-                r <- r + 1
-                worker.entry <- wzentry(entryform, width = 50, textvariable=worker)
-                tkgrid(tklabel(entryform, text = "WorkerId: "), row=r, column=2, sticky="e")
-                tkgrid(worker.entry, row=r, column=3, sticky="w")
-                r <- r + 1
-                tkgrid(ttklabel(entryform, text = "     "))
-            tkgrid(entryform)
+            tkwm.title(getscoreDialog, "Get Qualification Score(s)")
+            qualid <- tclVar()
+            aframe <- ttklabelframe(getscoreDialog, text = "QualificationTypeId: ")
+            tkgrid(wzentry(aframe, width = 50, textvariable = qualid))
+            bframe <- ttklabelframe(getscoreDialog, text = "WorkerId(s) (one per line): ")
+                worker.entry <- tktext(bframe, height = 20, width = 50, background = "white")
+                tkmark.set(worker.entry,"insert","0.0")
+                tkgrid(worker.entry)
+            tkgrid(aframe, sticky = "w")
+            tkgrid(bframe, sticky = "w")
             
             # buttons
             popbuttons(getscoreDialog, okfun = getscore, 
                        cancelfun = function(){tkdestroy(getscoreDialog); tkfocus(wizard)}, 
-                       poptype = "Qual")
+                       poptype = "SearchQual")
             
             tkfocus(getscoreDialog)
         }
@@ -2854,39 +2812,30 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
             }
             # layout
             updatescoreDialog <- tktoplevel()
-            tkwm.title(updatescoreDialog, "Update Worker's Qualification Score")
-            entryform <- tkframe(updatescoreDialog, relief="groove", borderwidth=2)
-                qualid <- tclVar()
-                score <- tclVar()
-                increment <- tclVar()
-                r <- 1
-                tkgrid(ttklabel(entryform, text = "     "), row=r, column=1)
-                tkgrid(ttklabel(entryform, text = "     "), row=r, column=4)
-                r <- r + 1
-                qual.entry <- wzentry(entryform, width = 50, textvariable=qualid)
-                tkgrid(tklabel(entryform, text = "QualificationTypeId: "), row=r, column=2, sticky="e")
-                tkgrid(qual.entry, row=r, column=3, sticky="w")
-                r <- r + 1
-                worker.entry <- tktext(entryform, height = 20, width = 50)
+            tkwm.title(updatescoreDialog, "Update Qualification Score(s)")
+            qualid <- tclVar()
+            score <- tclVar()
+            increment <- tclVar()
+            
+            aframe <- ttklabelframe(updatescoreDialog, text = "QualificationTypeId: ")
+            tkgrid(wzentry(aframe, width = 50, textvariable = qualid))
+            bframe <- ttklabelframe(updatescoreDialog, text = "WorkerId(s) (one per line): ")
+                worker.entry <- tktext(bframe, height = 20, width = 50, background = "white")
                 tkmark.set(worker.entry,"insert","0.0")
-                tkgrid(tklabel(entryform, text = "WorkerId(s) (one per line): "), row=r, column=2)
-                tkgrid(worker.entry, row=r, column=3)
-                r <- r + 1
-                score.entry <- wzentry(entryform, width = 10, textvariable=score)
-                tkgrid(tklabel(entryform, text = "Specify new score: "), row=r, column=2, sticky="e")
-                tkgrid(score.entry, row=r, column=3, sticky="w")
-                r <- r + 1
-                increment.entry <- wzentry(entryform, width = 10, textvariable=increment)
-                tkgrid(tklabel(entryform, text = "Or an amount to increment current score: "), row=r, column=2, sticky="e")
-                tkgrid(increment.entry, row=r, column=3, sticky="w")
-                r <- r + 1
-                tkgrid(ttklabel(entryform, text = "     "))
-            tkgrid(entryform)
+                tkgrid(worker.entry)
+            cframe <- ttklabelframe(updatescoreDialog, text = "Specify new score or score increment value: ")
+                tkgrid(tklabel(cframe, text = "      New score: "), row = 1, column = 1, sticky="e")
+                tkgrid(wzentry(cframe, width = 10, textvariable=score), row = 1, column=2, sticky="w")
+                tkgrid(tklabel(cframe, text = "Increment value: "), row = 2, column=1, sticky="e")
+                tkgrid(wzentry(cframe, width = 10, textvariable=increment), row = 2, column=2, sticky="w")
+            tkgrid(aframe, sticky = "w")
+            tkgrid(bframe, sticky = "w")
+            tkgrid(cframe, sticky = "w")
             
             # buttons
             popbuttons(updatescoreDialog, okfun = updatescore, 
                        cancelfun = function(){tkdestroy(updatescoreDialog); tkfocus(wizard)}, 
-                       poptype = "Qual")
+                       poptype = "SearchQual")
             
             tkfocus(updatescoreDialog)
         }
@@ -3155,7 +3104,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                              tkdestroy(qualreqDialog)
                              tkfocus(wizard)
                            },
-                           poptype = "Qual")
+                           poptype = "SearchQual")
             
                 tkfocus(getqualDialog)
                 tkwait.window(getqualDialog)
