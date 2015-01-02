@@ -2195,14 +2195,14 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
             tkwm.title(blockDialog, "Block Worker(s)")
             entryform <- tkframe(blockDialog, relief="groove", borderwidth=2)
                 wframe <- ttklabelframe(entryform, text = "WorkerId(s) (one per line): ")
-                    worker.entry <- tktext(wframe, height = 10, width = 50)
+                    worker.entry <- tktext(wframe, height = 10, width = 50, background = "white")
                     tkgrid(worker.entry)
                     tkmark.set(worker.entry,"insert","0.0")
                 tkgrid(wframe, row = 1)
                 rframe <- ttklabelframe(entryform, text = "Reason for block:")
                     reason <- tclVar()
                     tkgrid(wzentry(rframe, width = 50, textvariable=reason))
-                tkgrid(rframe, row = 2)
+                tkgrid(rframe, row = 2, sticky = "w")
             tkgrid(entryform)
             # buttons
             okcancel(blockDialog, okfun = block, cancelfun = function() {tkdestroy(blockDialog); tkfocus(wizard)})
@@ -2238,14 +2238,14 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
             tkwm.title(unblockDialog, "Unblock Worker(s)")
             entryform <- tkframe(unblockDialog, relief="groove", borderwidth=2)
                 wframe <- ttklabelframe(entryform, text = "WorkerId(s) (one per line): ")
-                    worker.entry <- tktext(wframe, height = 10, width = 50)
+                    worker.entry <- tktext(wframe, height = 10, width = 50, background = "white")
                     tkgrid(worker.entry)
                     tkmark.set(worker.entry,"insert","0.0")
                 tkgrid(wframe, row = 1)
                 rframe <- ttklabelframe(entryform, text = "Reason for unblock:")
                     reason <- tclVar()
                     tkgrid(wzentry(rframe, width = 50, textvariable=reason))
-                tkgrid(rframe, row = 2)
+                tkgrid(rframe, row = 2, sticky = "w")
             tkgrid(entryform)
             # buttons
             okcancel(unblockDialog, okfun = unblock, cancelfun = function() {tkdestroy(unblockDialog); tkfocus(wizard)})
@@ -2257,7 +2257,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
         getblockWiz <- function(){
             blockedworkers <- GetBlockedWorkers(verbose=FALSE, sandbox=sandbox)
             # populate scrollable listbox
-            if(!is.null(blockedworkers)) {
+            if(!is.null(blockedworkers) && is.data.frame(blockedworkers)) {
                 # function
                 selectworkers <- function(){
                     tkdestroy(blocklistDialog)
