@@ -80,7 +80,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 tkdestroy(credDialog)
                 tkfocus(wizard)
             }
-            # layout
+            
             credDialog <- tktoplevel()
             tkwm.title(credDialog, "Enter/Confirm MTurk Requester Credentials")
             tkfocus(credDialog)
@@ -97,9 +97,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
             tkgrid(wzentry(bframe, width = 50, textvariable=secretkey))
             tkgrid(aframe, row = 1)
             tkgrid(bframe, row = 2)
-            # buttons
             okcancel(credDialog, okfun = credOK, cancelfun = function(){tkdestroy(credDialog); tkfocus(wizard)})
-            
             tkfocus(credDialog)
         }
         
@@ -165,7 +163,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 tkgrid(OKbutton, row=r, column=2)
                 tkfocus(results)
             }
-            # layout
+            
             balDialog <- tktoplevel()
             tkwm.title(balDialog, "MTurk Account Balance Check")
             amt <- tclVar("0")
@@ -192,10 +190,8 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
             mframe <- ttklabelframe(balDialog, text = "Use MTurk Masters Workers?")
                 tkgrid(tkcheckbutton(mframe, variable=masters))
             tkgrid(baframe, row = 6)
-            # buttons
             okcancel(balDialog, okfun = function() {tkdestroy(balDialog); checksufficient()}, 
                                 cancelfun = function() {tkdestroy(balDialog); tkfocus(wizard)})
-            
             tkfocus(balDialog)
         }
         
@@ -236,7 +232,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 tkgrid(tkbutton(logentry, text="Show API Response XML in Console", command=printxml),row=8, column=1, columnspan=2)
             }
             
-            # layout
+            
             # create listbox with entries
             logDialog <- tktoplevel()
             tkwm.title(logDialog, "MTurkR Log Entries")
@@ -249,7 +245,6 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
             for (i in 1:dim(mturkrlog)[1]) {
                 tkinsert(loglist,"end",paste(mturkrlog$Operation[i]," (",mturkrlog$Timestamp[i],")",sep=""))
             }
-            # buttons
             buttons <- tkframe(logDialog)
                 tkgrid(tkbutton(buttons, text=" Display entry ", command=function() displaylogentry(n=as.numeric(tkcurselection(loglist))+1)), 
                        row = 1, column=1)
@@ -342,7 +337,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                     }
                 }
                     
-                # layout
+                
                 qualreqDialog <- tktoplevel()
                 tkwm.title(qualreqDialog, "Generate QualificationRequirement")
                 qframe <- ttklabelframe(qualreqDialog, text = "QualificationTypeId")
@@ -372,16 +367,14 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                     tkgrid(wzentry(vframe, width=10, textvariable=qualvalue))
                     tkgrid(tklabel(vframe,text="(Required except for 'Exists' and 'DoesNotExist')"))
                 tkgrid(vframe, row = 4)
-                # buttons
                 popbuttons(qualreqDialog, okfun = genqual, 
                            cancelfun = function(){tkdestroy(qualreqDialog); tkfocus(wizard)}, 
                            poptype = "SearchQual")
-                
                 tkfocus(qualreqDialog)
             }
             
             assign("qualreq",NULL,envir=wizardenv) # clear any stored value of 'qualreq' in wizardenv
-            # layout
+            
             registerDialog <- tktoplevel()
             tkwm.title(registerDialog, "Register HITType")
             title <- tclVar()
@@ -473,9 +466,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 r <- r + 1
                 tkgrid(ttklabel(entryform, text = "     "), row=r, column=2)
             tkgrid(entryform)
-            # buttons
             okcancel(registerDialog, okfun = gethit, cancelfun = function(){tkdestroy(registerDialog); tkfocus(wizard)})
-            
             tkfocus(registerDialog)
         }
         
@@ -499,7 +490,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                         assign("question",exquestion,envir=wizardenv) # assign 'question' to wizardenv
                     }
                 }
-                # layout
+                
                 addqDialog <- tktoplevel()
                 tkwm.title(addqDialog, "Add External Question to HIT")
                 entryform <- tkframe(addqDialog, relief="groove", borderwidth=2)
@@ -519,9 +510,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                     r <- r + 1
                     tkgrid(ttklabel(entryform, text = "     "), row=r)
                 tkgrid(entryform)
-                # buttons
                 okcancel(addqDialog, okfun = store, cancelfun = function() {tkdestroy(addqDialog); tkfocus(wizard)})
-                
                 tkfocus(addqDialog)
             }
             # function to add QuestionForm structure
@@ -536,7 +525,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                         assign("question",question,envir=wizardenv) # assign 'question' to wizardenv
                     }
                 }
-                # layout
+                
                 addqDialog <- tktoplevel()
                 tkwm.title(addqDialog, "Add QuestionForm to HIT")
                 entryform <- tkframe(addqDialog, relief="groove", borderwidth=2)
@@ -553,9 +542,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                     r <- r + 1
                     tkgrid(ttklabel(entryform, text = "     "), row=r)
                 tkgrid(entryform)
-                # buttons
                 okcancel(addqDialog, okfun = store, cancelfun = function() {tkdestroy(addqDialog); tkfocus(wizard)})
-                
                 tkfocus(addqDialog)
             }
             
@@ -571,7 +558,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                         assign("question",question,envir=wizardenv) # assign 'question' to wizardenv
                     }
                 }
-                # layout
+                
                 addqDialog <- tktoplevel()
                 tkwm.title(addqDialog, "Add HTMLQuestion to HIT")
                 entryform <- tkframe(addqDialog, relief="groove", borderwidth=2)
@@ -588,9 +575,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                     r <- r + 1
                     tkgrid(ttklabel(entryform, text = "     "), row=r)
                 tkgrid(entryform)
-                # buttons
                 okcancel(addqDialog, okfun = store, cancelfun = function() {tkdestroy(addqDialog); tkfocus(wizard)})
-                
                 tkfocus(addqDialog)
             }
             
@@ -617,7 +602,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                         tkdestroy(addqDialog)
                     }
                 }
-                # layout
+                
                 addqDialog <- tktoplevel()
                 tkwm.title(addqDialog, "Add HIT Layout Parameters")
                 entryform <- tkframe(addqDialog, relief="groove", borderwidth=2)
@@ -648,9 +633,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                     r <- r + 1
                     tkgrid(ttklabel(entryform, text = "     "), row=r)
                 tkgrid(entryform)
-                # buttons
                 okcancel(addqDialog, okfun = store, cancelfun = function() {tkdestroy(addqDialog); tkfocus(wizard)})
-                
                 tkfocus(addqDialog)
             }
             
@@ -665,7 +648,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                         assign("assignreviewpolicy", assigntowrite, envir=wizardenv) # assign 'reviewpolicy' to wizardenv
                     tkdestroy(reviewpolicyDialog)
                 }
-                # layout
+                
                 reviewpolicyDialog <- tktoplevel()
                 tkwm.title(reviewpolicyDialog, "Add HIT/Assignment Review Policy")
                 hitentryform <- ttklabelframe(reviewpolicyDialog, 
@@ -682,10 +665,8 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                     tkmark.set(assign.entry,"insert","0.0")
                     tkgrid(assign.entry, row=r, column=2, columnspan=2)
                 tkgrid(assignentryform)
-                # buttons
                 okcancel(addqDialog, okfun = storepolicy, 
                                      cancelfun = function() {tkdestroy(reviewpolicyDialog); tkfocus(wizard)})
-                
                 tkfocus(reviewpolicyDialog)
             }
             
@@ -810,11 +791,9 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 r <- r + 1
                 tkgrid(ttklabel(entryform, text = "     "), row=r)
             tkgrid(entryform)
-            # buttons
             popbuttons(createDialog, okfun = create, 
                        cancelfun = function(){tkdestroy(createDialog); tkfocus(wizard)}, 
                        poptype = "RegisterHIT")
-                
             tkfocus(createDialog)
         }
         
@@ -878,11 +857,9 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 r <- r + 1
                 tkgrid(ttklabel(entryform, text = "     "), row=r)
             tkgrid(entryform)
-            # buttons
             popbuttons(changeDialog, okfun = change, 
                        cancelfun = function(){tkdestroy(changeDialog); tkfocus(wizard)}, 
                        poptype = "RegisterHIT")
-            
             tkfocus(changeDialog)
         }
         
@@ -944,7 +921,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                     tkfocus(viewhitDialog)
                 }
             }
-            # layout
+            
             gethitDialog <- tktoplevel()
             tkwm.title(gethitDialog, "View HIT Details")
             entryform <- tkframe(gethitDialog, relief="groove", borderwidth=2)
@@ -959,11 +936,9 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 r <- r + 1
                 tkgrid(ttklabel(entryform, text = "     "), row=r)
             tkgrid(entryform)
-            # buttons
             popbuttons(gethitDialog, okfun = gethit, 
                        cancelfun = function(){tkdestroy(gethitDialog); tkfocus(wizard)}, 
                        poptype = "SearchHIT")
-            
             tkfocus(gethitDialog)
         }
         
@@ -1012,7 +987,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                     tkfocus(viewhitDialog)
                 }
             }
-            # layout
+            
             statusDialog <- tktoplevel()
             tkwm.title(statusDialog, "Get Status of HIT")
             entryform <- tkframe(statusDialog, relief="groove", borderwidth=2)
@@ -1027,11 +1002,9 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 r <- r + 1
                 tkgrid(ttklabel(entryform, text = "     "), row=r)
             tkgrid(entryform)
-            # buttons
             popbuttons(statusDialog, okfun = status, 
                        cancelfun = function(){tkdestroy(statusDialog); tkfocus(wizard)}, 
                        poptype = "SearchHIT")
-            
             tkfocus(statusDialog)
         }
         
@@ -1066,7 +1039,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                     tkfocus(wizard)
                 }
             }
-            # layout
+            
             resultsDialog <- tktoplevel()
             tkwm.title(resultsDialog, "Get ReviewResults for HIT")
             hitlevel <- tclVar("1")
@@ -1113,7 +1086,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                     tkfocus(wizard)
                 }
             }
-            # layout
+            
             reviewingDialog <- tktoplevel()
             tkwm.title(reviewingDialog, "Set Status of HIT as Reviewing")
             entryform <- tkframe(reviewingDialog, relief="groove", borderwidth=2)
@@ -1133,11 +1106,9 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 r <- r + 1
                 tkgrid(ttklabel(entryform, text = "     "), row=r)
             tkgrid(entryform)
-            # buttons
             popbuttons(reviewingDialog, okfun = chgstatus, 
                        cancelfun = function(){tkdestroy(reviewingDialog); tkfocus(wizard)}, 
                        poptype = "SearchHIT")
-            
             tkfocus(reviewingDialog)
         }
         
@@ -1157,7 +1128,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                     tkfocus(wizard)
                 }
             }
-            # layout
+            
             addassignDialog <- tktoplevel()
             tkwm.title(addassignDialog, "Add Assignments to HIT")
             entryform <- tkframe(addassignDialog, relief="groove", borderwidth=2)
@@ -1177,11 +1148,9 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 r <- r + 1
                 tkgrid(ttklabel(entryform, text = "     "), row=r)
             tkgrid(entryform)
-            # buttons
             popbuttons(addassignDialog, okfun = addassign, 
                        cancelfun = function(){tkdestroy(addassignDialog); tkfocus(wizard)}, 
                        poptype = "SearchHIT")
-            
             tkfocus(addassignDialog)
         }
         
@@ -1207,7 +1176,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                     tkfocus(wizard)
                 }
             }
-            # layout
+            
             extendDialog <- tktoplevel()
             tkwm.title(extendDialog, "Extend HIT")
             entryform <- tkframe(extendDialog, relief="groove", borderwidth=2)
@@ -1243,11 +1212,9 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 r <- r + 1
                 tkgrid(ttklabel(entryform, text = "     "), row=r)
             tkgrid(entryform)
-            # buttons
             popbuttons(extendDialog, okfun = extend, 
                        cancelfun = function(){tkdestroy(extendDialog); tkfocus(wizard)}, 
                        poptype = "SearchHIT")
-            
             tkfocus(extendDialog)
         }
         
@@ -1263,7 +1230,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                     ExpireHIT(hit=tclvalue(hitid), sandbox=sandbox)
                 }
             }
-            # layout
+            
             expireDialog <- tktoplevel()
             tkwm.title(expireDialog, "Expire HIT")
             entryform <- tkframe(expireDialog, relief="groove", borderwidth=2)
@@ -1279,11 +1246,9 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 r <- r + 1
                 tkgrid(ttklabel(entryform, text = "     "), row=r)
             tkgrid(entryform)
-            # buttons
             popbuttons(expireDialog, okfun = expire, 
                        cancelfun = function(){tkdestroy(expireDialog); tkfocus(wizard)}, 
                        poptype = "SearchHIT")
-            
             tkfocus(expireDialog)
         }
         
@@ -1305,7 +1270,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                     }
                 }
             }
-            # layout
+            
             disposeDialog <- tktoplevel()
             tkwm.title(disposeDialog, "Dispose HIT")
             entryform <- tkframe(disposeDialog, relief="groove", borderwidth=2)
@@ -1321,11 +1286,9 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 r <- r + 1
                 tkgrid(ttklabel(entryform, text = "     "), row=r)
             tkgrid(entryform)
-            # buttons
             popbuttons(disposeDialog, okfun = dispose, 
                        cancelfun = function(){tkdestroy(disposeDialog); tkfocus(wizard)}, 
                        poptype = "SearchHIT")
-            
             tkfocus(disposeDialog)
         }
         
@@ -1335,7 +1298,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
             #print(results$HITs[,c("HITId","HITTypeId","RequesterAnnotation")])
             # populate scrollable listbox
             if(!is.null(results)) {
-                # layout
+                
                 currenthits <-tktoplevel()
                 tkgrab.set(currenthits)
                 tkwm.title(currenthits, "Current HITs")
@@ -1362,9 +1325,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                     r <- r + 1
                     tkgrid(ttklabel(entryform, text = "     "), row=r, column=1)
                 tkgrid(entryform)
-                # buttons
                 okcancel(currenthits, okfun = selecthit, cancelfun = function() {tkdestroy(currenthits); tkfocus(wizard)})
-                
                 tkfocus(currenthits)
                 tkwait.window(currenthits)
             } else {
@@ -1392,7 +1353,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                     tkfocus(wizard)
                 }
             }
-            # layout
+            
             getassign1Dialog <- tktoplevel()
             tkwm.title(getassign1Dialog, "Get Assignment")
             entryform <- tkframe(getassign1Dialog, relief="groove", borderwidth=2)
@@ -1407,7 +1368,6 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 r <- r + 1
                 tkgrid(ttklabel(entryform, text = "     "), row=r)
             tkgrid(entryform)
-            # buttons
             buttons <- tkframe(getassign1Dialog)
                 printbutton <- tkbutton(buttons, text=" Print to Console ", command=function() getassign(TRUE,FALSE) )
                 savebutton <- tkbutton(buttons, text=" Save to File ", command=function() getassign(FALSE,TRUE) )
@@ -1417,7 +1377,6 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 tkgrid(savebutton, row = r, column = 2)
                 tkgrid(Cancelbutton, row=r, column = 3)
             tkgrid(buttons)
-            
             tkfocus(getassign1Dialog)
         }
         
@@ -1439,7 +1398,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                     tkfocus(wizard)
                 }
             }
-            # layout
+            
             getassign2Dialog <- tktoplevel()
             tkwm.title(getassign2Dialog, "Get Assignment")
             entryform <- tkframe(getassign2Dialog,relief="groove",borderwidth=2)
@@ -1453,7 +1412,6 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 r <- r + 1
                 tkgrid(ttklabel(entryform, text = "     "), row=r)
             tkgrid(entryform)
-            # buttons
             buttons <- tkframe(getassign2Dialog)
                 populate <- function(){
                     searchWiz()
@@ -1469,7 +1427,6 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 tkgrid(savebutton, row = r, column = 3)
                 tkgrid(Cancelbutton, row=r, column = 4)
             tkgrid(buttons)
-            
             tkfocus(getassign2Dialog)
         }
         
@@ -1493,7 +1450,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                     tkfocus(wizard)
                 }
             }
-            # layout
+            
             getassign3Dialog <- tktoplevel()
             tkwm.title(getassign3Dialog, "Get Assignment")
             entryform <- tkframe(getassign3Dialog,relief="groove",borderwidth=2)
@@ -1507,7 +1464,6 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 r <- r + 1
                 tkgrid(ttklabel(entryform, text = "     "), row=r)
             tkgrid(entryform)
-            # buttons
             buttons <- tkframe(getassign3Dialog)
                 populate <- function(){
                     searchWiz()
@@ -1523,7 +1479,6 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 tkgrid(savebutton, row = r, column = 3)
                 tkgrid(Cancelbutton, row=r, column = 4)
             tkgrid(buttons)
-            
             tkfocus(getassign3Dialog)
         }
         
@@ -1548,18 +1503,15 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                             tkfocus(approveallDialog)
                     }
                 }
-                # layout
                 tkdestroy(approveDialog)
                 approveallDialog <- tktoplevel()
                 tkwm.title(approveallDialog, "Approve All Assignments")
                 aframe <- ttklabelframe(approveallDialog, text = "HITId: ")
                 tkgrid(wzentry(aframe, width = 50, textvariable=hitid))
                 tkgrid(aframe)
-                # buttons
                 popbuttons(approveallDialog, okfun = approveallforhit, 
                            cancelfun = function(){tkdestroy(approveallDialog); tkfocus(wizard)}, 
                            poptype = "SearchHIT")
-            
                 tkfocus(approveallDialog)
             }
             # approve1 function
@@ -1575,7 +1527,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                     tkfocus(wizard)
                 }
             }
-            # layout
+            
             approveDialog <- tktoplevel()
             tkwm.title(approveDialog, "Approve Assignments")
             approveallbutton <- tkbutton(approveDialog,text="Approve All Assignments for a HIT?",command=approveall)
@@ -1587,10 +1539,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
             tkgrid(wzentry(bframe, width = 50, textvariable=feedback))
             tkgrid(aframe)
             tkgrid(bframe)
-            
-            # buttons
             okcancel(approveDialog, okfun = approve1, cancelfun = function() {tkdestroy(approveDialog); tkfocus(wizard)})
-                
             tkfocus(approveDialog)
         }
         
@@ -1612,7 +1561,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 }
             }
             
-            # layout
+            
             rejectDialog <- tktoplevel()
             tkwm.title(rejectDialog, "Reject Assignments")
             aframe <- ttklabelframe(rejectDialog, text = "AssignmentId: ")
@@ -1697,7 +1646,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                         }
                         message()
                     }
-                    # layout
+                    
                     viewassign <- tktoplevel()
                     tkwm.title(viewassign, "View Assignment")
                     entryform <- tkframe(viewassign, relief="groove", borderwidth=2)
@@ -1737,7 +1686,6 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                         r <- r + 1
                         tkgrid(ttklabel(entryform, text="     "), row=r, column=1)
                     tkgrid(entryform)
-                    # buttons
                     buttons <- tkframe(viewassign)
                         AnswerDetails <- tkbutton(buttons,text=" View Assignment Answers ",command=printdetails)
                         OKbutton <- tkbutton(buttons,text="   OK   ",command=function() {tkdestroy(viewassign); tkfocus(approverejectDialog)})
@@ -1745,7 +1693,6 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                         tkgrid(AnswerDetails, row = r, column = 1)
                         tkgrid(OKbutton, row=r, column = 2)
                     tkgrid(buttons)
-                    
                     tkfocus(viewassign)
                 }
                 
@@ -1769,7 +1716,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                             tkfocus(approverejectDialog)
                         }
                     }
-                    # layout
+                    
                     appreason <- tktoplevel()
                     tkwm.title(appreason, "Reason for rejection?")
                     r <- 1
@@ -1810,7 +1757,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                             tkfocus(approverejectDialog)
                         }
                     }
-                    # layout
+                    
                     rejreason <- tktoplevel()
                     tkwm.title(rejreason, "Reason for approval?")
                     r <- 1
@@ -1850,7 +1797,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                             tkfocus(approverejectDialog)
                         }
                     }
-                    # layout
+                    
                     appreason <- tktoplevel()
                     tkwm.title(appreason, "Reason for approval?")
                     r <- 1
@@ -1893,7 +1840,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                             tkfocus(approverejectDialog)
                         }
                     }
-                    # layout
+                    
                     bonusreason <- tktoplevel()
                     tkwm.title(bonusreason, "Bonus Amount")
                     r <- 1
@@ -1918,7 +1865,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                     tkgrid(Cancelbutton, row=r, column = 3)                    
                 }
                 
-                # layout
+                
                 approverejectDialog <- tktoplevel()
                 tkwm.title(approverejectDialog, "Approve and/or Reject Assignments")
                 entryform <- tkframe(approverejectDialog, relief="groove", borderwidth=2)
@@ -1945,7 +1892,6 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                     tkgrid.configure(scr1, row=r, column=4, sticky="nsw")
                     tkgrid.configure(scr2, row=r, column=7, sticky="nsw")
                     tkgrid.configure(scr3, row=r, column=10, sticky="nsw")
-                    # buttons
                     r <- r + 4
                     viewbutton1 <- tkbutton(entryform,text=" View Assignment ",command=function() view(type="submitted"))
                     tkgrid(viewbutton1, row = r, column = 2, columnspan=3)
@@ -2025,7 +1971,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                     tkfocus(wizard)
                 }
             }
-            # layout
+            
             contactDialog <- tktoplevel()
             tkwm.title(contactDialog, "Contact MTurk Worker(s) via Email")
             # workerid, emailsubject, msg body
@@ -2065,9 +2011,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                     tkgrid(worker.entry)
                 tkgrid(wframe, row = r)
             tkgrid(entryform)
-            # buttons
             okcancel(contactDialog, okfun = contact, cancelfun = function() {tkdestroy(contactDialog); tkfocus(wizard)})
-                
             tkfocus(contactDialog)
         }      
         
@@ -2099,7 +2043,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 }
             }
             
-            # layout
+            
             bonusDialog <- tktoplevel()
             tkwm.geometry(bonusDialog)
             tkwm.title(bonusDialog, "Bonus MTurk Worker")
@@ -2122,9 +2066,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                     tkgrid(wzentry(rframe, width = 50, textvariable=reason))
                 tkgrid(rframe, row = 4)
             tkgrid(entryform)
-            # buttons
             okcancel(bonusDialog, okfun = bonus, cancelfun = function() {tkdestroy(bonusDialog); tkfocus(wizard)})
-                
             tkfocus(bonusDialog)
         }
         
@@ -2148,7 +2090,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                     tkfocus(wizard)
                 }
             }
-            # layout
+            
             blockDialog <- tktoplevel()
             tkwm.title(blockDialog, "Block Worker(s)")
             entryform <- tkframe(blockDialog, relief="groove", borderwidth=2)
@@ -2162,9 +2104,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                     tkgrid(wzentry(rframe, width = 50, textvariable=reason))
                 tkgrid(rframe, row = 2, sticky = "w")
             tkgrid(entryform)
-            # buttons
             okcancel(blockDialog, okfun = block, cancelfun = function() {tkdestroy(blockDialog); tkfocus(wizard)})
-                
             tkfocus(blockDialog)
         }
         
@@ -2191,7 +2131,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                     tkfocus(wizard)
                 }
             }
-            # layout
+            
             unblockDialog <- tktoplevel()
             tkwm.title(unblockDialog, "Unblock Worker(s)")
             entryform <- tkframe(unblockDialog, relief="groove", borderwidth=2)
@@ -2205,9 +2145,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                     tkgrid(wzentry(rframe, width = 50, textvariable=reason))
                 tkgrid(rframe, row = 2, sticky = "w")
             tkgrid(entryform)
-            # buttons
             okcancel(unblockDialog, okfun = unblock, cancelfun = function() {tkdestroy(unblockDialog); tkfocus(wizard)})
-                
             tkfocus(unblockDialog)
         }
         
@@ -2227,7 +2165,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                     else
                         invisible(selections)
                 }
-                # layout
+                
                 blocklistDialog <-tktoplevel()
                 tkwm.title(blocklistDialog, "Currently Blocked Workers")
                 entryform <- tkframe(blocklistDialog, relief="groove", borderwidth=2)
@@ -2239,9 +2177,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                     tkinsert(workerlist,"end",blockedworkers$WorkerId[i])
                 }
                 tkgrid(entryform)
-                # buttons
                 okcancel(blocklistDialog, okfun = selectworkers, cancelfun = function() {tkdestroy(blocklistDialog); tkfocus(wizard)})
-                
                 tkfocus(blocklistDialog)
             } else {
                 tkmessageBox(message="No blocked workers found!", icon="info", type="ok")
@@ -2264,7 +2200,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                     tkfocus(wizard)
                 }
             }
-            # layout
+            
             statDialog <- tktoplevel()
             tkwm.title(statDialog, "MTurk Worker Statistics")
             wframe <- ttklabelframe(statDialog, text = "WorkerId")
@@ -2283,10 +2219,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 }
                 tkselection.set(period.entry,3)
             tkgrid(pframe, row = 2)
-            
-            # buttons
             okcancel(statDialog, okfun = getReport, cancelfun = function() {tkdestroy(statDialog); tkfocus(wizard)})
-                
             tkfocus(statDialog)
         }
         
@@ -2307,7 +2240,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                                 TestDurationInSeconds=testduration )
                 assign("test",test,envir=wizardenv)
             }
-            # layout
+            
             testDialog <- tktoplevel()
             tkwm.title(testDialog, "Configure Qualification Test")
             entryform <- tkframe(testDialog, relief="groove", borderwidth=2)
@@ -2347,10 +2280,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 r <- r + 1
                 tkgrid(ttklabel(entryform, text = "     "), row=r)
             tkgrid(entryform)
-            
-            # buttons
             okcancel(testDialog, okfun = storetest, cancelfun = function() {tkdestroy(testDialog); tkfocus(wizard)})
-                
             tkfocus(testDialog)
         }
         
@@ -2405,7 +2335,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
             }
             
             assign("test",NULL,envir=wizardenv)
-            # layout
+            
             createqualDialog <- tktoplevel()
             tkwm.title(createqualDialog, "Create QualificationType")
             entryform <- tkframe(createqualDialog, relief="groove", borderwidth=2)
@@ -2524,7 +2454,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
             }
             
             assign("test",NULL,envir=wizardenv)
-            # layout
+            
             updatequalDialog <- tktoplevel()
             tkwm.title(updatequalDialog, "Update QualificationType")
             entryform <- tkframe(updatequalDialog, relief="groove", borderwidth=2)
@@ -2609,15 +2539,12 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 }
             }
             
-            # layout
             getqualDialog <- tktoplevel()
             tkwm.title(getqualDialog, "Get QualificationType")
             qualid <- tclVar()
             aframe <- ttklabelframe(getqualDialog, text = "QualificationTypeId: ")
             tkgrid(wzentry(aframe, width = 50, textvariable = qualid))
             tkgrid(aframe, sticky = "w")
-            
-            # buttons
             buttons <- tkframe(getqualDialog)
                 populate <- function(){
                     result <- searchqualsWiz()
@@ -2638,7 +2565,6 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 tkgrid(OKbutton, row = r, column = 2)
                 tkgrid(Cancelbutton, row=r, column = 3)
             tkgrid(buttons)
-            
             tkfocus(getqualDialog)
         }
         
@@ -2662,19 +2588,15 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 }
             }
             
-            # layout
             disposequalDialog <- tktoplevel()
             tkwm.title(disposequalDialog, "Dispose QualificationType")
             qualid <- tclVar()
             aframe <- ttklabelframe(disposequalDialog, text = "QualificationTypeId: ")
             tkgrid(wzentry(aframe, width = 50, textvariable = qualid))
             tkgrid(aframe, sticky = "w")
-            
-            # buttons
             popbuttons(disposequalDialog, okfun = disposequal, 
                        cancelfun = function(){tkdestroy(disposequalDialog); tkfocus(wizard)}, 
                        poptype = "SearchQual")
-            
             tkfocus(disposequalDialog)
         }
         
@@ -2693,19 +2615,15 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 }
                 
             }
-            # layout
             getqualsDialog <- tktoplevel()
             tkwm.title(getqualsDialog, "Get Qualifications for QualificationType")
             qualid <- tclVar()
             aframe <- ttklabelframe(getqualsDialog, text = "QualificationTypeId: ")
             tkgrid(wzentry(aframe, width = 50, textvariable = qualid))
             tkgrid(aframe, sticky = "w")
-            
-            # buttons
             popbuttons(getqualsDialog, okfun = getquals, 
                        cancelfun = function(){tkdestroy(getqualsDialog); tkfocus(wizard)}, 
                        poptype = "SearchQual")
-            
             tkfocus(getqualsDialog)
         }
         
@@ -2728,7 +2646,6 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 }
             }
             
-            # layout
             getscoreDialog <- tktoplevel()
             tkwm.title(getscoreDialog, "Get Qualification Score(s)")
             qualid <- tclVar()
@@ -2740,12 +2657,9 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 tkgrid(worker.entry)
             tkgrid(aframe, sticky = "w")
             tkgrid(bframe, sticky = "w")
-            
-            # buttons
             popbuttons(getscoreDialog, okfun = getscore, 
                        cancelfun = function(){tkdestroy(getscoreDialog); tkfocus(wizard)}, 
                        poptype = "SearchQual")
-            
             tkfocus(getscoreDialog)
         }
         
@@ -2779,7 +2693,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                     tkfocus(wizard)
                 }
             }
-            # layout
+            
             updatescoreDialog <- tktoplevel()
             tkwm.title(updatescoreDialog, "Update Qualification Score(s)")
             qualid <- tclVar()
@@ -2801,11 +2715,9 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
             tkgrid(bframe, sticky = "w")
             tkgrid(cframe, sticky = "w")
             
-            # buttons
             popbuttons(updatescoreDialog, okfun = updatescore, 
                        cancelfun = function(){tkdestroy(updatescoreDialog); tkfocus(wizard)}, 
                        poptype = "SearchQual")
-            
             tkfocus(updatescoreDialog)
         }
         
@@ -2845,7 +2757,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                     assign("qualresult", selection, envir=wizardenv) # store 'qualresult' to wizardenv
                     invisible(selection)
                 }
-                # layout
+                
                 selectqualDialog <- tktoplevel()
                 tkwm.title(selectqualDialog, "Current QualificationTypes")
                 tkgrab.set(selectqualDialog)
@@ -2861,18 +2773,16 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                     tkinsert(quallist,"end", paste(    output$Qualification[i],
                                                     "    (QualificationTypeId: ", output$QualificationTypeId[i],")",sep=""))
                 }
-                # buttons
                 okcancel(selectqualDialog, okfun = function() {invisible(storequal())}, 
                          cancelfun = function() {
                             tkgrab.release(selectqualDialog)
                             tkdestroy(selectqualDialog)
                             tkdestroy(searchqualDialog)
                         })
-            
                 tkfocus(selectqualDialog)
                 tkwait.window(selectqualDialog)
             }
-            # layout
+            
             searchqualDialog <- tktoplevel()
             tkwm.title(searchqualDialog, "Search for QualificationTypes")
             entryform <- tkframe(searchqualDialog, relief="groove", borderwidth=2)
@@ -2901,13 +2811,11 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 r <- r + 1
                 tkgrid(ttklabel(entryform, text = "     "), row=r)
             tkgrid(entryform)
-            # buttons
             okcancel(searchqualDialog, okfun = searchqual, 
                          cancelfun = function() {
                             tkgrab.release(searchqualDialog)
                             tkdestroy(searchqualDialog)
                         })
-            
             tkfocus(searchqualDialog)
             tkwait.window(searchqualDialog)
         }
@@ -2945,7 +2853,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                         tkfocus(qualreqDialog)
                     }
                 }
-                # layout
+                
                 grantreq <- tktoplevel()
                 tkwm.title(grantreq, "Assign Value for Qualification")
                 r <- 1
@@ -2985,7 +2893,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                         tkfocus(qualreqDialog)
                     }
                 }
-                # layout
+                
                 rejreq <- tktoplevel()
                 tkwm.title(rejreq, "Reason for rejection?")
                 r <- 1
@@ -3005,7 +2913,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 tkgrid(Cancelbutton, row=r, column = 3)
             }
         
-            # layout
+            
             qualreqDialog <- tktoplevel()
             tkwm.title(qualreqDialog, "Qualification Requests")
             entryform <- tkframe(qualreqDialog, relief="groove", borderwidth=2)
@@ -3023,7 +2931,6 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 r <- r + 1
                 tkgrid(ttklabel(entryform, text = "     "), row=r)
             tkgrid(entryform)
-            # buttons
             buttons <- tkframe(qualreqDialog)
                 viewbutton <- tkbutton(buttons,text=" View Selected ",command=viewrequest)
                 appbutton <- tkbutton(buttons,text=" Grant Selected ",command=approverequests)
@@ -3050,7 +2957,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                     tkfocus(qualreqDialog)
                 }
                 
-                # layout
+                
                 getqualDialog <- tktoplevel()
                 tkwm.title(getqualDialog, "Set QualificationType")
                 entryform <- tkframe(getqualDialog, relief="groove", borderwidth=2)
@@ -3065,8 +2972,6 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                     r <- r + 1
                     tkgrid(ttklabel(entryform, text = "     "))
                 tkgrid(entryform)
-                
-                # buttons
                 popbuttons(getqualDialog, okfun = setqual, 
                            cancelfun = function() {
                              tkdestroy(getqualDialog)
@@ -3074,7 +2979,6 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                              tkfocus(wizard)
                            },
                            poptype = "SearchQual")
-            
                 tkfocus(getqualDialog)
                 tkwait.window(getqualDialog)
             }
