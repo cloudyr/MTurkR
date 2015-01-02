@@ -2787,14 +2787,16 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 if(tclvalue(searchquery)==""){
                     searchquery <- NULL
                 }
-                if(as.character(tclvalue(mine))=="1")
+                if(as.character(tclvalue(mine))=="1") {
                     mine <- TRUE
-                else
+                } else { 
                     mine <- FALSE
-                if(as.character(tclvalue(requestable))=="1")
+                }
+                if(as.character(tclvalue(requestable))=="1") {
                     requestable <- TRUE
-                else
+                } else {
                     requestable <- FALSE
+                }
                 results <- SearchQualificationTypes(query=searchquery,only.mine=mine,only.requestable=requestable,
                                                     verbose=FALSE,sandbox=sboxval())
                 if(tclvalue(builtin)=="1"){
@@ -2844,32 +2846,21 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
             
             searchqualDialog <- tktoplevel()
             tkwm.title(searchqualDialog, "Search for QualificationTypes")
-            entryform <- tkframe(searchqualDialog, relief="groove", borderwidth=2)
-                mine <- tclVar("1")
-                requestable <- tclVar("0")
-                builtin <- tclVar("1")
-                searchquery <- tclVar()
-                r <- 1
-                tkgrid(ttklabel(entryform, text = "     "), row=r)
-                r <- r + 1
-                mine.entry <- tkcheckbutton(entryform, variable=mine)
-                tkgrid(tklabel(entryform, text = "Only search my QualificationTypes? "), row=r, column=1, columnspan=2, sticky="e")
-                tkgrid(mine.entry, row=r, column=3, sticky="w")
-                r <- r + 1
-                requestable.entry <- tkcheckbutton(entryform, variable=requestable)
-                tkgrid(tklabel(entryform, text = "Only search requestable QualificationTypes? "), row=r, column=1, columnspan=2, sticky="e")
-                tkgrid(requestable.entry, row=r, column=3, sticky="w")
-                r <- r + 1
-                builtin.entry <- tkcheckbutton(entryform, variable=builtin)
-                tkgrid(tklabel(entryform, text = "Include built-in QualificationTypes? "), row=r, column=1, columnspan=2, sticky="e")
-                tkgrid(builtin.entry, row=r, column=3, sticky="w")
-                r <- r + 1
-                searchquery.entry <- wzentry(entryform, width = 50, textvariable=searchquery)
-                tkgrid(tklabel(entryform, text = "Query (optional): "), row=r, column=1, sticky="e")
-                tkgrid(searchquery.entry, row=r, column=2, columnspan=2, sticky="w")
-                r <- r + 1
-                tkgrid(ttklabel(entryform, text = "     "), row=r)
-            tkgrid(entryform)
+            mine <- tclVar("1")
+            requestable <- tclVar("0")
+            builtin <- tclVar("1")
+            searchquery <- tclVar()
+            aframe <- ttklabelframe(searchqualDialog, text = "Search Options")
+                tkgrid(tkcheckbutton(aframe, variable=mine), row = 1, column = 1, sticky = "e")
+                tkgrid(tklabel(aframe, text = "Only search my QualificationTypes"), row = 1, column = 2, sticky = "w")
+                tkgrid(tkcheckbutton(aframe, variable=requestable), row = 2, column = 1, sticky = "e")
+                tkgrid(tklabel(aframe, text = "Only search requestable QualificationTypes"), row = 2, column = 2, sticky = "w")
+                tkgrid(tkcheckbutton(aframe, variable=builtin), row = 3, column = 1, sticky = "e")
+                tkgrid(tklabel(aframe, text = "Include built-in QualificationTypes"), row = 3, column = 2, sticky = "w")
+            bframe <- ttklabelframe(searchqualDialog, text = "Search Query (optional):")
+                tkgrid(wzentry(bframe, width = 50, textvariable=searchquery))
+            tkgrid(aframe, stick = "w")
+            tkgrid(bframe, stick = "w")
             okcancel(searchqualDialog, okfun = searchqual, 
                          cancelfun = function() {
                             tkgrab.release(searchqualDialog)
@@ -3019,18 +3010,10 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 
                 getqualDialog <- tktoplevel()
                 tkwm.title(getqualDialog, "Set QualificationType")
-                entryform <- tkframe(getqualDialog, relief="groove", borderwidth=2)
-                    qualid <- tclVar()
-                    r <- 1
-                    tkgrid(ttklabel(entryform, text = "     "), column=1)
-                    tkgrid(ttklabel(entryform, text = "     "), column=4)
-                    r <- r + 1
-                    qual.entry <- wzentry(entryform, width = 50, textvariable=qualid)
-                    tkgrid(tklabel(entryform, text = "QualificationTypeId: "), row=r, column=2, sticky="e")
-                    tkgrid(qual.entry, row=r, column=3, sticky="w")
-                    r <- r + 1
-                    tkgrid(ttklabel(entryform, text = "     "))
-                tkgrid(entryform)
+                qualid <- tclVar()
+                aframe <- ttklabelframe(getqualDialog, text = "QualificationTypeId: ")
+                tkgrid(wzentry(aframe, width = 50, textvariable=qualid))
+                tkgrid(aframe)
                 popbuttons(getqualDialog, okfun = setqual, 
                            cancelfun = function() {
                              tkdestroy(getqualDialog)
