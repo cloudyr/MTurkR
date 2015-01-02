@@ -1893,33 +1893,73 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 if(tclvalue(emailsubject)==""){
                     tkmessageBox(message="Please enter an email subject!", type="ok")
                     tkfocus(contactDialog)
-                } else if(nchar(bodytowrite)<=1){
-                    tkmessageBox(message="Please enter an email message body!", type="ok")
-                    tkfocus(contactDialog)
-                } else if(!length(workers) || workers == ""){
-                    tkmessageBox(message="Please enter at least one WorkerId!", type="ok")
-                    tkfocus(contactDialog)
+                    return(NULL)
                 } else if(nchar(tclvalue(emailsubject))>200){
                     tkmessageBox(message=paste("Email message body must be less than 200 characters.\nCurrent length is ",
                                         nchar(tclvalue(emailsubject))," characters", sep=""),
                                 type="ok")
                     tkfocus(contactDialog)
+                    return(NULL)
+                } 
+                if(nchar(bodytowrite)<=1){
+                    tkmessageBox(message="Please enter an email message body!", type="ok")
+                    tkfocus(contactDialog)
+                    return(NULL)
                 } else if(nchar(bodytowrite)>4096){
                     tkmessageBox(message=paste("Email message body must be less than 4096 characters.\nCurrent length is ",
                                         nchar(bodytowrite)," characters", sep=""),
                                 type="ok")
                     tkfocus(contactDialog)
-                } else{
-                    workers <- gsub("[[:space:]]", "", workers)
-                    ContactWorker(subjects = tclvalue(emailsubject),
-                                  msgs = bodytowrite, 
-                                  workers = workers,
-                                  verbose = TRUE, 
-                                  batch = TRUE, 
-                                  sandbox = sboxval())
-                    tkdestroy(contactDialog)
-                    tkfocus(wizard)
+                    return(NULL)
+                } 
+                if(!length(workers) || workers == ""){
+                    tkmessageBox(message="Please enter at least one WorkerId!", type="ok")
+                    tkfocus(contactDialog)
+                    return(NULL)
                 }
+                workers <- gsub("[[:space:]]", "", workers)
+                ContactWorker(subjects = tclvalue(emailsubject),
+                              msgs = bodytowrite, 
+                              workers = workers,
+                              verbose = TRUE, 
+                              batch = TRUE, 
+                              sandbox = sboxval())
+                tkdestroy(contactDialog)
+                tkfocus(wizard)
+            }
+            previewEmail <- function() {
+                bodytowrite <- tclvalue(tkget(body.entry,"0.0","end"))
+                if(nchar(bodytowrite)<=1){
+                    tkmessageBox(message="Please enter an email message body!", type="ok")
+                    tkfocus(contactDialog)
+                    return(NULL)
+                }
+                if(tclvalue(emailsubject)==""){
+                    tkmessageBox(message="Please enter an email subject!", type="ok")
+                    tkfocus(contactDialog)
+                    return(NULL)
+                }
+                bodytowrite <- gsub("\\n","\n", bodytowrite, fixed = TRUE)
+                bodytowrite <- gsub("\\t","\t", bodytowrite, fixed = TRUE)
+                txtToPrint <- 
+                    c("Your message will look like this:\n\n",
+                    "Subject:",tclvalue(emailsubject),"\n\nBody:\n\n",
+                    "Message from [Your Requester Name]\n",
+                    "---------------------------------\n",
+                    bodytowrite,
+                    "\n---------------------------------\n",
+                    "\n",
+                    "Greetings from Amazon Mechanical Turk,\n",
+                    "\n",
+                    "The message above was sent by an Amazon Mechanical Turk user.\n",
+                    "Please review the message and respond to it as you see fit.\n",
+                    "\n",
+                    "Sincerely,\n",
+                    "Amazon Mechanical Turk\n",
+                    "https://workersandbox.mturk.com\n",
+                    "410 Terry Avenue North\n",
+                    "SEATTLE, WA 98109-5210 USA\n")
+                message(txtToPrint)
             }
             
             contactDialog <- tktoplevel()
@@ -1938,17 +1978,18 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 bframe <- ttklabelframe(entryform,
                                         text = "Email Body (max 4096 char.):", 
                                         borderwidth = 2)
-                    chars <- tclVar('0')
+                    wizardenv$chars <- tclVar('0')
                     body.entry <- tktext(bframe, height = 10, width = 50, background = "white")
-                    tkgrid(body.entry, column = 1, columnspan = 2)
+                    tkgrid(body.entry, column = 1, columnspan = 3)
                     tkmark.set(body.entry,"insert","0.0")
                     editModified <- function(){
-                        tclvalue(chars) <- 
+                        tclvalue(wizardenv$chars) <- 
                           as.character(nchar(curlEscape(tclvalue(tkget(body.entry,"0.0","end")))))
                     }
-                    tkbind(body.entry, "<<Modified>>", editModified)
-                    tkgrid(tklabel(bframe, text='Number of characters:'), row=2, column=1, sticky='w')
-                    tkgrid(tklabel(bframe, textvariable = chars), row=2, column=2, sticky='w')
+                    tkbind(body.entry, "<Key>", editModified)
+                    tkgrid(tklabel(bframe, text='Number of characters:'), row=2, column=1, sticky='e')
+                    tkgrid(tklabel(bframe, textvariable = wizardenv$chars), row=2, column=2, sticky='w')
+                    tkgrid(tkbutton(bframe, text = "Preview Email", command = previewEmail), row = 2, column = 3)
                 tkgrid(bframe, row = r)
                 r <- r + 1
                 tkgrid(tklabel(entryform, text = "    "), row = r)
