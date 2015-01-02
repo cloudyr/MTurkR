@@ -2079,13 +2079,13 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                     emailsubject <- tclVar()
                     subject.entry <- wzentry(sframe, width = 50, textvariable=emailsubject)
                     tkgrid(subject.entry)
-                tkgrid(sframe, row = r)
+                tkgrid(sframe, row = r, sticky = "w")
                 r <- r + 1
                 bframe <- ttklabelframe(entryform,
                                         text = "Email Body (max 4096 char.):", 
                                         borderwidth = 2)
                     chars <- tclVar('0')
-                    body.entry <- tktext(bframe, height = 10, width = 50)
+                    body.entry <- tktext(bframe, height = 10, width = 50, background = "white")
                     tkgrid(body.entry, column = 1, columnspan = 2)
                     tkmark.set(body.entry,"insert","0.0")
                     editModified <- function(){
@@ -2097,10 +2097,12 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                     tkgrid(tklabel(bframe, textvariable = chars), row=2, column=2, sticky='w')
                 tkgrid(bframe, row = r)
                 r <- r + 1
+                tkgrid(tklabel(entryform, text = "    "), row = r)
+                r <- r + 1
                 wframe <- ttklabelframe(entryform,
                                         text = "WorkerId(s) (one per line):", 
                                         borderwidth = 2)
-                    worker.entry <- tktext(wframe, height = 10, width = 50)
+                    worker.entry <- tktext(wframe, height = 10, width = 50, background = "white")
                     tkmark.set(worker.entry,"insert","0.0")
                     tkgrid(worker.entry)
                 tkgrid(wframe, row = r)
