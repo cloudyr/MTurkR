@@ -2,6 +2,7 @@
 
 ## SIGNIFICANT USER-VISIBLE CHANGES ##
 
+* `GetReviewResults` should now be able to return all results. This is untested due to the large page size of ReviewResults (65,535). (#54)
 * The graphical wizard now allows retrieval of assignments by requester annotation (or batch) field.
 * The graphical and text-based wizards now allow you to preview the email that will be sent to workers using the `ContactWorkers` function. (#53)
 * The graphical and text-based wizards now allow users to assign qualifications to workers. (#61)

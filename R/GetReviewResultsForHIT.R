@@ -5,7 +5,7 @@ function(hit,
          policy.level = NULL, 
          retrieve.results = TRUE, 
          retrieve.actions = TRUE, 
-         # return.all = TRUE, 
+         return.all = TRUE, 
          pagenumber = 1, 
          pagesize = 400, 
          verbose = getOption('MTurkR.verbose', TRUE), ...) {
@@ -50,10 +50,10 @@ function(hit,
         stop("'pagesize' must be greater than 1")
     if(as.numeric(pagenumber) < 1) 
         stop("'pagenumber' must be greater than 1")
-    # if(return.all == TRUE) {
-        # pagesize <- "400"
-        # pagenumber <- "1"
-    # }
+    if(return.all == TRUE) {
+        pagesize <- "65535"
+        pagenumber <- "1"
+    }
     batch <- function(pagenumber){
         GETiteration <- paste(GETparameters, 
                               "&PageNumber=", pagenumber, 
@@ -64,38 +64,40 @@ function(hit,
         else 
             return(as.data.frame.ReviewResults(xml.parsed = xmlParse(request$xml)))
     }
-    ReviewResults <- batch(pagenumber)
-    # request <- batch(pagenumber)
-    # if(return.all){
-        # runningtotal <- request$batch.total
-        # pagenumber <- 2
-        # while(request$total > runningtotal) {
-            # nextbatch <- batch(pagenumber)
-            # request$Qualifications <- rbind(request$Qualifications, nextbatch$Qualifications)
-            # request$pages.returned <- pagenumber
-            # runningtotal <- runningtotal + nextbatch$batch.total
-            # pagenumber <- pagenumber + 1
-        # }
-        # request$batch.total <- NULL
-    # }   
+    request <- batch(pagenumber)
+    if(return.all){
+        runningtotal <- request$AssignmentResults
+        pagenumber <- 2
+        while(request$AssignmentTotalResults > runningtotal) {
+            nextbatch <- batch(pagenumber)
+            request$AssignmentReviewResult <- rbind(request$AssignmentReviewResult, nextbatch$AssignmentReviewResult)
+            request$AssignmentReviewAction <- rbind(request$AssignmentReviewAction, nextbatch$AssignmentReviewAction)
+            request$HITReviewResult <- rbind(request$HITReviewResult, nextbatch$HITReviewResult)
+            request$HITReviewAction <- rbind(request$HITReviewAction, nextbatch$HITReviewAction)
+            runningtotal <- runningtotal + nextbatch$AssignmentTotalResults
+            pagenumber <- pagenumber + 1
+        }
+        request$AssignmentResults <- NULL
+        request$AssignmentTotalResults <- NULL
+    }   
     if(verbose) {
         message("ReviewResults Retrieved: ", appendLF=FALSE)
-        if(is.null(ReviewResults)) 
+        if(is.null(request))
             message("0\n")
         else {
-            if("AssignmentReviewResult" %in% names(ReviewResults)) 
-                message(length(ReviewResults$AssignmentReviewResults), 
+            if("AssignmentReviewResult" %in% names(request)) 
+                message(length(request$AssignmentReviewResults), 
                         " Assignment ReviewResults Retrieved")
-            if("AssignmentReviewAction" %in% names(ReviewResults)) 
-                message(length(ReviewResults$AssignmentReviewResults), 
+            if("AssignmentReviewAction" %in% names(request)) 
+                message(length(request$AssignmentReviewActions), 
                         " Assignment ReviewActions Retrieved")
-            if("HITReviewResult" %in% names(ReviewResults)) 
-                message(length(ReviewResults$AssignmentReviewResults), 
+            if("HITReviewResult" %in% names(request)) 
+                message(length(request$HITReviewResults), 
                         " HIT ReviewResults Retrieved")
-            if("HITReviewAction" %in% names(ReviewResults)) 
-                message(length(ReviewResults$AssignmentReviewResults), 
+            if("HITReviewAction" %in% names(request)) 
+                message(length(request$HITReviewActions), 
                         " HIT ReviewActions Retrieved")
         }
     }
-    return(ReviewResults)
+    return(request)
 }

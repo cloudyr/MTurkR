@@ -459,15 +459,21 @@ as.data.frame.ReviewResults <- function(xml.parsed) {
                 HITReviewAction = NULL)
     if(!is.null(hit.xml) && length(hit.xml) >= 1) {
         hit <- xmlValue(xpathApply(xml.parsed, "//HITId")[[1]])
-        if(length(xpathApply(xml.parsed, "//AssignmentReviewPolicy")) > 0) 
+        if(length(xpathApply(xml.parsed, "//AssignmentReviewPolicy")) > 0)  {
             assignment.policy <- 
               xmlValue(xpathApply(xml.parsed, "//AssignmentReviewPolicy")[[1]])
-        else
+            out$AssignmentResults <- as.numeric(xmlValue(xpathApply(xml.parsed, "//AssignmentReviewReport/NumResults")[[1]]))
+            out$AssignmentTotalResults <- as.numeric(xmlValue(xpathApply(xml.parsed, "//AssignmentReviewReport/TotalNumResults")[[1]]))
+        } else {
             assignment.policy <- NA
-        if(length(xpathApply(xml.parsed, "//HITReviewPolicy")) > 0) 
+            out$AssignmentResults <- 0
+            out$AssignmentTotalResults <- 0
+        }
+        if(length(xpathApply(xml.parsed, "//HITReviewPolicy")) > 0) {
             hit.policy <- xmlValue(xpathApply(xml.parsed, "//HITReviewPolicy")[[1]])
-        else
+        } else {
             hit.policy <- NA
+        }
         if(!is.na(assignment.policy)) {
             assignment.report <- 
               xmlChildren(xpathApply(xml.parsed, "//AssignmentReviewReport")[[1]])
@@ -540,7 +546,7 @@ as.data.frame.ReviewResults <- function(xml.parsed) {
                         HITReviewResult$Key[r] <- xmlValue(xmlChildren(hit.report[[i]])$Key)
                         HITReviewResult$Value[r] <- xmlValue(xmlChildren(hit.report[[i]])$Value)
                         r <- r + 1
-                    } else if(xmlName(hit.report[[i]]) == "ReviewResult") {
+                    } else if(xmlName(hit.report[[i]]) == "ReviewAction") {
                         HITReviewAction$HITReviewPolicy[a] <- hit.policy
                         HITReviewAction$ActionId[a] <- xmlValue(xmlChildren(hit.report[[i]])$ActionId)
                         HITReviewAction$ActionName[a] <- xmlValue(xmlChildren(hit.report[[i]])$ActionName)
