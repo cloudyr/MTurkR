@@ -924,18 +924,10 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
             
             gethitDialog <- tktoplevel()
             tkwm.title(gethitDialog, "View HIT Details")
-            entryform <- tkframe(gethitDialog, relief="groove", borderwidth=2)
-                # hitid
-                hitid <- tclVar()
-                r <- 1
-                tkgrid(ttklabel(entryform, text = "     "), row=r)
-                hit.entry <- wzentry(entryform, width = 50, textvariable=hitid)
-                r <- r + 1
-                tkgrid(tklabel(entryform, text = "Enter HITId: "), row=r, column=1)
-                tkgrid(hit.entry, row=r, column=2, columnspan=4)
-                r <- r + 1
-                tkgrid(ttklabel(entryform, text = "     "), row=r)
-            tkgrid(entryform)
+            aframe <- ttklabelframe(gethitDialog, text = "HITId:")
+            hitid <- tclVar()
+            tkgrid(wzentry(aframe, width = 50, textvariable=hitid))
+            tkgrid(aframe)
             popbuttons(gethitDialog, okfun = gethit, 
                        cancelfun = function(){tkdestroy(gethitDialog); tkfocus(wizard)}, 
                        poptype = "SearchHIT")
@@ -990,18 +982,10 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
             
             statusDialog <- tktoplevel()
             tkwm.title(statusDialog, "Get Status of HIT")
-            entryform <- tkframe(statusDialog, relief="groove", borderwidth=2)
-                hitid <- tclVar()
-                r <- 1
-                tkgrid(ttklabel(entryform, text = "     "), row=r, column=1)
-                tkgrid(ttklabel(entryform, text = "     "), row=r, column=5)
-                r <- r + 1
-                hit.entry <- wzentry(entryform, width = 50, textvariable=hitid)
-                tkgrid(tklabel(entryform, text = "HITId: "), row=r, column=1)
-                tkgrid(hit.entry, row=r, column=2, columnspan=3)
-                r <- r + 1
-                tkgrid(ttklabel(entryform, text = "     "), row=r)
-            tkgrid(entryform)
+            aframe <- ttklabelframe(statusDialog, text = "HITId:")
+            hitid <- tclVar()
+            tkgrid(wzentry(aframe, width = 50, textvariable=hitid))
+            tkgrid(aframe)
             popbuttons(statusDialog, okfun = status, 
                        cancelfun = function(){tkdestroy(statusDialog); tkfocus(wizard)}, 
                        poptype = "SearchHIT")
@@ -1086,26 +1070,16 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                     tkfocus(wizard)
                 }
             }
-            
             reviewingDialog <- tktoplevel()
             tkwm.title(reviewingDialog, "Set Status of HIT as Reviewing")
-            entryform <- tkframe(reviewingDialog, relief="groove", borderwidth=2)
-                hitid <- tclVar()
-                revert <- tclVar("0")
-                r <- 1
-                tkgrid(ttklabel(entryform, text = "     "), row=r, column=1)
-                tkgrid(ttklabel(entryform, text = "     "), row=r, column=5)
-                r <- r + 1
-                hit.entry <- wzentry(entryform, width = 50, textvariable=hitid)
-                tkgrid(tklabel(entryform, text = "HITId: "), row=r, column=2, sticky="e")
-                tkgrid(hit.entry, row=r, column=3, columnspan=2, sticky="w")
-                r <- r + 1
-                revert.entry <- tkcheckbutton(entryform, variable=revert)
-                tkgrid(tklabel(entryform, text = "Revert to Reviewable? "), row=r, column=3, sticky="e")
-                tkgrid(revert.entry, row=r, column=4, sticky="w")
-                r <- r + 1
-                tkgrid(ttklabel(entryform, text = "     "), row=r)
-            tkgrid(entryform)
+            aframe <- ttklabelframe(reviewingDialog, text = "HITId:")
+            hitid <- tclVar()
+            revert <- tclVar("0")
+            tkgrid(wzentry(aframe, width = 50, textvariable=hitid))
+            tkgrid(aframe)
+            bframe <- ttklabelframe(reviewingDialog, text = "Revert to Reviewable? ")
+            tkgrid(tkcheckbutton(bframe, variable=revert))
+            tkgrid(bframe, sticky = "w")
             popbuttons(reviewingDialog, okfun = chgstatus, 
                        cancelfun = function(){tkdestroy(reviewingDialog); tkfocus(wizard)}, 
                        poptype = "SearchHIT")
@@ -1131,23 +1105,14 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
             
             addassignDialog <- tktoplevel()
             tkwm.title(addassignDialog, "Add Assignments to HIT")
-            entryform <- tkframe(addassignDialog, relief="groove", borderwidth=2)
-                hitid <- tclVar()
-                assignments <- tclVar()
-                r <- 1
-                tkgrid(ttklabel(entryform, text = "     "), row=r, column=1)
-                tkgrid(ttklabel(entryform, text = "     "), row=r, column=4)
-                r <- r + 1
-                hit.entry <- wzentry(entryform, width = 50, textvariable=hitid)
-                tkgrid(tklabel(entryform, text = "HITId: "), row=r, column=2)
-                tkgrid(hit.entry, row=r, column=3)
-                r <- r + 1
-                assign.entry <- wzentry(entryform, width = 50, textvariable=assignments)
-                tkgrid(tklabel(entryform, text = "Number of Assignments to Add: "), row=r, column=2)
-                tkgrid(assign.entry, row=r, column=3)
-                r <- r + 1
-                tkgrid(ttklabel(entryform, text = "     "), row=r)
-            tkgrid(entryform)
+            aframe <- ttklabelframe(addassignDialog, text = "HITId:")
+            hitid <- tclVar()
+            assignments <- tclVar()
+            tkgrid(wzentry(aframe, width = 50, textvariable=hitid))
+            tkgrid(aframe)
+            bframe <- ttklabelframe(addassignDialog, text = "Number of Assignments to Add:")
+            tkgrid(wzentry(bframe, width = 20, textvariable=assignments))
+            tkgrid(bframe, sticky = "w")
             popbuttons(addassignDialog, okfun = addassign, 
                        cancelfun = function(){tkdestroy(addassignDialog); tkfocus(wizard)}, 
                        poptype = "SearchHIT")
@@ -1180,37 +1145,32 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
             extendDialog <- tktoplevel()
             tkwm.title(extendDialog, "Extend HIT")
             entryform <- tkframe(extendDialog, relief="groove", borderwidth=2)
+                aframe <- ttklabelframe(entryform, text = "HITId:")
+                hitid <- tclVar()
+                tkgrid(wzentry(aframe, width = 50, textvariable = hitid))
+                tkgrid(aframe, sticky = "w")
+                tkgrid(ttklabel(entryform, text = "     "))
+                bframe <- ttklabelframe(entryform, text = "Add time")
                 # times
                 days <- tclVar("0")
                 hours <- tclVar("0")
                 mins <- tclVar("0")
                 secs <- tclVar("0")
                 r <- 1
-                tkgrid(ttklabel(entryform, text = "     "), row=r, column=1)
-                tkgrid(ttklabel(entryform, text = "     "), row=r, column=10)
-                r <- r + 1
-                days.entry <- wzentry(entryform, width = 5, textvariable=days)
-                hours.entry <- wzentry(entryform, width = 5, textvariable=hours)
-                mins.entry <- wzentry(entryform, width = 5, textvariable=mins)
-                secs.entry <- wzentry(entryform, width = 5, textvariable=secs)
-                tkgrid(tklabel(entryform, text = "Days: "), row=r, column=2)
-                tkgrid(days.entry, row=r, column=3)
-                tkgrid(tklabel(entryform, text = "Hours: "), row=r, column=4)
-                tkgrid(hours.entry, row=r, column=5)
-                tkgrid(tklabel(entryform, text = "Minutes: "), row=r, column=6)
-                tkgrid(mins.entry, row=r, column=7)
-                tkgrid(tklabel(entryform, text = "Seconds: "), row=r, column=8)
-                tkgrid(secs.entry, row=r, column=9)
-                tkgrid(ttklabel(entryform, text = "     "), row=r, column=1)
-                # hitid
-                r <- r + 1
-                hitid <- tclVar()
-                hit.entry <- wzentry(entryform,text=tclvalue(hitid), width = 50)
-                tkconfigure(hit.entry,textvariable=hitid)
-                tkgrid(tklabel(entryform, text = "Enter HITId: "), row=r, column=2, columnspan=2)
-                tkgrid(hit.entry, row=r, column=4, columnspan=6)
-                r <- r + 1
-                tkgrid(ttklabel(entryform, text = "     "), row=r)
+                days.entry <- wzentry(bframe, width = 5, textvariable=days)
+                hours.entry <- wzentry(bframe, width = 5, textvariable=hours)
+                mins.entry <- wzentry(bframe, width = 5, textvariable=mins)
+                secs.entry <- wzentry(bframe, width = 5, textvariable=secs)
+                tkgrid(tklabel(bframe, text = "Days: "), row=r, column=1)
+                tkgrid(days.entry, row=r, column=2)
+                tkgrid(tklabel(bframe, text = "Hours: "), row=r, column=3)
+                tkgrid(hours.entry, row=r, column=4)
+                tkgrid(tklabel(bframe, text = "Minutes: "), row=r, column=5)
+                tkgrid(mins.entry, row=r, column=6)
+                tkgrid(tklabel(bframe, text = "Seconds: "), row=r, column=7)
+                tkgrid(secs.entry, row=r, column=8)
+                tkgrid(ttklabel(bframe, text = "     "), row=r, column=1)
+                tkgrid(bframe, sticky = "w")
             tkgrid(entryform)
             popbuttons(extendDialog, okfun = extend, 
                        cancelfun = function(){tkdestroy(extendDialog); tkfocus(wizard)}, 
@@ -1233,19 +1193,10 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
             
             expireDialog <- tktoplevel()
             tkwm.title(expireDialog, "Expire HIT")
-            entryform <- tkframe(expireDialog, relief="groove", borderwidth=2)
-                # hitid
-                hitid <- tclVar()
-                r <- 1
-                tkgrid(ttklabel(entryform, text = "     "), row=r, column=1)
-                tkgrid(ttklabel(entryform, text = "     "), row=r, column=4)
-                hit.entry <- wzentry(entryform, width = 50, textvariable=hitid)
-                r <- r + 1
-                tkgrid(tklabel(entryform, text = "Enter HITId: "), row=r, column=2)
-                tkgrid(hit.entry, row=r, column=3)
-                r <- r + 1
-                tkgrid(ttklabel(entryform, text = "     "), row=r)
-            tkgrid(entryform)
+            aframe <- ttklabelframe(expireDialog, text = "HITId:")
+            hitid <- tclVar()
+            tkgrid(wzentry(aframe, width = 50, textvariable=hitid))
+            tkgrid(aframe)
             popbuttons(expireDialog, okfun = expire, 
                        cancelfun = function(){tkdestroy(expireDialog); tkfocus(wizard)}, 
                        poptype = "SearchHIT")
@@ -1273,19 +1224,10 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
             
             disposeDialog <- tktoplevel()
             tkwm.title(disposeDialog, "Dispose HIT")
-            entryform <- tkframe(disposeDialog, relief="groove", borderwidth=2)
-                # hitid
-                hitid <- tclVar()
-                r <- 1
-                tkgrid(ttklabel(entryform, text = "     "), row=r, column=1)
-                tkgrid(ttklabel(entryform, text = "     "), row=r, column=4)
-                r <- r + 1
-                hit.entry <- wzentry(entryform, width = 50, textvariable=hitid)
-                tkgrid(tklabel(entryform, text = "HITId: "), row=r, column=2)
-                tkgrid(hit.entry, row=r, column=3)
-                r <- r + 1
-                tkgrid(ttklabel(entryform, text = "     "), row=r)
-            tkgrid(entryform)
+            aframe <- ttklabelframe(disposeDialog, text = "HITId:")
+            hitid <- tclVar()
+            tkgrid(wzentry(aframe, width = 50, textvariable=hitid))
+            tkgrid(aframe)
             popbuttons(disposeDialog, okfun = dispose, 
                        cancelfun = function(){tkdestroy(disposeDialog); tkfocus(wizard)}, 
                        poptype = "SearchHIT")
