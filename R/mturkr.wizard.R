@@ -10,42 +10,39 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
         # setup some things for the wizard
         
         ## functions
-        wzentry <- function(...) wzentry(..., background = "white")
+        wzentry <- function(parent, ...) tkentry(parent, ..., background = "white")
         okcancel <- function(parent, okfun, cancelfun) {
             buttons <- tkframe(parent)
-                OKbutton <- tkbutton(buttons, text = "   OK   ", command = okfun)
-                Cancelbutton <- tkbutton(buttons, text = " Cancel ", command = cancelfun)
-                tkgrid(OKbutton, row = 1, column = 1)
-                tkgrid(Cancelbutton, row =1, column = 2)
+                tkgrid(tkbutton(buttons, text = "   OK   ", command = okfun), row = 1, column = 1)
+                tkgrid(tkbutton(buttons, text = " Cancel ", command = cancelfun), row = 1, column = 2)
             tkgrid(buttons)
-        }            
+            invisible(NULL)
+        }
         popbuttons <- function(parent, okfun, cancelfun, poptype = "RegisterHIT") {
-            buttons <- tkframe(parent)
+            buttons <- tkframe(substitute(parent))
                 if(poptype == "RegisterHIT") {
                     populate <- function(){
                         registerWiz()
                         tclvalue(hittypeid) <<- wizardenv$newHITTypeId
                     }
-                    populatebutton <- tkbutton(buttons, text="Register New HITType", command=populate)
+                    tkgrid(tkbutton(buttons, text="Register New HITType", command=populate), row=1, column=1)
                 } else if (poptype == "SearchHIT") {
                     populate <- function(){
                         searchWiz()
                         tclvalue(hitid) <<- wizardenv$searchresult$HITId
                     }
-                    populatebutton <- tkbutton(buttons, text="Search for HITs", command=populate)                
+                    tkgrid(tkbutton(buttons, text="Search for HITs", command=populate), row=1, column=1)
                 } else if (poptype == "SearchQual") {
                     populate <- function(){
-                        result <- searchqualsWiz()
+                        searchqualsWiz()
                         tclvalue(qualid) <<- wizardenv$qualresult$QualificationTypeId
                     }
-                    populatebutton <- tkbutton(buttons, text="Search for QualificationTypes", command=populate)
+                    tkgrid(tkbutton(buttons, text="Search for QualificationTypes", command=populate), row=1, column=1)
                 }
-                OKbutton <- tkbutton(buttons, text = "   OK   ", command = okfun)
-                Cancelbutton <- tkbutton(buttons, text = " Cancel ", command = cancelfun)
-                tkgrid(populatebutton, row=1, column=1)
-                tkgrid(OKbutton, row = 1, column = 1)
-                tkgrid(Cancelbutton, row =1, column = 2)
+                tkgrid(tkbutton(buttons, text = "   OK   ", command = okfun), row = 1, column = 2)
+                tkgrid(tkbutton(buttons, text = " Cancel ", command = cancelfun), row =1, column = 3)
             tkgrid(buttons)
+            invisible(NULL)
         }            
         
         ## temporary environment to store things when I want to use them across functions
@@ -91,13 +88,13 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 accesskey <- tclVar("")
                 secretkey <- tclVar("")
             } else {
-                accesskey <- tclVar(getOption('MTurkR.keypair')[1])
-                secretkey <- tclVar(getOption('MTurkR.keypair')[2])
+                accesskey <- tclVar(getOption('MTurkR.keypair', c("",""))[1])
+                secretkey <- tclVar(getOption('MTurkR.keypair', c("",""))[2])
             }
             aframe <- ttklabelframe(credDialog, text = "MTurk Access Key ID")
             bframe <- ttklabelframe(credDialog, text = "MTurk Secret Access Key")
-            wzentry(a, width = 50, textvariable=accesskey)
-            wzentry(b, width = 50, textvariable=secretkey)
+            tkgrid(wzentry(aframe, width = 50, textvariable=accesskey))
+            tkgrid(wzentry(bframe, width = 50, textvariable=secretkey))
             tkgrid(aframe, row = 1)
             tkgrid(bframe, row = 2)
             # buttons
@@ -3283,17 +3280,14 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
             # help menu
             tkadd(helpmenu, "command", label = "MTurkR Wizard Documentation", command = function()
                 browseURL("https://github.com/leeper/MTurkR/wiki/Wizard-Graphical") )
+            tkadd(helpmenu, "command", label = "MTurkR Documentation", command = function() {
+                browseURL("http://cran.r-project.org/web/packages/MTurkR/MTurkR.pdf") })
             tkadd(helpmenu, "command", label = "MTurkR Wiki", command = function()
                 browseURL("https://github.com/leeper/MTurkR/wiki") )
-            tkadd(helpmenu, "command", label = "MTurkR Code Demos", command = function(){
-                tkmessageBox(message="Coming soon!", type="ok")
-            })
             tkadd(helpmenu, "separator")
             tkadd(helpmenu, "command", label = "MTurk Worker Site", command = function() browseURL("http://www.mturk.com") )
             tkadd(helpmenu, "command", label = "MTurk Requester Site", command = function() browseURL("http://requester.mturk.com") )
             tkadd(helpmenu, "command", label = "Package Website", command = function() browseURL("http://cran.r-project.org/web/packages/MTurkR/") )
-            tkadd(helpmenu, "command", label = "MTurkR Documentation", command = function() {
-                browseURL("http://cran.r-project.org/web/packages/MTurkR/MTurkR.pdf") })
         tkadd(topMenu, "cascade", label = "Help", menu = helpmenu)
         
         # set `sandbox` value, if not specified
