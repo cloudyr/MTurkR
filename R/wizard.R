@@ -1418,6 +1418,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 }
                 tkdestroy(approveDialog)
                 approveallDialog <- tktoplevel()
+                hitid <- tclVar()
                 tkwm.title(approveallDialog, "Approve All Assignments")
                 aframe <- ttklabelframe(approveallDialog, text = "HITId: ")
                 tkgrid(wzentry(aframe, width = 50, textvariable=hitid))
