@@ -1527,16 +1527,17 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                     tkfocus(wizard)
                 }
             }
-            
             approveDialog <- tktoplevel()
             tkwm.title(approveDialog, "Approve Assignments")
-            approveallbutton <- tkbutton(approveDialog,text="Approve All Assignments for a HIT?",command=approveall)
             aframe <- ttklabelframe(approveDialog, text = "AssignmentId: ")
             assignment <- tclVar()
             tkgrid(wzentry(aframe, width = 50, textvariable=assignment))
             bframe <- ttklabelframe(approveDialog, text = "Feedback for worker (optional): ")
             feedback <- tclVar()
             tkgrid(wzentry(bframe, width = 50, textvariable=feedback))
+            tkgrid(tklabel(approveDialog, text = "    "))
+            tkgrid(tkbutton(approveDialog, text="Approve All Assignments for a HIT?", command=approveall))
+            tkgrid(tklabel(approveDialog, text = "    "))
             tkgrid(aframe)
             tkgrid(bframe)
             okcancel(approveDialog, okfun = approve1, cancelfun = function() {tkdestroy(approveDialog); tkfocus(wizard)})
