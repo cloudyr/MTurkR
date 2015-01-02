@@ -2,6 +2,7 @@
 
 ## SIGNIFICANT USER-VISIBLE CHANGES ##
 
+* The graphical user interface (`mturkr.wizard`) has a significantly cleaned up code base aimed at simplifying future bug fixes. A user-visible side effect of this is modified aesthetics that should make the interface more attractive and more uniform. (#56)
 * `mturkr.wizard` now allows users to enter multiple WorkerIds for several functions by simply pasting one WorkerId per line into a multi-line textbox. (#52, h/t Justin Weigand)
 * `GetReviewResultsForHIT` now has `pagenumber` and `pagesize` arguments to control pagination of results. (#54)
 
