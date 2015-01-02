@@ -813,14 +813,19 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 if(tclvalue(hittype)==""){
                     tkmessageBox(message="Please enter a new HITTypeId!", type="ok")
                     tkfocus(changeDialog)
+                    return(NULL)
                 }
-                if(tclvalue(oldhittype)=="" && tclvalue(hitid)==""){
-                    tkmessageBox(message="Please enter either a HITType or HITId whose type should be changed!", type="ok")
+                if(tclvalue(oldhittype)=="" && tclvalue(hitid)=="" && tclvalue(annotation)==""){
+                    tkmessageBox(message="Please enter a HITType, HITId, or Annotation!", type="ok")
                     tkfocus(changeDialog)
-                } else if(tclvalue(oldhittype)=="" && tclvalue(hitid)==""){
-                    tkmessageBox(message="Only an old HITType or old HITId can be specified. Not both!", type="ok")
+                    return(NULL)
+                }
+                if(sum(c(!tclvalue(oldhittype)=="", !tclvalue(hitid)=="", !tclvalue(annotation)=="")) > 1){
+                    tkmessageBox(message="Only an old HITType OR old HITId OR old Annotation can be specified!", type="ok")
                     tkfocus(changeDialog)
-                } else if(!tclvalue(oldhittype)==""){
+                    return(NULL)
+                }
+                if(!tclvalue(oldhittype)==""){
                     changed <- ChangeHITType(old.hit.type = tclvalue(oldhittype),
                                              new.hit.type = tclvalue(hittypeid),
                                              verbose = FALSE,
@@ -835,37 +840,37 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                                              sandbox = sboxval())
                     tkdestroy(changeDialog)
                     tkfocus(wizard)
-                }
+                } else if(!tclvalue(annotation)==""){
+                    changed <- ChangeHITType(old.annotation = tclvalue(annotation),
+                                             new.hit.type = tclvalue(hittypeid),
+                                             verbose = FALSE,
+                                             sandbox = sboxval())
+                    tkdestroy(changeDialog)
+                    tkfocus(wizard)
+                } 
             }
             
             # dialog
             changeDialog <- tktoplevel()
             tkwm.title(changeDialog, "Change HITType of HIT(s)")
-            entryform <- tkframe(changeDialog, relief="groove", borderwidth=2)
-                # hitid
-                hittypeid <- tclVar()
-                oldhittype <- tclVar()
-                hitid <- tclVar()
-                r <- 1
-                tkgrid(ttklabel(entryform, text = "     "), row=r, column=1)
-                tkgrid(ttklabel(entryform, text = "     "), row=r, column=11)
-                r <- r + 1
-                hittype.entry <- wzentry(entryform, width = 50, textvariable=hittypeid)
-                tkgrid(tklabel(entryform, text = "Enter New HITTypeId (or Register a HITType, below): "), row=r, column=2)
-                tkgrid(hittype.entry, row=r, column=3, columnspan=8, sticky="w")
-                r <- r + 1
-                tkgrid(tklabel(entryform, text = "Enter old HITTypeId OR old HITId(s) you want to Change"), row=r, column=2)
-                r <- r + 1
-                oldhittype.entry <- wzentry(entryform, width = 50, textvariable=oldhittype)
-                tkgrid(tklabel(entryform, text = "Old HITTypeId to Change: "), row=r, column=2)
-                tkgrid(oldhittype.entry, row=r, column=3, columnspan=8, sticky="w")
-                r <- r + 1
-                hit.entry <- wzentry(entryform, width = 10, textvariable=hitid)
-                tkgrid(tklabel(entryform, text = "Old HITId(s) to Change: "), row=r, column=2)
-                tkgrid(hit.entry, row=r, column=3, columnspan=2, sticky="w")
-                r <- r + 1
-                tkgrid(ttklabel(entryform, text = "     "), row=r)
-            tkgrid(entryform)
+            hittypeid <- tclVar()
+            oldhittype <- tclVar()
+            hitid <- tclVar()
+            annotation <- tclVar()
+            aframe <- ttklabelframe(changeDialog, text = "Enter old HITTypeId, HITId(s), or annotation to change:")
+                oldhittype.entry <- wzentry(aframe, width = 50, textvariable=oldhittype)
+                tkgrid(tklabel(aframe, text = "Old HITTypeId: "), row=1, column=1, sticky = "e")
+                tkgrid(oldhittype.entry, row=1, column=2, sticky="w")
+                hit.entry <- wzentry(aframe, width = 50, textvariable=hitid)
+                tkgrid(tklabel(aframe, text = "Old HITId(s) (comma-separated): "), row=2, column=1, sticky = "e")
+                tkgrid(hit.entry, row=2, column=2, sticky="w")
+                annotation.entry <- wzentry(aframe, width = 50, textvariable=annotation)
+                tkgrid(tklabel(aframe, text = "Annotation/Batch: "), row=3, column=1, sticky = "e")
+                tkgrid(annotation.entry, row=3, column=2, sticky="w")
+            tkgrid(aframe)
+            bframe <- ttklabelframe(changeDialog, text = "Enter New HITTypeId (or Register a HITType, below):")
+            tkgrid(wzentry(bframe, width = 50, textvariable=hittypeid))
+            tkgrid(bframe, sticky = "w")
             popbuttons(changeDialog, okfun = change, 
                        cancelfun = function(){tkdestroy(changeDialog); tkfocus(wizard)}, 
                        poptype = "RegisterHIT")
