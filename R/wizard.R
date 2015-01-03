@@ -64,10 +64,10 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 tclvalue(wizardenv$sandbox) <- 0
             tkfocus(wizard)
         }
-        sboxval <- function() as.logical(as.numeric(tclvalue(wizardenv$sandbox)))
         if(is.null(wizardenv$sandbox)) {
             sandboxWiz()
         }
+        sboxval <- function() as.logical(as.numeric(tclvalue(wizardenv$sandbox)))
         
         ## exit wizard procedure
         exitWiz <- function() {
@@ -2996,7 +2996,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
         # switch focus to wizard
         actions <- tkmenu(topMenu, tearoff = FALSE)
             tkadd(actions, "command", label = "Enter RequesterAPI Credentials", command = credentialsWiz)
-            tkadd(actions, 'checkbutton', label='Use Sandbox?', variable = sboxval())
+            tkadd(actions, 'checkbutton', label='Use Sandbox?', variable = wizardenv$sandbox)
             tkadd(actions, "separator")
             balance <- tkmenu(actions, tearoff = FALSE)
                 # balance submenu
