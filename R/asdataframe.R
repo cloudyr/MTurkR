@@ -403,14 +403,12 @@ as.data.frame.QuestionFormAnswers <- function(xml.parsed) {
             if(length(xmlChildren(questions[[z]])$FreeText) == 1) {
                 out$FreeText[z] <- xmlValue(xmlChildren(questions[[z]])$FreeText)
                 out$Combined.Answers[z] <- xmlValue(xmlChildren(questions[[z]])$FreeText)
-            }
-            else if(length(xmlChildren(questions[[z]])$UploadedFileKey) == 1) {
+            } else if(length(xmlChildren(questions[[z]])$UploadedFileKey) == 1) {
                 out$UploadedFileKey[z] <- xmlValue(xmlChildren(questions[[z]])$UploadedFileKey)
                 out$UploadedFileSizeInBytes[z] <- xmlValue(xmlChildren(questions[[z]])$UploadedFileSizeInBytes)
                 out$Combined.Answers[z] <- paste(out$UploadedFileKey[z], 
                     out$UploadedFileSizeInBytes[z], sep = ":")
-            }
-            else if (length(xmlChildren(questions[[z]])$SelectionIdentifier) == 1) {
+            } else if (sum(names(xmlChildren(questions[[z]])) == "SelectionIdentifier") == 1) {
                 out$SelectionIdentifier[z] <- xmlValue(xmlChildren(questions[[z]])$SelectionIdentifier)
                 out$Combined.Answers[z] <- xmlValue(xmlChildren(questions[[z]])$SelectionIdentifier)
                 if(length(xmlChildren(questions[[1]])$OtherSelectionField) == 1) {
@@ -420,23 +418,19 @@ as.data.frame.QuestionFormAnswers <- function(xml.parsed) {
                     out$Combined.Answers[z] <- multiple
                     rm(multiple)
                 }
-            }
-            else if(length(xmlChildren(questions[[z]])$SelectionIdentifier) > 1) {
+            } else if(sum(names(xmlChildren(questions[[z]])) == "SelectionIdentifier") > 1) {
                 multiple <- ""
-                for(j in 1:length(xmlChildren(questions[[z]])$SelectionIdentifier)) {
-                    multiple <- paste(multiple,
-                                xmlValue(xmlChildren(xmlChildren(questions[[z]])[j]$QuestionIdentifier)$text),
-                                sep = ";")
-                }
-                if(length(xmlChildren(questions[[z]])$OtherSelectionField) == 1) 
+                n <- names(xmlChildren(questions[[z]])) == "SelectionIdentifier"
+                multiple <- paste(unname(sapply(xmlChildren(questions[[1]])[n], xmlValue)), collapse = ";")
+                if(any(names(xmlChildren(questions[[z]])) == "OtherSelectionField")) { 
                     multiple <- paste(multiple,
                                 xmlValue(xmlChildren(questions[[z]])$OtherSelectionField), 
                                 sep = ";")
+                }
                 out$SelectionIdentifier[z] <- multiple
                 out$Combined.Answers[z] <- multiple
                 rm(multiple)
-            }
-            else if(length(xmlChildren(questions[[z]])$OtherSelectionField) == 1) {
+            } else if(length(xmlChildren(questions[[z]])$OtherSelectionField) == 1) {
                 out$OtherSelectionField[z] <- xmlValue(xmlChildren(questions[[z]])$OtherSelectionField)
                 out$Combined.Answers[z] <- xmlValue(xmlChildren(questions[[z]])$OtherSelectionField)
             }
