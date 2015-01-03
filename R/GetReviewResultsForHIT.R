@@ -5,7 +5,7 @@ function(hit,
          policy.level = NULL, 
          retrieve.results = TRUE, 
          retrieve.actions = TRUE, 
-         return.all = TRUE, 
+         return.all = FALSE, 
          pagenumber = 1, 
          pagesize = 400, 
          verbose = getOption('MTurkR.verbose', TRUE), ...) {
