@@ -133,8 +133,9 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
         
         # check balance
         balanceWiz <- function() {
-            tempbal <- as.numeric(AccountBalance(verbose=FALSE, sandbox=sboxval())) # MTurkR getbalance() function
-            tkmessageBox(title = "Current Account Balance", message = paste("Balance: $",round(tempbal,2),sep=""), type="ok")
+            tempbal <- AccountBalance(verbose=FALSE, sandbox=sboxval())
+            tkmessageBox(title = "Current Account Balance", 
+                         message = sprintf("Balance: $%0.2f", as.numeric(tempbal$balance)), type="ok")
             tkfocus(wizard)
         }
         
