@@ -336,7 +336,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                     if(is.null(tkcurselection(complist))){
                         tkmessageBox(message="Please enter a comparator!", type="ok")
                         tkfocus(qualreqDialog)
-                        return(NULL
+                        return(NULL)
                     }
                     pos <- as.numeric(as.character(tkcurselection(complist)))+1 # listbox index starts at 0
                     selection <- complistitems[pos]
