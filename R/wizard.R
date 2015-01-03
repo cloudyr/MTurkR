@@ -3106,7 +3106,11 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
             tkadd(helpmenu, "separator")
             tkadd(helpmenu, "command", label = "MTurk Worker Site", command = function() browseURL("http://www.mturk.com") )
             tkadd(helpmenu, "command", label = "MTurk Requester Site", command = function() browseURL("http://requester.mturk.com") )
-            tkadd(helpmenu, "command", label = "Package Website", command = function() browseURL("http://cran.r-project.org/web/packages/MTurkR/") )
+            tkadd(helpmenu, "command", label = "Package Website", command = function() {
+                browseURL("http://cran.r-project.org/web/packages/MTurkR/")})
+            tkadd(helpmenu, "separator")
+            tkadd(helpmenu, "command", label = "Submit Bug or Issue", command = function() {
+                browseURL("https://github.com/leeper/MTurkR/issues/new")})
         tkadd(topMenu, "cascade", label = "Help", menu = helpmenu)
         
         tkfocus(wizard)
