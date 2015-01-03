@@ -17,6 +17,7 @@
 
 ## BUG FIXES ##
 
+* Numerous related bug fixes in the wizard related to populating HITId, HITTypeId, and QualificationTypeId fields were fixed. (#69)
 * Wizard balance checking message box now reports balance correctly. (#67)
 * Wizard dialogs for adding question data structures to a HIT did not close on accepting "OK". (#65)
 * `GetAssignments` only returned the first answer option when multiple selection answers were chosen by a worker. (#63, h/t Kyle Harms)
