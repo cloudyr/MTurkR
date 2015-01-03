@@ -485,14 +485,16 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                     if(tclvalue(question)==""){
                         tkmessageBox(message="Please enter an ExternalQuestion URL!", type="ok")
                         tkfocus(addqDialog)
-                    }
-                    else if(tclvalue(height)==""){
+                        return(NULL)
+                    } else if(tclvalue(height)==""){
                         tkmessageBox(message="Please enter a frame height for the HIT!", type="ok")
                         tkfocus(addqDialog)
-                    }
-                    else {
+                        return(NULL)
+                    } else {
                         exquestion <- GenerateExternalQuestion(url=question, frame.height=tclvalue(height))
                         assign("question",exquestion,envir=wizardenv) # assign 'question' to wizardenv
+                        tkdestroy(addqDialog)
+                        tkfocus(createDialog)
                     }
                 }
                 
@@ -516,8 +518,11 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                     if(question==""){
                         tkmessageBox(message="Please enter a question data structure!", type="ok")
                         tkfocus(addqDialog)
+                        return(NULL)
                     } else {
                         assign("question",question,envir=wizardenv) # assign 'question' to wizardenv
+                        tkdestroy(addqDialog)
+                        tkfocus(createDialog)
                     }
                 }
                 
@@ -540,8 +545,11 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                     if(question==""){
                         tkmessageBox(message="Please enter a question data structure!", type="ok")
                         tkfocus(addqDialog)
+                        return(NULL)
                     } else {
                         assign("question",question,envir=wizardenv) # assign 'question' to wizardenv
+                        tkdestroy(addqDialog)
+                        tkfocus(createDialog)
                     }
                 }
                 
@@ -567,9 +575,11 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                     if(tclvalue(layoutid)==""){
                         tkmessageBox(message="Please enter a HITLayoutId!", type="ok")
                         tkfocus(addqDialog)
+                        return(NULL)
                     } else if(!length(lnames)==length(lvalues)){
                         tkmessageBox(message="Layout Names and Layout Values must have same length!", type="ok")
                         tkfocus(addqDialog)
+                        return(NULL)
                     } else {
                         assign("layout",tclvalue(layoutid),envir=wizardenv) # assign 'layout' to wizardenv
                         if(!lnames==""){
@@ -577,6 +587,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                             assign("layoutparameters",layoutparameters,envir=wizardenv)
                         }
                         tkdestroy(addqDialog)
+                        tkfocus(createDialog)
                     }
                 }
                 
@@ -617,6 +628,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                     if(assigntowrite=="")
                         assign("assignreviewpolicy", assigntowrite, envir=wizardenv) # assign 'reviewpolicy' to wizardenv
                     tkdestroy(reviewpolicyDialog)
+                    tkfocus(createDialog)
                 }
                 
                 reviewpolicyDialog <- tktoplevel()
@@ -645,22 +657,27 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 if(tclvalue(hittype)==""){
                     tkmessageBox(message="Please enter a HITTypeId!", type="ok")
                     tkfocus(createDialog)
+                    return(NULL)
                 }
                 if(tclvalue(annotate)==""){
                     tkmessageBox(message="Please enter a name (private) for the HIT!", type="ok")
                     tkfocus(createDialog)
+                    return(NULL)
                 } 
                 if(tclvalue(assigns)==""){
                     tkmessageBox(message="Please enter the number of assignments for the HIT!", type="ok")
                     tkfocus(createDialog)
+                    return(NULL)
                 }
                 if(tclvalue(days)=="" && tclvalue(hours)=="" && tclvalue(mins)=="" && tclvalue(secs)==""){
                     tkmessageBox(message="Please enter the amount of time the HIT should be available!", type="ok")
                     tkfocus(createDialog)
+                    return(NULL)
                 } 
                 if(is.null(wizardenv$layoutid) && is.null(wizardenv$question)){
                     tkmessageBox(message="Specify Question or HITLayout Parameters!", type="ok")
                     tkfocus(createDialog)
+                    return(NULL)
                 } 
                 if(is.null(wizardenv$hitreviewpolicy))
                     hitpolicy <- NULL
@@ -686,11 +703,11 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                                     sandbox=sboxval()
                                     )
                 if(newhit$Valid==TRUE){
-                    assign("newHITId", newhit$HITId, envir=wizardenv) # assign newHITId to wizardenv
+                    assign("newHITId", newhit$HITId, envir = wizardenv) # assign newHITId to wizardenv
                     tkdestroy(createDialog)
                     tkfocus(wizard)
                 } else{
-                    tkmessageBox(message="CreateHIT() failed for some reason. See console.",type="ok")
+                    tkmessageBox(message="CreateHIT() failed for some reason. See console.", type="ok")
                     tkfocus(createDialog)
                 }
             }
