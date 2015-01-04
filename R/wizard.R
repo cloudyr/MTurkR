@@ -9,6 +9,11 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
         
         # setup some things for the wizard
         
+        ## check for support for tcltk >= 8.5
+        if(!as.character(tcl("info", "tclversion")) >= "8.5") {
+            stop("The graphical wizard requires tcl version >= 8.5")
+        }
+        
         ## temporary environment to store variables used across functions
         wizardenv <- new.env()
         wizardenv$sandbox <- tclVar(as.numeric(sandbox))
@@ -23,34 +28,34 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
         ## functions
         wzentry <- function(parent, ...) tkentry(parent, ..., background = "white")
         okcancel <- function(parent, okfun, cancelfun, ...) {
-            tkgrid(tklabel(parent, text = "  "))
+            tkgrid(ttklabel(parent, text = "  "))
             buttons <- tkframe(parent)
-                tkgrid(tkbutton(buttons, text = "   OK   ", command = okfun), row = 1, column = 1)
-                tkgrid(tkbutton(buttons, text = " Cancel ", command = cancelfun), row = 1, column = 2)
+                tkgrid(tttkbutton(buttons, text = "   OK   ", command = okfun), row = 1, column = 1)
+                tkgrid(tttkbutton(buttons, text = " Cancel ", command = cancelfun), row = 1, column = 2)
             tkgrid(buttons, ...)
             invisible(NULL)
         }
         popbuttons <- function(parent, okfun, cancelfun, poptype = "RegisterHIT", ...) {
-            tkgrid(tklabel(parent, text = "  "))
+            tkgrid(ttklabel(parent, text = "  "))
             buttons <- tkframe(parent)
                 if(poptype == "RegisterHIT") {
                     populate <- function(){
                         registerWiz()
                     }
-                    tkgrid(tkbutton(buttons, text="Register New HITType", command=populate), row=1, column=1)
+                    tkgrid(ttkbutton(buttons, text="Register New HITType", command=populate), row=1, column=1)
                 } else if (poptype == "SearchHIT") {
                     populate <- function(){
                         searchWiz()
                     }
-                    tkgrid(tkbutton(buttons, text="Search for HITs", command=populate), row=1, column=1)
+                    tkgrid(ttkbutton(buttons, text="Search for HITs", command=populate), row=1, column=1)
                 } else if (poptype == "SearchQual") {
                     populate <- function(){
                         searchqualsWiz()
                     }
-                    tkgrid(tkbutton(buttons, text="Search for QualificationTypes", command=populate), row=1, column=1)
+                    tkgrid(ttkbutton(buttons, text="Search for QualificationTypes", command=populate), row=1, column=1)
                 }
-                tkgrid(tkbutton(buttons, text = "   OK   ", command = okfun), row = 1, column = 2)
-                tkgrid(tkbutton(buttons, text = " Cancel ", command = cancelfun), row =1, column = 3)
+                tkgrid(ttkbutton(buttons, text = "   OK   ", command = okfun), row = 1, column = 2)
+                tkgrid(ttkbutton(buttons, text = " Cancel ", command = cancelfun), row =1, column = 3)
             tkgrid(buttons, ...)
             invisible(NULL)
         }            
@@ -171,7 +176,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                     sufficient <- "No"
                 tkgrid(ttklabel(results, text = paste("Sufficient Funds? ",sufficient, sep = "")), row=r, column=2, sticky="w")
                 r <- r + 1
-                OKbutton <- tkbutton(results, text = "   OK   ", command = function() {tkdestroy(results); tkfocus(wizard)})
+                OKbutton <- ttkbutton(results, text = "   OK   ", command = function() {tkdestroy(results); tkfocus(wizard)})
                 tkgrid(OKbutton, row=r, column=2)
                 tkfocus(results)
             }
@@ -200,7 +205,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 tkgrid(wzentry(baframe, width = 5, textvariable=bonusamt))
             tkgrid(baframe, row = 5, sticky = "w")
             mframe <- ttklabelframe(balDialog, text = "Use MTurk Masters Workers?")
-                tkgrid(tkcheckbutton(mframe, variable=masters))
+                tkgrid(ttkcheckbutton(mframe, variable=masters))
             tkgrid(baframe, row = 6, sticky = "w")
             okcancel(balDialog, okfun = function() {tkdestroy(balDialog); checksufficient()}, 
                                 cancelfun = function() {tkdestroy(balDialog); tkfocus(wizard)})
@@ -241,7 +246,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                     message("MTurk XML Response:")
                     print(xmlParse(mturkrlog$Response[n]))
                 }
-                tkgrid(tkbutton(logentry, text="Show API Response XML in Console", command=printxml),row=8, column=1, columnspan=2)
+                tkgrid(ttkbutton(logentry, text="Show API Response XML in Console", command=printxml),row=8, column=1, columnspan=2)
             }
             
             
@@ -249,7 +254,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
             logDialog <- tktoplevel()
             tkwm.title(logDialog, "MTurkR Log Entries")
             listframe <- tkframe(logDialog, relief="groove", borderwidth=2)
-                scr <- tkscrollbar(listframe, repeatinterval=5, command=function(...) tkyview(loglist,...))
+                scr <- ttkscrollbar(listframe, repeatinterval=5, command=function(...) tkyview(loglist,...))
                 loglist <- tklistbox(listframe, width=50, height=15, selectmode="single", yscrollcommand=function(...) tkset(scr,...), background="white")
                 tkgrid(loglist,scr)
                 tkgrid.configure(scr, sticky="nsw")
@@ -258,9 +263,9 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 tkinsert(loglist,"end",paste(mturkrlog$Operation[i]," (",mturkrlog$Timestamp[i],")",sep=""))
             }
             buttons <- tkframe(logDialog)
-                tkgrid(tkbutton(buttons, text=" Display entry ", command=function() displaylogentry(n=as.numeric(tkcurselection(loglist))+1)), 
+                tkgrid(ttkbutton(buttons, text=" Display entry ", command=function() displaylogentry(n=as.numeric(tkcurselection(loglist))+1)), 
                        row = 1, column=1)
-                tkgrid(tkbutton(buttons, text=" Close ", command=function() tkdestroy(logDialog) ), 
+                tkgrid(ttkbutton(buttons, text=" Close ", command=function() tkdestroy(logDialog) ), 
                        row = 1, column=2)
             tkgrid(buttons, row = 2, column = 1)
             tkfocus(logDialog)
@@ -375,11 +380,11 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 tkgrid(qframe, row = 1, column = 1, columnspan = 2, sticky = "w")
                 rframe <- ttklabelframe(qualreqDialog, text = "Required for HIT Preview?")
                     required <- tclVar("0")
-                    tkgrid(tkcheckbutton(rframe, variable=required), column = 1, row = 1, sticky = "e")
-                    tkgrid(tklabel(rframe, text = "Yes"), column = 2, row = 1, sticky = "w")
+                    tkgrid(ttkcheckbutton(rframe, variable=required), column = 1, row = 1, sticky = "e")
+                    tkgrid(ttklabel(rframe, text = "Yes"), column = 2, row = 1, sticky = "w")
                 tkgrid(rframe, row = 2, column = 1, columnspan = 2, sticky = "w")
                 cframe <- ttklabelframe(qualreqDialog, text = "Score is:")
-                    scr <- tkscrollbar(cframe, repeatinterval=4, command=function(...) tkyview(complist,...))
+                    scr <- ttkscrollbar(cframe, repeatinterval=4, command=function(...) tkyview(complist,...))
                     complist <- tklistbox(cframe, height=3, width=20, selectmode="single",
                                           yscrollcommand=function(...) tkset(scr,...), background="white")
                     tkgrid(complist, scr, row=1, column=1, sticky="e")
@@ -393,7 +398,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 vframe <- ttklabelframe(qualreqDialog, text = "Value:")
                     qualvalue <- tclVar()
                     tkgrid(wzentry(vframe, width=20, textvariable=qualvalue), sticky = "w")
-                    tkgrid(tklabel(vframe,text="Required except for:\n'Exists' and 'DoesNotExist'"))
+                    tkgrid(ttklabel(vframe,text="Required except for:\n'Exists' and 'DoesNotExist'"))
                 tkgrid(vframe, row = 3, column = 2, sticky = "w")
                 popbuttons(qualreqDialog, okfun = genqual, 
                            cancelfun = function(){tkdestroy(qualreqDialog); tkfocus(wizard)}, 
@@ -423,7 +428,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
             tkgrid(cframe, sticky="w")
             
             dframe <- ttklabelframe(registerDialog, text = "Reward Amount:")
-            tkgrid(tklabel(dframe, text = "$"), column = 1, row = 1, sticky = "e")
+            tkgrid(ttklabel(dframe, text = "$"), column = 1, row = 1, sticky = "e")
             tkgrid(wzentry(dframe, width = 10, textvariable=reward), column = 2, row = 1, sticky = "w")
             tkgrid(dframe, sticky="w")
             
@@ -436,13 +441,13 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 hoursd.entry <- wzentry(eframe, width = 5, textvariable=hoursd)
                 minsd.entry <- wzentry(eframe, width = 5, textvariable=minsd)
                 secsd.entry <- wzentry(eframe, width = 5, textvariable=secsd)
-                tkgrid(tklabel(eframe, text = "Days: "), row=1, column=1)
+                tkgrid(ttklabel(eframe, text = "Days: "), row=1, column=1)
                 tkgrid(daysd.entry, row=1, column=2)
-                tkgrid(tklabel(eframe, text = "Hours: "), row=1, column=3)
+                tkgrid(ttklabel(eframe, text = "Hours: "), row=1, column=3)
                 tkgrid(hoursd.entry, row=1, column=4)
-                tkgrid(tklabel(eframe, text = "Mins.: "), row=1, column=5)
+                tkgrid(ttklabel(eframe, text = "Mins.: "), row=1, column=5)
                 tkgrid(minsd.entry, row=1, column=6)
-                tkgrid(tklabel(eframe, text = "Secs.: "), row=1, column=7)
+                tkgrid(ttklabel(eframe, text = "Secs.: "), row=1, column=7)
                 tkgrid(secsd.entry, row=1, column=8)
             tkgrid(eframe, sticky = "w")
             fframe <- ttklabelframe(registerDialog, text = "Delay before automatically approving assignments:")
@@ -454,19 +459,19 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 hoursd.entry <- wzentry(fframe, width = 5, textvariable=hoursa)
                 minsd.entry <- wzentry(fframe, width = 5, textvariable=minsa)
                 secsd.entry <- wzentry(fframe, width = 5, textvariable=secsa)
-                tkgrid(tklabel(fframe, text = "Days: "), row=1, column=1)
+                tkgrid(ttklabel(fframe, text = "Days: "), row=1, column=1)
                 tkgrid(daysd.entry, row=1, column=2)
-                tkgrid(tklabel(fframe, text = "Hours: "), row=1, column=3)
+                tkgrid(ttklabel(fframe, text = "Hours: "), row=1, column=3)
                 tkgrid(hoursd.entry, row=1, column=4)
-                tkgrid(tklabel(fframe, text = "Mins.: "), row=1, column=5)
+                tkgrid(ttklabel(fframe, text = "Mins.: "), row=1, column=5)
                 tkgrid(minsd.entry, row=1, column=6)
-                tkgrid(tklabel(fframe, text = "Secs.: "), row=1, column=7)
+                tkgrid(ttklabel(fframe, text = "Secs.: "), row=1, column=7)
                 tkgrid(secsd.entry, row=1, column=8)
             tkgrid(fframe, sticky = "w")
             
             gframe <- ttklabelframe(registerDialog, text = "Qualification Requirements: ")
-                tkgrid(tkbutton(gframe, text=" Add ", command=addqualreq), column = 1, row = 1)
-                tkgrid(tkbutton(gframe, text=" View ", command=function() {
+                tkgrid(ttkbutton(gframe, text=" Add ", command=addqualreq), column = 1, row = 1)
+                tkgrid(ttkbutton(gframe, text=" View ", command=function() {
                     if(!is.null(wizardenv$qualreq)){
                         qreqsplit <- strsplit(wizardenv$qualreq,"&")[[1]]
                         for(i in 2:length(qreqsplit)){
@@ -474,13 +479,13 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                         }
                     }
                 }), column = 2, row = 1)
-                tkgrid(tkbutton(gframe, text=" Clear ", command=function() {
+                tkgrid(ttkbutton(gframe, text=" Clear ", command=function() {
                     wizardenv$qualreq <- NULL
                     tclvalue(wizardenv$nqualreqs) <- 0
                 }), column = 3, row = 1)
                 wizardenv$nqualreqs <- tclVar(0)
-                tkgrid(tklabel(gframe, text = "Currently:"), row=1, column=4, sticky = "e")
-                tkgrid(tklabel(gframe, textvariable = wizardenv$nqualreqs), row = 1, column = 5, sticky = "w")
+                tkgrid(ttklabel(gframe, text = "Currently:"), row=1, column=4, sticky = "e")
+                tkgrid(ttklabel(gframe, textvariable = wizardenv$nqualreqs), row = 1, column = 5, sticky = "w")
             tkgrid(gframe, sticky = "w")
             okcancel(registerDialog, okfun = gethit, cancelfun = function(){tkdestroy(registerDialog); tkfocus(wizard)})
             tkfocus(registerDialog)
@@ -617,7 +622,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 tkgrid(wzentry(cframe, width = 50, textvariable=layoutvalues))
                 tkgrid(cframe, sticky = "w")
                 tkgrid(ttklabel(addqDialog, text = "     "))
-                tkgrid(tkbutton(addqDialog, text = "Retrieve HITLayout Parameters from Requester Website",
+                tkgrid(ttkbutton(addqDialog, text = "Retrieve HITLayout Parameters from Requester Website",
                                 command = function() {
                                     if(sboxval())
                                         browseURL("https://requestersandbox.mturk.com/create/projects")
@@ -755,29 +760,29 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 hours.entry <- wzentry(dframe, width = 5, textvariable=hours)
                 mins.entry <- wzentry(dframe, width = 5, textvariable=mins)
                 secs.entry <- wzentry(dframe, width = 5, textvariable=secs)
-                tkgrid(tklabel(dframe, text = "Days: "), row=1, column=1)
+                tkgrid(ttklabel(dframe, text = "Days: "), row=1, column=1)
                 tkgrid(days.entry, row=1, column=2)
-                tkgrid(tklabel(dframe, text = "Hours: "), row=1, column=3)
+                tkgrid(ttklabel(dframe, text = "Hours: "), row=1, column=3)
                 tkgrid(hours.entry, row=1, column=4)
-                tkgrid(tklabel(dframe, text = "Mins.: "), row=1, column=5)
+                tkgrid(ttklabel(dframe, text = "Mins.: "), row=1, column=5)
                 tkgrid(mins.entry, row=1, column=6)
-                tkgrid(tklabel(dframe, text = "Secs.: "), row=1, column=7)
+                tkgrid(ttklabel(dframe, text = "Secs.: "), row=1, column=7)
                 tkgrid(secs.entry, row=1, column=8)
             tkgrid(dframe, sticky = "w")
             questionframe <- ttklabelframe(createDialog, text = "Specify HIT content using one of the following:")
-                externalbutton <- tkbutton(questionframe, text=" Add ExternalQuestion ", width = 20, command=addexquestion)
-                internalbutton <- tkbutton(questionframe, text=" Add QuestionForm ", width = 20, command=addinquestion)
-                htmlbutton <- tkbutton(questionframe, text=" Add HTMLQuestion ", width = 20, command=addhtmlquestion)
-                layoutbutton <- tkbutton(questionframe, text=" Add HITLayout data ", width = 20, command=addlayout)
+                externalbutton <- ttkbutton(questionframe, text=" Add ExternalQuestion ", width = 20, command=addexquestion)
+                internalbutton <- ttkbutton(questionframe, text=" Add QuestionForm ", width = 20, command=addinquestion)
+                htmlbutton <- ttkbutton(questionframe, text=" Add HTMLQuestion ", width = 20, command=addhtmlquestion)
+                layoutbutton <- ttkbutton(questionframe, text=" Add HITLayout data ", width = 20, command=addlayout)
                 tkgrid(externalbutton, row=1, column=1)
                 tkgrid(internalbutton, row=1, column=2)
                 tkgrid(htmlbutton, row=2, column=1)
                 tkgrid(layoutbutton, row=2, column=2)
             tkgrid(questionframe, sticky = "w")
             eframe <- ttklabelframe(createDialog, text = "ReviewPolicy (optional)")
-                tkgrid(tkbutton(eframe, text="Add ReviewPolicy", command = addreviewpolicy))
+                tkgrid(ttkbutton(eframe, text="Add ReviewPolicy", command = addreviewpolicy))
             tkgrid(eframe, sticky = "w")
-            tkgrid(tklabel(createDialog, text = "   "))
+            tkgrid(ttklabel(createDialog, text = "   "))
             popbuttons(createDialog, okfun = create, 
                        cancelfun = function(){tkdestroy(createDialog); tkfocus(wizard)}, 
                        poptype = "RegisterHIT")
@@ -837,13 +842,13 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
             annotation <- tclVar()
             aframe <- ttklabelframe(changeDialog, text = "Enter old HITTypeId, HITId(s), or annotation to change:")
                 oldhittype.entry <- wzentry(aframe, width = 50, textvariable=oldhittype)
-                tkgrid(tklabel(aframe, text = "Old HITTypeId: "), row=1, column=1, sticky = "e")
+                tkgrid(ttklabel(aframe, text = "Old HITTypeId: "), row=1, column=1, sticky = "e")
                 tkgrid(oldhittype.entry, row=1, column=2, sticky="w")
                 hit.entry <- wzentry(aframe, width = 50, textvariable=hitid)
-                tkgrid(tklabel(aframe, text = "Old HITId(s) (comma-separated): "), row=2, column=1, sticky = "e")
+                tkgrid(ttklabel(aframe, text = "Old HITId(s) (comma-separated): "), row=2, column=1, sticky = "e")
                 tkgrid(hit.entry, row=2, column=2, sticky="w")
                 annotation.entry <- wzentry(aframe, width = 50, textvariable=annotation)
-                tkgrid(tklabel(aframe, text = "Annotation/Batch: "), row=3, column=1, sticky = "e")
+                tkgrid(ttklabel(aframe, text = "Annotation/Batch: "), row=3, column=1, sticky = "e")
                 tkgrid(annotation.entry, row=3, column=2, sticky="w")
             tkgrid(aframe)
             bframe <- ttklabelframe(changeDialog, text = "Enter New HITTypeId (or Register a HITType, below):")
@@ -875,38 +880,38 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                     tkgrid(ttklabel(entryform, text = "     "), row=r, column=1)
                     tkgrid(ttklabel(entryform, text = "     "), row=r, column=3)
                     r <- r + 1
-                    tkgrid(tklabel(entryform, text = paste("HITId:",hit$HITs$HITId)), row=r, column=2, sticky="w")
+                    tkgrid(ttklabel(entryform, text = paste("HITId:",hit$HITs$HITId)), row=r, column=2, sticky="w")
                     r <- r + 1
-                    tkgrid(tklabel(entryform, text = paste("HITTypeId:",hit$HITs$HITTypeId)), row=r, column=2, sticky="w")
+                    tkgrid(ttklabel(entryform, text = paste("HITTypeId:",hit$HITs$HITTypeId)), row=r, column=2, sticky="w")
                     r <- r + 1
-                    tkgrid(tklabel(entryform, text = paste("Title:",hit$HITs$Title)), row=r, column=2, sticky="w")
+                    tkgrid(ttklabel(entryform, text = paste("Title:",hit$HITs$Title)), row=r, column=2, sticky="w")
                     r <- r + 1
-                    tkgrid(tklabel(entryform, text = paste("Description:",hit$HITs$Description)), row=r, column=2, sticky="w")
+                    tkgrid(ttklabel(entryform, text = paste("Description:",hit$HITs$Description)), row=r, column=2, sticky="w")
                     r <- r + 1
-                    tkgrid(tklabel(entryform, text = paste("Annotation:",hit$HITs$RequesterAnnotation)), row=r, column=2, sticky="w")
+                    tkgrid(ttklabel(entryform, text = paste("Annotation:",hit$HITs$RequesterAnnotation)), row=r, column=2, sticky="w")
                     r <- r + 1
-                    tkgrid(tklabel(entryform, text = paste("NumberOfSimilarHITs:",hit$HITs$NumberOfSimilarHITs)), row=r, column=2, sticky="w")
+                    tkgrid(ttklabel(entryform, text = paste("NumberOfSimilarHITs:",hit$HITs$NumberOfSimilarHITs)), row=r, column=2, sticky="w")
                     r <- r + 1
-                    tkgrid(tklabel(entryform, text = paste("CreationTime:",hit$HITs$CreationTime)), row=r, column=2, sticky="w")
+                    tkgrid(ttklabel(entryform, text = paste("CreationTime:",hit$HITs$CreationTime)), row=r, column=2, sticky="w")
                     r <- r + 1
-                    tkgrid(tklabel(entryform, text = paste("HITStatus:",hit$HITs$HITStatus)), row=r, column=2, sticky="w")
+                    tkgrid(ttklabel(entryform, text = paste("HITStatus:",hit$HITs$HITStatus)), row=r, column=2, sticky="w")
                     r <- r + 1
-                    tkgrid(tklabel(entryform, text = paste("HITReviewStatus:",hit$HITs$HITReviewStatus)), row=r, column=2, sticky="w")
+                    tkgrid(ttklabel(entryform, text = paste("HITReviewStatus:",hit$HITs$HITReviewStatus)), row=r, column=2, sticky="w")
                     r <- r + 1
-                    tkgrid(tklabel(entryform, text = paste("MaxAssignments:",hit$HITs$MaxAssignments)), row=r, column=2, sticky="w")
+                    tkgrid(ttklabel(entryform, text = paste("MaxAssignments:",hit$HITs$MaxAssignments)), row=r, column=2, sticky="w")
                     r <- r + 1
-                    tkgrid(tklabel(entryform, text = paste("Amount:",hit$HITs$Amount)), row=r, column=2, sticky="w")
+                    tkgrid(ttklabel(entryform, text = paste("Amount:",hit$HITs$Amount)), row=r, column=2, sticky="w")
                     r <- r + 1
-                    tkgrid(tklabel(entryform, text = paste("AutoApprovalDelayInSeconds:",hit$HITs$AutoApprovalDelayInSeconds)), row=r, column=2, sticky="w")
+                    tkgrid(ttklabel(entryform, text = paste("AutoApprovalDelayInSeconds:",hit$HITs$AutoApprovalDelayInSeconds)), row=r, column=2, sticky="w")
                     r <- r + 1
-                    tkgrid(tklabel(entryform, text = paste("AssignmentDurationInSeconds:",hit$HITs$AssignmentDurationInSeconds)), row=r, column=2, sticky="w")
+                    tkgrid(ttklabel(entryform, text = paste("AssignmentDurationInSeconds:",hit$HITs$AssignmentDurationInSeconds)), row=r, column=2, sticky="w")
                     r <- r + 1
-                    tkgrid(tklabel(entryform, text = paste("Expiration:",hit$HITs$Expiration)), row=r, column=2, sticky="w")
+                    tkgrid(ttklabel(entryform, text = paste("Expiration:",hit$HITs$Expiration)), row=r, column=2, sticky="w")
                     r <- r + 1
-                    tkgrid(tklabel(entryform, text = "     "), row=r, column=1)
+                    tkgrid(ttklabel(entryform, text = "     "), row=r, column=1)
                 tkgrid(entryform)
                 buttons <- tkframe(viewhitDialog)
-                    OKbutton <- tkbutton(buttons, text="   OK   ", command=function() {tkdestroy(viewhitDialog); tkfocus(wizard)})
+                    OKbutton <- ttkbutton(buttons, text="   OK   ", command=function() {tkdestroy(viewhitDialog); tkfocus(wizard)})
                     r <- 1
                     tkgrid(OKbutton, row=r, column=2)
                 tkgrid(buttons)
@@ -945,26 +950,26 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                     tkgrid(ttklabel(entryform, text = "     "), row=r, column=1)
                     tkgrid(ttklabel(entryform, text = "     "), row=r, column=3)
                     r <- r + 1
-                    tkgrid(tklabel(entryform, text = paste("HITId:",status$HITId)), row=r, column=2, sticky="w")
+                    tkgrid(ttklabel(entryform, text = paste("HITId:",status$HITId)), row=r, column=2, sticky="w")
                     r <- r + 1
-                    tkgrid(tklabel(entryform, text = paste("Annotation:",status$RequesterAnnotation)), row=r, column=2, sticky="w")
+                    tkgrid(ttklabel(entryform, text = paste("Annotation:",status$RequesterAnnotation)), row=r, column=2, sticky="w")
                     r <- r + 1
-                    tkgrid(tklabel(entryform, text = paste("HITStatus:",status$HITStatus)), row=r, column=2, sticky="w")
+                    tkgrid(ttklabel(entryform, text = paste("HITStatus:",status$HITStatus)), row=r, column=2, sticky="w")
                     r <- r + 1
-                    tkgrid(tklabel(entryform, text = paste("HITReviewStatus:",status$HITReviewStatus)), row=r, column=2, sticky="w")
+                    tkgrid(ttklabel(entryform, text = paste("HITReviewStatus:",status$HITReviewStatus)), row=r, column=2, sticky="w")
                     r <- r + 1
-                    tkgrid(tklabel(entryform, text = paste("NumberofAssignmentsPending:",status$NumberofAssignmentsPending)), row=r, column=2, sticky="w")
+                    tkgrid(ttklabel(entryform, text = paste("NumberofAssignmentsPending:",status$NumberofAssignmentsPending)), row=r, column=2, sticky="w")
                     r <- r + 1
-                    tkgrid(tklabel(entryform, text = paste("NumberofAssignmentsAvailable:",status$NumberofAssignmentsAvailable)), row=r, column=2, sticky="w")
+                    tkgrid(ttklabel(entryform, text = paste("NumberofAssignmentsAvailable:",status$NumberofAssignmentsAvailable)), row=r, column=2, sticky="w")
                     r <- r + 1
-                    tkgrid(tklabel(entryform, text = paste("NumberofAssignmentsCompleted:",status$NumberofAssignmentsCompleted)), row=r, column=2, sticky="w")
+                    tkgrid(ttklabel(entryform, text = paste("NumberofAssignmentsCompleted:",status$NumberofAssignmentsCompleted)), row=r, column=2, sticky="w")
                     r <- r + 1
-                    tkgrid(tklabel(entryform, text = paste("Expiration:",status$Expiration)), row=r, column=2, sticky="w")
+                    tkgrid(ttklabel(entryform, text = paste("Expiration:",status$Expiration)), row=r, column=2, sticky="w")
                     r <- r + 1
-                    tkgrid(tklabel(entryform, text = "     "), row=r, column=1)
+                    tkgrid(ttklabel(entryform, text = "     "), row=r, column=1)
                 tkgrid(entryform)
                 buttons <- tkframe(viewhitDialog)
-                    OKbutton <- tkbutton(buttons, text="   OK   ", command=function() {tkdestroy(viewhitDialog); tkfocus(wizard)})
+                    OKbutton <- ttkbutton(buttons, text="   OK   ", command=function() {tkdestroy(viewhitDialog); tkfocus(wizard)})
                     r <- 1
                     tkgrid(OKbutton, row=r, column=2)
                 tkgrid(buttons)
@@ -1027,10 +1032,10 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
             bframe <- ttklabelframe(resultsDialog, text = "AssignmentId: ")
             tkgrid(wzentry(bframe, width = 50, textvariable=assignmentid))
             cframe <- ttklabelframe(resultsDialog, text = "Policy Level(s): ")
-            tkgrid(tklabel(cframe, text = "HIT: "), row=1, column=1, sticky="w")
-            tkgrid(tkcheckbutton(cframe, variable=hitlevel), row = 1, column = 2, sticky = "w")
-            tkgrid(tklabel(cframe, text = "Assignment: "), row=2, column=1, sticky="w")
-            tkgrid(tkcheckbutton(cframe, variable=assignlevel), row = 2, column = 2, sticky = "w")
+            tkgrid(ttklabel(cframe, text = "HIT: "), row=1, column=1, sticky="w")
+            tkgrid(ttkcheckbutton(cframe, variable=hitlevel), row = 1, column = 2, sticky = "w")
+            tkgrid(ttklabel(cframe, text = "Assignment: "), row=2, column=1, sticky="w")
+            tkgrid(ttkcheckbutton(cframe, variable=assignlevel), row = 2, column = 2, sticky = "w")
             tkgrid(aframe)
             tkgrid(bframe)
             tkgrid(cframe, sticky = "w")
@@ -1068,7 +1073,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
             tkgrid(wzentry(aframe, width = 50, textvariable=wizardenv$hitid))
             tkgrid(aframe)
             bframe <- ttklabelframe(reviewingDialog, text = "Revert to Reviewable? ")
-            tkgrid(tkcheckbutton(bframe, variable=revert))
+            tkgrid(ttkcheckbutton(bframe, variable=revert))
             tkgrid(bframe, sticky = "w")
             popbuttons(reviewingDialog, okfun = chgstatus, 
                        cancelfun = function(){tkdestroy(reviewingDialog); tkfocus(wizard)}, 
@@ -1151,13 +1156,13 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 hours.entry <- wzentry(bframe, width = 5, textvariable=hours)
                 mins.entry <- wzentry(bframe, width = 5, textvariable=mins)
                 secs.entry <- wzentry(bframe, width = 5, textvariable=secs)
-                tkgrid(tklabel(bframe, text = "Days: "), row=r, column=1)
+                tkgrid(ttklabel(bframe, text = "Days: "), row=r, column=1)
                 tkgrid(days.entry, row=r, column=2)
-                tkgrid(tklabel(bframe, text = "Hours: "), row=r, column=3)
+                tkgrid(ttklabel(bframe, text = "Hours: "), row=r, column=3)
                 tkgrid(hours.entry, row=r, column=4)
-                tkgrid(tklabel(bframe, text = "Minutes: "), row=r, column=5)
+                tkgrid(ttklabel(bframe, text = "Minutes: "), row=r, column=5)
                 tkgrid(mins.entry, row=r, column=6)
-                tkgrid(tklabel(bframe, text = "Seconds: "), row=r, column=7)
+                tkgrid(ttklabel(bframe, text = "Seconds: "), row=r, column=7)
                 tkgrid(secs.entry, row=r, column=8)
                 tkgrid(ttklabel(bframe, text = "     "), row=r+1, column=1)
                 tkgrid(bframe, sticky = "w")
@@ -1233,7 +1238,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 tkgrab.set(currenthits)
                 tkwm.title(currenthits, "Available HITs")
                 entryform <- ttklabelframe(currenthits, text = "Select a HIT:")
-                    scr <- tkscrollbar(entryform, repeatinterval=5, command=function(...) tkyview(hitlist,...))
+                    scr <- ttkscrollbar(entryform, repeatinterval=5, command=function(...) tkyview(hitlist,...))
                     hitlist <- tklistbox(entryform, height=8, width=100, selectmode="single",
                                          yscrollcommand=function(...) tkset(scr,...), background="white")
                     tkgrid(hitlist, scr, column=1)
@@ -1286,9 +1291,9 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
             tkgrid(wzentry(aframe, width = 50, textvariable=assignment))
             tkgrid(aframe)
             buttons <- tkframe(getassign1Dialog)
-                printbutton <- tkbutton(buttons, text=" Print to Console ", command=function() getassign(TRUE,FALSE) )
-                savebutton <- tkbutton(buttons, text=" Save to File ", command=function() getassign(FALSE,TRUE) )
-                Cancelbutton <- tkbutton(buttons, text=" Cancel ", command=function() {tkdestroy(getassign1Dialog); tkfocus(wizard)})
+                printbutton <- ttkbutton(buttons, text=" Print to Console ", command=function() getassign(TRUE,FALSE) )
+                savebutton <- ttkbutton(buttons, text=" Save to File ", command=function() getassign(FALSE,TRUE) )
+                Cancelbutton <- ttkbutton(buttons, text=" Cancel ", command=function() {tkdestroy(getassign1Dialog); tkfocus(wizard)})
                 r <- 1
                 tkgrid(printbutton, row = r, column = 1)
                 tkgrid(savebutton, row = r, column = 2)
@@ -1323,10 +1328,10 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
             tkgrid(wzentry(aframe, width = 50, textvariable=wizardenv$hitid))
             tkgrid(aframe)
             buttons <- tkframe(getassign2Dialog)
-                populatebutton <- tkbutton(buttons, text="Search for HITs", command=searchWiz)
-                printbutton <- tkbutton(buttons, text=" Print to Console ", command=function() getassign(TRUE,FALSE) )
-                savebutton <- tkbutton(buttons, text=" Save to File ", command=function() getassign(FALSE,TRUE) )
-                Cancelbutton <- tkbutton(buttons,text=" Cancel ",command=function() {tkdestroy(getassign2Dialog); tkfocus(wizard)})
+                populatebutton <- ttkbutton(buttons, text="Search for HITs", command=searchWiz)
+                printbutton <- ttkbutton(buttons, text=" Print to Console ", command=function() getassign(TRUE,FALSE) )
+                savebutton <- ttkbutton(buttons, text=" Save to File ", command=function() getassign(FALSE,TRUE) )
+                Cancelbutton <- ttkbutton(buttons,text=" Cancel ",command=function() {tkdestroy(getassign2Dialog); tkfocus(wizard)})
                 r <- 1
                 tkgrid(populatebutton, row = r, column = 1)
                 tkgrid(printbutton, row = r, column = 2)
@@ -1364,10 +1369,10 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
             tkgrid(wzentry(aframe, width = 50, textvariable=wizardenv$hittypeid))
             tkgrid(aframe)
             buttons <- tkframe(getassign3Dialog)
-                populatebutton <- tkbutton(buttons, text="Search for HITType (by HIT)", command=searchWiz)
-                printbutton <- tkbutton(buttons, text=" Print to Console ", command=function() getassign(TRUE,FALSE) )
-                savebutton <- tkbutton(buttons, text=" Save to File ", command=function() getassign(FALSE,TRUE) )
-                Cancelbutton <- tkbutton(buttons,text=" Cancel ",command=function() {tkdestroy(getassign3Dialog); tkfocus(wizard)})
+                populatebutton <- ttkbutton(buttons, text="Search for HITType (by HIT)", command=searchWiz)
+                printbutton <- ttkbutton(buttons, text=" Print to Console ", command=function() getassign(TRUE,FALSE) )
+                savebutton <- ttkbutton(buttons, text=" Save to File ", command=function() getassign(FALSE,TRUE) )
+                Cancelbutton <- ttkbutton(buttons,text=" Cancel ",command=function() {tkdestroy(getassign3Dialog); tkfocus(wizard)})
                 r <- 1
                 tkgrid(populatebutton, row = r, column = 1)
                 tkgrid(printbutton, row = r, column = 2)
@@ -1401,9 +1406,9 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
             tkgrid(wzentry(aframe, width = 50, textvariable=annotation))
             tkgrid(aframe)
             buttons <- tkframe(getassign4Dialog)
-                printbutton <- tkbutton(buttons, text=" Print to Console ", command=function() getassign(TRUE,FALSE) )
-                savebutton <- tkbutton(buttons, text=" Save to File ", command=function() getassign(FALSE,TRUE) )
-                Cancelbutton <- tkbutton(buttons,text=" Cancel ",command=function() {tkdestroy(getassign4Dialog); tkfocus(wizard)})
+                printbutton <- ttkbutton(buttons, text=" Print to Console ", command=function() getassign(TRUE,FALSE) )
+                savebutton <- ttkbutton(buttons, text=" Save to File ", command=function() getassign(FALSE,TRUE) )
+                Cancelbutton <- ttkbutton(buttons,text=" Cancel ",command=function() {tkdestroy(getassign4Dialog); tkfocus(wizard)})
                 r <- 1
                 tkgrid(printbutton, row = r, column = 2)
                 tkgrid(savebutton, row = r, column = 3)
@@ -1466,9 +1471,9 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
             bframe <- ttklabelframe(approveDialog, text = "Feedback for worker (optional): ")
             feedback <- tclVar()
             tkgrid(wzentry(bframe, width = 50, textvariable=feedback))
-            tkgrid(tklabel(approveDialog, text = "    "))
-            tkgrid(tkbutton(approveDialog, text="Approve All Assignments for a HIT?", command=approveall))
-            tkgrid(tklabel(approveDialog, text = "    "))
+            tkgrid(ttklabel(approveDialog, text = "    "))
+            tkgrid(ttkbutton(approveDialog, text="Approve All Assignments for a HIT?", command=approveall))
+            tkgrid(ttklabel(approveDialog, text = "    "))
             tkgrid(aframe)
             tkgrid(bframe)
             okcancel(approveDialog, okfun = approve1, cancelfun = function() {tkdestroy(approveDialog); tkfocus(wizard)})
@@ -1618,8 +1623,8 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                         tkgrid(ttklabel(entryform, text="     "), row=r, column=1)
                     tkgrid(entryform)
                     buttons <- tkframe(viewassign)
-                        AnswerDetails <- tkbutton(buttons,text=" View Assignment Answers ",command=printdetails)
-                        OKbutton <- tkbutton(buttons, text="   OK   ",
+                        AnswerDetails <- ttkbutton(buttons,text=" View Assignment Answers ",command=printdetails)
+                        OKbutton <- ttkbutton(buttons, text="   OK   ",
                                              command=function() {tkdestroy(viewassign); tkfocus(approverejectDialog)})
                         r <- 1
                         tkgrid(AnswerDetails, row = r, column = 1)
@@ -1657,12 +1662,12 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                     r <- r + 1
                     reason <- tclVar()
                     reason.entry <- wzentry(appreason, width=50, textvariable=reason)
-                    tkgrid(tklabel(appreason, text = "Reason (optional; visible to worker): "), row=r, column=2, sticky="e")
+                    tkgrid(ttklabel(appreason, text = "Reason (optional; visible to worker): "), row=r, column=2, sticky="e")
                     tkgrid(reason.entry, row=r, column=3, sticky="w")
                     r <- r + 1
                     tkgrid(ttklabel(appreason, text = "     "), row=r, column=1)
-                    OKbutton <- tkbutton(appreason,text="   OK   ",command=app)
-                    Cancelbutton <- tkbutton(appreason,text=" Cancel ",command=function() tkdestroy(appreason) )
+                    OKbutton <- ttkbutton(appreason,text="   OK   ",command=app)
+                    Cancelbutton <- ttkbutton(appreason,text=" Cancel ",command=function() tkdestroy(appreason) )
                     r <- r + 1
                     tkgrid(OKbutton, row = r, column = 2)
                     tkgrid(Cancelbutton, row=r, column = 3)
@@ -1698,12 +1703,12 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                     r <- r + 1
                     reason <- tclVar()
                     reason.entry <- wzentry(rejreason, width=50, textvariable=reason)
-                    tkgrid(tklabel(rejreason, text = "Reason (required; visible to worker): "), row=r, column=2, sticky="e")
+                    tkgrid(ttklabel(rejreason, text = "Reason (required; visible to worker): "), row=r, column=2, sticky="e")
                     tkgrid(reason.entry, row=r, column=3, sticky="w")
                     r <- r + 1
                     tkgrid(ttklabel(rejreason, text = "     "), row=r, column=1)
-                    OKbutton <- tkbutton(rejreason,text="   OK   ",command=rej)
-                    Cancelbutton <- tkbutton(rejreason,text=" Cancel ",command=function() tkdestroy(rejreason) )
+                    OKbutton <- ttkbutton(rejreason,text="   OK   ",command=rej)
+                    Cancelbutton <- ttkbutton(rejreason,text=" Cancel ",command=function() tkdestroy(rejreason) )
                     r <- r + 1
                     tkgrid(OKbutton, row = r, column = 2)
                     tkgrid(Cancelbutton, row=r, column = 3)
@@ -1738,12 +1743,12 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                     r <- r + 1
                     reason <- tclVar()
                     reason.entry <- wzentry(appreason, width=50, textvariable=reason)
-                    tkgrid(tklabel(appreason, text = "Reason (optional; visible to worker): "), row=r, column=2, sticky="e")
+                    tkgrid(ttklabel(appreason, text = "Reason (optional; visible to worker): "), row=r, column=2, sticky="e")
                     tkgrid(reason.entry, row=r, column=3, sticky="w")
                     r <- r + 1
                     tkgrid(ttklabel(appreason, text = "     "), row=r, column=1)
-                    OKbutton <- tkbutton(appreason,text="   OK   ",command=app)
-                    Cancelbutton <- tkbutton(appreason,text=" Cancel ",command=function() tkdestroy(appreason) )
+                    OKbutton <- ttkbutton(appreason,text="   OK   ",command=app)
+                    Cancelbutton <- ttkbutton(appreason,text=" Cancel ",command=function() tkdestroy(appreason) )
                     r <- r + 1
                     tkgrid(OKbutton, row = r, column = 2)
                     tkgrid(Cancelbutton, row=r, column = 3)
@@ -1781,17 +1786,17 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                     r <- r + 1
                     amount <- tclVar()
                     amount.entry <- wzentry(bonusreason, width=50, textvariable=amount)
-                    tkgrid(tklabel(bonusreason, text = "Bonus amount: $"), row=r, column=2, sticky="e")
+                    tkgrid(ttklabel(bonusreason, text = "Bonus amount: $"), row=r, column=2, sticky="e")
                     tkgrid(amount.entry, row=r, column=3, sticky="w")
                     r <- r + 1
                     reason <- tclVar()
                     reason.entry <- wzentry(bonusreason, width=50, textvariable=reason)
-                    tkgrid(tklabel(bonusreason, text = "Bonus message (visible to worker): "), row=r, column=2, sticky="e")
+                    tkgrid(ttklabel(bonusreason, text = "Bonus message (visible to worker): "), row=r, column=2, sticky="e")
                     tkgrid(reason.entry, row=r, column=3, sticky="w")
                     r <- r + 1
                     tkgrid(ttklabel(bonusreason, text = "     "), row=r, column=1)
-                    OKbutton <- tkbutton(bonusreason,text="   OK   ",command=b)
-                    Cancelbutton <- tkbutton(bonusreason,text=" Cancel ",command=function() tkdestroy(bonusreason) )
+                    OKbutton <- ttkbutton(bonusreason,text="   OK   ",command=b)
+                    Cancelbutton <- ttkbutton(bonusreason,text=" Cancel ",command=function() tkdestroy(bonusreason) )
                     r <- r + 1
                     tkgrid(OKbutton, row = r, column = 2)
                     tkgrid(Cancelbutton, row=r, column = 3)                    
@@ -1805,12 +1810,12 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                     tkgrid(ttklabel(entryform, text = "     "), row=r, column=1)
                     tkgrid(ttklabel(entryform, text = "     "), row=r, column=11)
                     r <- r + 1
-                    tkgrid(tklabel(entryform, text = "Submitted Assignments: "), row=r, column=2, columnspan=2)
-                    tkgrid(tklabel(entryform, text = "Approved Assignments: "), row=r, column=6)
-                    tkgrid(tklabel(entryform, text = "Rejected Assignments: "), row=r, column=9)
-                    scr1 <- tkscrollbar(entryform, repeatinterval=5, command=function(...) tkyview(sublist,...))
-                    scr2 <- tkscrollbar(entryform, repeatinterval=5, command=function(...) tkyview(isapplist,...))
-                    scr3 <- tkscrollbar(entryform, repeatinterval=5, command=function(...) tkyview(isrejlist,...))
+                    tkgrid(ttklabel(entryform, text = "Submitted Assignments: "), row=r, column=2, columnspan=2)
+                    tkgrid(ttklabel(entryform, text = "Approved Assignments: "), row=r, column=6)
+                    tkgrid(ttklabel(entryform, text = "Rejected Assignments: "), row=r, column=9)
+                    scr1 <- ttkscrollbar(entryform, repeatinterval=5, command=function(...) tkyview(sublist,...))
+                    scr2 <- ttkscrollbar(entryform, repeatinterval=5, command=function(...) tkyview(isapplist,...))
+                    scr3 <- ttkscrollbar(entryform, repeatinterval=5, command=function(...) tkyview(isrejlist,...))
                     sublist <- tklistbox(entryform, height=25, width=35, selectmode="multiple",
                                             yscrollcommand=function(...) tkset(scr1,...), background="white")
                     isapplist <- tklistbox(entryform, height=25, width=35, selectmode="single",
@@ -1825,21 +1830,21 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                     tkgrid.configure(scr2, row=r, column=7, sticky="nsw")
                     tkgrid.configure(scr3, row=r, column=10, sticky="nsw")
                     r <- r + 4
-                    viewbutton1 <- tkbutton(entryform,text=" View Assignment ",command=function() view(type="submitted"))
+                    viewbutton1 <- ttkbutton(entryform,text=" View Assignment ",command=function() view(type="submitted"))
                     tkgrid(viewbutton1, row = r, column = 2, columnspan=3)
-                    viewbutton2 <- tkbutton(entryform,text=" View Assignment ",command=function() view(type="approved"))
+                    viewbutton2 <- ttkbutton(entryform,text=" View Assignment ",command=function() view(type="approved"))
                     tkgrid(viewbutton2, row = r, column = 6, columnspan=2)
-                    viewbutton3 <- tkbutton(entryform,text=" View Assignment ",command=function() view(type="rejected"))
+                    viewbutton3 <- ttkbutton(entryform,text=" View Assignment ",command=function() view(type="rejected"))
                     tkgrid(viewbutton3, row = r, column = 9, columnspan=2)
                     r <- r + 1
-                    appbutton <- tkbutton(entryform,text=" Approve Selected ",command=appfun)
+                    appbutton <- ttkbutton(entryform,text=" Approve Selected ",command=appfun)
                     tkgrid(appbutton, row = r, column = 2)
-                    rejbutton <- tkbutton(entryform,text=" Reject Selected ",command=rejfun)
+                    rejbutton <- ttkbutton(entryform,text=" Reject Selected ",command=rejfun)
                     tkgrid(rejbutton, row = r, column = 3)
-                    apprejectedbutton <- tkbutton(entryform,text=" Re-Approve Selected ",command=apprejected)
+                    apprejectedbutton <- ttkbutton(entryform,text=" Re-Approve Selected ",command=apprejected)
                     tkgrid(apprejectedbutton, row = r, column = 9, columnspan=2, rowspan=2)
                     r <- r + 3
-                    popbutton <- tkbutton(entryform,text=" Repopulate Lists ",command=function(){
+                    popbutton <- ttkbutton(entryform,text=" Repopulate Lists ",command=function(){
                             for(i in 0:(length(sublist)-1)){
                                 tkdelete(sublist,i)
                             }
@@ -1966,12 +1971,12 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                           as.character(nchar(curlEscape(tclvalue(tkget(body.entry,"0.0","end")))))
                     }
                     tkbind(body.entry, "<Key>", editModified)
-                    tkgrid(tklabel(bframe, text='Number of characters:'), row=2, column=1, sticky='e')
-                    tkgrid(tklabel(bframe, textvariable = wizardenv$chars), row=2, column=2, sticky='w')
-                    tkgrid(tkbutton(bframe, text = "Preview Email", command = previewEmail), row = 2, column = 3)
+                    tkgrid(ttklabel(bframe, text='Number of characters:'), row=2, column=1, sticky='e')
+                    tkgrid(ttklabel(bframe, textvariable = wizardenv$chars), row=2, column=2, sticky='w')
+                    tkgrid(ttkbutton(bframe, text = "Preview Email", command = previewEmail), row = 2, column = 3)
                 tkgrid(bframe, row = r)
                 r <- r + 1
-                tkgrid(tklabel(entryform, text = "    "), row = r)
+                tkgrid(ttklabel(entryform, text = "    "), row = r)
                 r <- r + 1
                 wframe <- ttklabelframe(entryform,
                                         text = "WorkerId(s) (one per line):", 
@@ -2139,7 +2144,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 blocklistDialog <-tktoplevel()
                 tkwm.title(blocklistDialog, "Currently Blocked Workers")
                 entryform <- tkframe(blocklistDialog, relief="groove", borderwidth=2)
-                scr <- tkscrollbar(entryform, repeatinterval=5, command=function(...) tkyview(workerlist,...))
+                scr <- ttkscrollbar(entryform, repeatinterval=5, command=function(...) tkyview(workerlist,...))
                 workerlist <- tklistbox(entryform, height=8, selectmode="multiple", yscrollcommand=function(...) tkset(scr,...), background="white")
                 tkgrid(workerlist,scr)
                 tkgrid.configure(scr, rowspan=4, sticky="nsw")
@@ -2232,13 +2237,13 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 hours.entry <- wzentry(cframe, width = 5, textvariable=hours)
                 mins.entry <- wzentry(cframe, width = 5, textvariable=mins)
                 secs.entry <- wzentry(cframe, width = 5, textvariable=secs)
-                tkgrid(tklabel(cframe, text = "Days: "), row=1, column=1)
+                tkgrid(ttklabel(cframe, text = "Days: "), row=1, column=1)
                 tkgrid(days.entry, row=1, column=2)
-                tkgrid(tklabel(cframe, text = "Hours: "), row=1, column=3)
+                tkgrid(ttklabel(cframe, text = "Hours: "), row=1, column=3)
                 tkgrid(hours.entry, row=1, column=4)
-                tkgrid(tklabel(cframe, text = "Minutes: "), row=1, column=5)
+                tkgrid(ttklabel(cframe, text = "Minutes: "), row=1, column=5)
                 tkgrid(mins.entry, row=1, column=6)
-                tkgrid(tklabel(cframe, text = "Seconds: "), row=1, column=7)
+                tkgrid(ttklabel(cframe, text = "Seconds: "), row=1, column=7)
                 tkgrid(secs.entry, row=1, column=8)
             tkgrid(cframe, sticky = "w")
             okcancel(testDialog, okfun = storetest, cancelfun = function() {tkdestroy(testDialog); tkfocus(wizard)})
@@ -2332,12 +2337,12 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 tkgrid(statuslist)
             tkgrid(dframe, sticky = "w", row = 4, column = 1, columnspan = 2)
             eframe <- ttklabelframe(createqualDialog, text = "Granted automatically?")
-                tkgrid(tklabel(eframe, text = "If so, set score: "))
+                tkgrid(ttklabel(eframe, text = "If so, set score: "))
                 tkgrid(wzentry(eframe, width = 15, textvariable=auto.value))
             tkgrid(eframe, sticky = "w", row = 5, column = 1)
             hframe <- ttklabelframe(createqualDialog, text = "Qualification Test: ")
-                tkgrid(tkbutton(hframe, text=" Add Optional Test ", command=qualtest))
-                tkgrid(tklabel(hframe, text = "Use instead of automatic value"))
+                tkgrid(ttkbutton(hframe, text=" Add Optional Test ", command=qualtest))
+                tkgrid(ttklabel(hframe, text = "Use instead of automatic value"))
             tkgrid(hframe, sticky = "w", row = 5, column = 2)
             gframe <- ttklabelframe(createqualDialog, text = "How long should workers have to wait to retry?")
                 days <- tclVar("")
@@ -2348,15 +2353,15 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 hours.entry <- wzentry(gframe, width = 5, textvariable=hours)
                 mins.entry <- wzentry(gframe, width = 5, textvariable=mins)
                 secs.entry <- wzentry(gframe, width = 5, textvariable=secs)
-                tkgrid(tklabel(gframe, text = "Days: "), row=1, column=1)
+                tkgrid(ttklabel(gframe, text = "Days: "), row=1, column=1)
                 tkgrid(days.entry, row=1, column=2)
-                tkgrid(tklabel(gframe, text = "Hours: "), row=1, column=3)
+                tkgrid(ttklabel(gframe, text = "Hours: "), row=1, column=3)
                 tkgrid(hours.entry, row=1, column=4)
-                tkgrid(tklabel(gframe, text = "Minutes: "), row=1, column=5)
+                tkgrid(ttklabel(gframe, text = "Minutes: "), row=1, column=5)
                 tkgrid(mins.entry, row=1, column=6)
-                tkgrid(tklabel(gframe, text = "Seconds: "), row=1, column=7)
+                tkgrid(ttklabel(gframe, text = "Seconds: "), row=1, column=7)
                 tkgrid(secs.entry, row=1, column=8)
-                tkgrid(tklabel(gframe, text = "(Leave all blank to disable retries.)"), row=2, column=1, columnspan = 8, sticky = "w")
+                tkgrid(ttklabel(gframe, text = "(Leave all blank to disable retries.)"), row=2, column=1, columnspan = 8, sticky = "w")
             tkgrid(gframe, sticky = "w", row = 6, column = 1, columnspan = 2)
             okcancel(createqualDialog, 
                      okfun = create, 
@@ -2439,12 +2444,12 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 tkgrid(statuslist)
             tkgrid(dframe, sticky = "w", row = 4, column = 1, columnspan = 2)
             eframe <- ttklabelframe(updatequalDialog, text = "Granted automatically?")
-                tkgrid(tklabel(eframe, text = "If so, set score: "))
+                tkgrid(ttklabel(eframe, text = "If so, set score: "))
                 tkgrid(wzentry(eframe, width = 15, textvariable=auto.value))
             tkgrid(eframe, sticky = "w", row = 5, column = 1)
             hframe <- ttklabelframe(updatequalDialog, text = "Qualification Test: ")
-                tkgrid(tkbutton(hframe, text=" Add Optional Test ", command=qualtest))
-                tkgrid(tklabel(hframe, text = "Use instead of automatic value"))
+                tkgrid(ttkbutton(hframe, text=" Add Optional Test ", command=qualtest))
+                tkgrid(ttklabel(hframe, text = "Use instead of automatic value"))
             tkgrid(hframe, sticky = "w", row = 5, column = 2)
             gframe <- ttklabelframe(updatequalDialog, text = "How long should workers have to wait to retry?")
                 days <- tclVar("")
@@ -2455,15 +2460,15 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 hours.entry <- wzentry(gframe, width = 5, textvariable=hours)
                 mins.entry <- wzentry(gframe, width = 5, textvariable=mins)
                 secs.entry <- wzentry(gframe, width = 5, textvariable=secs)
-                tkgrid(tklabel(gframe, text = "Days: "), row=1, column=1)
+                tkgrid(ttklabel(gframe, text = "Days: "), row=1, column=1)
                 tkgrid(days.entry, row=1, column=2)
-                tkgrid(tklabel(gframe, text = "Hours: "), row=1, column=3)
+                tkgrid(ttklabel(gframe, text = "Hours: "), row=1, column=3)
                 tkgrid(hours.entry, row=1, column=4)
-                tkgrid(tklabel(gframe, text = "Minutes: "), row=1, column=5)
+                tkgrid(ttklabel(gframe, text = "Minutes: "), row=1, column=5)
                 tkgrid(mins.entry, row=1, column=6)
-                tkgrid(tklabel(gframe, text = "Seconds: "), row=1, column=7)
+                tkgrid(ttklabel(gframe, text = "Seconds: "), row=1, column=7)
                 tkgrid(secs.entry, row=1, column=8)
-                tkgrid(tklabel(gframe, text = "(Leave all blank to disable retries.)"), row=2, column=1, columnspan = 8, sticky = "w")
+                tkgrid(ttklabel(gframe, text = "(Leave all blank to disable retries.)"), row=2, column=1, columnspan = 8, sticky = "w")
             tkgrid(gframe, sticky = "w", row = 6, column = 1, columnspan = 2)
             popbuttons(updatequalDialog, okfun = updateq, 
                        cancelfun = function(){tkdestroy(updatequalDialog); tkfocus(wizard)}, 
@@ -2500,9 +2505,9 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                     print(t(results),quote=FALSE)
                     tkfocus(wizard)
                 }
-                populatebutton <- tkbutton(buttons, text="Search for QualificationTypes", command=populate)
-                OKbutton <- tkbutton(buttons,text="   OK   ",command=getqual)
-                Cancelbutton <- tkbutton(buttons,text=" Cancel ",command=function() {
+                populatebutton <- ttkbutton(buttons, text="Search for QualificationTypes", command=populate)
+                OKbutton <- ttkbutton(buttons,text="   OK   ",command=getqual)
+                Cancelbutton <- ttkbutton(buttons,text=" Cancel ",command=function() {
                     tkdestroy(getqualDialog)
                     tkfocus(wizard)
                     })
@@ -2665,11 +2670,11 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 tkmark.set(worker.entry,"insert","0.0")
                 tkgrid(worker.entry)
             cframe <- ttklabelframe(entry, text = "Specify new score value: ")
-                tkgrid(tklabel(cframe, text = "New score: "), row = 1, column = 1, sticky="e")
+                tkgrid(ttklabel(cframe, text = "New score: "), row = 1, column = 1, sticky="e")
                 tkgrid(wzentry(cframe, width = 10, textvariable=score), row = 1, column=2, sticky="w")
             dframe <- ttklabelframe(entry, text = "Notify workers? ")
-                tkgrid(tklabel(dframe, text = "Yes "), row = 1, column = 1, sticky="e")
-                tkgrid(tkcheckbutton(dframe, variable = notify), row = 1, column=2, sticky="w")
+                tkgrid(ttklabel(dframe, text = "Yes "), row = 1, column = 1, sticky="e")
+                tkgrid(ttkcheckbutton(dframe, variable = notify), row = 1, column=2, sticky="w")
             tkgrid(aframe, sticky = "w", column = 1, columnspan = 2)
             tkgrid(bframe, sticky = "w", column = 1, columnspan = 2)
             tkgrid(cframe, sticky = "w", row = 3, column = 1)
@@ -2729,9 +2734,9 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 tkmark.set(worker.entry,"insert","0.0")
                 tkgrid(worker.entry)
             cframe <- ttklabelframe(updatescoreDialog, text = "Specify new score or score increment value: ")
-                tkgrid(tklabel(cframe, text = "      New score: "), row = 1, column = 1, sticky="e")
+                tkgrid(ttklabel(cframe, text = "      New score: "), row = 1, column = 1, sticky="e")
                 tkgrid(wzentry(cframe, width = 10, textvariable=score), row = 1, column=2, sticky="w")
-                tkgrid(tklabel(cframe, text = "Increment value: "), row = 2, column=1, sticky="e")
+                tkgrid(ttklabel(cframe, text = "Increment value: "), row = 2, column=1, sticky="e")
                 tkgrid(wzentry(cframe, width = 10, textvariable=increment), row = 2, column=2, sticky="w")
             tkgrid(aframe, sticky = "w")
             tkgrid(bframe, sticky = "w")
@@ -2787,7 +2792,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 tkgrab.set(selectqualDialog)
                 entryform <- tkframe(selectqualDialog)
                     r <- 1
-                    scr <- tkscrollbar(entryform, repeatinterval=5, command=function(...) tkyview(quallist,...))
+                    scr <- ttkscrollbar(entryform, repeatinterval=5, command=function(...) tkyview(quallist,...))
                     quallist <- tklistbox(    entryform, height=20, width=100, selectmode="single",
                                             yscrollcommand=function(...) tkset(scr,...), background="white")
                     tkgrid(quallist, row=r, column=1, columnspan=2)
@@ -2814,12 +2819,12 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
             builtin <- tclVar("1")
             searchquery <- tclVar()
             aframe <- ttklabelframe(searchqualDialog, text = "Search Options")
-                tkgrid(tkcheckbutton(aframe, variable=mine), row = 1, column = 1, sticky = "e")
-                tkgrid(tklabel(aframe, text = "Only search my QualificationTypes"), row = 1, column = 2, sticky = "w")
-                tkgrid(tkcheckbutton(aframe, variable=requestable), row = 2, column = 1, sticky = "e")
-                tkgrid(tklabel(aframe, text = "Only search requestable QualificationTypes"), row = 2, column = 2, sticky = "w")
-                tkgrid(tkcheckbutton(aframe, variable=builtin), row = 3, column = 1, sticky = "e")
-                tkgrid(tklabel(aframe, text = "Include built-in QualificationTypes"), row = 3, column = 2, sticky = "w")
+                tkgrid(ttkcheckbutton(aframe, variable=mine), row = 1, column = 1, sticky = "e")
+                tkgrid(ttklabel(aframe, text = "Only search my QualificationTypes"), row = 1, column = 2, sticky = "w")
+                tkgrid(ttkcheckbutton(aframe, variable=requestable), row = 2, column = 1, sticky = "e")
+                tkgrid(ttklabel(aframe, text = "Only search requestable QualificationTypes"), row = 2, column = 2, sticky = "w")
+                tkgrid(ttkcheckbutton(aframe, variable=builtin), row = 3, column = 1, sticky = "e")
+                tkgrid(ttklabel(aframe, text = "Include built-in QualificationTypes"), row = 3, column = 2, sticky = "w")
             bframe <- ttklabelframe(searchqualDialog, text = "Search Query (optional):")
                 tkgrid(wzentry(bframe, width = 50, textvariable=searchquery))
             tkgrid(aframe, stick = "w")
@@ -2875,12 +2880,12 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 r <- r + 1
                 value <- tclVar()
                 value.entry <- wzentry(grantreq, width=10, textvariable=value)
-                tkgrid(tklabel(grantreq, text = "Qualification Value: "), row=r, column=2, sticky="e")
+                tkgrid(ttklabel(grantreq, text = "Qualification Value: "), row=r, column=2, sticky="e")
                 tkgrid(value.entry, row=r, column=3, sticky="w")
                 r <- r + 1
                 tkgrid(ttklabel(grantreq, text = "     "), row=r, column=1)
-                OKbutton <- tkbutton(grantreq,text="   OK   ",command=grant)
-                Cancelbutton <- tkbutton(grantreq,text=" Cancel ",command=function() tkdestroy(grantreq) )
+                OKbutton <- ttkbutton(grantreq,text="   OK   ",command=grant)
+                Cancelbutton <- ttkbutton(grantreq,text=" Cancel ",command=function() tkdestroy(grantreq) )
                 r <- r + 1
                 tkgrid(OKbutton, row = r, column = 2)
                 tkgrid(Cancelbutton, row=r, column = 3)
@@ -2915,12 +2920,12 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 r <- r + 1
                 reason <- tclVar()
                 reason.entry <- wzentry(rejreq, width=50, textvariable=reason)
-                tkgrid(tklabel(rejreq, text = "Reason (optional; visible to worker): "), row=r, column=2, sticky="e")
+                tkgrid(ttklabel(rejreq, text = "Reason (optional; visible to worker): "), row=r, column=2, sticky="e")
                 tkgrid(reason.entry, row=r, column=3, sticky="w")
                 r <- r + 1
                 tkgrid(ttklabel(rejreq, text = "     "), row=r, column=1)
-                OKbutton <- tkbutton(rejreq,text="   OK   ",command=rej)
-                Cancelbutton <- tkbutton(rejreq,text=" Cancel ",command=function() tkdestroy(rejreq) )
+                OKbutton <- ttkbutton(rejreq,text="   OK   ",command=rej)
+                Cancelbutton <- ttkbutton(rejreq,text=" Cancel ",command=function() tkdestroy(rejreq) )
                 r <- r + 1
                 tkgrid(OKbutton, row = r, column = 2)
                 tkgrid(Cancelbutton, row=r, column = 3)
@@ -2934,7 +2939,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 tkgrid(ttklabel(entryform, text = "     "), row=r, column=1)
                 tkgrid(ttklabel(entryform, text = "     "), row=r, column=4)
                 r <- r + 1
-                scr <- tkscrollbar(entryform, repeatinterval=5, command=function(...) tkyview(qualreqlist,...))
+                scr <- ttkscrollbar(entryform, repeatinterval=5, command=function(...) tkyview(qualreqlist,...))
                 qualreqlist <- tklistbox(entryform, width=50, height=15, selectmode="single",
                                             yscrollcommand=function(...) tkset(scr,...), background="white")
                 tkgrid(qualreqlist,scr, row=r, column=2, columnspan=2)
@@ -2945,10 +2950,10 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 tkgrid(ttklabel(entryform, text = "     "), row=r)
             tkgrid(entryform)
             buttons <- tkframe(qualreqDialog)
-                viewbutton <- tkbutton(buttons,text=" View Selected ",command=viewrequest)
-                appbutton <- tkbutton(buttons,text=" Grant Selected ",command=approverequests)
-                rejbutton <- tkbutton(buttons,text=" Reject Selected ",command=rejectrequests)
-                Cancelbutton <- tkbutton(buttons,text=" Close ",command=function() tkdestroy(qualreqDialog) )
+                viewbutton <- ttkbutton(buttons,text=" View Selected ",command=viewrequest)
+                appbutton <- ttkbutton(buttons,text=" Grant Selected ",command=approverequests)
+                rejbutton <- ttkbutton(buttons,text=" Reject Selected ",command=rejectrequests)
+                Cancelbutton <- ttkbutton(buttons,text=" Close ",command=function() tkdestroy(qualreqDialog) )
                 r <- 1
                 tkgrid(viewbutton, row = r, column = 1)
                 tkgrid(appbutton, row = r, column = 2)
