@@ -30,8 +30,8 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
         okcancel <- function(parent, okfun, cancelfun, ...) {
             tkgrid(ttklabel(parent, text = "  "))
             buttons <- tkframe(parent)
-                tkgrid(tttkbutton(buttons, text = "   OK   ", command = okfun), row = 1, column = 1)
-                tkgrid(tttkbutton(buttons, text = " Cancel ", command = cancelfun), row = 1, column = 2)
+                tkgrid(ttkbutton(buttons, text = "   OK   ", command = okfun), row = 1, column = 1)
+                tkgrid(ttkbutton(buttons, text = " Cancel ", command = cancelfun), row = 1, column = 2)
             tkgrid(buttons, ...)
             invisible(NULL)
         }
