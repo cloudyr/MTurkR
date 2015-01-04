@@ -643,20 +643,24 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 }
                 
                 reviewpolicyDialog <- tktoplevel()
-                tkwm.title(reviewpolicyDialog, "Add HIT/Assignment Review Policy")
+                tkwm.title(reviewpolicyDialog, "Add HIT/Assignment URL-encoded ReviewPolicy")
                 hitentryform <- ttklabelframe(reviewpolicyDialog, 
-                                              text = "HIT-level ReviewPolicy (optional)", 
+                                              text = "HIT-level ReviewPolicy (optional):", 
                                               borderwidth = 2)
                     hit.entry <- tktext(hitentryform, height = 6, width = 75, bg = "white")
                     tkmark.set(hit.entry,"insert","0.0")
                     tkgrid(hit.entry)
+                    tkgrid(tkbutton(hitentryform, text = "Generate HIT ReviewPolicy", 
+                                    command = function() {tkmessageBox(message="Feature coming soon!", type="ok")}))
                 tkgrid(hitentryform)
                 assignentryform <- ttklabelframe(reviewpolicyDialog, 
-                                                 text = "Assignment-level ReviewPolicy (optional)", 
+                                                 text = "Assignment-level ReviewPolicy (optional):", 
                                                  borderwidth = 2)
                     assign.entry <- tktext(assignentryform, height = 6, width = 75, bg = "white")
                     tkmark.set(assign.entry,"insert","0.0")
                     tkgrid(assign.entry, column=2, columnspan=2)
+                    tkgrid(tkbutton(assign.entry, text = "Generate Assignment ReviewPolicy", 
+                                    command = function() {tkmessageBox(message="Feature coming soon!", type="ok")}))
                 tkgrid(assignentryform)
                 okcancel(reviewpolicyDialog, okfun = storepolicy, 
                                      cancelfun = function() {tkdestroy(reviewpolicyDialog); tkfocus(wizard)})
