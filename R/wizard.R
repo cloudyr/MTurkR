@@ -340,10 +340,17 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                     }
                     pos <- as.numeric(as.character(tkcurselection(complist)))+1 # listbox index starts at 0
                     selection <- complistitems[pos]
-                    if(selection=="Exists")
-                        qualvalue <- NULL
-                    else
-                        qualvalue <- tclvalue(qualvalue)
+                    if(selection %in% c("Exists","DoesNotExist"))
+                        qualvalue <- ""
+                    else {
+                        if(tclvalue(qualvalue) == ""){
+                            tkmessageBox(message="Please enter a value!", type="ok")
+                            tkfocus(qualreqDialog)
+                            return(NULL)
+                        } else {
+                            qualvalue <- tclvalue(qualvalue)
+                        }
+                    }
                     if(tclvalue(required)=="1")
                         required <- TRUE
                     else
@@ -352,12 +359,11 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                                                             comparator=selection,
                                                             value=qualvalue,
                                                             preview=required,
-                                                            qual.number=as.integer(tclvalue(nqualreqs))+1
+                                                            qual.number=as.integer(tclvalue(wizardenv$nqualreqs))+1
                                                             )
                     tkdestroy(qualreqDialog)
-                    # adjust focus
-                    assign("qualreq", paste(wizardenv$qualreq,req,sep=""), envir=wizardenv) # assign req to wizardenv
-                    tclvalue(nqualreqs) <<- as.integer(tclvalue(nqualreqs)) + 1 # increment 'nqualreqs'
+                    wizardenv$qualreq <- paste(wizardenv$qualreq,req,sep="")
+                    tclvalue(wizardenv$nqualreqs) <- as.integer(tclvalue(wizardenv$nqualreqs)) + 1 # increment 'nqualreqs'
                     tkfocus(registerDialog)
                 }
                 
@@ -395,8 +401,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 tkfocus(qualreqDialog)
             }
             
-            assign("qualreq",NULL,envir=wizardenv) # clear any stored value of 'qualreq' in wizardenv
-            
+            wizardenv$qualreq <- NULL            
             registerDialog <- tktoplevel()
             tkwm.title(registerDialog, "Register HITType")
             title <- tclVar()
@@ -469,10 +474,13 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                         }
                     }
                 }), column = 2, row = 1)
-                tkgrid(tkbutton(gframe, text=" Clear ", command=function() assign("qualreq",NULL,envir=wizardenv)), column = 3, row = 1)
-                nqualreqs <- tclVar("0")
+                tkgrid(tkbutton(gframe, text=" Clear ", command=function() {
+                    wizardenv$qualreq <- NULL
+                    tclvalue(wizardenv$nqualreqs) <- 0
+                }), column = 3, row = 1)
+                wizardenv$nqualreqs <- tclVar(0)
                 tkgrid(tklabel(gframe, text = "Currently:"), row=1, column=4, sticky = "e")
-                tkgrid(tklabel(gframe, textvariable = nqualreqs), row = 1, column = 5, sticky = "w")
+                tkgrid(tklabel(gframe, textvariable = wizardenv$nqualreqs), row = 1, column = 5, sticky = "w")
             tkgrid(gframe, sticky = "w")
             okcancel(registerDialog, okfun = gethit, cancelfun = function(){tkdestroy(registerDialog); tkfocus(wizard)})
             tkfocus(registerDialog)

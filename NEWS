@@ -17,6 +17,7 @@
 
 ## BUG FIXES ##
 
+* Fixed a bug in the wizard that prevented the user from clearing and viewing QualificationRequirements that had been added to a HITType.
 * Numerous related bug fixes in the wizard related to populating HITId, HITTypeId, and QualificationTypeId fields were fixed. (#69)
 * Wizard balance checking message box now reports balance correctly. (#67)
 * Wizard dialogs for adding question data structures to a HIT did not close on accepting "OK". (#65)
