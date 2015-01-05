@@ -10,7 +10,10 @@ GenerateHTMLQuestion(character = NULL, file = NULL, frame.height = 450)
   \item{file}{An optional character string containing a filename from which to construct the HTMLQuestion data structure.}
   \item{frame.height}{A character string containing the integer value (in pixels) of the frame height for the HTMLQuestion iframe.}
 }
-\details{Must specify either \code{character} or \code{file}.}
+\details{
+Must specify either \code{character} or \code{file}.
+
+To be valid, an HTMLQuestion data structure must be a complete XHTML document, including doctype declaration, head and body tags, and a complete HTML form (including the \code{form} tag with a submit URL, the assignmentId for the assignment as a form field, at least one substantive form field (can be hidden), and a submit button that posts to the external submit URL; see \code{\link{GenerateExternalQuestion}}.). If you fail to include a complete \code{form}, workers will be unable to submit the HIT. See the API Documentation for a complete example.}
 \value{A list containing \code{xml.parsed}, an XML data structure, \code{string}, xml formatted as a character string, and \code{url.encoded}, character string containing a URL query parameter-formatted HTMLQuestion data structure for use in the \code{question} parameter of \code{\link{CreateHIT}}.}
 \references{
 \href{http://docs.amazonwebservices.com/AWSMechTurk/latest/AWSMturkAPI/ApiReference_HTMLQuestionArticle.html}{API Reference}
