@@ -49,23 +49,24 @@ A function to create a QualificationType. Active QualificationTypes are visible 
 }
 \examples{
 \dontrun{
-qual1 <- 
-CreateQualificationType(name="Worked for me before",
-    description="This qualification is for people who have worked for me before",
-    status = "Active",
-    keywords="Worked for me before")
+# Create 
+qual1 <- CreateQualificationType(name="Worked for me before",
+           description="This qualification is for people who have worked for me before",
+           status = "Active",
+           keywords="Worked for me before")
 DisposeQualificationType(qual1$QualificationTypeId)
 }
 
 \dontrun{
-# qualification with test and answer key
-qual1 <- 
-CreateQualificationType(name="Worked for me before",
-    description="This qualification is for people who have worked for me before",
-    test = paste0(readLines(system.file("qualificationtest1.xml", package = "MTurkR")), collapse="")
-    answerkey = paste0(readLines(system.file("answerkey1.xml", package = "MTurkR")), collapse="")
-    status = "Active",
-    keywords="Worked for me before")
+# QualificationType with test and answer key
+qf <- paste0(readLines(system.file("qualificationtest1.xml", package = "MTurkR")), collapse="")
+qa <- paste0(readLines(system.file("answerkey1.xml", package = "MTurkR")), collapse="")
+qual1 <- CreateQualificationType(name = "Qualification with Test",
+           description = "This qualification is a demo",
+           test = qf,
+           answerkey = qa, # optionally, use AnswerKey
+           status = "Active",
+           keywords = "test, autogranted")
 DisposeQualificationType(qual1$QualificationTypeId)
 }
 
