@@ -7,6 +7,7 @@
 
 ## DOCUMENTATION ##
 
+* Documentation for `CreateHIT` and `CreateQualificationType` now include examples using template files installed with the package. (#40)
 * Documentation of generating a Masters QualificationRequirement has been slightly clarified.
 * Examples of Amazon Simple Queue Service (SQS) notifications have been added, along with a detailed tutorial on the MTurk wiki. (#60)
 
