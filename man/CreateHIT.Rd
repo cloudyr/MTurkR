@@ -69,6 +69,7 @@ When creating a ExternalQuestion HITs, the \code{\link{GenerateHITsFromTemplate}
 }
 \examples{
 \dontrun{
+## Using HITLayout from MTurk Requester User Interface
 a <- GenerateLayoutParameter("message","Text to display in HIT")
 hit1 <- 
 CreateHIT(hit.type = "2FFNCWYB49F9BBJWA4SJUNST5OFSOW",
@@ -76,12 +77,16 @@ CreateHIT(hit.type = "2FFNCWYB49F9BBJWA4SJUNST5OFSOW",
           expiration = seconds(days = 4),
           hitlayoutparameters = a)
 
-b <- GenerateExternalQuestion("https://www.example.com/","400")
+## Using ExternalQuestion HIT URL
+eq <- GenerateExternalQuestion("https://www.example.com/","400")
+
+### Specifying a HITTypeId
 hit2 <- 
 CreateHIT(hit.type = "2FFNCWYB49F9BBJWA4SJUNST5OFSOW", 
           expiration = seconds(days = 4),
-          question = b$string)
+          question = eq$string)
 
+### Creating a new HITTypeId atomically
 hit3 <- 
 CreateHIT(title = "Survey",
           description = "5 question survey",
@@ -89,14 +94,25 @@ CreateHIT(title = "Survey",
           expiration = seconds(days = 4),
           duration = seconds(hours = 1),
           keywords = "survey, questionnaire",
-          question = b$string)
+          question = eq$string)
 
+## Using HTMLQuestion HIT Contents
+f <- system.file("templates/htmlquestion1.xml", package = "MTurkR")
+hq <- GenerateHTMLQuestion(file=f)
+hit4 <- 
+CreateHIT(hit.type = "2FFNCWYB49F9BBJWA4SJUNST5OFSOW", 
+          expiration = seconds(days = 4),
+          question = hq$string)
+
+## Cleanup examples
 ExpireHIT(hit1$HITId)
 ExpireHIT(hit2$HITId)
 ExpireHIT(hit3$HITId)
+ExpireHIT(hit4$HITId)
 DisposeHIT(hit1$HITId)
 DisposeHIT(hit2$HITId)
 DisposeHIT(hit3$HITId)
+DisposeHIT(hit4$HITId)
 }
 }
 \keyword{HITs}

@@ -26,7 +26,8 @@ GenerateHTMLQuestion(character = NULL, file = NULL, frame.height = 450)
 }
 \examples{
 \dontrun{
-a <- GenerateHTMLQuestion(file="mynewhit.html")
+f <- system.file("templates/htmlquestion1.xml", package = "MTurkR")
+a <- GenerateHTMLQuestion(file=f)
 
 hit1 <- 
 CreateHIT(title = "Survey",

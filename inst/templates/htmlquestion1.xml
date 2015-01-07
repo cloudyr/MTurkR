@@ -1,5 +1,3 @@
-<HTMLQuestion xmlns="[the HTMLQuestion schema URL]">
-  <HTMLContent><![CDATA[
 <!DOCTYPE html>
 <html>
  <head>
@@ -15,7 +13,3 @@
   <script language='Javascript'>turkSetAssignmentID();</script>
  </body>
 </html>
-]]>
-  </HTMLContent>
-  <FrameHeight>450</FrameHeight>
-</HTMLQuestion>
