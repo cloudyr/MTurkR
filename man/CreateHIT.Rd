@@ -69,34 +69,56 @@ When creating a ExternalQuestion HITs, the \code{\link{GenerateHITsFromTemplate}
 }
 \examples{
 \dontrun{
+## CreateHIT using HITLayout from MTurk Requester User Interface ##
 a <- GenerateLayoutParameter("message","Text to display in HIT")
-hit1 <- 
-CreateHIT(hit.type = "2FFNCWYB49F9BBJWA4SJUNST5OFSOW",
-          hitlayoutid = "23ZGOOGQSCM61T1H5H9U0U00OQWFFU", 
-          expiration = seconds(days = 4),
-          hitlayoutparameters = a)
+hit1 <- CreateHIT(hit.type = "2FFNCWYB49F9BBJWA4SJUNST5OFSOW",
+                  hitlayoutid = "23ZGOOGQSCM61T1H5H9U0U00OQWFFU", 
+                  expiration = seconds(days = 4),
+                  hitlayoutparameters = a)
 
-b <- GenerateExternalQuestion("https://www.example.com/","400")
-hit2 <- 
-CreateHIT(hit.type = "2FFNCWYB49F9BBJWA4SJUNST5OFSOW", 
-          expiration = seconds(days = 4),
-          question = b$string)
+## CreateHIT using ExternalQuestion HIT URL ##
+eq <- GenerateExternalQuestion("https://www.example.com/","400")
 
-hit3 <- 
-CreateHIT(title = "Survey",
-          description = "5 question survey",
-          reward = ".10",
-          expiration = seconds(days = 4),
-          duration = seconds(hours = 1),
-          keywords = "survey, questionnaire",
-          question = b$string)
+### Specifying a HITTypeId ###
+hit2 <- CreateHIT(hit.type = "2FFNCWYB49F9BBJWA4SJUNST5OFSOW", 
+                  expiration = seconds(days = 4),
+                  question = eq$string)
 
+### Creating a new HITTypeId atomically ###
+hit3 <- CreateHIT(title = "Survey",
+                  description = "5 question survey",
+                  reward = ".10",
+                  expiration = seconds(days = 4),
+                  duration = seconds(hours = 1),
+                  keywords = "survey, questionnaire",
+                  question = eq$string)
+
+## CreateHIT using HTMLQuestion HIT Contents ##
+f1 <- system.file("templates/htmlquestion1.xml", package = "MTurkR")
+hq <- GenerateHTMLQuestion(file = f1)
+hit4 <- CreateHIT(hit.type = "2FFNCWYB49F9BBJWA4SJUNST5OFSOW", 
+                  expiration = seconds(days = 4),
+                  question = hq$string)
+
+## CreateHIT using QuestionForm HIT Contents ##
+f2 <- system.file("templates/tictactoe.xml", package = "MTurkR")
+qf <- GenerateHTMLQuestion(file = f2)
+hit5 <- CreateHIT(hit.type = "2FFNCWYB49F9BBJWA4SJUNST5OFSOW", 
+                  expiration = seconds(days = 4),
+                  question = qf$string)
+
+
+## Cleanup examples ##
 ExpireHIT(hit1$HITId)
 ExpireHIT(hit2$HITId)
 ExpireHIT(hit3$HITId)
+ExpireHIT(hit4$HITId)
+ExpireHIT(hit5$HITId)
 DisposeHIT(hit1$HITId)
 DisposeHIT(hit2$HITId)
 DisposeHIT(hit3$HITId)
+DisposeHIT(hit4$HITId)
+DisposeHIT(hit5$HITId)
 }
 }
 \keyword{HITs}
