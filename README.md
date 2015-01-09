@@ -9,6 +9,7 @@ Possible applications of the package include:
  * Audio and video transcription
  * Preprocessing of "messy" data prior to statistical procedures
 
+Amazon provides [a helpful chart for deciding whether an API client (like MTurkR) is useful for yor project](https://requester.mturk.com/tour/choose_the_right_tool).
 
 ---
 ## Installation ##
