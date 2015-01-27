@@ -1,6 +1,6 @@
 GenerateNotification <-
 function (destination, transport = "Email", event.type, version = "2006-05-05", 
-    event.number = "1", format = "REST") {
+    event.number = "1") {
     if(is.null(destination)) 
         stop("No Destination specified; must be Email address or URL")
     if(is.null(transport)) 
@@ -22,25 +22,19 @@ function (destination, transport = "Email", event.type, version = "2006-05-05",
                   i, sep = ""))
         }
     }
-    if(format %in% c("get","Get","GET","rest","REST")) {
-        x <- paste("&Notification.", event.number, ".Destination=", 
-            destination, "&Notification.", event.number, ".Transport=", 
-            transport, "&Notification.", event.number, ".Version=", 
-            version, sep = "")
-        if(length(event.type) == 1) {
-            x <- paste(x, "&Notification.", event.number, ".EventType=", 
-                event.type, sep = "")
-        }
-        else {
-            for(i in 1:length(event.type)) {
-                x <- paste(x, "&Notification.", event.number, 
-                  ".EventType=", event.type[i], sep = "")
-            }
+    x <- paste("&Notification.", event.number, ".Destination=", 
+        destination, "&Notification.", event.number, ".Transport=", 
+        transport, "&Notification.", event.number, ".Version=", 
+        version, sep = "")
+    if(length(event.type) == 1) {
+        x <- paste(x, "&Notification.", event.number, ".EventType=", 
+            event.type, sep = "")
+    }
+    else {
+        for(i in 1:length(event.type)) {
+            x <- paste(x, "&Notification.", event.number, 
+              ".EventType=", event.type[i], sep = "")
         }
     }
-    else if(format %in% c("xml","Xml","XML","soap","SOAP"))
-        stop("Only REST/GET requests currently supported")
-    else
-        stop("Inappropriate format specified; Only REST/GET requests currently supported")
     return(x)
 }
