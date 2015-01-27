@@ -2,7 +2,7 @@
 \alias{GenerateHITsFromTemplate}
 \alias{hitsfromtemplate}
 \title{Generate HITs from a Template}
-\description{Generate individual HIT .html files from a local .html HIT template file, in the same fashion as the MTurk Requester User Interface (RUI). This function facilitates the use of ExternalQuestion data structures.}
+\description{Generate individual HIT .html files from a local .html HIT template file, in the same fashion as the MTurk Requester User Interface (RUI). This function facilitates the use of ExternalQuestion or HTMLQuestion data structures.}
 \usage{
 GenerateHITsFromTemplate(template, input, filenames = NULL, write.files = FALSE)
 }
@@ -28,24 +28,25 @@ Generate HITs from a HIT template (containing placeholders for input data of the
 %\seealso{}
 \examples{
 \dontrun{
-a <- data.frame(hitvariable = c("HIT text 1","HIT text 2","HIT text 3"), stringsAsFactors=FALSE)
-temp <- '<html><head></head><body>
-<div>${hitvariable}<br/>
-Question 1: <input type="text" name="var1"><br/>
-Question 2: <input type="text" name="var2">
-</div></body></html>'
+# create/edit template HTML file
+# should have placeholders of the form `${varName}` for variable values
+temp <- system.file("templates/htmlquestion2.xml", package = "MTurkR")
+#readLines(temp)
 
-# create templates
-temps <- GenerateHITsFromTemplate(temp, input = a)
+# create/load data.frame of template variable values
+a <- data.frame(hittitle = c("HIT title 1","HIT title 2","HIT title 3"),
+                hitvariable = c("HIT text 1","HIT text 2","HIT text 3"), 
+                stringsAsFactors=FALSE)
+
+# create HITs from template and data.frame values
+temps <- GenerateHITsFromTemplate(template = temp, input = a)
 
 # create HITs from template
-hittype1 <- 
-RegisterHITType(title="2 Question Survey",
-                description=
-                "Complete a 2-question survey",
-                reward=".20", 
-                duration=seconds(hours=1), 
-                keywords="survey, questionnaire, politics")
+hittype1 <- RegisterHITType(title = "2 Question Survey",
+              description = "Complete a 2-question survey",
+              reward = ".20", 
+              duration = seconds(hours=1), 
+              keywords = "survey, questionnaire, politics")
 hits <- lapply(temps, function(x) {
     CreateHIT(hit.type = hittype1$HITTypeId, 
               expiration = seconds(days = 1),

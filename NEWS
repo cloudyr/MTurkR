@@ -4,6 +4,12 @@
 
 * The unused `format` argument to `GenerateNotification` has been removed. (#71)
 
+## DOCUMENTATION ##
+
+* `GenerateHITsFromTemplate` now has a more complete example that includes an installed template HTML file. (#72)
+* Several small changes have been made to correct documentation and fix bad formatting in the PDF version of the manual. (#72)
+
+
 # CHANGES TO MTurkR 0.6 #
 
 ## SIGNIFICANT USER-VISIBLE CHANGES ##
