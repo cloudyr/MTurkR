@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+    <head></head>
+    <body>
+        <div style="font-family:sans-serif;margin-left:10%;margin-right:10%;">
+            <p style="font-weight:bold;margin-left:15%;margin-right:15%;font-size:2em;">Pipe MTurk parameters via URL</p>
+            
+            <!-- THIS IS THE HTML FORM NEEDED TO BE ABLE TO SUBMIT THE HIT -->
+            <form name='mturk_form' method='post' id='mturk_form' action='https://www.mturk.com/mturk/externalSubmit'>
+              
+              <!-- THIS IS WHERE THE LINK WILL APPEAR -->
+              <span id='link'>Link will appear here once HIT is accepted. If it does not, make sure javascript is enabled in your browser.</span>
+            
+              <p style='text-align:center;'>After completing the survey, enter the completion code from last page here:<br /><input type='text' id='complete' name='complete' /></p>
+              <p><input type='submit' id='submitButton' value='Submit' /></p>
+            </form>
+            
+            <script type="text/javascript">
+              // RETRIEVE URL
+              var fullurl=new String();
+              // THIS IS THE LINE TO CAPTURE THE ACTUAL URL:
+              var fullurl=window.location.href;
+  
+              // FUNCTION TO EXTRACT A URL PARAMETER (FROM: https://s3.amazonaws.com/mturk-public/externalHIT_v1.js)
+              function turkGetParam( name ) { 
+                  var regexS = "[\?&]"+name+"=([^&#]*)"; 
+                  var regex = new RegExp( regexS ); 
+                  var tmpURL = fullurl; 
+                  var results = regex.exec( tmpURL ); 
+                  if( results == null ) { 
+                    return ""; 
+                  } else { 
+                    return results[1];    
+                  } 
+              }
+              
+              // ASSIGNS THE URL PARAMETERS TO JAVASCRIPT VARIABLES
+              var assign = turkGetParam('assignmentId');
+              var hit = turkGetParam('hitId');
+              var worker = turkGetParam('workerId');
+              
+              // THIS PART BUILDS THE LINK FOR AN ACCEPTED ASSIGNMENT
+              if(assign=="ASSIGNMENT_ID_NOT_AVAILABLE") {
+                  // THIS IS A MESSAGE ABOUT THE HIT BEING IN PREVIEW MODE (SO IT WON'T SHOW THE LINK)
+                  document.getElementById('link').innerHTML = "<p style='font-weight:bold;text-align:center;'>Link will become available once you accept the HIT.</p>";
+              } else {
+                  // CONSTRUCT THE SURVEY LINK WITH THE EMBEDDED VALUES:
+                  var surveylink = new String("http://www.example.com/"
+                                   + "?assignmentId=" + assign
+                                   + "&hitId=" + hit
+                                   + "&workerId=" + worker
+                                   );
+                  // DISPLAY THE LINK
+                  document.getElementById('link').innerHTML = "<p><a href='" + surveylink + "' target='_blank'>Complete this survey</a></p>";
+              }
+            </script>
+        </div>
+    </body>
+</html>
