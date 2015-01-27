@@ -25,7 +25,7 @@ WorkerReport(worker, period = "LifeToDate",
   \item{statistic}{A character string containing the name of a statistic. Statistics can be retrieved from \code{\link{ListStatistics}}.}
   \item{period}{One of: \dQuote{OneDay}, \dQuote{SevenDays}, \dQuote{ThirtyDays}, \dQuote{LifeToDate}. Default is \dQuote{LifeToDate}.}
   \item{count}{If \code{period="OneDay"}, the number of days to return. Default is 1 (the most recent day).}
-  \item{response.group}{An optional character string (or vector of character strings) specifying what details to return of \dQuote{Request}, \dQuote{Minimal}, or \dQuote{Parameters}. For more information, see \url{http://docs.aws.amazon.com/AWSMechTurk/latest/AWSMturkAPI/ApiReference_CommonParametersArticle.html}.}
+  \item{response.group}{An optional character string (or vector of character strings) specifying what details to return of \dQuote{Request}, \dQuote{Minimal}, or \dQuote{Parameters}. For more information, see \href{http://docs.aws.amazon.com/AWSMechTurk/latest/AWSMturkAPI/ApiReference_CommonParametersArticle.html}{Common Parameters}.}
   \item{verbose}{Optionally print the results of the API request to the standard output. Default is taken from \code{getOption('MTurkR.verbose', TRUE)}.}
   \item{...}{Additional arguments passed to \code{\link{request}}.}
 }
