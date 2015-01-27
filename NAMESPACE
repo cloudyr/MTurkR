@@ -3,7 +3,6 @@
 
 # deprecated
 #export("APIReference")
-#export("authenticate")
 #export("mturkhelp")
 #export("genericmturkr")
 #export("makeGETparameters")
