@@ -10,6 +10,10 @@
 * `GenerateHITsFromTemplate` now has a more complete example that includes an installed template HTML file. (#72)
 * Several small changes have been made to correct documentation and fix bad formatting in the PDF version of the manual. (#72)
 
+## BUG FIXES ##
+
+* Fixed a bug in `ExtendHIT` wherein specifying both `add.assignments` and `add.seconds` caused only assignments to be incremented. (#79)
+
 
 # CHANGES TO MTurkR 0.6 #
 

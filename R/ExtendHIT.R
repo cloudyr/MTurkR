@@ -14,7 +14,7 @@ function(hit = NULL,
     GETparameters <- ""
     if(is.null(add.assignments) & is.null(add.seconds)) 
         stop("Must specify more assignments or time (in seconds)")
-    else if(!is.null(add.assignments)) {
+    if(!is.null(add.assignments)) {
         if(!is.numeric(add.assignments) & !is.numeric(as.numeric(add.assignments))) 
             stop("Assignment increment is non-numeric")
         else if(as.numeric(add.assignments) < 1 | as.numeric(add.assignments) > 1e+09) 
@@ -22,7 +22,7 @@ function(hit = NULL,
         else GETparameters <- paste(GETparameters, "&MaxAssignmentsIncrement=", 
                                     add.assignments, sep = "")
     }
-    else if(!is.null(add.seconds)) {
+    if(!is.null(add.seconds)) {
         if(!is.numeric(add.seconds) & !is.numeric(as.numeric(add.seconds))) 
             stop("Expiration increment is non-numeric")
         else if(as.numeric(add.seconds) < 3600 | as.numeric(add.seconds) > 31536000) 
