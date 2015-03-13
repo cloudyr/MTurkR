@@ -3,8 +3,6 @@ function (template, input, filenames = NULL, write.files = FALSE) {
     if(!grepl("\\$\\{.+\\}", template))
         template <- readLines(template, warn = FALSE)
     HITs <- list()
-    if(!length(grep("\\$\\{", template)) == ncol(input)) 
-        stop("Number of input variables does not match variables in template")
     if(!is.null(filenames)) {
         if(!length(filenames) == dim(input)[1]) 
             stop("Number of inputs != length(filenames)")
