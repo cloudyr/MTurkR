@@ -7,8 +7,8 @@
  <body>
   <form name='mturk_form' method='post' id='mturk_form' action='https://www.mturk.com/mturk/externalSubmit'>
   <input type='hidden' value='' name='assignmentId' id='assignmentId'/>
-  <h1>${hitvariable}</h1>
-  <p>${hittext}</p>
+  <h1>${hittitle}</h1>
+  <p>${hitvariable}</p>
   <p>What do you think?</p>
   <p><textarea name='comment' cols='80' rows='3'></textarea></p>
   <p><input type='submit' id='submitButton' value='Submit' /></p></form>

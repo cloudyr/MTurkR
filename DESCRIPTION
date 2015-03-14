@@ -5,7 +5,8 @@ Title: R Client for the MTurk Requester API
 Authors@R: c(person("Thomas J.", "Leeper", role = c("aut", "cre"),
                     email = "thosjleeper@gmail.com"),
              person("Solomon", "Messing", role = "ctb"),
-             person("Sean", "Murphy", role = "ctb"))
+             person("Sean", "Murphy", role = "ctb"),
+             person("Jonathan", "Chang", role = "ctb"))
 Maintainer: Thomas J. Leeper <thosjleeper@gmail.com>
 Imports: RCurl, digest, XML, tcltk
 Description: Provides programmatic access to the Amazon Mechanical Turk (MTurk) Requester API.
