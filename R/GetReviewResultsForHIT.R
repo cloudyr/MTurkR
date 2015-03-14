@@ -62,7 +62,7 @@ function(hit,
         if(is.null(batch$valid))
             return(batch)
         else 
-            return(as.data.frame.ReviewResults(xml.parsed = xmlParse(request$xml)))
+            return(as.data.frame.ReviewResults(xml.parsed = xmlParse(batch$xml)))
     }
     request <- batch(pagenumber)
     if(return.all){
