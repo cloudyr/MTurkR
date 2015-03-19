@@ -1,3 +1,5 @@
 .travis.yml
 appveyor.yml
+README.Rmd
 README.html
+MTurkRlog.tsv
