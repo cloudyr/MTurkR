@@ -37,7 +37,6 @@ The MTurkR documentation files contain minimal examples for all functions. Furth
 If you experience problems using MTurkR, you can:
   
   - [Report issues on Github](https://github.com/leeper/MTurkR/issues)
-  - Check the status of the MTurk Requester API on the [AWS Service Health Dashboard](http://status.aws.amazon.com/)
   - Contact the package maintainer [via email](mailto:thosjleeper@gmail.com) or on [Twitter](https://twitter.com/thosjleeper)
 
 [![cloudyr project logo](http://i.imgur.com/JHS98Y7.png)](https://github.com/cloudyr)
