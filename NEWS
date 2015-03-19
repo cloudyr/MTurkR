@@ -7,6 +7,7 @@
 
 ## DOCUMENTATION ##
 
+* Documentation for `GrantQualification` and `RejectQualification` has been merged to clarify the use of these functions. Documentation has been expanded with complete examples of both functions. (#72)
 * `GenerateQualificationRequirement` now notes that U.S. state locale values (following ISO 3166-2 format) are allows. (#74)
 * `GenerateHITsFromTemplate` now has a more complete example that includes an installed template HTML file. (#72)
 * Several small changes have been made to correct documentation and fix bad formatting in the PDF version of the manual. (#72)
