@@ -24,7 +24,7 @@ CreateHIT(hit.type = NULL, question = NULL, validate.question = FALSE,
   \item{assignment.review.policy}{An optional character string containing an Assignment-level ReviewPolicy data structure as returned by \code{\link{GenerateAssignmentReviewPolicy}}.}
   \item{hit.review.policy}{An optional character string containing a HIT-level ReviewPolicy data structure as returned by \code{\link{GenerateHITReviewPolicy}}.}
   \item{annotation}{An optional character string annotating the HIT. This is not visible to workers, but can be used as a label by which to identify the HIT from the API.}
-  \item{unique.request.token}{An optional character string, included only for advanced users.}
+  \item{unique.request.token}{An optional character string, included only for advanced users. It can be used to prevent creating a duplicate HIT. A HIT will not be creatd if a HIT was previously granted (within a short time window) using the same \code{unique.request.token}.}
   \item{title}{A character string containing the title for the HITType. All HITs of this HITType will be visibly grouped to workers according to this title. Maximum of 128 characters.}
   \item{description}{A character string containing a description of the HITType. This is visible to workers. Maximum of 2000 characters.}
   \item{reward}{A character string containing the per-assignment reward amount, in U.S. Dollars (e.g., \dQuote{0.15}).}

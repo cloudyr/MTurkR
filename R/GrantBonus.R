@@ -2,6 +2,7 @@ GrantBonus <-
 bonus <-
 paybonus <-
 function(workers, assignments, amounts, reasons,
+         unique.request.token = NULL, 
          verbose = getOption('MTurkR.verbose', TRUE), ...) {
     # temporary check for `print` argument (remove after v1.0)
     if('print' %in% names(list(...)) && is.null(verbose))
@@ -29,6 +30,14 @@ function(workers, assignments, amounts, reasons,
         if(!is.numeric(as.numeric(amounts))) 
             stop(paste("Non-numeric bonus amount requested for bonus ", i, sep = ""))
     }
+    if (!is.null(unique.request.token)) {
+        if(any(nchar(curlEscape(unique.request.token)) > 64)) 
+            stop("'unique.request.token' values must be <= 64 characters")
+        if(length(unique.request.token) < length(workers))
+            stop("'unique.request.token' must be same length as 'workers'")
+        if(any(duplicated(unique.request.token)))
+            stop("'unique.request.token' values must be unique")
+    }
     Bonuses <- setNames(data.frame(matrix(nrow = length(workers), ncol = 5)),
                     c("WorkerId", "AssignmentId", "Amount", "Reason", "Valid"))
     for(i in 1:length(workers)) {
@@ -36,7 +45,11 @@ function(workers, assignments, amounts, reasons,
             assignments[i], "&BonusAmount.1.Amount=", amounts[i], 
             "&BonusAmount.1.CurrencyCode=USD", "&Reason=", curlEscape(reasons[i]), 
             sep = "")
-        
+        if(!is.null(unique.request.token)) {
+            GETparameters <- paste0(GETparameters, 
+                                    "&UniqueRequestToken=", 
+                                    curlEscape(unique.request.token[i]))
+        }
         request <- request(operation, GETparameters = GETparameters, ...)
         if(is.null(request$valid))
             return(request)

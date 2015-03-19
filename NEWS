@@ -2,6 +2,7 @@
 
 ## SIGNIFICANT USER-VISIBILE CHANGES ##
 
+* `GrantBonus` now accepts a `unique.request.token` argument. (#75)
 * The unused `format` argument to `GenerateNotification` has been removed. (#71)
 
 ## DOCUMENTATION ##
