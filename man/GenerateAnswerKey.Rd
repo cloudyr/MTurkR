@@ -48,12 +48,12 @@ scoring2 <- list(RangeMapping=list(list(InclusiveLowerBound=0,
 
 ak1 <- GenerateAnswerKey(qs, scoring1)
 ak2 <- GenerateAnswerKey(qs, scoring2)
-}
 
 # generate an AnswerKey template from a QualificationTest
 qt <- system.file("templates", "qualificationtest1.xml", package = "MTurkR")
 akt <- AnswerKeyTemplate(xmlParse(qt))
 # use the template to generate an AnswerKey
 ak <- GenerateAnswerKey(ak)
+}
 }
 \keyword{Qualifications}

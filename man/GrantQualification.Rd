@@ -11,7 +11,7 @@
 GrantQualification(qual.requests, values, 
                    verbose = getOption('MTurkR.verbose', TRUE), ...)
 
-RejectQualification(qual.request, reason = NULL, 
+RejectQualification(qual.requests, reason = NULL, 
                     verbose = getOption('MTurkR.verbose', TRUE), ...)
 }
 \arguments{
