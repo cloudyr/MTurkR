@@ -290,8 +290,8 @@ as.data.frame.QuestionForm <- function(xml.parsed) {
                  QuestionIdentifier = xmlValue(xmlChildren(x)$QuestionIdentifier),
                  DisplayName = xmlValue(xmlChildren(x)$DisplayName),
                  IsRequired = xmlValue(xmlChildren(x)$IsRequired),
-                 QuestionContent = xmlValue(xmlChildren(x)$QuestionContent),
-                 AnswerSpecification = xmlValue(xmlChildren(x)$AnswerSpecification) )
+                 QuestionContent = toString.XMLNode(xmlChildren(x)$QuestionContent),
+                 AnswerSpecification = toString.XMLNode(xmlChildren(x)$AnswerSpecification) )
         } else if(name=='Overview'){
             append(list(ElementNumber = elementnumber, 
                         Element = 'Overview'),

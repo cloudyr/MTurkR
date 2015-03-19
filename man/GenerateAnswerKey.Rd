@@ -28,7 +28,7 @@ AnswerKeyTemplate returns a list that can be used in the \code{questions} parame
 }
 \examples{
 \dontrun{
-
+# generate an AnswerKey from a list of arguments
 qs <- list(list(QuestionIdentifier = "Question1",
                 AnswerOption = list(SelectionIdentifier="A", AnswerScore=15),
                 AnswerOption = list(SelectionIdentifier="B", AnswerScore=10),
@@ -49,5 +49,11 @@ scoring2 <- list(RangeMapping=list(list(InclusiveLowerBound=0,
 ak1 <- GenerateAnswerKey(qs, scoring1)
 ak2 <- GenerateAnswerKey(qs, scoring2)
 }
+
+# generate an AnswerKey template from a QualificationTest
+qt <- system.file("templates", "qualificationtest1.xml", package = "MTurkR")
+akt <- AnswerKeyTemplate(xmlParse(qt))
+# use the template to generate an AnswerKey
+ak <- GenerateAnswerKey(ak)
 }
 \keyword{Qualifications}

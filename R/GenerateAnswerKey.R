@@ -69,18 +69,19 @@ function (questions, scoring = NULL) {
 
 AnswerKeyTemplate <- function(xml.parsed = NULL){
     qformdf <- as.data.frame.QuestionForm(xml.parsed)$Question
-    answerkey <- list(NULL)
-    for(i in 1:dim(qformdf)[1]){
-        answerkey[[i]]$QuestionIdentifier <- qformdf$QuestionIdentifier[i]
-        answerspecification <- xmlChildren(xmlChildren(xmlParse(qformdf$AnswerSpecification[i]))$AnswerSpecification)
+    answerkey <- list()
+    for(i in 1:nrow(qformdf)){
+        answerkey[[i]] <- list()
+        answerkey[[i]]$QuestionIdentifier <- as.character(qformdf$QuestionIdentifier[i])
+        answerspecification <- xmlChildren(xmlChildren(xmlParse(as.character(qformdf$AnswerSpecification[i])))$AnswerSpecification)
         if(!names(answerspecification)=="SelectionAnswer")
-            stop("Question",answerkey[[i]]$QuestionIdentifier,"is not a SelectionAnswer. AnswerKey cannot be generated.")
+            stop("Question", answerkey[[i]]$QuestionIdentifier, "is not a SelectionAnswer. AnswerKey cannot be generated.")
         opts <- xmlChildren(xmlChildren(answerspecification$SelectionAnswer)$Selections)
         for(j in 1:length(opts)){
             answerkey[[i]][[j+1]] <- list(
                 Text = xmlValue(xmlChildren(opts[[j]])$Text),
                 SelectionIdentifier = xmlValue(xmlChildren(opts[[j]])$SelectionIdentifier),
-                AnswerScore = NULL ) 
+                AnswerScore = NULL)
         }
     }
     return(answerkey)
