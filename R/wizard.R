@@ -2936,7 +2936,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                         tkdestroy(rejreq)
                         pos <- as.numeric(tkcurselection(qualreqlist))+1
                         qualreqid <- wizardenv$qualrequests$QualificationRequestId[pos]
-                        RejectQualifications(qual.request=qualreqid, reason=reason1, verbose=FALSE, sandbox=sboxval())
+                        RejectQualifications(qual.requests=qualreqid, reason=reason1, verbose=FALSE, sandbox=sboxval())
                         tkinsert(qualreqlist,tkcurselection(qualreqlist),"Rejected")
                         #tkdelete(qualreqlist,"rows",tkcurselection(qualreqlist))
                         tkdelete(qualreqlist,tkcurselection(qualreqlist))
