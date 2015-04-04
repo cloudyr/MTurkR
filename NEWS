@@ -16,6 +16,7 @@
 
 ## BUG FIXES ##
 
+* Loading MTurkR no longer overwrites existing MRurkR `options`. (#83)
 * `GetStatistic` now consistently returns a three-column data frame containing the name of the requested statistic, its value, and the date of the statistic. If the request fails, this data.frame has zero rows. Printing of request information (if `verbose = TRUE`) has further been fixed to prevent incorrect printing when `count` was specified. (#78)
 * Fixed a bug in `ExtendHIT` wherein specifying both `add.assignments` and `add.seconds` caused only assignments to be incremented. (#79)
 
