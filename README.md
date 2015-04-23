@@ -16,6 +16,7 @@ Amazon provides [a helpful chart for deciding whether an API client (like MTurkR
 
 [![Build Status](https://travis-ci.org/leeper/MTurkR.png?branch=master)](https://travis-ci.org/leeper/MTurkR)
 [![Build status](https://ci.appveyor.com/api/projects/status/432l8e6qycnfi8ci)](https://ci.appveyor.com/project/leeper/mturkr)
+![Downloads](http://cranlogs.r-pkg.org/badges/MTurkR)
 
 To install the latest development version of **MTurkR** from GitHub:
 
