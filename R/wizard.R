@@ -2675,8 +2675,11 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                     tkfocus(assignqualDialog)
                     return(NULL)
                 }
-                if(tclvalue(score) == "")
+                if(tclvalue(score) == "") {
                     score <- NULL
+                } else {
+                    score <- tclvalue(score)
+                }
                 workers <- gsub("[[:space:]]", "", workers)
                 results <- AssignQualification(qual = tclvalue(wizardenv$qualid), 
                                                workers = workers, 
@@ -2736,10 +2739,16 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                     tkfocus(updatescoreDialog)
                     return(NULL)
                 }
-                if(tclvalue(score) == "")
+                if(tclvalue(score) == "") {
                     score <- NULL
-                if(tclvalue(increment) == "")
+                } else {
+                    score <- tclvalue(score)
+                }
+                if(tclvalue(increment) == "") {
                     increment <- NULL
+                } else {
+                    increment <- tclvalue(increment)
+                }
                 workers <- gsub("[[:space:]]", "", workers)
                 results <- UpdateQualificationScore(qual = tclvalue(wizardenv$qualid), 
                                                     workers = workers, 
