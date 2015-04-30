@@ -2670,15 +2670,13 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                     tkfocus(assignqualDialog)
                     return(NULL)
                 }
-                if(tclvalue(score)=="" && tclvalue(increment)==""){
+                if(tclvalue(score)==""){
                     tkmessageBox(message="Please enter a score!", type="ok")
                     tkfocus(assignqualDialog)
                     return(NULL)
                 }
                 if(tclvalue(score) == "")
                     score <- NULL
-                if(tclvalue(increment) == "")
-                    increment <- NULL
                 workers <- gsub("[[:space:]]", "", workers)
                 results <- AssignQualification(qual = tclvalue(wizardenv$qualid), 
                                                workers = workers, 
