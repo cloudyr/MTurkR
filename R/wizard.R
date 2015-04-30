@@ -2683,7 +2683,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 workers <- gsub("[[:space:]]", "", workers)
                 results <- AssignQualification(qual = tclvalue(wizardenv$qualid), 
                                                workers = workers, 
-                                               values = score, 
+                                               value = score, 
                                                verbose = TRUE, 
                                                sandbox = sboxval())
                 tkdestroy(assignqualDialog)
