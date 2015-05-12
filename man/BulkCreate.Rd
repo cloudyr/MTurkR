@@ -1,20 +1,22 @@
 \name{BulkCreate}
 \alias{BulkCreate}
 \alias{BulkCreateFromTemplate}
+\alias{BulkCreateFromURLs}
 \alias{BulkCreateFromHITLayout}
 \title{Generate Multiple HITs}
 \description{Generate multiple HITs, possibly from an HTML template file, HITLayout parameters, or a vector of External Question URLs.}
 \usage{
 BulkCreate(questions, annotation, verbose = FALSE, ...)
 
-BulkCreateFromTemplate(template, input, annotation, type = "HTMLQuestion", verbose = FALSE, ...)
+BulkCreateFromTemplate(template, input, annotation, 
+                       type = "HTMLQuestion", verbose = FALSE, ...)
 
 BulkCreateFromURLs(url, frame.height, annotation, verbose = FALSE, ...)
 
 BulkCreateFromHITLayout(hitlayoutid, input, annotation, verbose = FALSE, ...)
 }
 \arguments{
-  \item{template}{A character vector where each entry is a valid argument for the \code{question} argument to \code{\link{CreateHIT}}, or a list of objects of class \dQuote{ExternalQuestion} (created by \code{\link{GenerateExternalQuestion}}) or \code{HTMLQuestion} (created by \code{\link{GenerateHTMLQuestion}}). Each entry in this vector or list represents one HIT to be created.}
+  \item{questions}{A character vector where each entry is a valid argument for the \code{question} argument to \code{\link{CreateHIT}}, or a list of objects of class \dQuote{ExternalQuestion} (created by \code{\link{GenerateExternalQuestion}}) or \code{HTMLQuestion} (created by \code{\link{GenerateHTMLQuestion}}). Each entry in this vector or list represents one HIT to be created.}
   \item{template}{A character string or filename for a HIT template (probably a character string containing an HTML document or a path to a .html file).}
   \item{input}{A data.frame containing one row for each HIT to be created and columns named identically to the placeholders in the HIT template file (for \code{BulkCreateFromTemplate}) or the HITLayout parameters (for \code{BulkCreateFromHITLayout}). Operation will fail if variable names do not correspond.}
   \item{type}{A character string specifying how to wrap the resulting HIT question contents for use in \code{\link{CreateHIT}}. If set to \dQuote{HTMLQuestion}, \code{template} is passed to \code{\link{GenerateHTMLQuestion}} before use.}

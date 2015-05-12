@@ -8,7 +8,6 @@ GenerateHITsFromTemplate(template, input, filenames = NULL, write.files = FALSE)
 \arguments{
   \item{template}{A character string or filename for an .html HIT template}
   \item{input}{A data.frame containing one row for each HIT to be created and columns named identically to the placeholders in the HIT template file. Operation will fail if variable names do not correspond.}
-  \item{type}{A character string specifying how to wrap the resulting HIT question contents for use in \code{\link{CreateHIT}}. If set to \dQuote{HTMLQuestion}, \code{template} is passed to \code{\link{GenerateHTMLQuestion}} before use.}
   \item{filenames}{An optional list of filenames for the HITs to be created. Must be equal to the number of rows in \code{input}.}
   \item{write.files}{A logical specifying whether HIT .html files should be created and stored in the working directory. Or, alternatively, whether HITs should be returned as character vectors in a list.}
   \item{\dots}{Additional arguments passed to \code{\link{CreateHIT}}.}

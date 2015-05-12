@@ -43,9 +43,9 @@ BulkCreateFromTemplate <- function(template, input, annotation, type = "HTMLQues
     BulkCreate(questions = questions, annotation = annotation, verbose = verbose, ...)
 }
 
-BulkCreateFromURLs <- function(url, frame.height, annotation, type = "HTMLQuestion", verbose = FALSE, ...) {
+BulkCreateFromURLs <- function(url, frame.height, annotation, verbose = FALSE, ...) {
     if(length(annotation) != 1)
-        annotation <- rep(annotation[1], nrow(input))
+        annotation <- rep(annotation[1], length(url))
     questions <- lapply(url, GenerateExternalQuestion, frame.height = frame.height)
     BulkCreate(questions = questions, annotation = annotation, verbose = verbose, ...)
 }
