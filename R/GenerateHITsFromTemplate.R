@@ -12,12 +12,13 @@ function (template, input, filenames = NULL, write.files = FALSE) {
         for(i in 1:ncol(input)) {
             newhit <- gsub(paste0("\\$\\{",names(input)[i],"\\}"), input[j,i], newhit)
         }
-        if(write.files == TRUE & is.null(filenames)) 
-            writeLines(newhit, paste("NewHIT", j, ".html", sep = ""))
-        else if(write.files == TRUE & !is.null(filenames)) 
-            writeLines(newhit, filenames[j])
-        else
-            HITs[[j]] <- newhit
+        if(write.files == TRUE) {
+            if(is.null(filenames))
+                writeLines(newhit, paste("NewHIT", j, ".html", sep = ""))
+            else
+                writeLines(newhit, filenames[j])
+        }
+        HITs[[j]] <- newhit
     }
     return(HITs)
 }

@@ -184,7 +184,9 @@ export("GenerateAssignmentReviewPolicy")
 export("GenerateHITReviewPolicy")
 
 export("GenerateHITsFromTemplate")
-export("hitsfromtemplate")
+export("BulkCreate")
+export("BulkCreateFromTemplate")
+export("BulkCreateFromHITLayout")
 
 # imports
 importFrom(digest, hmac)

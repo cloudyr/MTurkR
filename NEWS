@@ -2,6 +2,7 @@
 
 ## SIGNIFICANT USER-VISIBILE CHANGES ##
 
+* Added `BulkCreate`, `BulkCreateFromTemplate`, and `BulkCreateFromHITLayout` functions that can be used to create multiple HITs of the same HITType with identical properties but different question content. The `hitsfromtemplate` function has been removed. (#76)
 * The graphical wizard now allows users to create an Qualification AnswerKey Template (via `AnswerKeyTemplate`) from a manually entered Qualification Test. (#73)
 * `GrantBonus` now accepts a `unique.request.token` argument. (#75)
 * The unused `format` argument to `GenerateNotification` has been removed. (#71)

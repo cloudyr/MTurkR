@@ -3,7 +3,7 @@
 \alias{createhit}
 \alias{create}
 \title{Create HIT}
-\description{Create a HIT. This is the most important function in the package. It creates a HIT based upon the specified parameters: (1) characteristics inherited from a HITType or specification of those parameters and (2) some kind of Question data structure.}
+\description{Create a HIT. This is the most important function in the package. It creates a HIT based upon the specified parameters: (1) characteristics inherited from a HITType or specification of those parameters and (2) some kind of Question data structure. Use \code{\link{BulkCreate}} to create multiple HITs with shared properties.}
 \usage{
 CreateHIT(hit.type = NULL, question = NULL, validate.question = FALSE,
           expiration, assignments = "1", 
@@ -53,6 +53,8 @@ When creating a ExternalQuestion HITs, the \code{\link{GenerateHITsFromTemplate}
 \author{Thomas J. Leeper}
 %\note{}
 \seealso{
+\code{\link{BulkCreate}}
+
 \code{\link{ExtendHIT}}
 
 \code{\link{ExpireHIT}}
