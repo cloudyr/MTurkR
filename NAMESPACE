@@ -186,6 +186,7 @@ export("GenerateHITReviewPolicy")
 export("GenerateHITsFromTemplate")
 export("BulkCreate")
 export("BulkCreateFromTemplate")
+export("BulkCreateFromURLs")
 export("BulkCreateFromHITLayout")
 
 # imports
