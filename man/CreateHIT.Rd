@@ -3,7 +3,7 @@
 \alias{createhit}
 \alias{create}
 \title{Create HIT}
-\description{Create a HIT. This is the most important function in the package. It creates a HIT based upon the specified parameters: (1) characteristics inherited from a HITType or specification of those parameters and (2) some kind of Question data structure. Use \code{\link{BulkCreate}} to create multiple HITs with shared properties.}
+\description{Create a single HIT. This is the most important function in the package. It creates a HIT based upon the specified parameters: (1) characteristics inherited from a HITType or specification of those parameters and (2) some kind of Question data structure. Use \code{\link{BulkCreate}} to create multiple HITs with shared properties.}
 \usage{
 CreateHIT(hit.type = NULL, question = NULL, validate.question = FALSE,
           expiration, assignments = "1", 
@@ -44,7 +44,7 @@ When creating a HIT, some kind of Question data structure must be specified. Eit
 
 When creating a ExternalQuestion HITs, the \code{\link{GenerateHITsFromTemplate}} function can emulate the HIT template functionality by converting a template .html file into a set of individual HIT .html files (that would also have to be uploaded to a web server) and executing \code{CreateHIT} for each of these external files with an appropriate ExternalQuestion data structure specified for the \code{question} parameter.
 
-\code{createhit()} and \code{create()} are aliases.
+\code{createhit()} and \code{create()} are aliases. \code{\link{BulkCreate}} can be used to create multiple HITs in a single call.
 }
 \value{A dataframe containing the HITId and other details of the newly created HIT.}
 \references{

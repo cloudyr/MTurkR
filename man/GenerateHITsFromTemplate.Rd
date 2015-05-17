@@ -29,7 +29,7 @@ GenerateHITsFromTemplate(template, input, filenames = NULL, write.files = FALSE)
 # create/edit template HTML file
 # should have placeholders of the form `${varName}` for variable values
 temp <- system.file("templates/htmlquestion2.xml", package = "MTurkR")
-#readLines(temp)
+readLines(temp)
 
 # create/load data.frame of template variable values
 a <- data.frame(hittitle = c("HIT title 1","HIT title 2","HIT title 3"),

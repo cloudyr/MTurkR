@@ -77,7 +77,7 @@ DisposeHIT(annotation = paste("Bulk Create", Sys.Date()))
 
 # create three HITs from the template
 hits2 <- 
-BulkCreateFromURLs(urls = paste0("https://www.example.com/",1:3,".html"),
+BulkCreateFromURLs(url = paste0("https://www.example.com/",1:3,".html"),
                    frame.height = 400,
                    annotation = paste("Bulk From URLs", Sys.Date()),
                    title = "Categorize an image",
@@ -98,11 +98,11 @@ DisposeHIT(annotation = paste("Bulk From URLs", Sys.Date()))
 # load template HTML file
 # should have placeholders of the form `${varName}` for variable values
 temp <- system.file("templates/htmlquestion2.xml", package = "MTurkR")
-temp <- paste0(readLines(temp), collapse = "\n")
 
 # create/load data.frame of template variable values
-a <- cbind(hittitle = c("HIT title 1", "HIT title 2", "HIT title 3"),
-           hitvariable = c("HIT text 1", "HIT text 2", "HIT text 3"))
+a <- data.frame(hittitle = c("HIT title 1", "HIT title 2", "HIT title 3"),
+                hitvariable = c("HIT text 1", "HIT text 2", "HIT text 3"), 
+                stringsAsFactors = FALSE)
 
 # create three HITs from the template
 hits3 <- 
@@ -128,20 +128,21 @@ DisposeHIT(annotation = paste("Bulk From Template", Sys.Date()))
 layoutid <- "23ZGOOGQSCM61T1H5H9U0U00OQWFFU"
 
 # create/load data.frame of HITLayout variable values
-b <- cbind(hittitle = c("HIT title 1", "HIT title 2", "HIT title 3"),
-           hitvariable = c("HIT text 1", "HIT text 2", "HIT text 3"))
+b <- data.frame(hittitle = c("HIT title 1", "HIT title 2", "HIT title 3"),
+                hitvariable = c("HIT text 1", "HIT text 2", "HIT text 3"), 
+                stringsAsFactors = FALSE)
 
 # create three HITs from the template
 hits4 <- 
-BulkCreateFromTemplate(hitlayoutid = layoutid,
-                       input = b,
-                       annotation = paste("Bulk From Layout", Sys.Date()),
-                       title = "Categorize an image",
-                       description = "Categorize this image",
-                       reward = ".05",
-                       expiration = seconds(days = 4),
-                       duration = seconds(minutes = 5),
-                       keywords = "categorization, image, moderation, category")
+BulkCreateFromHITLayout(hitlayoutid = layoutid,
+                        input = b,
+                        annotation = paste("Bulk From Layout", Sys.Date()),
+                        title = "Categorize an image",
+                        description = "Categorize this image",
+                        reward = ".05",
+                        expiration = seconds(days = 4),
+                        duration = seconds(minutes = 5),
+                        keywords = "categorization, image, moderation, category")
 
 # cleanup
 ExpireHIT(annotation = paste("Bulk From Layout", Sys.Date()))

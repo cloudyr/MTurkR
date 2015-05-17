@@ -2,12 +2,13 @@ BulkCreate <- function(questions, annotation, verbose = FALSE, ...) {
     HITs <- list()
     if(length(annotation) %in% c(1, length(questions)))
         annotation <- rep(annotation[1], length(questions))
-    a <- list(...)
-    if(!"hit.type" %in% names(a)) {
+    arguments <- list(...)
+    if(!"hit.type" %in% names(arguments)) {
         hittypeargs <- unique(c(names(formals(MTurkR::RegisterHITType)), 
                                 names(formals(MTurkR::request))))
         hittypeargs <- hittypeargs[hittypeargs != "..."]
-        register <- do.call("RegisterHITType", a[[names(a) %in% hittypeargs]])
+        register <- do.call("RegisterHITType", 
+                            arguments[names(arguments) %in% hittypeargs])
         if(!as.logical(register$Valid))
             stop("Could not RegisterHITType(), check parameters")
     }
@@ -19,7 +20,7 @@ BulkCreate <- function(questions, annotation, verbose = FALSE, ...) {
         } else {
             thisq <- questions[[i]]
         }
-        if(!"hit.type" %in% names(a)) {
+        if(!"hit.type" %in% names(arguments)) {
             HITs[[i]] <- CreateHIT(question = thisq, annotation = annotation[i], 
                                    hit.type = register$HITTypeId, verbose = verbose, ...)
         } else {
@@ -60,7 +61,7 @@ BulkCreateFromHITLayout <- function(hitlayoutid, input, annotation, verbose = FA
         hittypeargs <- unique(c(names(formals(MTurkR::RegisterHITType)), 
                                 names(formals(MTurkR::request))))
         hittypeargs <- hittypeargs[hittypeargs != "..."]
-        register <- do.call("RegisterHITType", a[[names(a) %in% hittypeargs]])
+        register <- do.call("RegisterHITType", a[names(a) %in% hittypeargs])
         if(!as.logical(register$Valid)) 
             stop("Could not RegisterHITType(), check parameters")
     }

@@ -2,6 +2,7 @@ GenerateHITsFromTemplate <-
 function (template, input, filenames = NULL, write.files = FALSE) {
     if(!grepl("\\$\\{.+\\}", template))
         template <- readLines(template, warn = FALSE)
+    template <- paste0(template, collapse = "\n")
     HITs <- list()
     if(!is.null(filenames)) {
         if(!length(filenames) == dim(input)[1]) 
