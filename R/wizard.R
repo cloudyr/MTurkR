@@ -2339,7 +2339,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                                                    test = test, answerkey = answerkey, test.duration = test.duration,
                                                    auto = auto, auto.value = auto.value,
                                                    verbose = TRUE, sandbox=sboxval())
-                tkdestroy(createqualWiz)
+                tkdestroy(createqualDialog)
                 tkfocus(wizard)
             }
             

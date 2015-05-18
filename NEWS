@@ -18,6 +18,7 @@
 
 ## BUG FIXES ##
 
+* Fixed a bug in the CreateQualification dialog of the graphical wizard related to destroying the dialog. (h/t Sean Murphy)
 * Fixed a bug in the AssignQualification dialog of the graphical wizard. (h/t Carolina Kuepper-Tetzel)
 * Loading MTurkR no longer overwrites existing MRurkR `options`. (#83)
 * `GetStatistic` now consistently returns a three-column data frame containing the name of the requested statistic, its value, and the date of the statistic. If the request fails, this data.frame has zero rows. Printing of request information (if `verbose = TRUE`) has further been fixed to prevent incorrect printing when `count` was specified. (#78)
