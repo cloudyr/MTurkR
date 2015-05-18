@@ -1,6 +1,6 @@
 GenerateHITLayoutParameter <-
 function (names, values) {
-    if(missing(names)) {
+    if(missing(names) || is.null(names)) {
         n <- names(values)
         if(all(n != "")) {
             names <- n

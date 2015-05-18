@@ -40,6 +40,7 @@ BulkCreateFromTemplate <- function(template, input, annotation, type = "HTMLQues
     }
     if(length(annotation) != 1)
         annotation <- rep(annotation[1], nrow(input))
+    input[] <- lapply(input, as.character)
     questions <- GenerateHITsFromTemplate(template, input, filenames = NULL, write.files = FALSE)
     BulkCreate(questions = questions, annotation = annotation, verbose = verbose, ...)
 }
@@ -65,17 +66,20 @@ BulkCreateFromHITLayout <- function(hitlayoutid, input, annotation, verbose = FA
         if(!as.logical(register$Valid)) 
             stop("Could not RegisterHITType(), check parameters")
     }
+    input[] <- lapply(input, as.character)
     for(i in 1:nrow(input)) {
         if(!"hit.type" %in% names(a)) {
             HITs[[i]] <- CreateHIT(hitlayoutid = hitlayoutid, 
                                hitlayoutparameters = 
-                                 GenerateHITLayoutParameter(values = unlist(input[i,,drop=TRUE])), 
+                                 GenerateHITLayoutParameter(names = NULL, 
+                                                            values = unlist(input[i,,drop=TRUE])), 
                                annotation = annotation[i], 
                                hit.type = register$HITTypeId, verbose = verbose, ...)
         } else {
             HITs[[i]] <- CreateHIT(hitlayoutid = hitlayoutid, 
                                hitlayoutparameters = 
-                                 GenerateHITLayoutParameter(values = unlist(input[i,,drop=TRUE])), 
+                                 GenerateHITLayoutParameter(names = NULL, 
+                                                            values = unlist(input[i,,drop=TRUE])), 
                                annotation = annotation[i], verbose = verbose, ...)
         }
     }

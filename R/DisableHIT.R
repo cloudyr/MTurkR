@@ -52,15 +52,13 @@ function(hit = NULL,
         request <- request(operation, GETparameters = GETiteration, ...)
         if(is.null(request$valid))
             return(request)
-        if(request$valid) {
-            if(is.null(response.group)) 
-                request$ResponseGroup <- c("Minimal")
-            else
-                request$ResponseGroup <- response.group
-            HITs[i, ] <- c(hitlist[i], request$valid)
-            if(verbose) 
-                message(i, ": HIT ", hitlist[i], " Disabled")
-        }
+        if(is.null(response.group)) 
+            request$ResponseGroup <- c("Minimal")
+        else
+            request$ResponseGroup <- response.group
+        HITs[i, ] <- c(hitlist[i], request$valid)
+        if(request$valid & verbose) 
+            message(i, ": HIT ", hitlist[i], " Disabled")
         else if(!request$valid & verbose)
             warning(i, ": Invalid Request for HIT ", hitlist[i])
     }
