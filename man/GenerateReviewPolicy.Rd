@@ -24,7 +24,7 @@ Another agreement score (the \dQuote{Worker Agreement Score}), measured the perc
 
 Note: An optional \code{DisregardAssignmentIfKnownAnswerScoreIsLessThan} excludes assignments if those assignments score below a specified \dQuote{known} answers threshold as determined by a separate Assignment-level ReviewPolicy.
 }
-\value{Returns a list containing a character strings that reflects the URL-encoded \code{HITReviewPolicy} or \code{AssignmentReviewPolicy}.}
+\value{A character string that reflects the URL-encoded \code{HITReviewPolicy} or \code{AssignmentReviewPolicy}.}
 \references{
 \href{http://docs.amazonwebservices.com/AWSMechTurk/latest/AWSMturkAPI/ApiReference_QuestionFormDataStructureArticle.html}{API Reference: QuestionForm}
 

@@ -636,16 +636,93 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
             
             # function to add HIT and/or Assignment Review Policies
             addreviewpolicy <- function(){
+                assign("hitreviewpolicy", NULL, envir = wizardenv)
+                assign("assignreviewpolicy", NULL, envir = wizardenv)
                 storepolicy <- function()    {
-                    message("Functionality coming soon!")
-                    return()
                     if(tclvalue(questionids) != "") {
-                        #hittowrite <- GenerateHITReviewPolicy()
+                        h <- list()
+                        h$QuestionIds <- strsplit(tclvalue(questionids), ",", fixed = TRUE)[[1]]
+                        if(tclvalue(threshold) != "")
+                            h$QuestionAgreementThreshold <- tclvalue(threshold)
+                        if(tclvalue(disregardlevel) != "")
+                            h$DisregardAssignmentIfKnownAnswerScoreIsLessThan <- tclvalue(disregardlevel)
+                        if(tclvalue(applevel) != "")
+                            h$ApproveIfWorkerAgreementScoreIsAtLeast <- tclvalue(applevel)
+                        if(tclvalue(rejlevel) != "")
+                            h$RejectIfWorkerAgreementScoreIsLessThan <- tclvalue(rejlevel)
+                        if(tclvalue(hitrejreason) != "")
+                            h$RejectReason <- tclvalue(hitrejreason)
+                        if(tclvalue(disregardreject) != "")
+                            h$DisregardAssignmentIfRejected <- as.logical(as.numeric(tclvalue(disregardreject)))
+                        if(tclvalue(hextlevel) != "") {
+                            if(as.numeric(tclvalue(hextlevel)) > 100 | as.numeric(tclvalue(hextlevel)) < 1) {
+                                tkmessageBox(message="Score must be between 1 and 100!", type="ok")
+                                tkfocus(reviewpolicyDialog)
+                                return(NULL)
+                            }
+                            h$ExtendIfHITAgreementScoreIsLessThan <- tclvalue(hextlevel)
+                        }
+                        if(tclvalue(hextassign) != "")
+                            h$ExtendMaximumAssignments <- tclvalue(hextassign)
+                        if(tclvalue(hdays)!="0" | tclvalue(hhours)!="0" | tclvalue(hmins)!="0" | tclvalue(hsecs)!="0") {
+                            h$ExtendMinimumTimeInSeconds <- seconds(as.numeric(tclvalue(hdays)),
+                                                                    as.numeric(tclvalue(hhours)),
+                                                                    as.numeric(tclvalue(hmins)),
+                                                                    as.numeric(tclvalue(hsecs)))
+                        }
+                        hittowrite <- do.call("GenerateHITReviewPolicy", h)
                         assign("hitreviewpolicy", hittowrite, envir = wizardenv)
+                        tkmessageBox(message="HIT ReviewPolicy added to HIT.\nReopen dialog to reset or modify.", type="ok")
                     }
-                    if(tclvalue(tkget(akentry,"0.0","end"))) {
-                        #assigntowrite <- GenerateAssignmentReviewPolicy()
+                    if(tclvalue(tkget(akentry,"0.0","end")) != "\n") {
+                        a <- list()
+                        ak <- strsplit(strsplit(tclvalue(tkget(akentry,"0.0","end")), "\n")[[1]], "=")
+                        a$AnswerKey <- setNames(lapply(ak, `[`, 2), sapply(ak, `[`, 1))
+                        if(tclvalue(applevel) != "") {
+                            if(as.numeric(tclvalue(applevel)) > 101 | as.numeric(tclvalue(applevel)) < 0) {
+                                tkmessageBox(message="Approval score must be between 0 and 101!", type="ok")
+                                tkfocus(reviewpolicyDialog)
+                                return(NULL)
+                            }
+                            a$ApproveIfKnownAnswerScoreIsAtLeast <- tclvalue(applevel)
+                        }
+                        if(tclvalue(assignappreason) != "")
+                            a$ApproveReason <- tclvalue(assignappreason)
+                        if(tclvalue(rejlevel) != "") {
+                            if(as.numeric(tclvalue(rejlevel)) > 101 | as.numeric(tclvalue(rejlevel)) < 0) {
+                                tkmessageBox(message="Rejection score must be between 0 and 101!", type="ok")
+                                tkfocus(reviewpolicyDialog)
+                                return(NULL)
+                            }
+                            a$RejectIfKnownAnswerScoreIsLessThan <- tclvalue(rejlevel)
+                        }
+                        if(tclvalue(assignrejreason) != "")
+                            a$RejectReason <- tclvalue(assignrejreason)
+                        if(tclvalue(aextlevel) != "") {
+                            if(as.numeric(tclvalue(aextlevel)) > 101 | as.numeric(tclvalue(aextlevel)) < 0) {
+                                tkmessageBox(message="Extension score must be between 0 and 101!", type="ok")
+                                tkfocus(reviewpolicyDialog)
+                                return(NULL)
+                            }
+                            a$ExtendIfKnownAnswerScoreIsLessThan <- tclvalue(aextlevel)
+                        }
+                        if(tclvalue(aextassign) != "") {
+                            if(as.numeric(tclvalue(aextassign)) > 25 | as.numeric(tclvalue(aextassign)) < 2) {
+                                tkmessageBox(message="Extension score must be between 2 and 25!", type="ok")
+                                tkfocus(reviewpolicyDialog)
+                                return(NULL)
+                            }
+                            a$ExtendMaximumAssignments <- tclvalue(aextassign)
+                        }
+                        if(tclvalue(adays)!="0" | tclvalue(ahours)!="0" | tclvalue(amins)!="0" | tclvalue(asecs)!="0") {
+                            a$ExtendMinimumTimeInSeconds <- seconds(as.numeric(tclvalue(adays)),
+                                                                    as.numeric(tclvalue(ahours)),
+                                                                    as.numeric(tclvalue(amins)),
+                                                                    as.numeric(tclvalue(asecs)))
+                        }
+                        assigntowrite <- do.call("GenerateAssignmentReviewPolicy", a)
                         assign("assignreviewpolicy", assigntowrite, envir = wizardenv)
+                        tkmessageBox(message="Assignment ReviewPolicy added to HIT.\nReopen dialog to reset or modify.", type="ok")
                     }
                     tkdestroy(reviewpolicyDialog)
                     tkfocus(createDialog)
@@ -658,29 +735,33 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 hform <- ttklabelframe(reviewpolicyDialog, 
                                        text = "HIT-level ReviewPolicy (optional):", 
                                        borderwidth = 2)
-                    tkgrid(ttklabel(hform, text = "Review based on between-worker agreement"), row = 1, column = 1, columnspan = 2)
+                    tkgrid(ttklabel(hform, text = "Review based on between-worker agreement\n"), row = 1, column = 1, columnspan = 2, sticky = "w")
                     # QuestionIds
-                    qidframe <- ttklabelframe(hform, text = "Question IDs (comma-separated):", borderwidth = 2)
+                    qidframe <- ttklabelframe(hform, text = "Question IDs (required)", borderwidth = 2)
+                        tkgrid(ttklabel(qidframe, text = "Enter questionIDs, separated by commas:"), row = 1, column = 1, sticky = "w")
                         questionids <- tclVar("")
-                        tkgrid(wzentry(qidframe, width = 40, textvariable = questionids), sticky = "w")
+                        tkgrid(wzentry(qidframe, width = 50, textvariable = questionids), row = 2, column = 1, sticky = "w")
+                        # QuestionAgreementThreshold
+                        thresholdframe <- tkframe(qidframe, borderwidth = 2)
+                            threshold <- tclVar("")
+                            tkgrid(ttklabel(thresholdframe, text = "Agreement Threshold:"), row = 1, column = 1, sticky = "w")
+                            tkgrid(wzentry(thresholdframe, width = 5, textvariable = threshold), row = 1, column = 2, sticky = "w")
+                            tkgrid(ttklabel(thresholdframe, text = "%"), row = 1, column = 3, sticky = "w")
+                        tkgrid(thresholdframe, column = 1, row = 3, sticky = "w")
+                        # DisregardAssignmentIfKnownAnswerScoreIsLessThan
+                        disregardframe <- tkframe(qidframe, borderwidth = 2)
+                            disregardlevel <- tclVar("")
+                            tkgrid(ttklabel(disregardframe, text = "Disregard Below Agreement Score: "), row = 1, column = 1, sticky = "w")
+                            tkgrid(wzentry(disregardframe, width = 5, textvariable = disregardlevel), row = 1, column = 2, sticky = "w")
+                        tkgrid(disregardframe, column = 1, row = 4, sticky = "w")
                     tkgrid(qidframe, column = 1, row = 2, columnspan = 2, sticky = "w")
-                    # QuestionAgreementThreshold
-                    thresholdframe <- ttklabelframe(hform, text = "Agreement Threshold", borderwidth = 2)
-                        threshold <- tclVar("")
-                        tkgrid(wzentry(thresholdframe, width = 5, textvariable = threshold), row = 1, column = 1, sticky = "w")
-                        tkgrid(ttklabel(thresholdframe, text = "%"), row = 1, column = 2, sticky = "w")
-                    tkgrid(thresholdframe, column = 1, row = 3, sticky = "w")
-                    # DisregardAssignmentIfKnownAnswerScoreIsLessThan
-                    disregardframe <- ttklabelframe(hform, text = "Disregard Below Agreement Score", borderwidth = 2)
-                        disregardlevel <- tclVar("")
-                        tkgrid(wzentry(disregardframe, width = 5, textvariable = disregardlevel))
-                    tkgrid(disregardframe, column = 1, row = 4, sticky = "w")
                     # ApproveIfWorkerAgreementScoreIsAtLeast
                     hitappframe <- ttklabelframe(hform, text = "Approve Above Agreement Score", borderwidth = 2)
-                        applevel <- tclVar("")
-                        tkgrid(wzentry(hitappframe, width = 5, textvariable = applevel))
-                    tkgrid(hitappframe, column = 2, row = 4, sticky = "w")
-                    
+                        happlevelframe <- ttklabelframe(hitappframe, text = "Score", borderwidth = 2)
+                            applevel <- tclVar("")
+                            tkgrid(wzentry(happlevelframe, width = 5, textvariable = applevel))
+                        tkgrid(happlevelframe, column = 1, row = 1)
+                    tkgrid(hitappframe, column = 1, row = 5, columnspan = 2, sticky = "w")
                     # RejectIfWorkerAgreementScoreIsLessThan
                     hitrejframe <- ttklabelframe(hform, text = "Reject Below Agreement Score", borderwidth = 2)
                         rejlevelframe <- ttklabelframe(hitrejframe, text = "Score", borderwidth = 2)
@@ -693,12 +774,12 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                             tkgrid(wzentry(hrejframe, width = 40, textvariable = hitrejreason))
                         tkgrid(hrejframe, column = 2, row = 1)
                         # DisregardAssignmentIfRejected
-                        disregardframe <- ttklabelframe(hitrejframe, text = "", borderwidth = 2)
+                        disregardframe <- tkframe(hitrejframe, borderwidth = 2)
                             disregardreject <- tclVar("0")
                             tkgrid(ttkcheckbutton(disregardframe, variable = disregardreject), row = 1, column = 1, sticky = "w")
                             tkgrid(ttklabel(disregardframe, text = "Disregard Rejected Assignments"), row = 1, column = 2, sticky = "w")
                         tkgrid(disregardframe, column = 1, row = 2, columnspan = 2, sticky = "w")
-                    tkgrid(hitrejframe, column = 1, row = 5, columnspan = 2, sticky = "w")
+                    tkgrid(hitrejframe, column = 1, row = 6, columnspan = 2, sticky = "w")
                     # ExtendIfHITAgreementScoreIsLessThan
                     hextframe <- ttklabelframe(hform, text = "Extend Below Agreement Score", borderwidth = 2)
                         hextlevelframe <- ttklabelframe(hextframe, text = "Score", borderwidth = 2)
@@ -729,7 +810,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                             tkgrid(ttklabel(hextsecsframe, text = "Secs.: "), row=1, column=7)
                             tkgrid(hsecs.entry, row=1, column=8)
                         tkgrid(hextsecsframe, column = 1, row = 3, columnspan = 2)
-                    tkgrid(hextframe, column = 1, row = 6, columnspan = 2, sticky = "w")
+                    tkgrid(hextframe, column = 1, row = 7, columnspan = 2, sticky = "w")
                 tkgrid(hform, column = 1, row = 1, sticky = "nw")
                 tkgrid(ttklabel(reviewpolicyDialog, text = "    "), column = 2, row = 1, sticky = "nw")
                 
@@ -737,12 +818,13 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 aform <- ttklabelframe(reviewpolicyDialog, 
                                        text = "Assignment-level ReviewPolicy (optional):", 
                                        borderwidth = 2)
-                    tkgrid(ttklabel(aform, text = "Review based on known answers"), row = 1, column = 1, columnspan = 2)
+                    tkgrid(ttklabel(aform, text = "Review based on known answers\n"), row = 1, column = 1, columnspan = 2, sticky = "w")
                     # AnswerKey
-                    akframe <- ttklabelframe(aform, text = "AnswerKey (required):", borderwidth = 2)
-                        akentry <- tktext(akframe, height = 6, width = 35, bg = "white")
+                    akframe <- ttklabelframe(aform, text = "AnswerKey (required)", borderwidth = 2)
+                        tkgrid(ttklabel(akframe, text = "Enter as 'QuestionID=Value' pairs, one per line:"), row = 1, column = 1, sticky = "w")
+                        akentry <- tktext(akframe, height = 4, width = 35, bg = "white")
                         tkmark.set(akentry,"insert","0.0")
-                        tkgrid(akentry)
+                        tkgrid(akentry, row = 2, column = 1)
                     tkgrid(akframe, column = 1, row = 2, columnspan = 2)
                     appframe <- ttklabelframe(aform, text = "Approve Above Minimum KnownAnswer Score", borderwidth = 2)
                         # ApproveIfKnownAnswerScoreIsAtLeast
@@ -772,13 +854,13 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                     aextframe <- ttklabelframe(aform, text = "Extend Below KnownAnswer Score", borderwidth = 2)
                         aextlevelframe <- ttklabelframe(aextframe, text = "Score", borderwidth = 2)
                             aextlevel <- tclVar("")
-                            tkgrid(wzentry(aextlevelframe, width = 5, textvariable = extlevel))
+                            tkgrid(wzentry(aextlevelframe, width = 5, textvariable = aextlevel))
                         tkgrid(aextlevelframe, column = 1, row = 1, sticky = "w")
                         # ExtendMaximumAssignments
                         aextassignframe <- ttklabelframe(aextframe, text = "Add assignments (min 2)", borderwidth = 2)
                             aextassign <- tclVar("5")
                             tkgrid(wzentry(aextassignframe, width = 5, textvariable = aextassign))
-                        tkgrid(aextassignframe, column = 1, row = 2, sticky = "w")
+                        tkgrid(aextassignframe, column = 2, row = 1, sticky = "w")
                         # ExtendMinimumTimeInSeconds
                         aextsecsframe <- ttklabelframe(aextframe, text = "Add time", borderwidth = 2)
                             adays <- tclVar("0")

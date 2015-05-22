@@ -1,8 +1,9 @@
-# CHANGES TO MTurkR 0.7 #
+# CHANGES TO MTurkR 0.6.5 #
 
 ## SIGNIFICANT USER-VISIBILE CHANGES ##
 
 * Added `BulkCreate`, `BulkCreateFromTemplate`, `BulkCreateFromURLs`, and `BulkCreateFromHITLayout` functions that can be used to create multiple HITs of the same HITType with identical properties but different question content. The `hitsfromtemplate` function has been removed. (#76)
+* The graphical wizard now supports creating HIT- and Assignment-level ReviewPolicies during HIT creation. (#55)
 * `CreateHIT` now only warns about duplicated arguments (passing both `hit.type` and arguments for `RegisterHITType`) if `verbose = TRUE`.
 * The graphical wizard now allows users to create an Qualification AnswerKey Template (via `AnswerKeyTemplate`) from a manually entered Qualification Test. (#73)
 * `GrantBonus` now accepts a `unique.request.token` argument. (#75)
