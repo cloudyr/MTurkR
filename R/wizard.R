@@ -637,38 +637,173 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
             # function to add HIT and/or Assignment Review Policies
             addreviewpolicy <- function(){
                 storepolicy <- function()    {
-                    hittowrite <- tclvalue(tkget(hit.entry,"0.0","end"))
-                    assigntowrite <- tclvalue(tkget(assign.entry,"0.0","end"))
-                    if(hittowrite=="")
-                        assign("hitreviewpolicy", hittowrite, envir=wizardenv) # assign 'reviewpolicy' to wizardenv
-                    if(assigntowrite=="")
-                        assign("assignreviewpolicy", assigntowrite, envir=wizardenv) # assign 'reviewpolicy' to wizardenv
+                    message("Functionality coming soon!")
+                    return()
+                    if(tclvalue(questionids) != "") {
+                        #hittowrite <- GenerateHITReviewPolicy()
+                        assign("hitreviewpolicy", hittowrite, envir = wizardenv)
+                    }
+                    if(tclvalue(tkget(akentry,"0.0","end"))) {
+                        #assigntowrite <- GenerateAssignmentReviewPolicy()
+                        assign("assignreviewpolicy", assigntowrite, envir = wizardenv)
+                    }
                     tkdestroy(reviewpolicyDialog)
                     tkfocus(createDialog)
                 }
                 
                 reviewpolicyDialog <- tktoplevel()
-                tkwm.title(reviewpolicyDialog, "Add HIT/Assignment URL-encoded ReviewPolicy")
-                hitentryform <- ttklabelframe(reviewpolicyDialog, 
-                                              text = "HIT-level ReviewPolicy (optional):", 
-                                              borderwidth = 2)
-                    hit.entry <- tktext(hitentryform, height = 6, width = 75, bg = "white")
-                    tkmark.set(hit.entry,"insert","0.0")
-                    tkgrid(hit.entry)
-                    tkgrid(tkbutton(hitentryform, text = "Generate HIT ReviewPolicy", 
-                                    command = function() {tkmessageBox(message="Feature coming soon!", type="ok")}))
-                tkgrid(hitentryform)
-                assignentryform <- ttklabelframe(reviewpolicyDialog, 
-                                                 text = "Assignment-level ReviewPolicy (optional):", 
-                                                 borderwidth = 2)
-                    assign.entry <- tktext(assignentryform, height = 6, width = 75, bg = "white")
-                    tkmark.set(assign.entry,"insert","0.0")
-                    tkgrid(assign.entry, column=2, columnspan=2)
-                    tkgrid(tkbutton(assign.entry, text = "Generate Assignment ReviewPolicy", 
-                                    command = function() {tkmessageBox(message="Feature coming soon!", type="ok")}))
-                tkgrid(assignentryform)
+                tkwm.title(reviewpolicyDialog, "Add ReviewPolicy")
+                
+                # HIT ReviewPolicy
+                hform <- ttklabelframe(reviewpolicyDialog, 
+                                       text = "HIT-level ReviewPolicy (optional):", 
+                                       borderwidth = 2)
+                    tkgrid(ttklabel(hform, text = "Review based on between-worker agreement"), row = 1, column = 1, columnspan = 2)
+                    # QuestionIds
+                    qidframe <- ttklabelframe(hform, text = "Question IDs (comma-separated):", borderwidth = 2)
+                        questionids <- tclVar("")
+                        tkgrid(wzentry(qidframe, width = 40, textvariable = questionids), sticky = "w")
+                    tkgrid(qidframe, column = 1, row = 2, columnspan = 2, sticky = "w")
+                    # QuestionAgreementThreshold
+                    thresholdframe <- ttklabelframe(hform, text = "Agreement Threshold", borderwidth = 2)
+                        threshold <- tclVar("")
+                        tkgrid(wzentry(thresholdframe, width = 5, textvariable = threshold), row = 1, column = 1, sticky = "w")
+                        tkgrid(ttklabel(thresholdframe, text = "%"), row = 1, column = 2, sticky = "w")
+                    tkgrid(thresholdframe, column = 1, row = 3, sticky = "w")
+                    # DisregardAssignmentIfKnownAnswerScoreIsLessThan
+                    disregardframe <- ttklabelframe(hform, text = "Disregard Below Agreement Score", borderwidth = 2)
+                        disregardlevel <- tclVar("")
+                        tkgrid(wzentry(disregardframe, width = 5, textvariable = disregardlevel))
+                    tkgrid(disregardframe, column = 1, row = 4, sticky = "w")
+                    # ApproveIfWorkerAgreementScoreIsAtLeast
+                    hitappframe <- ttklabelframe(hform, text = "Approve Above Agreement Score", borderwidth = 2)
+                        applevel <- tclVar("")
+                        tkgrid(wzentry(hitappframe, width = 5, textvariable = applevel))
+                    tkgrid(hitappframe, column = 2, row = 4, sticky = "w")
+                    
+                    # RejectIfWorkerAgreementScoreIsLessThan
+                    hitrejframe <- ttklabelframe(hform, text = "Reject Below Agreement Score", borderwidth = 2)
+                        rejlevelframe <- ttklabelframe(hitrejframe, text = "Score", borderwidth = 2)
+                            rejlevel <- tclVar("")
+                            tkgrid(wzentry(rejlevelframe, width = 5, textvariable = rejlevel))
+                        tkgrid(rejlevelframe, column = 1, row = 1)
+                        # RejectReason
+                        hrejframe <- ttklabelframe(hitrejframe, text = "Rejection Reason:", borderwidth = 2)
+                            hitrejreason <- tclVar("")
+                            tkgrid(wzentry(hrejframe, width = 40, textvariable = hitrejreason))
+                        tkgrid(hrejframe, column = 2, row = 1)
+                        # DisregardAssignmentIfRejected
+                        disregardframe <- ttklabelframe(hitrejframe, text = "", borderwidth = 2)
+                            disregardreject <- tclVar("0")
+                            tkgrid(ttkcheckbutton(disregardframe, variable = disregardreject), row = 1, column = 1, sticky = "w")
+                            tkgrid(ttklabel(disregardframe, text = "Disregard Rejected Assignments"), row = 1, column = 2, sticky = "w")
+                        tkgrid(disregardframe, column = 1, row = 2, columnspan = 2, sticky = "w")
+                    tkgrid(hitrejframe, column = 1, row = 5, columnspan = 2, sticky = "w")
+                    # ExtendIfHITAgreementScoreIsLessThan
+                    hextframe <- ttklabelframe(hform, text = "Extend Below Agreement Score", borderwidth = 2)
+                        hextlevelframe <- ttklabelframe(hextframe, text = "Score", borderwidth = 2)
+                            hextlevel <- tclVar("")
+                            tkgrid(wzentry(hextlevelframe, width = 5, textvariable = hextlevel))
+                        tkgrid(hextlevelframe, column = 1, row = 1, sticky = "w")
+                        # ExtendMaximumAssignments
+                        hextassignframe <- ttklabelframe(hextframe, text = "Add assignments (min 2)", borderwidth = 2)
+                            hextassign <- tclVar("5")
+                            tkgrid(wzentry(hextassignframe, width = 5, textvariable = hextassign))
+                        tkgrid(hextassignframe, column = 2, row = 1, sticky = "w")
+                        # ExtendMinimumTimeInSeconds
+                        hextsecsframe <- ttklabelframe(hextframe, text = "Add time", borderwidth = 2)
+                            hdays <- tclVar("0")
+                            hhours <- tclVar("0")
+                            hmins <- tclVar("0")
+                            hsecs <- tclVar("0")
+                            hdays.entry <- wzentry(hextsecsframe, width = 5, textvariable=hdays)
+                            hhours.entry <- wzentry(hextsecsframe, width = 5, textvariable=hhours)
+                            hmins.entry <- wzentry(hextsecsframe, width = 5, textvariable=hmins)
+                            hsecs.entry <- wzentry(hextsecsframe, width = 5, textvariable=hsecs)
+                            tkgrid(ttklabel(hextsecsframe, text = "Days: "), row=1, column=1)
+                            tkgrid(hdays.entry, row=1, column=2)
+                            tkgrid(ttklabel(hextsecsframe, text = "Hours: "), row=1, column=3)
+                            tkgrid(hhours.entry, row=1, column=4)
+                            tkgrid(ttklabel(hextsecsframe, text = "Mins.: "), row=1, column=5)
+                            tkgrid(hmins.entry, row=1, column=6)
+                            tkgrid(ttklabel(hextsecsframe, text = "Secs.: "), row=1, column=7)
+                            tkgrid(hsecs.entry, row=1, column=8)
+                        tkgrid(hextsecsframe, column = 1, row = 3, columnspan = 2)
+                    tkgrid(hextframe, column = 1, row = 6, columnspan = 2, sticky = "w")
+                tkgrid(hform, column = 1, row = 1, sticky = "nw")
+                tkgrid(ttklabel(reviewpolicyDialog, text = "    "), column = 2, row = 1, sticky = "nw")
+                
+                # Assignment ReviewPolicy
+                aform <- ttklabelframe(reviewpolicyDialog, 
+                                       text = "Assignment-level ReviewPolicy (optional):", 
+                                       borderwidth = 2)
+                    tkgrid(ttklabel(aform, text = "Review based on known answers"), row = 1, column = 1, columnspan = 2)
+                    # AnswerKey
+                    akframe <- ttklabelframe(aform, text = "AnswerKey (required):", borderwidth = 2)
+                        akentry <- tktext(akframe, height = 6, width = 35, bg = "white")
+                        tkmark.set(akentry,"insert","0.0")
+                        tkgrid(akentry)
+                    tkgrid(akframe, column = 1, row = 2, columnspan = 2)
+                    appframe <- ttklabelframe(aform, text = "Approve Above Minimum KnownAnswer Score", borderwidth = 2)
+                        # ApproveIfKnownAnswerScoreIsAtLeast
+                        applevelframe <- ttklabelframe(appframe, text = "Score", borderwidth = 2)
+                            applevel <- tclVar("")
+                            tkgrid(wzentry(applevelframe, width = 5, textvariable = applevel))
+                        tkgrid(applevelframe, column = 1, row = 1)
+                        # ApproveReason
+                        aappframe <- ttklabelframe(appframe, text = "Approval Reason (if applicable):", borderwidth = 2)
+                            assignappreason <- tclVar("")
+                            tkgrid(wzentry(aappframe, width = 40, textvariable = assignappreason))
+                        tkgrid(aappframe, column = 2, row = 1)
+                    tkgrid(appframe, column = 1, row = 3, columnspan = 2)
+                    rejframe <- ttklabelframe(aform, text = "Reject Below KnownAnswer Score", borderwidth = 2)
+                        # RejectIfKnownAnswerScoreIsLessThan
+                        rejlevelframe <- ttklabelframe(rejframe, text = "Score", borderwidth = 2)
+                            rejlevel <- tclVar("")
+                            tkgrid(wzentry(rejlevelframe, width = 5, textvariable = rejlevel))
+                        tkgrid(rejlevelframe, column = 1, row = 1)
+                        # RejectReason
+                        arejframe <- ttklabelframe(rejframe, text = "Rejection Reason (if applicable):", borderwidth = 2)
+                            assignrejreason <- tclVar("")
+                            tkgrid(wzentry(arejframe, width = 40, textvariable = assignrejreason))
+                        tkgrid(arejframe, column = 2, row = 1)
+                    tkgrid(rejframe, column = 1, row = 4, columnspan = 2)
+                    # ExtendIfKnownAnswerScoreIsLessThan
+                    aextframe <- ttklabelframe(aform, text = "Extend Below KnownAnswer Score", borderwidth = 2)
+                        aextlevelframe <- ttklabelframe(aextframe, text = "Score", borderwidth = 2)
+                            aextlevel <- tclVar("")
+                            tkgrid(wzentry(aextlevelframe, width = 5, textvariable = extlevel))
+                        tkgrid(aextlevelframe, column = 1, row = 1, sticky = "w")
+                        # ExtendMaximumAssignments
+                        aextassignframe <- ttklabelframe(aextframe, text = "Add assignments (min 2)", borderwidth = 2)
+                            aextassign <- tclVar("5")
+                            tkgrid(wzentry(aextassignframe, width = 5, textvariable = aextassign))
+                        tkgrid(aextassignframe, column = 1, row = 2, sticky = "w")
+                        # ExtendMinimumTimeInSeconds
+                        aextsecsframe <- ttklabelframe(aextframe, text = "Add time", borderwidth = 2)
+                            adays <- tclVar("0")
+                            ahours <- tclVar("0")
+                            amins <- tclVar("0")
+                            asecs <- tclVar("0")
+                            adays.entry <- wzentry(aextsecsframe, width = 5, textvariable=adays)
+                            ahours.entry <- wzentry(aextsecsframe, width = 5, textvariable=ahours)
+                            amins.entry <- wzentry(aextsecsframe, width = 5, textvariable=amins)
+                            asecs.entry <- wzentry(aextsecsframe, width = 5, textvariable=asecs)
+                            tkgrid(ttklabel(aextsecsframe, text = "Days: "), row=1, column=1)
+                            tkgrid(adays.entry, row=1, column=2)
+                            tkgrid(ttklabel(aextsecsframe, text = "Hours: "), row=1, column=3)
+                            tkgrid(ahours.entry, row=1, column=4)
+                            tkgrid(ttklabel(aextsecsframe, text = "Mins.: "), row=1, column=5)
+                            tkgrid(amins.entry, row=1, column=6)
+                            tkgrid(ttklabel(aextsecsframe, text = "Secs.: "), row=1, column=7)
+                            tkgrid(asecs.entry, row=1, column=8)
+                        tkgrid(aextsecsframe, column = 1, row = 3, columnspan = 2)
+                    tkgrid(aextframe, column = 1, row = 5, columnspan = 2)
+                tkgrid(aform, column = 3, row = 1, sticky = "nw")
+                
                 okcancel(reviewpolicyDialog, okfun = storepolicy, 
-                                     cancelfun = function() {tkdestroy(reviewpolicyDialog); tkfocus(wizard)})
+                         cancelfun = function() {tkdestroy(reviewpolicyDialog); tkfocus(wizard)},
+                         columnspan = 2)
                 tkfocus(reviewpolicyDialog)
             }
             
