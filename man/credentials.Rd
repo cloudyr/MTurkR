@@ -10,11 +10,10 @@ credentials(keypair = NULL)
 }
 \details{This is the first operation that needs to be performed before any MTurK API requests can be successfully performed in a given MTurkR session. The function simply stores the Access Key ID and the Secret Access Key as a two-item character vector in \code{getOption('MTurkR.keypair')}, which is called by default by all MTurkR operations. This operation can also be performed by loading \code{\link{MTurkR.Wizard}}, which prompts for the keypair the first time it loads in a given R session.
 
+A keypair can be generated via the AWS IAM management console (\samp{https://console.aws.amazon.com/iam/home?#security_credential}). Note that previously generated secret keys cannot be retrieved.
 }
 \value{A two-item character vector containing an AWS Access Key ID in the first position and the corresponding Secret Access Key in the second position.}
-\references{
-\href{https://console.aws.amazon.com/iam/home?\#security_credential}{AWS Access Credentials}
-}
+%\references{}
 \author{Thomas J. Leeper}
 %\note{}
 %\seealso{}

@@ -1,7 +1,7 @@
 \name{GenerateHITLayoutParameter}
 \alias{GenerateHITLayoutParameter}
 \title{Generate a HITLayout Parameter}
-\description{Generate a HITLayout parameter based upon the names of HIT template variables and the values to substitute for those variables in a single HIT. Used in collaboration with a HIT Layout ID (\url{https://requester.mturk.com/hit_templates}) in the \code{\link{CreateHIT}} operation.}
+\description{Generate a HITLayout parameter based upon the names of HIT template variables and the values to substitute for those variables in a single HIT. Used in collaboration with a HIT Layout ID from \samp{https://requester.mturk.com/create/projects} in the \code{\link{CreateHIT}} operation.}
 \usage{
 GenerateHITLayoutParameter(names, values)
 }
