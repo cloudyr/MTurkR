@@ -1,3 +1,9 @@
+# CHANGES TO MTurkR 0.7 #
+
+## SIGNIFICANT USER-VISIBILE CHANGES ##
+
+* `BulkCreateFromTemplate` and `BulkCreateFromURLs` now have a `frame.height` argument with a default of 450.
+
 # CHANGES TO MTurkR 0.6.5 #
 
 ## SIGNIFICANT USER-VISIBILE CHANGES ##

@@ -8,10 +8,10 @@
 \usage{
 BulkCreate(questions, annotation, verbose = FALSE, ...)
 
-BulkCreateFromTemplate(template, input, annotation, 
-                       type = "HTMLQuestion", verbose = FALSE, ...)
+BulkCreateFromTemplate(template, input, annotation, type = "HTMLQuestion", 
+                       frame.height = 450, verbose = FALSE, ...)
 
-BulkCreateFromURLs(url, frame.height, annotation, verbose = FALSE, ...)
+BulkCreateFromURLs(url, frame.height = 450, annotation, verbose = FALSE, ...)
 
 BulkCreateFromHITLayout(hitlayoutid, input, annotation, verbose = FALSE, ...)
 }

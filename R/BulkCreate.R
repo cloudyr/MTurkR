@@ -30,12 +30,12 @@ BulkCreate <- function(questions, annotation, verbose = FALSE, ...) {
     return(HITs)
 }
 
-BulkCreateFromTemplate <- function(template, input, annotation, type = "HTMLQuestion", verbose = FALSE, ...) {
+BulkCreateFromTemplate <- function(template, input, annotation, type = "HTMLQuestion", frame.height = 450, verbose = FALSE, ...) {
     if(type == "HTMLQuestion") {
         if(file.exists(template)) {
-            template <- GenerateHTMLQuestion(file = template)$string
+            template <- GenerateHTMLQuestion(file = template, frame.height = frame.height)$string
         } else {
-            template <- GenerateHTMLQuestion(character = template)$string
+            template <- GenerateHTMLQuestion(character = template, frame.height = frame.height)$string
         }
     }
     if(length(annotation) != 1)
@@ -45,7 +45,7 @@ BulkCreateFromTemplate <- function(template, input, annotation, type = "HTMLQues
     BulkCreate(questions = questions, annotation = annotation, verbose = verbose, ...)
 }
 
-BulkCreateFromURLs <- function(url, frame.height, annotation, verbose = FALSE, ...) {
+BulkCreateFromURLs <- function(url, frame.height = 450, annotation, verbose = FALSE, ...) {
     if(length(annotation) != 1)
         annotation <- rep(annotation[1], length(url))
     questions <- lapply(url, GenerateExternalQuestion, frame.height = frame.height)
