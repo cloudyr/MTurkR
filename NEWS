@@ -2,6 +2,7 @@
 
 ## SIGNIFICANT USER-VISIBILE CHANGES ##
 
+* `SufficientFunds` reflects the new commission structure effective July 21, 2015. (#87)
 * `BulkCreateFromTemplate` and `BulkCreateFromURLs` now have a `frame.height` argument with a default of 450.
 
 # CHANGES TO MTurkR 0.6.5 #

@@ -1,7 +1,7 @@
 SufficientFunds <-
 function (amount = NULL, assignments = NULL, hits = NULL, bonus.ct = NULL, 
-    bonus.amount = NULL, masters = FALSE, turkfee = 0.1, turkmin = 0.005, 
-    mastersfee = 0.2, ...)
+    bonus.amount = NULL, masters = FALSE, turkfee = 0.2, turkmin = 0.01, 
+    mastersfee = 0.05, ...)
 {
     total <- 0
     payments <- 0
@@ -10,8 +10,11 @@ function (amount = NULL, assignments = NULL, hits = NULL, bonus.ct = NULL,
     bonuses <- 0
     bonus.fee <- 0
     amount <- as.numeric(amount)
-    if (!is.null(assignments)) 
+    if (!is.null(assignments)) {
         assignments <- as.numeric(assignments)
+        if(assignments >= 10)
+            turkfee <- .40
+    }
     if (!is.null(hits)) 
         hits <- as.numeric(hits)
     if (!is.null(bonus.ct)) 
