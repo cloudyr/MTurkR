@@ -16,7 +16,7 @@ function (assignments, feedback = NULL, rejected = FALSE,
         if(is.factor(feedback))
             feedback <- as.character(feedback)
         for(i in 1:length(feedback)) {
-            if (!is.null(feedback[i]) && nchar(curlEscape(feedback[i])) > 1024) 
+            if (!is.null(feedback[i]) && nchar(curl_escape(feedback[i])) > 1024) 
                 warning("Feedback ", i, " is too long (1024 char max)")
         }
         if(length(feedback) == 1) 
@@ -28,7 +28,7 @@ function (assignments, feedback = NULL, rejected = FALSE,
         GETparameters <- paste("&AssignmentId=", assignment, sep = "")
         if (!is.null(feedback.batch)) {
             GETparameters <- paste(GETparameters, "&RequesterFeedback=", 
-                curlEscape(feedback.batch), sep = "")
+                curl_escape(feedback.batch), sep = "")
         }
         request <- request(operation, GETparameters = GETparameters, ...)
         if(is.null(request$valid))

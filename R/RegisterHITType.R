@@ -7,20 +7,20 @@ function (title, description, reward, duration, keywords = NULL,
     if('print' %in% names(list(...)) && is.null(verbose))
         verbose <- list(...)$print
     operation <- "RegisterHITType"
-    if(nchar(curlEscape(title)) > 128) 
+    if(nchar(curl_escape(title)) > 128) 
         stop("Title too long (128 char max)")
-    if(nchar(curlEscape(description)) > 2000) 
+    if(nchar(curl_escape(description)) > 2000) 
         stop("Description too long (2000 char max)")
     if(as.numeric(duration) < 30 || as.numeric(duration) > 3153600) 
         stop("Duration must be between 30 (30 seconds) and 3153600 (365 days)")
-    GETparameters <- paste("&Title=", curlEscape(title), "&Description=", 
-        curlEscape(description), "&Reward.1.Amount=", reward, 
+    GETparameters <- paste("&Title=", curl_escape(title), "&Description=", 
+        curl_escape(description), "&Reward.1.Amount=", reward, 
         "&Reward.1.CurrencyCode=USD", "&AssignmentDurationInSeconds=", 
         duration, sep = "")
     if(!is.null(keywords)) {
-        if(nchar(curlEscape(keywords)) < 1000) 
+        if(nchar(curl_escape(keywords)) < 1000) 
             GETparameters <- paste(GETparameters, "&Keywords=", 
-                curlEscape(keywords), sep = "")
+                curl_escape(keywords), sep = "")
         else
             stop("Keywords too long (1000 char max)")
     }

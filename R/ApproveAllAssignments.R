@@ -11,7 +11,7 @@ function(hit = NULL,
     if(!is.null(feedback)) {
         if(length(feedback) > 1) 
             stop("Can only specify one feedback message; no assignments approved")
-        else if(nchar(curlEscape(feedback)) > 1024) 
+        else if(nchar(curl_escape(feedback)) > 1024) 
             stop(paste("Feedback is too long (1024 char max); no assignments approved", sep = ""))
     }
     if((is.null(hit) & is.null(hit.type) & is.null(annotation)) | 

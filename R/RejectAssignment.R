@@ -12,7 +12,7 @@ function (assignments, feedback = NULL, verbose = getOption('MTurkR.verbose', TR
         if(is.factor(feedback))
             feedback <- as.character(feedback)
         for(i in 1:length(feedback)) {
-            if(!is.null(feedback[i]) && nchar(curlEscape(feedback[i])) > 1024) 
+            if(!is.null(feedback[i]) && nchar(curl_escape(feedback[i])) > 1024) 
                 warning("Feedback ", i, " is too long (1024 char max)")
         }
         if(length(feedback) == 1) 
@@ -26,7 +26,7 @@ function (assignments, feedback = NULL, verbose = getOption('MTurkR.verbose', TR
         GETparameters <- paste("&AssignmentId=", assignments[i], sep = "")
         if(!is.null(feedback[i])) 
             GETparameters <- paste(GETparameters, "&RequesterFeedback=", 
-                curlEscape(feedback[i]), sep = "")        
+                curl_escape(feedback[i]), sep = "")        
         request <- request(operation, GETparameters = GETparameters, ...)
         if(is.null(request$valid))
             return(request)

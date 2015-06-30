@@ -22,7 +22,7 @@ function (qual.requests, reason = NULL, verbose = getOption('MTurkR.verbose', TR
                                 c("QualificationRequestId", "Reason", "Valid"))
     for(i in 1:length(qual.requests)) {
         GETparameters <- paste("&QualificationRequestId=", qual.requests[i], 
-            "&Reason=", curlEscape(reason[i]), sep = "")        
+            "&Reason=", curl_escape(reason[i]), sep = "")        
         request <- request(operation, GETparameters = GETparameters, ...)
         if(is.null(request$valid))
             return(request)

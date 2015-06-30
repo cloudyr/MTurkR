@@ -63,7 +63,7 @@ function (questions, scoring = NULL) {
         }
     }
     string <- toString.XMLNode(answerkey)
-    encoded <- curlEscape(string)
+    encoded <- curl_escape(string)
     return(list(xml.parsed = xmlParse(string), string = string, url.encoded = encoded))
 }
 

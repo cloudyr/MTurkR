@@ -191,11 +191,11 @@ export("BulkCreateFromHITLayout")
 
 # imports
 importFrom(digest, hmac)
-importFrom(RCurl, base64Encode, curlEscape, curlUnescape,
-                  curlPerform, basicTextGatherer)
+importFrom(base64enc, base64encode)
+importFrom(curl, curl_escape, curl_unescape, new_handle, curl_fetch_memory)
 importFrom(XML, xmlParse, xmlChildren, xpathApply, xmlValue, xmlName,
-				xmlNamespace, xmlSchemaValidate, removeXMLNamespaces,
-				newXMLNode, addChildren, toString.XMLNode, getNodeSet,
+                xmlNamespace, xmlSchemaValidate, removeXMLNamespaces,
+                newXMLNode, addChildren, toString.XMLNode, getNodeSet,
                 xmlRoot, xmlToList)
 
 # S3 methods

@@ -31,7 +31,7 @@ function(workers, assignments, amounts, reasons,
             stop(paste("Non-numeric bonus amount requested for bonus ", i, sep = ""))
     }
     if (!is.null(unique.request.token)) {
-        if(any(nchar(curlEscape(unique.request.token)) > 64)) 
+        if(any(nchar(curl_escape(unique.request.token)) > 64)) 
             stop("'unique.request.token' values must be <= 64 characters")
         if(length(unique.request.token) < length(workers))
             stop("'unique.request.token' must be same length as 'workers'")
@@ -43,12 +43,12 @@ function(workers, assignments, amounts, reasons,
     for(i in 1:length(workers)) {
         GETparameters <- paste("&WorkerId=", workers[i], "&AssignmentId=", 
             assignments[i], "&BonusAmount.1.Amount=", amounts[i], 
-            "&BonusAmount.1.CurrencyCode=USD", "&Reason=", curlEscape(reasons[i]), 
+            "&BonusAmount.1.CurrencyCode=USD", "&Reason=", curl_escape(reasons[i]), 
             sep = "")
         if(!is.null(unique.request.token)) {
             GETparameters <- paste0(GETparameters, 
                                     "&UniqueRequestToken=", 
-                                    curlEscape(unique.request.token[i]))
+                                    curl_escape(unique.request.token[i]))
         }
         request <- request(operation, GETparameters = GETparameters, ...)
         if(is.null(request$valid))

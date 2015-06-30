@@ -2185,7 +2185,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                     tkmark.set(body.entry,"insert","0.0")
                     editModified <- function(){
                         tclvalue(wizardenv$chars) <- 
-                          as.character(nchar(curlEscape(tclvalue(tkget(body.entry,"0.0","end")))))
+                          as.character(nchar(curl_escape(tclvalue(tkget(body.entry,"0.0","end")))))
                     }
                     tkbind(body.entry, "<Key>", editModified)
                     tkgrid(ttklabel(bframe, text='Number of characters:'), row=2, column=1, sticky='e')

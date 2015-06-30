@@ -22,7 +22,7 @@ function (workers, reasons, verbose = getOption('MTurkR.verbose', TRUE), ...){
                         c("WorkerId", "Reason", "Valid"))
     for(i in 1:length(workers)) {
         GETparameters <- paste("&WorkerId=", workers[i],
-                               "&Reason=", curlEscape(reasons[i]), sep = "")
+                               "&Reason=", curl_escape(reasons[i]), sep = "")
         request <- request(operation, GETparameters = GETparameters, ...)
         if(is.null(request$valid))
             return(request)

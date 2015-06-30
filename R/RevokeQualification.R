@@ -17,7 +17,7 @@ function (qual, worker, reason = NULL, verbose = getOption('MTurkR.verbose', TRU
             "&SubjectId=", workerbatch, sep = "")
         if(!is.null(reason)) 
             GETparameters <- paste(GETparameters, "&SendNotification=", 
-                curlEscape(reasonbatch), sep = "")
+                curl_escape(reasonbatch), sep = "")
         request <- request(operation, GETparameters = GETparameters, ...)
         if(is.null(request$valid))
             return(request)

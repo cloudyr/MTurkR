@@ -12,7 +12,7 @@ function (qual, description = NULL, status = NULL, retry.delay = NULL,
         qual <- as.character(qual)
     GETparameters <- paste("&QualificationTypeId=", qual, sep = "")
     if(!is.null(description)) 
-        GETparameters <- paste(GETparameters, "&Description=", curlEscape(description), sep = "")
+        GETparameters <- paste(GETparameters, "&Description=", curl_escape(description), sep = "")
     if(!is.null(status)) 
         GETparameters <- paste(GETparameters, "&QualificationTypeStatus=", status, sep = "")
     if(!is.null(test)) {
@@ -27,7 +27,7 @@ function (qual, description = NULL, status = NULL, retry.delay = NULL,
                 return(validation)
             }
         }
-        GETparameters <- paste(GETparameters, "&Test=", curlEscape(test), "&TestDurationInSeconds=", test.duration, sep = "")
+        GETparameters <- paste(GETparameters, "&Test=", curl_escape(test), "&TestDurationInSeconds=", test.duration, sep = "")
     }
     if(!is.null(retry.delay)) 
         GETparameters <- paste(GETparameters, "&RetryDelayInSeconds=", retry.delay, sep = "")
@@ -49,7 +49,7 @@ function (qual, description = NULL, status = NULL, retry.delay = NULL,
             stop("One or more QuestionIdentifiers in AnswerKey not in QuestionForm")
         if(!sum(t.temp %in% a.temp) == length(t.temp)) 
             stop("One or more QuestionIdentifiers in QuestionForm not in AnswerKey")
-        GETparameters <- paste(GETparameters, "&AnswerKey=", curlEscape(answerkey), sep = "")
+        GETparameters <- paste(GETparameters, "&AnswerKey=", curl_escape(answerkey), sep = "")
     }
     if(!is.null(auto.value)) {
         if (!is.numeric(as.numeric(auto.value))) 

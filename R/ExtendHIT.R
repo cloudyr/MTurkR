@@ -35,11 +35,11 @@ function(hit = NULL,
         add.assignments <- 0
     if(is.null(add.seconds)) 
         add.seconds <- 0
-    if(!is.null(unique.request.token) && nchar(curlEscape(unique.request.token)) > 64) 
+    if(!is.null(unique.request.token) && nchar(curl_escape(unique.request.token)) > 64) 
         stop("UniqueRequestToken must be <= 64 characters")
     else if(!is.null(unique.request.token)) 
         GETparameters <- paste(GETparameters, "&UniqueRequestToken=", 
-            curlEscape(unique.request.token), sep = "")
+            curl_escape(unique.request.token), sep = "")
     if((is.null(hit) & is.null(hit.type) & is.null(annotation)) | 
        (!is.null(hit) & !is.null(hit.type) & !is.null(annotation))) {
         stop("Must provide 'hit' xor 'hit.type' xor 'annotation'")

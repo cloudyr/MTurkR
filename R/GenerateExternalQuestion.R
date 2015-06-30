@@ -7,6 +7,6 @@ function (url, frame.height) {
     string <- toString.XMLNode(external)
     return(structure(list(xml.parsed = external, 
                           string = string, 
-                          url.encoded = curlEscape(string)),
+                          url.encoded = curl_escape(string)),
                      class='ExternalQuestion'))
 }

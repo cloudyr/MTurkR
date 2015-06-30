@@ -18,7 +18,7 @@ function (query = NULL, only.mine = TRUE, only.requestable = FALSE,
         stop("'pagenumber' must be > 1")
     GETparameters <- ""
     if(!is.null(query)) 
-        GETparameters <- paste(GETparameters, "&Query=", curlEscape(query), sep = "")
+        GETparameters <- paste(GETparameters, "&Query=", curl_escape(query), sep = "")
     if(only.mine) 
         GETparameters <- paste(GETparameters, "&MustBeOwnedByCaller=", "true", sep = "")
     else

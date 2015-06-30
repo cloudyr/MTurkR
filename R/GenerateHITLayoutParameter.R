@@ -17,7 +17,7 @@ function (names, values) {
         parameter <- paste(parameter, "&HITLayoutParameter.", i,
                             ".Name=", names[i],
                             "&HITLayoutParameter.", i, 
-                            ".Value=", curlEscape(values[i]), sep = "")
+                            ".Value=", curl_escape(values[i]), sep = "")
     }
     return(parameter)
 }

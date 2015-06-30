@@ -10,6 +10,6 @@ function (character = NULL, file = NULL, frame.height = 450) {
         html,"]]></HTMLContent><FrameHeight>",frame.height,"</FrameHeight></HTMLQuestion>")
     return(structure(list(xml.parsed = xmlParse(string),
                           string = string, 
-                          url.encoded = curlEscape(string)), 
+                          url.encoded = curl_escape(string)), 
                      class='HTMLQuestion'))
 }

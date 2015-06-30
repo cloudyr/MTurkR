@@ -28,7 +28,7 @@ function(...) {
         stop("DisregardAssignmentIfRejected must be TRUE or FALSE")
     }
     
-    h$PolicyName <- curlEscape("SimplePlurality/2011-09-01")
+    h$PolicyName <- curl_escape("SimplePlurality/2011-09-01")
     
     if(length(l$QuestionIds) > 15)
         stop("Max number of 'QuestionIds' is 15")
@@ -86,7 +86,7 @@ function(...) {
     }
     
     a <- list()
-    a$PolicyName <- curlEscape("ScoreMyKnownAnswers/2011-09-01")
+    a$PolicyName <- curl_escape("ScoreMyKnownAnswers/2011-09-01")
     
     a[["Parameter.1.Key"]] = "AnswerKey"
     ak <- l$AnswerKey

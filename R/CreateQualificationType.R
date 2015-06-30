@@ -10,11 +10,11 @@ function (name, description, status, keywords = NULL, retry.delay = NULL,
     operation <- "CreateQualificationType"
     if(!status %in% c("Active", "Inactive")) 
         stop("QualificationTypeStatus must be Active or Inactive")
-    GETparameters <- paste("&Name=", curlEscape(name), "&Description=", 
-        curlEscape(description), "&QualificationTypeStatus=", 
+    GETparameters <- paste("&Name=", curl_escape(name), "&Description=", 
+        curl_escape(description), "&QualificationTypeStatus=", 
         status, sep = "")
     if(!is.null(keywords)) 
-        GETparameters <- paste(GETparameters, "&Keywords=", curlEscape(keywords), sep = "")
+        GETparameters <- paste(GETparameters, "&Keywords=", curl_escape(keywords), sep = "")
     if(!is.null(test)) {
         if(validate.test==TRUE){
             if(!is.null(xmlChildren(xmlParse(test))$QuestionForm))
@@ -27,7 +27,7 @@ function (name, description, status, keywords = NULL, retry.delay = NULL,
                 return(validation)
             }
         }
-        GETparameters <- paste(GETparameters, "&Test=", curlEscape(test), 
+        GETparameters <- paste(GETparameters, "&Test=", curl_escape(test), 
                                 "&TestDurationInSeconds=", test.duration, sep = "")
         if(!is.null(answerkey)) {
             if(validate.answerkey==TRUE){
@@ -48,7 +48,7 @@ function (name, description, status, keywords = NULL, retry.delay = NULL,
             if(!sum(t.temp %in% a.temp) == length(t.temp)) 
                 stop("One or more QuestionIdentifiers in QuestionForm not in AnswerKey")
             GETparameters <- paste(GETparameters, "&AnswerKey=", 
-                curlEscape(answerkey), sep = "")
+                curl_escape(answerkey), sep = "")
         }
     }
     if(!is.null(retry.delay)) 

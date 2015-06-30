@@ -61,7 +61,7 @@ function (hit.type = NULL, question = NULL, validate.question = FALSE,
                 return(validation)
             }
         }
-        GETparameters <- paste(GETparameters, "&Question=", curlEscape(question), sep = "")
+        GETparameters <- paste(GETparameters, "&Question=", curl_escape(question), sep = "")
     }
     if(is.null(expiration)) 
         stop("Must specify HIT LifetimeInSeconds for expiration parameter")
@@ -91,16 +91,16 @@ function (hit.type = NULL, question = NULL, validate.question = FALSE,
         GETparameters <- paste(GETparameters, assignment.review.policy, sep = "")
     if (!is.null(hit.review.policy)) 
         GETparameters <- paste(GETparameters, hit.review.policy, sep = "")
-    if (!is.null(annotation) && nchar(curlEscape(annotation)) > 255) 
+    if (!is.null(annotation) && nchar(curl_escape(annotation)) > 255) 
         stop("Annotation must be <= 255 characters")
     else if (!is.null(annotation)) 
         GETparameters <- paste(GETparameters, "&RequesterAnnotation=", 
-                               curlEscape(annotation), sep = "")
-    if (!is.null(unique.request.token) && nchar(curlEscape(unique.request.token)) > 64) 
+                               curl_escape(annotation), sep = "")
+    if (!is.null(unique.request.token) && nchar(curl_escape(unique.request.token)) > 64) 
         stop("UniqueRequestToken must be <= 64 characters")
     else if (!is.null(unique.request.token)) 
         GETparameters <- paste(GETparameters, "&UniqueRequestToken=", 
-                               curlEscape(unique.request.token), sep = "")
+                               curl_escape(unique.request.token), sep = "")
     request <- request(operation, GETparameters = GETparameters, ...)
     if(is.null(request$valid))
         return(request)

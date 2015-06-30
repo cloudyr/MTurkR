@@ -20,11 +20,11 @@ function (subjects, msgs, workers, batch = FALSE,
     if(batch) {
         if(length(msgs) > 1) 
             stop("If 'batch'==TRUE, only one message can be used")
-        else if(nchar(curlEscape(subjects)) > 200) 
+        else if(nchar(curl_escape(subjects)) > 200) 
             stop("Subject Too Long (200 char max)")
         if(length(subjects) > 1) 
             stop("If 'batch'==TRUE, only one subject can be used")
-        else if(nchar(curlEscape(msgs)) > 4096) 
+        else if(nchar(curl_escape(msgs)) > 4096) 
             stop("Message Text Too Long (4096 char max)")
 
         Notifications <- setNames(data.frame(matrix(nrow = length(workers), ncol = 4)),
@@ -37,8 +37,8 @@ function (subjects, msgs, workers, batch = FALSE,
         for(i in 1:length(workerbatch)){
             GETworkers <- paste0("&WorkerId.", seq_along(workerbatch[[i]]), "=", 
                                  workerbatch[[i]], collapse = "")
-            GETparameters <- paste0("&Subject=", curlEscape(subjects), 
-                                   "&MessageText=", curlEscape(msgs), GETworkers)
+            GETparameters <- paste0("&Subject=", curl_escape(subjects), 
+                                   "&MessageText=", curl_escape(msgs), GETworkers)
             request <- request(operation, GETparameters = GETparameters, ...)
             if(is.null(request$valid))
                 return(request)
@@ -64,11 +64,11 @@ function (subjects, msgs, workers, batch = FALSE,
         }
     } else {
         for(i in 1:length(subjects)) {
-            if(nchar(curlEscape(subjects[i])) > 200) 
+            if(nchar(curl_escape(subjects[i])) > 200) 
                 stop(paste("Subject ", i, " Too Long (200 char max)", sep = ""))
         }
         for(i in 1:length(msgs)) {
-            if(nchar(curlEscape(msgs[i])) > 4096) 
+            if(nchar(curl_escape(msgs[i])) > 4096) 
                 stop(paste("Message ", i, "Text Too Long (4096 char max)", sep = ""))
         }
         if(length(subjects) == 1) 
@@ -82,8 +82,8 @@ function (subjects, msgs, workers, batch = FALSE,
         Notifications <- setNames(data.frame(matrix(nrow = length(workers), ncol = 4)),
                             c("WorkerId", "Subject", "Message", "Valid"))
         for (i in 1:length(workers)) {
-            GETparameters <- paste("&Subject=", curlEscape(subjects[i]), 
-                                   "&MessageText=", curlEscape(msgs[i]),
+            GETparameters <- paste("&Subject=", curl_escape(subjects[i]), 
+                                   "&MessageText=", curl_escape(msgs[i]),
                                    "&WorkerId.1=", workers[i], sep = "")
             request <- request(operation, GETparameters = GETparameters, ...)
             if(is.null(request$valid))

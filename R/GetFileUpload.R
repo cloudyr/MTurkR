@@ -12,8 +12,8 @@ function(assignment,
     FileUploadURL <- setNames(data.frame(matrix(nrow = length(assignment), ncol = 4)),
                         c("Assignment", "questionIdenfier", "RequestURL", "Valid"))
     for(i in 1:length(assignment)) {
-        GETparameters <- paste("&AssignmentId=", curlEscape(assignment), 
-                               "&QuestionIdentifier=", curlEscape(questionIdentifier), 
+        GETparameters <- paste("&AssignmentId=", curl_escape(assignment), 
+                               "&QuestionIdentifier=", curl_escape(questionIdentifier), 
                                sep = "")        
         request <- request(operation, GETparameters = GETparameters, ...)
         if(is.null(request$valid))

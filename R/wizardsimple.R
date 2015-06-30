@@ -431,7 +431,7 @@ function (graphics = FALSE, sandbox = NULL, ...)
                 message("Please enter information for QualificationType below")
                 name <- readline(prompt = "Name for QualificationType (Workers can see this): ")
                 description <- readline(prompt = "Description QualificationType (Workers can see this): ")
-                if (nchar(curlEscape(description)) > 2000) {
+                if (nchar(curl_escape(description)) > 2000) {
                   message("Description must be less than ~2000 characters")
                   description <- readline(prompt = "Description QualificationType (Workers can see this): ")
                 }
