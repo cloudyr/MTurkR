@@ -13,8 +13,15 @@ function(operation, GETparameters = NULL,
         host <- "https://mechanicalturk.sandbox.amazonaws.com/"
     else
         host <- "https://mechanicalturk.amazonaws.com/"
-    if(is.null(keypair))
-        stop("No keypair provided or 'credentials' object not stored")
+    if(is.null(keypair)) {
+        key <- Sys.getenv("AWS_ACCESS_KEY_ID")
+        secret <- Sys.getenv("AWS_SECRET_ACCESS_KEY")
+        if(key != "" & secret != "") {
+            options(MTurkR.keypair = c(key,secret))
+        } else {
+            stop("No keypair provided or 'credentials' object not stored")
+        }
+    }
     keyid <- keypair[1]
     secret <- keypair[2]
     host <- paste(host, "?Service=", service, sep='')
