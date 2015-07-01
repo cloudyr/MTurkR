@@ -2,6 +2,7 @@
 
 ## SIGNIFICANT USER-VISIBILE CHANGES ##
 
+* `authenticate`, which was deprecated in v0.5, is removed.
 * Use of RCurl has been replaced by curl. This necessitated a new dependency, base64enc. (#86)
 * In lieu of `credentials()`, AWS credentials can be specified via environment variables `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY`.
 * `SufficientFunds` reflects the new commission structure effective July 21, 2015. (#87)
