@@ -1,2 +1,10 @@
 language: r
 sudo: required
+r_github_packages:
+- eddelbuettel/drat
+after_success:
+- test $TRAVIS_PULL_REQUEST == "false" && test $TRAVIS_BRANCH == "master" && bash
+  drat.sh
+env:
+  global:
+    secure: Kg4ZQvRHolP5lKs8HTwU7Tq8GoDFsL67HWwcpRSeIEJRxPiEo7Fz2OwsdRfXcG69Zl2PP6089HwAylrxoe4YiZUIFJPER4gJnkRz93Iq/K4QinBmtMzIDwIOds4y0pq0VFZJIQMNrgMtaIZFZyylYxfZbrSK25ynCGG/oFvaFGU=
