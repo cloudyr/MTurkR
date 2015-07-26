@@ -190,6 +190,8 @@ export("BulkCreateFromURLs")
 export("BulkCreateFromHITLayout")
 
 # imports
+importFrom(utils, browseURL, download.file, menu, tail, write.table, write.csv, packageDescription)
+importFrom(stats, setNames, reshape)
 importFrom(digest, hmac)
 importFrom(base64enc, base64encode)
 importFrom(curl, curl_escape, curl_unescape, new_handle, curl_fetch_memory)
