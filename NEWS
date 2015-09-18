@@ -2,6 +2,7 @@
 
 ## SIGNIFICANT USER-VISIBILE CHANGES ##
 
+* Closing the graphical wizard crashed RStudio due to `bringToTop(-1)`. This is fixed. (h/t Carolina Kuepper-Tetzel)
 * `authenticate`, which was deprecated in v0.5, is removed.
 * Use of RCurl has been replaced by curl. This necessitated a new dependency, base64enc. (#86)
 * In lieu of `credentials()`, AWS credentials can be specified via environment variables `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY`.

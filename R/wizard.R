@@ -79,7 +79,10 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
             exit <- tkmessageBox(message = "Are you sure you want to exit the wizard?", icon = "question", type = "yesno", default = "yes")
             if(tclvalue(exit)=="yes"){
                 tkdestroy(wizard)
-                bringToTop(-1)
+                if(Sys.getenv("RSTUDIO") != "1") {
+                    bringToTop(-1)
+                }
+                return(invisible(NULL))
             } else {
                 tkfocus(wizard)
             }
