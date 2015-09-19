@@ -16,7 +16,7 @@ function (hit.type = NULL, status = NULL, response.group = "Minimal",
         stop("'pagesize' must be in range (1,100)")
     if(as.numeric(pagenumber) < 1) 
         stop("'pagenumber' must be > 1")
-    if(!is.null(response.group) && !response.group == "Minimal") 
+    if(!is.null(response.group) && any(!response.group %in% "Minimal"))
         warning("ResponseGroup must be 'Minimal'; Minimal used as default")
     if(!is.null(status) && !status %in% c("Reviewable", "Reviewing")) 
         stop("Status must be 'Reviewable' or 'Reviewing' or NULL")

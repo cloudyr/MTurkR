@@ -2,6 +2,7 @@
 
 ## SIGNIFICANT USER-VISIBILE CHANGES ##
 
+* Correctly handle multiple `response.group` arguments passed to HIT-related functions. (#89)
 * Closing the graphical wizard crashed RStudio due to `bringToTop(-1)`. This is fixed. (h/t Carolina Kuepper-Tetzel)
 * `authenticate`, which was deprecated in v0.5, is removed.
 * Use of RCurl has been replaced by curl. This necessitated a new dependency, base64enc. (#86)

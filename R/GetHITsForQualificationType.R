@@ -18,8 +18,9 @@ function (qual, response.group = NULL, return.all = TRUE, pagenumber = 1,
                            "&PageSize=", 
                            pagesize, sep = "")
     if(!is.null(response.group)) {
-        if(!response.group %in% c("Minimal", "Request")) 
+        if(any(!response.group %in% c("Minimal", "Request"))) {
             stop("ResponseGroup must be in c(Minimal,Request)")
+        }
         if(length(response.group) == 1) {
             GETparameters <- paste(GETparameters, "&ResponseGroup=", 
                                    response.group, sep = "")

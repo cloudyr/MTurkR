@@ -76,11 +76,12 @@ function (hit.type = NULL, question = NULL, validate.question = FALSE,
     else
         GETparameters <- paste(GETparameters, "&MaxAssignments=", assignments, sep = "")
     if (!is.null(response.group)) {
-        if (!response.group %in% c("Request", "Minimal", "HITDetail", "HITQuestion", "HITAssignmentSummary")) 
+        if (any(!response.group %in% c("Request", "Minimal", "HITDetail", "HITQuestion", "HITAssignmentSummary"))) {
             stop("ResponseGroup must be in c(Request,Minimal,HITDetail,HITQuestion,HITAssignmentSummary)")
-        if (length(response.group) == 1) 
+        }
+        if (length(response.group) == 1) {
             GETparameters <- paste(GETparameters, "&ResponseGroup=", response.group, sep = "")
-        else {
+        } else {
             for (i in 1:length(response.group)) {
                 GETparameters <- paste(GETparameters, "&ResponseGroup", i-1,
                                        "=", response.group[i], sep = "")

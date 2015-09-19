@@ -11,9 +11,10 @@ function(hit = NULL,
         verbose <- list(...)$print
     operation <- "DisableHIT"
     if(!is.null(response.group)) {
-        if(!response.group %in% c("Minimal", "HITQuestion", 
-            "HITDetail", "HITAssignmentSummary")) 
+        if(any(!response.group %in% 
+           c("Minimal", "HITQuestion", "HITDetail", "HITAssignmentSummary"))) { 
             stop("ResponseGroup must be in c(Minimal,HITQuestion,HITDetail,HITAssignmentSummary)")
+        }
     }
     if((is.null(hit) & is.null(hit.type) & is.null(annotation)) | 
        (!is.null(hit) & !is.null(hit.type) & !is.null(annotation))) {

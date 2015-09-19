@@ -26,9 +26,10 @@ function(assignment = NULL,
     GETresponsegroup <- ""
     if(!is.null(response.group)) {
         if(!is.null(assignment)) {
-            if(!response.group %in% c("Request", "Minimal", 
-                    "AssignmentFeedback", "HITDetail", "HITQuestion")) 
+            if(any(!response.group %in% 
+               c("Request", "Minimal", "AssignmentFeedback", "HITDetail", "HITQuestion"))) {
                 stop("ResponseGroup must be in c(Request,Minimal,AssignmentFeedback,HITDetail,HITQuestion)")
+            }
         } else {
             if(!response.group %in% c("Request", "Minimal", "AssignmentFeedback")) 
                 stop("ResponseGroup must be in c(Request,Minimal,AssignmentFeedback)")
