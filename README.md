@@ -17,17 +17,27 @@ Amazon provides [a helpful chart for deciding whether an API client (like MTurkR
 [![CRAN Version](http://www.r-pkg.org/badges/version/MTurkR)](http://cran.r-project.org/package=MTurkR)
 ![Downloads](http://cranlogs.r-pkg.org/badges/MTurkR)
 [![Travis-CI Build Status](https://travis-ci.org/leeper/MTurkR.png?branch=master)](https://travis-ci.org/leeper/MTurkR)
-[![Appveyor Build status](https://ci.appveyor.com/api/projects/status/432l8e6qycnfi8ci)](https://ci.appveyor.com/project/leeper/mturkr)
+[![Build status](https://ci.appveyor.com/api/projects/status/432l8e6qycnfi8ci?svg=true)](https://ci.appveyor.com/project/leeper/mturkr)
 
 To install the latest development version of **MTurkR** from GitHub:
 
-    install.packages("MTurkR", repos = c(getOption("repos"), "http://cloudyr.github.io/drat"))
-    install_github("leeper/MTurkR")
+```R
+# latest stable version
+install.packages("MTurkR", repos = c(getOption("repos"), "http://cloudyr.github.io/drat"))
 
-The GitHub [master branch](https://github.com/leeper/MTurkR) should be considered stable. Major releases are periodically pushed to CRAN. To install the latest version from CRAN, simply use:
+# latest (unstable) version from GitHub
+if(!require("devtools")){
+    install.packages("devtools")
+    library("devtools")
+}
+install_github("leeper/MTurkR")
+```
 
-    install.packages("MTurkR")
+To install the latest version from CRAN, simply use:
 
+```R
+install.packages("MTurkR")
+```
 
 ## Using **MTurkR** ##
 
