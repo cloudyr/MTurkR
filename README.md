@@ -21,10 +21,7 @@ Amazon provides [a helpful chart for deciding whether an API client (like MTurkR
 
 To install the latest development version of **MTurkR** from GitHub:
 
-    if(!require("devtools")){
-        install.packages("devtools")
-        library("devtools")
-    }
+    install.packages("MTurkR", repos = c(getOption("repos"), "http://cloudyr.github.io/drat"))
     install_github("leeper/MTurkR")
 
 The GitHub [master branch](https://github.com/leeper/MTurkR) should be considered stable. Major releases are periodically pushed to CRAN. To install the latest version from CRAN, simply use:
