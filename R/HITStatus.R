@@ -48,14 +48,14 @@ function (hit = NULL,
                            "NumberOfAssignmentsCompleted", "Expiration")]
         if(dim(HITs)[1] > 1) {
             totals <- data.frame(HITId = c( "------------------------------", "Totals"),
-                                 HITReviewStatus = c("---------------",""),
-                                 NumberOfAssignmentsPending = c("--------------------",
+                                 HITReviewStatus = c("------------",""),
+                                 NumberOfAssignmentsPending = c("-------",
                                      sum(as.numeric(HITs$NumberOfAssignmentsPending))),
-                                 NumberOfAssignmentsAvailable = c("------------------",
+                                 NumberOfAssignmentsAvailable = c("---------",
                                      sum(as.numeric(HITs$NumberOfAssignmentsAvailable))),
-                                 NumberOfAssignmentsCompleted = c("--------------------",
+                                 NumberOfAssignmentsCompleted = c("---------",
                                      sum(as.numeric(HITs$NumberOfAssignmentsCompleted))),
-                                 Expiration = c("----------",""))
+                                 Expiration = c("--------------------",""))
             toprint <- setNames(rbind(toprint,totals), c("HITId", "ReviewStatus", "Pending", 
                                                          "Available", "Completed", "Expiration"))
         }
