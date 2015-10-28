@@ -16,12 +16,12 @@
             </form>
             
             <script type="text/javascript">
-              // RETRIEVE URL
+              /* RETRIEVE URL */
               var fullurl=new String();
-              // THIS IS THE LINE TO CAPTURE THE ACTUAL URL:
+              /* THIS IS THE LINE TO CAPTURE THE ACTUAL URL: */
               var fullurl=window.location.href;
   
-              // FUNCTION TO EXTRACT A URL PARAMETER (FROM: https://s3.amazonaws.com/mturk-public/externalHIT_v1.js)
+              /* FUNCTION TO EXTRACT A URL PARAMETER (FROM: https://s3.amazonaws.com/mturk-public/externalHIT_v1.js) */
               function turkGetParam( name ) { 
                   var regexS = "[\?&]"+name+"=([^&#]*)"; 
                   var regex = new RegExp( regexS ); 
@@ -34,23 +34,23 @@
                   } 
               }
               
-              // ASSIGNS THE URL PARAMETERS TO JAVASCRIPT VARIABLES
+              /* ASSIGNS THE URL PARAMETERS TO JAVASCRIPT VARIABLES */
               var assign = turkGetParam('assignmentId');
               var hit = turkGetParam('hitId');
               var worker = turkGetParam('workerId');
               
-              // THIS PART BUILDS THE LINK FOR AN ACCEPTED ASSIGNMENT
+              /* THIS PART BUILDS THE LINK FOR AN ACCEPTED ASSIGNMENT */
               if(assign=="ASSIGNMENT_ID_NOT_AVAILABLE") {
-                  // THIS IS A MESSAGE ABOUT THE HIT BEING IN PREVIEW MODE (SO IT WON'T SHOW THE LINK)
+                  /* THIS IS A MESSAGE ABOUT THE HIT BEING IN PREVIEW MODE (SO IT WON'T SHOW THE LINK) */
                   document.getElementById('link').innerHTML = "<p style='font-weight:bold;text-align:center;'>Link will become available once you accept the HIT.</p>";
               } else {
-                  // CONSTRUCT THE SURVEY LINK WITH THE EMBEDDED VALUES:
+                  /* CONSTRUCT THE SURVEY LINK WITH THE EMBEDDED VALUES: */
                   var surveylink = new String("http://www.example.com/"
                                    + "?assignmentId=" + assign
                                    + "&hitId=" + hit
                                    + "&workerId=" + worker
                                    );
-                  // DISPLAY THE LINK
+                  /* DISPLAY THE LINK */
                   document.getElementById('link').innerHTML = "<p><a href='" + surveylink + "' target='_blank'>Complete this survey</a></p>";
               }
             </script>
