@@ -22,7 +22,7 @@ function(hit,
         if(!policy.level %in% c("HIT", "Assignment")) 
             stop("PolicyLevel must be 'HIT' | 'Assignment'")
         GETparameters <- 
-          paste(GETparameters, "&PolicyLevel=", policy.level, sep = "")
+          paste(GETparameters, "&PolicyLevel=", policy.level[1], sep = "")
     }
     if(!is.null(assignment)) {
         if(is.factor(assignment))
@@ -31,20 +31,22 @@ function(hit,
           paste(GETparameters, "&AssignmentId=", assignment, sep = "")
     }
     if(!is.null(retrieve.actions)) {
-        if(!retrieve.actions %in% c(TRUE, FALSE)) 
+        if(!retrieve.actions %in% c(TRUE, FALSE)) {
             stop("RetrieveActions must be TRUE or FALSE")
-        else if(retrieve.actions == TRUE) 
+        } else if(retrieve.actions == TRUE) {
             GETparameters <- paste(GETparameters, "&RetrieveActions=T", sep = "")
-        else if(retrieve.actions == FALSE) 
+        } else if(retrieve.actions == FALSE) {
             GETparameters <- paste(GETparameters, "&RetrieveActions=F", sep = "")
+        }
     }
     if(!is.null(retrieve.results)) {
-        if(!retrieve.results %in% c(TRUE, FALSE)) 
+        if(!retrieve.results %in% c(TRUE, FALSE)) {
             stop("RetrieveResults must be TRUE or FALSE")
-        else if(retrieve.results == TRUE) 
+        } else if(retrieve.results == TRUE) {
             GETparameters <- paste(GETparameters, "&RetrieveResults=T", sep = "")
-        else if(retrieve.results == FALSE) 
+        } else if(retrieve.results == FALSE) {
             GETparameters <- paste(GETparameters, "&RetrieveResults=F", sep = "")
+        }
     }
     if(as.numeric(pagesize) < 1) 
         stop("'pagesize' must be greater than 1")
@@ -82,9 +84,10 @@ function(hit,
     }   
     if(verbose) {
         message("ReviewResults Retrieved: ", appendLF=FALSE)
-        if(is.null(request))
+        if(is.null(request)) {
             message("0\n")
-        else {
+        } else {
+            message("\n")
             if("AssignmentReviewResult" %in% names(request)) 
                 message(length(request$AssignmentReviewResults), 
                         " Assignment ReviewResults Retrieved")
@@ -97,6 +100,7 @@ function(hit,
             if("HITReviewAction" %in% names(request)) 
                 message(length(request$HITReviewActions), 
                         " HIT ReviewActions Retrieved")
+            message("\n")
         }
     }
     return(request)

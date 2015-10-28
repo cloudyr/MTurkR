@@ -81,18 +81,23 @@ DisposeHIT(hit1$HITId)
 \dontrun{
 # Assignment-level ReviewPolicies #
 
+# Example Policy A
 ## Conditional approval of assignments based on percent of correct answers
 lista <- list(AnswerKey = list("QuestionId1" = "B",
                                "QuestionId2" = "A"),
               ApproveIfKnownAnswerScoreIsAtLeast = 99)
 policya <- do.call(GenerateAssignmentReviewPolicy, lista)
 
+# Example Policy B
+## Conditional approval of assignments based on percent of correct answers
 ## Conditional rejection of assignments based on percent of correct answers
 listb <- list(AnswerKey = list("QuestionId1" = "B",
                                "QuestionId2" = "A"),
+              ApproveIfKnownAnswerScoreIsAtLeast = 99,
               RejectIfKnownAnswerScoreIsLessThan = 1)
 policyb <- do.call(GenerateAssignmentReviewPolicy, listb)
 
+# Example Policy C
 ## Conditionally extend HIT with more time and assignments based on score
 listc <- list(AnswerKey = list("QuestionId1" = "B"),
               ExtendIfKnownAnswerScoreIsLessThan = 100,
@@ -100,7 +105,13 @@ listc <- list(AnswerKey = list("QuestionId1" = "B"),
               ExtendMinimumTimeInSeconds = seconds(hours = 1))
 policyc <- do.call(GenerateAssignmentReviewPolicy, listc)
 
+
 # Attach an assignment review policy to a HIT
+## load template file
+## applying Policy B will approve if form answers are "Something" and "Yes"
+##                        and reject if both are incorrect
+f <- system.file("templates/htmlquestion3.xml", package = "MTurkR")
+
 hit1 <- 
 CreateHIT(title = "Survey",
           description = "5 question survey",
@@ -108,8 +119,8 @@ CreateHIT(title = "Survey",
           expiration = seconds(days = 4),
           duration = seconds(hours = 1),
           keywords = "survey, questionnaire",
-          assignment.review.policy = policya,
-          question = GenerateExternalQuestion("http://www.example.com/","400"))
+          assignment.review.policy = policyb,
+          question = GenerateHTMLQuestion(file = f))
 
 # GetReviewResults
 GetReviewResultsForHIT(hit1$HITId)
@@ -121,39 +132,45 @@ DisposeHIT(hit1$HITId)
 \dontrun{
 # HIT- and Assignment-level ReviewPolicies
 
+# Example Policy D
 ## Conditional approval of assignments based on percent of correct answers
-lista <- list(AnswerKey = list("QuestionId1" = "B",
+listd <- list(AnswerKey = list("QuestionId1" = "B",
                                "QuestionId2" = "A"),
               ApproveIfKnownAnswerScoreIsAtLeast = 99)
-policya <- do.call(GenerateAssignmentReviewPolicy, lista)
+policyd <- do.call(GenerateAssignmentReviewPolicy, listd)
 
+# Example Policy E
 ## Conditionally extend HIT based on HIT Agreement Score
-listb <- list(QuestionIds = c("Question3","Question4","Question5"),
+liste <- list(QuestionIds = c("QuestionId3","QuestionId4","QuestionId5"),
               QuestionAgreementThreshold = 65, # at least 2/3rd agreement
               ExtendIfHITAgreementScoreIsLessThan = 66,
               ExtendMinimumTimeInSeconds = 3600,
               ExtendMaximumAssignments = 2,
               DisregardAssignmentIfRejected = TRUE)
-policyb <- do.call(GenerateHITReviewPolicy, listb)
+policye <- do.call(GenerateHITReviewPolicy, liste)
+
+## load template file
+## applying 'policya' will approve if form answers are "Something" and "Yes"
+f <- system.file("templates/htmlquestion3.xml", package = "MTurkR")
 
 # Create HIT
-hit1 <- 
+hit2 <- 
 CreateHIT(title = "Survey",
           description = "5 question survey",
           reward = ".10",
           expiration = seconds(days = 4),
           duration = seconds(hours = 1),
           keywords = "survey, questionnaire",
-          assignment.review.policy = policya,
-          hit.review.policy = policyb,
-          question = GenerateExternalQuestion("http://www.example.com/","400"))
+          assignment.review.policy = policyd,
+          hit.review.policy = policye,
+          question = GenerateHTMLQuestion(file = f))
 
 # GetReviewResults
-GetReviewResultsForHIT(hit1$HITId)
+GetReviewResultsForHIT(hit2$HITId)
 
 # cleanup
-ExpireHIT(hit1$HITId)
-DisposeHIT(hit1$HITId)
+ExpireHIT(hit2$HITId)
+DisposeHIT(hit2$HITId)
 }
 }
 \keyword{HITs}

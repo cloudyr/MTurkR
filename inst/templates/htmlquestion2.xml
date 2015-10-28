@@ -2,6 +2,7 @@
 <html>
  <head>
   <meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+  <title>Example HTMLQuestion Form</title>
   <script type='text/javascript' src='https://s3.amazonaws.com/mturk-public/externalHIT_v1.js'></script>
  </head>
  <body>
@@ -12,6 +13,6 @@
   <p>What do you think?</p>
   <p><textarea name='comment' cols='80' rows='3'></textarea></p>
   <p><input type='submit' id='submitButton' value='Submit' /></p></form>
-  <script language='Javascript'>turkSetAssignmentID();</script>
+  <script>turkSetAssignmentID();</script>
  </body>
 </html>
