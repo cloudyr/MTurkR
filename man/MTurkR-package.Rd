@@ -4,13 +4,13 @@
 \docType{package}
 \title{R Client for the MTurk Requester API}
 \description{
-This package provides access to the Amazon Mechanical Turk (MTurk) Requester API. The package provides users of the MTurk Requester User Interface (RUI) with access to a variety of functions currently unavailable to them (the creation and maintenance of worker Qualifications, email notifications to workers through \code{\link{ContactWorker}}, and streamlined bonus payments through \code{\link{GrantBonus}}). It also provides users with all functions available in the RUI directly in R as well as a large number of other functions, with a relatively simple command-line interface.
+This package provides access to the Amazon Mechanical Turk (MTurk) Requester API. The package provides users of the MTurk Requester User Interface  with access to a variety of functions currently unavailable to them (the creation and maintenance of worker Qualifications, email notifications to workers through \code{\link{ContactWorker}}, automated reviewing of assignments using Review Policies, and streamlined bonus payments through \code{\link{GrantBonus}}). It also provides users with all functions available in the RUI directly in R as well as a large number of other functions, a relatively fully featured, cross-platform graphical user interface (called by \code{\link{MTurkR.Wizard}}), and a simple, interactive command-line tool for performing many operations.
 
-Most users will find themselves using four principal functions: \code{\link{credentials}}, \code{\link{CreateHIT}}, \code{\link{GetAssignments}}, and \code{\link{ApproveAssignments}}, to define one's MTurk (AWS) credentials, to create one or more HITs on the MTurk server, to retrieve completed assignments, and to approve assignments (and thus pay workers), respectively. Critically important, nothing in MTurkR will work during a given session without either first setting AWS credentials with the \code{\link{credentials}} function or specifying those credentials atomically within each function. API keys can also be loade as environment variables or via \code{options()}.
+Most users will find themselves using three principal functions: \code{\link{CreateHIT}}, \code{\link{GetAssignments}}, and \code{\link{ApproveAssignments}}, to create one or more HITs on the MTurk server, to retrieve completed assignments, and to approve assignments (and thus pay workers), respectively. As task complexity increases, additional functions are provided to handle worker qualifications, bonuses, emails to workers, automated review policies, bulk creation of HITs, and so forth.
 
-There are five common parameters that can be specified in most MTurkR functions: \code{keypair}, \code{verbose}, \code{log.requests}, and \code{sandbox}. The first of these is the AWS credentials parameter just described (whose default can be set globally with \code{\link{credentials}}), and the latter four are logicals. \code{verbose} causes certain information to be displayed on the standard output when functions are executed. \code{log.requests} records details of API calls in the working directory (see \code{\link{readlogfile}}). Setting the parameter \code{sandbox=TRUE} executes requests in the developer sandbox rather than the live server. This can be set globally with \code{options('MTurkR.sandbox')}, where the default is \code{FALSE}.
+Critically important, nothing in MTurkR will work during a given session without either first setting AWS credentials. The easiest way to do this is to specify \samp{AWS_ACCESS_KEY_ID} and \samp{AWS_SECRET_ACCESS_KEY} environment variables using \code{Sys.setenv()} or by placing these values in an .Renviron file. Credentials can also be specified atomically within each MTurkR function as the \code{keypair} argument, which accepts the credentials as a two-element character vector.
 
-A lightweight menu-based Wizard (called by \code{\link{MTurkR.Wizard}}) is also available for beginners to interactively connect with MTurk. The wizard is designed to quickly create HITs, approve and reject work, contact or bonus workers, grant Qualifications, and so forth. While helpful, the wizard is intended only to facilitate beginners and is not intended to mimic anything near the full functionality of individual MTurkR functions.
+There are five common parameters that can be specified in most MTurkR functions: \code{keypair}, \code{verbose}, \code{log.requests}, and \code{sandbox}. The first of these is the AWS credentials parameter just described and the latter four are logicals. \code{verbose} causes certain information to be displayed on the standard output when functions are executed. \code{log.requests} records details of API calls in the working directory (see \code{\link{readlogfile}}). This is slightly time-consuming, so it can be omitted if you do not need access to log information (e.g., for troubleshooting). Setting the parameter \code{sandbox=TRUE} executes requests in the developer sandbox rather than the live server, which is a useful test environment. All of these options can be set globally using, for example, \code{options('MTurkR.sandbox')}.
 }
 \author{
 Thomas J. Leeper
@@ -18,9 +18,9 @@ Thomas J. Leeper
 Maintainer: Thomas J. Leeper <thosjleeper@gmail.com>
 }
 \references{
-\href{http://leeper.github.io/MTurkR/}{MTurkR homepage}
-
 \href{http://www.mturk.com}{Amazon Mechanical Turk}
+
+\href{https://github.com/leeper/MTurkR/wiki}{The MTurkR Wiki}, which contains numerous code examples and tutorials
 
 \href{http://aws.amazon.com/documentation/mturk/}{Amazon Mechanical Turk API Documentation}
 }
