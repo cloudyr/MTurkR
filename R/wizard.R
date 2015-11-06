@@ -257,7 +257,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
             logDialog <- tktoplevel()
             tkwm.title(logDialog, "MTurkR Log Entries")
             listframe <- tkframe(logDialog, relief="groove", borderwidth=2)
-                scr <- ttkscrollbar(listframe, repeatinterval=5, command=function(...) tkyview(loglist,...))
+                scr <- ttkscrollbar(listframe,  command=function(...) tkyview(loglist,...))
                 loglist <- tklistbox(listframe, width=50, height=15, selectmode="single", yscrollcommand=function(...) tkset(scr,...), background="white")
                 tkgrid(loglist,scr)
                 tkgrid.configure(scr, sticky="nsw")
@@ -1458,7 +1458,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 tkgrab.set(currenthits)
                 tkwm.title(currenthits, "Available HITs")
                 entryform <- ttklabelframe(currenthits, text = "Select a HIT:")
-                    scr <- ttkscrollbar(entryform, repeatinterval=5, command=function(...) tkyview(hitlist,...))
+                    scr <- ttkscrollbar(entryform, command=function(...) tkyview(hitlist,...))
                     hitlist <- tklistbox(entryform, height=8, width=100, selectmode="single",
                                          yscrollcommand=function(...) tkset(scr,...), background="white")
                     tkgrid(hitlist, scr, column=1)
@@ -2033,9 +2033,9 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                     tkgrid(ttklabel(entryform, text = "Submitted Assignments: "), row=r, column=2, columnspan=2)
                     tkgrid(ttklabel(entryform, text = "Approved Assignments: "), row=r, column=6)
                     tkgrid(ttklabel(entryform, text = "Rejected Assignments: "), row=r, column=9)
-                    scr1 <- ttkscrollbar(entryform, repeatinterval=5, command=function(...) tkyview(sublist,...))
-                    scr2 <- ttkscrollbar(entryform, repeatinterval=5, command=function(...) tkyview(isapplist,...))
-                    scr3 <- ttkscrollbar(entryform, repeatinterval=5, command=function(...) tkyview(isrejlist,...))
+                    scr1 <- ttkscrollbar(entryform, command=function(...) tkyview(sublist,...))
+                    scr2 <- ttkscrollbar(entryform, command=function(...) tkyview(isapplist,...))
+                    scr3 <- ttkscrollbar(entryform, command=function(...) tkyview(isrejlist,...))
                     sublist <- tklistbox(entryform, height=25, width=35, selectmode="multiple",
                                             yscrollcommand=function(...) tkset(scr1,...), background="white")
                     isapplist <- tklistbox(entryform, height=25, width=35, selectmode="single",
@@ -2364,7 +2364,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 blocklistDialog <-tktoplevel()
                 tkwm.title(blocklistDialog, "Currently Blocked Workers")
                 entryform <- tkframe(blocklistDialog, relief="groove", borderwidth=2)
-                scr <- ttkscrollbar(entryform, repeatinterval=5, command=function(...) tkyview(workerlist,...))
+                scr <- ttkscrollbar(entryform,  command=function(...) tkyview(workerlist,...))
                 workerlist <- tklistbox(entryform, height=8, selectmode="multiple", yscrollcommand=function(...) tkset(scr,...), background="white")
                 tkgrid(workerlist,scr)
                 tkgrid.configure(scr, rowspan=4, sticky="nsw")
@@ -3051,7 +3051,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 tkgrab.set(selectqualDialog)
                 entryform <- tkframe(selectqualDialog)
                     r <- 1
-                    scr <- ttkscrollbar(entryform, repeatinterval=5, command=function(...) tkyview(quallist,...))
+                    scr <- ttkscrollbar(entryform,  command=function(...) tkyview(quallist,...))
                     quallist <- tklistbox(    entryform, height=20, width=100, selectmode="single",
                                             yscrollcommand=function(...) tkset(scr,...), background="white")
                     tkgrid(quallist, row=r, column=1, columnspan=2)
@@ -3198,7 +3198,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
                 tkgrid(ttklabel(entryform, text = "     "), row=r, column=1)
                 tkgrid(ttklabel(entryform, text = "     "), row=r, column=4)
                 r <- r + 1
-                scr <- ttkscrollbar(entryform, repeatinterval=5, command=function(...) tkyview(qualreqlist,...))
+                scr <- ttkscrollbar(entryform,  command=function(...) tkyview(qualreqlist,...))
                 qualreqlist <- tklistbox(entryform, width=50, height=15, selectmode="single",
                                             yscrollcommand=function(...) tkset(scr,...), background="white")
                 tkgrid(qualreqlist,scr, row=r, column=2, columnspan=2)
