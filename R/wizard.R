@@ -1453,7 +1453,7 @@ function(style="tcltk", sandbox=getOption('MTurkR.sandbox')) {
         searchWiz <- function(){
             results <- SearchHITs(verbose=FALSE)
             # populate scrollable listbox
-            if(nrow(results)>0) {
+            if(nrow(results$HITs)>0) {
                 currenthits <- tktoplevel()
                 tkgrab.set(currenthits)
                 tkwm.title(currenthits, "Available HITs")
