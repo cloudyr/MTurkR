@@ -12,6 +12,7 @@
 
 ## DOCUMENTATION ##
 
+* The package now includes additional HTMLQuestion templates including examples for image categorization and sentiment rating. (#94)
 * Documentation for `GenerateHITReviewPolicy` and `GenerateAssignmentReviewPolicy` was expanded and tested, and a related HTMLQuestion HIT template is now installed.
 
 ## BUG FIXES ##
