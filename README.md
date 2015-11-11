@@ -12,6 +12,8 @@ Possible applications of the package include:
 
 Amazon provides [a helpful chart for deciding whether an API client (like MTurkR) is useful for yor project](https://requester.mturk.com/tour/choose_the_right_tool).
 
+As a supplemental feature to MTurkR, there is also a graphical user interface available for the package. A simple, command-line version of this is available using the `wizard.simple()` function in MTurkR. A more advanced GUI, built using Tcl/tk is available in [**MTurkRGUI**](https://github.com/leeper/MTurkRGUI) package.
+
 ## Installation ##
 
 [![CRAN Version](http://www.r-pkg.org/badges/version/MTurkR)](http://cran.r-project.org/package=MTurkR)

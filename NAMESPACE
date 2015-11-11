@@ -127,8 +127,6 @@ export("OpenQualificationPage")
 export("OpenWorkerPage")
 export("ViewAvailableHITs")
 
-export("mturkr.wizard")
-export("MTurkR.Wizard")
 export("wizard.simple")
 
 export("qualrequests")
@@ -192,9 +190,6 @@ export("BulkCreateFromHITLayout")
 # imports
 importFrom(utils, browseURL, download.file, menu, tail, read.delim,
                   write.table, write.csv, packageDescription)
-if (.Platform$OS.type=="windows") {
-    importFrom(grDevices, bringToTop)
-}
 importFrom(stats, setNames, reshape)
 importFrom(digest, hmac)
 importFrom(base64enc, base64encode)
@@ -225,6 +220,3 @@ S3method(as.data.frame, MTurkResponse)
 #export("QuestionFormToDataFrame")
 #export("ReviewResultsToDataFrame")
 #export("WorkerBlockToDataFrame")
-
-# GUI
-import(tcltk)

@@ -2,6 +2,7 @@
 
 ## SIGNIFICANT USER-VISIBLE CHANGES ##
 
+* `MTurkR.Wizard` has been removed from MTurkR and has been recreated as a separate package. (#95)
 * `HITStatus` now reports condensed column names better suited for narrow displays.
 * Correctly handle multiple `response.group` arguments passed to HIT-related functions. (#89)
 * `authenticate`, which was deprecated in v0.5, is removed.
