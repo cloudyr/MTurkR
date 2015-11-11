@@ -4,9 +4,6 @@ function (qual, description = NULL, status = NULL, retry.delay = NULL,
     test = NULL, answerkey = NULL, test.duration = NULL,
     validate.test = FALSE, validate.answerkey = FALSE,
     auto = NULL, auto.value = NULL, verbose = getOption('MTurkR.verbose', TRUE), ...) {
-    # temporary check for `print` argument (remove after v1.0)
-    if('print' %in% names(list(...)) && is.null(verbose))
-        verbose <- list(...)$print
     operation <- "UpdateQualificationType"
     if(is.factor(qual))
         qual <- as.character(qual)

@@ -7,9 +7,6 @@ function(assignment = NULL,
          return.all = TRUE, 
          pagenumber = "1", pagesize = "100", 
          verbose = getOption('MTurkR.verbose', TRUE), ...) {
-    # temporary check for `print` argument (remove after v1.0)
-    if('print' %in% names(list(...)) && is.null(verbose))
-        verbose <- list(...)$print
     operation <- "GetBonusPayments"
     if(as.numeric(pagesize) < 1 || as.numeric(pagesize) > 100) 
         stop("'pagesize' must be in range (1,100)")

@@ -4,9 +4,6 @@ function (qual = NULL, return.all = TRUE, pagenumber = "1", pagesize = "10",
     sortproperty = "SubmitTime", sortdirection = "Ascending", 
     return.qual.dataframe = TRUE,
     verbose = getOption('MTurkR.verbose', TRUE), ...) {
-    # temporary check for `print` argument (remove after v1.0)
-    if('print' %in% names(list(...)) && is.null(verbose))
-        verbose <- list(...)$print
     operation <- "GetQualificationRequests"
     if(!sortproperty %in% c("SubmitTime", "QualificationTypeId")) 
         stop("'sortproperty' must be 'SubmitTime' | 'QualificationTypeId'")

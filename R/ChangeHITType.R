@@ -5,9 +5,6 @@ function (hit = NULL, old.hit.type = NULL, new.hit.type = NULL,
     keywords = NULL, auto.approval.delay = NULL, qual.req = NULL, 
     old.annotation = NULL,
     verbose = getOption('MTurkR.verbose', TRUE), ...) {
-    # temporary check for `print` argument (remove after v1.0)
-    if('print' %in% names(list(...)) && is.null(verbose))
-        verbose <- list(...)$print
     operation <- "ChangeHITTypeOfHIT"
     if((is.null(hit) & is.null(old.hit.type) & is.null(old.annotation)) | 
        (!is.null(hit) & !is.null(old.hit.type) & !is.null(old.annotation))) 

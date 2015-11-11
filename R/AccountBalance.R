@@ -3,9 +3,6 @@ accountbalance <-
 getbalance <-
 function(verbose = getOption('MTurkR.verbose', TRUE), ...) 
 {
-    # temporary check for `print` argument (remove after v1.0)
-    if('print' %in% names(list(...)) && is.null(verbose))
-        verbose <- list(...)$print
     operation <- "GetAccountBalance"
     request <- request(operation, verbose = verbose, ...)
     if(is.null(request$valid) || !request$valid) {

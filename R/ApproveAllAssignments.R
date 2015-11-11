@@ -5,9 +5,6 @@ function(hit = NULL,
          annotation = NULL,
          feedback = NULL,
          verbose = getOption('MTurkR.verbose', TRUE), ...){
-    # temporary check for `print` argument (remove after v1.0)
-    if('print' %in% names(list(...)) && is.null(verbose))
-        verbose <- list(...)$print
     if(!is.null(feedback)) {
         if(length(feedback) > 1) 
             stop("Can only specify one feedback message; no assignments approved")

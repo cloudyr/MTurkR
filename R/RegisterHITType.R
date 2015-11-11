@@ -3,9 +3,6 @@ hittype <-
 function (title, description, reward, duration, keywords = NULL, 
     auto.approval.delay = NULL, qual.req = NULL,
     verbose = getOption('MTurkR.verbose', TRUE), ...){
-    # temporary check for `print` argument (remove after v1.0)
-    if('print' %in% names(list(...)) && is.null(verbose))
-        verbose <- list(...)$print
     operation <- "RegisterHITType"
     if(nchar(curl_escape(title)) > 128) 
         stop("Title too long (128 char max)")

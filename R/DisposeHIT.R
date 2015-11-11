@@ -5,9 +5,6 @@ function(hit = NULL,
          annotation = NULL,
          response.group = NULL, 
          verbose = getOption('MTurkR.verbose', TRUE), ...) {
-    # temporary check for `print` argument (remove after v1.0)
-    if('print' %in% names(list(...)) && is.null(verbose))
-        verbose <- list(...)$print
     operation <- "DisposeHIT"
     if((is.null(hit) & is.null(hit.type) & is.null(annotation)) | 
        (!is.null(hit) & !is.null(hit.type) & !is.null(annotation))) {

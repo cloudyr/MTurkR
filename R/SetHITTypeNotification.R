@@ -2,9 +2,6 @@ SetHITTypeNotification <-
 setnotification <-
 function (hit.type, notification = NULL, active = NULL, 
     verbose = getOption('MTurkR.verbose', TRUE), ...){
-    # temporary check for `print` argument (remove after v1.0)
-    if('print' %in% names(list(...)) && is.null(verbose))
-        verbose <- list(...)$print
     if(is.null(notification) & is.null(active)) 
         stop("Must specify either 'notification' and/or 'active'")
     operation <- "SetHITTypeNotification"

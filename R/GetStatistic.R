@@ -2,9 +2,6 @@ GetStatistic <-
 statistic <-
 function (statistic, period = "LifeToDate", count = NULL, response.group = NULL, 
     verbose = getOption('MTurkR.verbose', TRUE), ...) {
-    # temporary check for `print` argument (remove after v1.0)
-    if('print' %in% names(list(...)) && is.null(verbose))
-        verbose <- list(...)$print
     operation <- "GetRequesterStatistic"
     value.long <- c("NumberAssignmentsAvailable", "NumberAssignmentsAccepted", 
         "NumberAssignmentsPending", "NumberAssignmentsApproved", 

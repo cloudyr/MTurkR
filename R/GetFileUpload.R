@@ -5,9 +5,6 @@ function(assignment,
          download = FALSE, 
          open.file.in.browser = FALSE, 
          verbose = getOption('MTurkR.verbose', TRUE), ...) {
-    # temporary check for `print` argument (remove after v1.0)
-    if('print' %in% names(list(...)) && is.null(verbose))
-        verbose <- list(...)$print
     operation <- "GetFileUploadURL"
     FileUploadURL <- setNames(data.frame(matrix(nrow = length(assignment), ncol = 4)),
                         c("Assignment", "questionIdenfier", "RequestURL", "Valid"))

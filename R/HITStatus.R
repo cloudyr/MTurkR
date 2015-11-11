@@ -5,9 +5,6 @@ function (hit = NULL,
           annotation = NULL,
           verbose = getOption('MTurkR.verbose', TRUE), 
           ...){
-    # temporary check for `print` argument (remove after v1.0)
-    if('print' %in% names(list(...)) && is.null(verbose))
-        verbose <- list(...)$print
     hitsearch <- SearchHITs(verbose = TRUE, 
                             return.all = TRUE,
                             return.qual.dataframe = FALSE, ...)

@@ -9,9 +9,6 @@ function (hit.type = NULL, question = NULL, validate.question = FALSE,
     auto.approval.delay = NULL, qual.req = NULL, hitlayoutid = NULL, 
     hitlayoutparameters = NULL, response.group = NULL, 
     verbose = getOption('MTurkR.verbose', TRUE), ...) {
-    # temporary check for `print` argument (remove after v1.0)
-    if('print' %in% names(list(...)) && is.null(verbose))
-        verbose <- list(...)$print
     operation <- "CreateHIT"
     if(!is.null(hit.type)) {
         if(is.factor(hit.type))

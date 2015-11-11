@@ -12,9 +12,6 @@ function(assignment = NULL,
          response.group = NULL,
          return.assignment.dataframe = TRUE,
          verbose = getOption('MTurkR.verbose', TRUE), ...) {
-    # temporary check for `print` argument (remove after v1.0)
-    if('print' %in% names(list(...)) && is.null(verbose))
-        verbose <- list(...)$print
     if(!sortproperty %in% c("AcceptTime", "SubmitTime", "AssignmentStatus")) 
         stop("'sortproperty' must be 'AcceptTime' | 'SubmitTime' | 'AssignmentStatus'")
     if(!sortdirection %in% c("Ascending", "Descending")) 
