@@ -3,6 +3,7 @@
 ## SIGNIFICANT USER-VISIBLE CHANGES ##
 
 * The deprecated argument `print`, which was removed in v0.5, has been fully removed. Use `verbose` instead. (#97)
+* The deprecated functions `mturkrhelp` and `APIReference` have been removed. (#96)
 * `MTurkR.Wizard` has been removed from MTurkR and has been recreated as a separate package. (#95)
 * `HITStatus` now reports condensed column names better suited for narrow displays.
 * Correctly handle multiple `response.group` arguments passed to HIT-related functions. (#89)
