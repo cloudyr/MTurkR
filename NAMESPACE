@@ -1,11 +1,6 @@
 # internal
 #export("ParseErrorCodes")
 
-# deprecated
-#export("APIReference")
-#export("mturkhelp")
-#export("genericmturkr")
-#export("makeGETparameters")
 export("credentials")
 
 # exported
@@ -203,20 +198,3 @@ importFrom(XML, xmlParse, xmlChildren, xpathApply, xmlValue, xmlName,
 S3method(print, MTurkResponse)
 S3method(print, SufficientFunds)
 S3method(as.data.frame, MTurkResponse)
-# other specific methods here
-
-# `*ToDataFrame` functions to deprecate
-#export("AnswerKeyToDataFrame")
-#export("AssignmentsToDataFrame")
-#export("BonusPaymentsToDataFrame")
-#export("ExternalQuestionToDataFrame")
-#export("HITsToDataFrame")
-#export("HTMLQuestionToDataFrame")
-#export("QualificationRequestsToDataFrame")
-#export("QualificationRequirementsToDataFrame")
-#export("QualificationsToDataFrame")
-#export("QualificationTypesToDataFrame")
-#export("QuestionFormAnswersToDataFrame")
-#export("QuestionFormToDataFrame")
-#export("ReviewResultsToDataFrame")
-#export("WorkerBlockToDataFrame")
