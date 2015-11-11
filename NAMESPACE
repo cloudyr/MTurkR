@@ -192,7 +192,9 @@ export("BulkCreateFromHITLayout")
 # imports
 importFrom(utils, browseURL, download.file, menu, tail, read.delim,
                   write.table, write.csv, packageDescription)
-importFrom(grDevices, bringToTop)
+if (.Platform$OS.type=="windows") {
+    importFrom(grDevices, bringToTop)
+}
 importFrom(stats, setNames, reshape)
 importFrom(digest, hmac)
 importFrom(base64enc, base64encode)
