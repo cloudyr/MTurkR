@@ -592,9 +592,6 @@ function (graphics = FALSE, sandbox = NULL, ...)
             else if (rui.page == 3) {
                 OpenQualificationPage()
             }
-            else if (rui.page == 4) {
-                APIReference()
-            }
             else if (rui.page == 5) {
                 page.id <- readline("Specify search terms or leave blank: ")
                 ViewAvailableHITs(page.id)
