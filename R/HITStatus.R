@@ -16,10 +16,11 @@ function (hit = NULL,
             hit <- as.character(hit)
         HITs <- HITs[grep(hit, HITs$HITId), ]
         toprint <- HITs[, c("HITId", "HITReviewStatus", "NumberOfAssignmentsPending", 
-                            "NumberOfAssignmentsAvailable",
-                            "NumberOfAssignmentsCompleted", "Expiration")]
+                            "NumberOfAssignmentsAvailable", "NumberOfAssignmentsCompleted", 
+                            "Expiration", "RequesterAnnotation")]
+        toprint$RequesterAnnotation <- ifelse(is.na(toprint$RequesterAnnotation), "", toprint$RequesterAnnotation)
         names(toprint) <- c("HITId", "ReviewStatus", "Pending", 
-                            "Available", "Completed", "Expiration")
+                            "Available", "Completed", "Expiration", "Annotation")
     } else {
         if(!is.null(hit.type)) {
             if(is.factor(hit.type))
@@ -41,10 +42,11 @@ function (hit = NULL,
             return(invisible(toprint))
         }
         toprint <- HITs[,c("HITId","HITReviewStatus","NumberOfAssignmentsPending",
-                           "NumberOfAssignmentsAvailable",
-                           "NumberOfAssignmentsCompleted", "Expiration")]
+                           "NumberOfAssignmentsAvailable", "NumberOfAssignmentsCompleted",
+                           "Expiration", "RequesterAnnotation")]
+        toprint$RequesterAnnotation <- ifelse(is.na(toprint$RequesterAnnotation), "", toprint$RequesterAnnotation)
         if(dim(HITs)[1] > 1) {
-            totals <- data.frame(HITId = c( "------------------------------", "Totals"),
+            totals <- data.frame(HITId = c("------------------------------", "Totals"),
                                  HITReviewStatus = c("------------",""),
                                  NumberOfAssignmentsPending = c("-------",
                                      sum(as.numeric(HITs$NumberOfAssignmentsPending))),
@@ -52,10 +54,15 @@ function (hit = NULL,
                                      sum(as.numeric(HITs$NumberOfAssignmentsAvailable))),
                                  NumberOfAssignmentsCompleted = c("---------",
                                      sum(as.numeric(HITs$NumberOfAssignmentsCompleted))),
-                                 Expiration = c("--------------------",""))
-            toprint <- setNames(rbind(toprint,totals), c("HITId", "ReviewStatus", "Pending", 
-                                                         "Available", "Completed", "Expiration"))
+                                 Expiration = c("--------------------",""),
+                                 RequesterAnnotation = c("", ""))
+            toprint <- rbind(toprint,totals)
         }
+        toprint <- setNames(toprint, c("HIT", "ReviewStatus", "Pending", "Available", 
+                                       "Completed", "Expiration", "Annotation"))
+    }
+    if (all(toprint$Annotation == "")) {
+        toprint <- toprint[, -length(toprint)]
     }
     print(toprint, row.names = FALSE)
     return(invisible(HITs))
