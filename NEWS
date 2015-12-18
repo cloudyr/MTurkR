@@ -2,6 +2,7 @@
 
 ## SIGNIFICANT USER-VISIBLE CHANGES ##
 
+* The use of `credentials()`, and `options("MTurkR.keypair")` are completely deprecated. A warning will now be issued if trying to supply credentials in this way. AWS credentials should be specified in environment variables `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY`. (#102)
 * `HITStatus()` will now display any non-empty RequesterAnnotation field for a HIT. (#101)
 * The deprecated argument `print`, which was removed in v0.5, has been fully removed. Use `verbose` instead. (#97)
 * The deprecated functions `mturkrhelp` and `APIReference` have been removed. (#96)

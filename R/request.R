@@ -1,6 +1,7 @@
 request <-
 function(operation, GETparameters = NULL,
-    keypair = getOption('MTurkR.keypair'),
+    keypair = c(Sys.getenv("AWS_ACCESS_KEY_ID"), 
+                Sys.getenv("AWS_SECRET_ACCESS_KEY")),
     browser = getOption('MTurkR.browser', FALSE),
     log.requests = getOption('MTurkR.log', TRUE), 
     sandbox = getOption('MTurkR.sandbox', FALSE),
@@ -9,17 +10,18 @@ function(operation, GETparameters = NULL,
     service = "AWSMechanicalTurkRequester",
     version = NULL)
 {
-    if(sandbox) 
+    if(sandbox) {
         host <- "https://mechanicalturk.sandbox.amazonaws.com/"
-    else
+    } else {
         host <- "https://mechanicalturk.amazonaws.com/"
-    if(is.null(keypair)) {
-        key <- Sys.getenv("AWS_ACCESS_KEY_ID")
-        secret <- Sys.getenv("AWS_SECRET_ACCESS_KEY")
-        if(key != "" & secret != "") {
-            options(MTurkR.keypair = c(key,secret))
+    }
+    if(is.null(keypair) | keypair == "" | keypair = c("", "")) {
+        g <- getOption("MTurkR.keypair")
+        if (!is.null(g)) {
+            keypair <- g
+            warning("Credentials must be set in environment variables: AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY")
         } else {
-            stop("No keypair provided or 'credentials' object not stored")
+            stop("No keypair provided.\nPlease set environment variables: AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY")
         }
     }
     keyid <- keypair[1]

@@ -11,9 +11,10 @@
         options(MTurkR.log = TRUE)          # log logical
     if(is.null(getOption("MTurkR.test")))
         options(MTurkR.test = FALSE)        # validation.test logical
-    a <- Sys.getenv("AWS_ACCESS_KEY_ID")
-    s <- Sys.getenv("AWS_SECRET_ACCESS_KEY")
-    if(a != "" & s != "") {
-        options(MTurkR.keypair = c(a,s))
+    if (Sys.getenv("AWS_ACCESS_KEY_ID") == "") {
+        message("Environment variable AWS_ACCESS_KEY_ID not set!")
+    }
+    if (Sys.getenv("AWS_SECRET_ACCESS_KEY") == "") {
+        message("Environment variable AWS_SECRET_ACCESS_KEY not set!")
     }
 }

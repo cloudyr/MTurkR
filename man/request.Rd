@@ -5,7 +5,8 @@
 \description{This is the workhorse function that makes authenticated HTTP requests to the MTurk API. It is not exported as of v0.5.}
 \usage{
 request(operation, GETparameters = NULL,
-        keypair = getOption('MTurkR.keypair'),
+        keypair = c(Sys.getenv("AWS_ACCESS_KEY_ID"), 
+                    Sys.getenv("AWS_SECRET_ACCESS_KEY")),
         browser = getOption('MTurkR.browser', FALSE),
         log.requests = getOption('MTurkR.log', TRUE),
         sandbox = getOption('MTurkR.sandbox', FALSE), 
@@ -17,7 +18,7 @@ request(operation, GETparameters = NULL,
 \arguments{
   \item{operation}{The MTurk API operation to be performed.}
   \item{GETparameters}{An optional character string containing URL query parameters that specify options for the request.}
-  \item{keypair}{A two-element character vector containing an AWS Access Key ID and an AWS Secret Access Key. Default is from \code{options('MTurkR.keypair')}.}
+  \item{keypair}{A two-element character vector containing an AWS Access Key ID and an AWS Secret Access Key. The easiest way to do this is to specify \samp{AWS_ACCESS_KEY_ID} and \samp{AWS_SECRET_ACCESS_KEY} environment variables using \code{Sys.setenv()} or by placing these values in an .Renviron file.}
   \item{browser}{Optionally open the request in the default web browser, rather than opening in R. Default is \code{FALSE}.}
   \item{log.requests}{A logical specifying whether API requests should be logged. Default is \code{TRUE}. See \code{\link{readlogfile}} for details.}
   \item{sandbox}{Optionally execute the request in the MTurk sandbox rather than the live server.  Default is \code{FALSE}.}
