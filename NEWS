@@ -2,7 +2,7 @@
 
 ## SIGNIFICANT USER-VISIBLE CHANGES ##
 
-* The use of `credentials()`, and `options("MTurkR.keypair")` are completely deprecated. A warning will now be issued if trying to supply credentials in this way. AWS credentials should be specified in environment variables `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY`. (#102)
+* The use of `credentials()`, and `options("MTurkR.keypair")` are completely deprecated. A warning will now be issued if trying to supply credentials in this way. AWS credentials should be specified in environment variables `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY`. Messages are triggered on package load if environment variables are not set. (#102)
 * `HITStatus()` will now display any non-empty RequesterAnnotation field for a HIT. (#101)
 * The deprecated argument `print`, which was removed in v0.5, has been fully removed. Use `verbose` instead. (#97)
 * The deprecated functions `mturkrhelp` and `APIReference` have been removed. (#96)
@@ -17,6 +17,7 @@
 
 ## DOCUMENTATION ##
 
+* Descriptions of global package options have been added to MTurkR-package.Rd. (#103)
 * The package now includes additional HTMLQuestion templates including examples for image categorization and sentiment rating. (#94)
 * Documentation for `GenerateHITReviewPolicy` and `GenerateAssignmentReviewPolicy` was expanded and tested, and a related HTMLQuestion HIT template is now installed.
 
