@@ -11,10 +11,13 @@
         options(MTurkR.log = TRUE)          # log logical
     if(is.null(getOption("MTurkR.test")))
         options(MTurkR.test = FALSE)        # validation.test logical
+}
+
+.onAttach <- function(libname, pkgname) {
     if (Sys.getenv("AWS_ACCESS_KEY_ID") == "") {
-        message("Environment variable AWS_ACCESS_KEY_ID not set!")
+        packageStartupMessage("Environment variable AWS_ACCESS_KEY_ID not set!")
     }
     if (Sys.getenv("AWS_SECRET_ACCESS_KEY") == "") {
-        message("Environment variable AWS_SECRET_ACCESS_KEY not set!")
+        packageStartupMessage("Environment variable AWS_SECRET_ACCESS_KEY not set!")
     }
 }
