@@ -22,11 +22,9 @@ function (qual, comparator, value, preview = NULL, qual.number = NULL) {
         preview <- rep(NA, length(qual))
     
     qual <- sapply(as.character(qual), .AliasToQualificationType)
-    if(any(qual %in% c("2ARFPLSP75KLA8M8DH1HTEQVJT3SY6", 
-                       "2F1KVCNHMVHV8E9PBUB2A4J79LU20F",
-                       "2TGBB6BFMFFOM08IBMAFGGESC1UWJX")))
-        warning("QualificationTypeIds for Sandbox used")
-        
+    if(any(qual %in% c("2ARFPLSP75KLA8M8DH1HTEQVJT3SY6"))) {
+        message("A QualificationTypeId for a Sandbox Qualification has been used.")
+    }
     for(i in seq_along(qual.number)) {
         if(comparator[i] == "<") 
             comparator[i] <- "LessThan"
@@ -47,11 +45,20 @@ function (qual, comparator, value, preview = NULL, qual.number = NULL) {
         if(qual[i] == "00000000000000000071" & !comparator[i] %in% 
                 c("EqualTo", "NotEqualTo", "In", "NotIn")) 
             stop("Worker_Locale (00000000000000000071) Requirement can only be used with 'EqualTo', 'NotEqualTo', 'In', or 'NotIn' comparators")
-        if(qual[i] %in% c("2NDP2L92HECWY8NS8H3CK0CP5L9GHO", 
-                            "21VZU98JHSTLZ5BPP4A9NOBJEK3DPG",
-                            "2F1QJWKUDD8XADTFD2Q0G6UTO95ALH") && 
-                        (!comparator %in% c("Exists","DoesNotExist"))) 
+        # replace removed sandbox masters qualifications
+        if(qual[i] %in% c("2F1KVCNHMVHV8E9PBUB2A4J79LU20F", "2TGBB6BFMFFOM08IBMAFGGESC1UWJX")) {
+            warning("Categorization/Moderation Masters Qualifications have been removed.\nUsing generic Masters Qualification instead.")
+            qual[i] <- "2ARFPLSP75KLA8M8DH1HTEQVJT3SY6"
+        }
+        # replace deprecated production masters qualifications
+        if(qual[i] %in% c("2NDP2L92HECWY8NS8H3CK0CP5L9GHO", "21VZU98JHSTLZ5BPP4A9NOBJEK3DPG")) {
+            warning("Categorization/Moderation Masters Qualifications have been removed.\nUsing generic Masters Qualification instead.")
+            qual[i] <- "2F1QJWKUDD8XADTFD2Q0G6UTO95ALH"
+        }
+        if(qual[i] %in% c("2ARFPLSP75KLA8M8DH1HTEQVJT3SY6", "2F1QJWKUDD8XADTFD2Q0G6UTO95ALH") && 
+                        (!comparator %in% c("Exists","DoesNotExist"))) {
             stop("Masters qualifications can only accept 'Exists' comparator")
+        }
         if(comparator[i] %in% c("Exists","DoesNotExist") & !is.null(value[i])) 
             value[i] <- ""
         if(!is.null(preview)) {
@@ -97,23 +104,24 @@ function (qual, comparator, value, preview = NULL, qual.number = NULL) {
 }
 
 .AliasToQualificationType <- function(qual){
-    if(qual %in% c("PercentAssignmentsApproved","Approved"))
+    if(qual %in% c("PercentAssignmentsApproved","Approved")) {
         qual <- "000000000000000000L0"
-    else if(qual %in% c("NumberHITsApproved","NumberApproved","HITs"))
+    } else if(qual %in% c("NumberHITsApproved","NumberApproved","HITs")) {
         qual <- "00000000000000000040"
-    else if(qual %in% c("Locale","Country","Location"))
+    } else if(qual %in% c("Locale","Country","Location")) {
         qual <- "00000000000000000071"
-    else if(qual == "Adult") 
+    } else if(qual == "Adult") {
         qual <- "00000000000000000060"
-    else if(qual %in% c("Categorization",
+    } else if(qual %in% c("Categorization",
                         "Categorization Masters",
-                        "CategorizationMasters"))
-        qual <- "2NDP2L92HECWY8NS8H3CK0CP5L9GHO"
-    else if(qual %in% c("Photo Moderation",
-                        "Photo Moderation Masters",
-                        "PhotoModerationMasters"))
-        qual <- "21VZU98JHSTLZ5BPP4A9NOBJEK3DPG"
-    else if(qual %in% c("Masters","MTurkMasters"))
+                        "CategorizationMasters")) {
         qual <- "2F1QJWKUDD8XADTFD2Q0G6UTO95ALH"
+    } else if(qual %in% c("Photo Moderation",
+                        "Photo Moderation Masters",
+                        "PhotoModerationMasters")) {
+        qual <- "2F1QJWKUDD8XADTFD2Q0G6UTO95ALH"
+    } else if(qual %in% c("Masters","MTurkMasters")) {
+        qual <- "2F1QJWKUDD8XADTFD2Q0G6UTO95ALH"
+    }
     return(qual)
 }
