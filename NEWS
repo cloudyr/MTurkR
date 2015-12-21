@@ -7,7 +7,7 @@
 * `HITStatus()` will now display any non-empty RequesterAnnotation field for a HIT. (#101)
 * The deprecated argument `print`, which was removed in v0.5, has been fully removed. Use `verbose` instead. (#97)
 * The deprecated functions `mturkrhelp` and `APIReference` have been removed. (#96)
-* `MTurkR.Wizard` has been removed from MTurkR and has been recreated as a separate package. (#95)
+* `MTurkR.Wizard` has been removed from MTurkR and has been recreated as a separate package called MTurkRGUI. (#95)
 * `HITStatus` now reports condensed column names better suited for narrow displays.
 * Correctly handle multiple `response.group` arguments passed to HIT-related functions. (#89)
 * `authenticate`, which was deprecated in v0.5, is removed.
@@ -18,6 +18,7 @@
 
 ## DOCUMENTATION ##
 
+* The package now includes pages describing common use cases for MTurk (surveys, categorization, sentiment analysis, and webscraping). (#98)
 * Descriptions of global package options have been added to MTurkR-package.Rd. (#103)
 * The package now includes additional HTMLQuestion templates including examples for image categorization and sentiment rating. (#94)
 * Documentation for `GenerateHITReviewPolicy` and `GenerateAssignmentReviewPolicy` was expanded and tested, and a related HTMLQuestion HIT template is now installed.

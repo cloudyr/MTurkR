@@ -34,10 +34,20 @@ Maintainer: Thomas J. Leeper <thosjleeper@gmail.com>
 
 \href{https://github.com/leeper/MTurkR/wiki}{The MTurkR Wiki}, which contains numerous code examples and tutorials.
 
-\href{https://github.com/leeper/MTurkRGUI}{The MTurkRGUI Package}, which provides a graphical user interface for MTurkR.
+\href{https://cran.r-project.org/web/packages/MTurkRGUI/index.html}{The MTurkRGUI Package}, which provides a graphical user interface for MTurkR.
 
 \href{http://aws.amazon.com/documentation/mturk/}{Amazon Mechanical Turk API Documentation}
 }
 \keyword{ package }
-%\seealso{}
+\seealso{
+
+To get started using MTurkR, see the documentation for \code{\link{CreateHIT}} (for creating single tasks) and/or \code{\link{BulkCreate}} (for creating batches of tasks). For some tutorials on how to use MTurkR for specific use cases, see the following:
+
+\itemize{
+    \item \link{survey}, for collecting survey(-experimental) data
+    \item \link{categorization}, for doing large-scale categorization (e.g., photo moderation or developing a training set)
+    \item \link{sentiment}, for doing sentiment coding
+    \item \link{webscraping}, for manual scraping of web data
+}
+}
 %\examples{}
