@@ -25,6 +25,7 @@
 
 ## BUG FIXES ##
 
+* Fixed a bug in checking for a valid AWS keypair in `request()`. (h/t Sean Murphy, #106)
 * When ttk widgets were added to the graphical wizard in v0.6, scrollbar calls retained tk-only options. Those have been removed. (h/t Justin Koch)
 * State-level locales are now correctly supported in QualificationRequirements, including in complex combinations with country locales with no subdivision (so mixing U.S. states with other countries is possible). This feature was added in v0.6.5 but had a critical bug. (h/t Ricky Bilakhia)
 * Closing the graphical wizard crashed RStudio due to `bringToTop(-1)`. This is fixed. (h/t Carolina Kuepper-Tetzel)
