@@ -15,7 +15,7 @@ function(operation, GETparameters = NULL,
     } else {
         host <- "https://mechanicalturk.amazonaws.com/"
     }
-    if(is.null(keypair) | keypair == "" | identical(keypair, c("", ""))) {
+    if(is.null(keypair) || identical(keypair, c("", "")) || keypair == "") {
         g <- getOption("MTurkR.keypair")
         if (!is.null(g)) {
             keypair <- g
