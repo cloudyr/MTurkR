@@ -2,6 +2,7 @@
 
 ## SIGNIFICANT USER-VISIBLE CHANGES ##
 
+* The AWS Access Key ID used for requests is now redacted from the error message printing when an API request fails to reduce the risk of accidentally disclosing the credential. (#105)
 * AWS removed the Categorization and Photo Moderation QualificationTypes on December 18th, 2015. Use of these QualificationTypeIds will trigger warnings in some cases and the "generic" Masters QualificationTypeId will be substituted automatically. Users should not need to update any code, though they may be receive warnings. These have also been removed from `ListQualificationTypes()`. (#104)
 * The use of `credentials()`, and `options("MTurkR.keypair")` are completely deprecated. A warning will now be issued if trying to supply credentials in this way. AWS credentials should be specified in environment variables `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY`. Messages are triggered on package load if environment variables are not set. (#102)
 * `HITStatus()` will now display any non-empty RequesterAnnotation field for a HIT. (#101)
