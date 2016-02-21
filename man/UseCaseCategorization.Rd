@@ -122,9 +122,9 @@ HITStatus(hit.type = newhittype$HITTypeId)
 
 With a large number of HITs, the output of this will be fairly verbose, so you may instead simply want to examine the response objects themselves.
 
-You may find a need to cancel HITs or change them in some way and there are numerous \dQuote{maintenance} functions available to do this: \code{\link{ExpireHIT}}, \code{\link{ExtendHIT}} (to add assignments or time), \code{\link{ChangeHITTypeOfHIT}} (to change display properties or payment of live HITs), and so forth. All of these functions can be called on a specific HIT, a HITType group, or on a set of HITs identified by their \code{annotation} value (which is a hidden field that can be useful for keeping track of HITs).
+You may find a need to cancel HITs or change them in some way and there are numerous \dQuote{maintenance} functions available to do this: \code{\link{ExpireHIT}}, \code{\link{ExtendHIT}} (to add assignments or time), \code{\link{ChangeHITType}} (to change display properties or payment of live HITs), and so forth. All of these functions can be called on a specific HIT, a HITType group, or on a set of HITs identified by their \code{annotation} value (which is a hidden field that can be useful for keeping track of HITs).
 }
-\code{Retrieving Results}{
+\section{Retrieving Results}{
 The final step of a categorization project is simply to retrieve the results and analyze them. Because we used a HITType and \code{\link{BulkCreateFromTemplate}}, retrieving the data for every assignment for every HIT in the project is very simple, but may be somewhat time consuming depending on the number of assignments involved. All we have to do is:
 
 \code{
@@ -145,7 +145,7 @@ The response object is simply a data.frame. This data.frame will contain metadat
 \author{Thomas J. Leeper}
 \seealso{
 For guidance on some of the functions used in this tutorial, see:
-\itemize {
+\itemize{
     \item \code{\link{CreateQualificationType}}
     \item \code{\link{GenerateQualificationRequirement}}
     \item \code{\link{RegisterHITType}}
@@ -160,5 +160,6 @@ For some other tutorials on how to use MTurkR for specific use cases, see the fo
     %\item \link{categorization}, for doing large-scale categorization (e.g., photo moderation or developing a training set)
     \item \link{sentiment}, for doing sentiment coding
     \item \link{webscraping}, for manual scraping of web data
+}
 }
 \keyword{Use Cases}

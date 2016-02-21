@@ -157,7 +157,7 @@ We can then repeat the process for the time 3 survey, using \code{ContactWorkers
 %\section{Randomization}{}
 \seealso{
 For guidance on some of the functions used in this tutorial, see:
-\itemize {
+\itemize{
     \item \code{\link{CreateHIT}}
     \item \code{\link{GetAssignments}}
     \item \code{\link{ContactWorkers}}

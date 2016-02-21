@@ -10,7 +10,7 @@
 \author{Thomas J. Leeper}
 \seealso{
 For guidance on some of the functions used in this tutorial, see:
-\itemize {
+\itemize{
     \item \code{\link{BulkCreate}}
     \item \code{\link{HITStatus}}
     \item \code{\link{GetAssignments}}
@@ -23,5 +23,6 @@ For some other tutorials on how to use MTurkR for specific use cases, see the fo
     \item \link{sentiment}, for doing sentiment coding
     %\item \link{webscraping}, for manual scraping of web data
 
+}
 }
 \keyword{Use Cases}
