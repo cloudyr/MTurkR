@@ -1,5 +1,5 @@
 GenerateExternalQuestion <-
-function (url, frame.height) {
+function (url, frame.height = 400) {
     external <- newXMLNode("ExternalQuestion", namespaceDefinitions = "http://mechanicalturk.amazonaws.com/AWSMechanicalTurkDataSchemas/2006-07-14/ExternalQuestion.xsd")
     external.url <- newXMLNode("ExternalURL", url, parent = external)
     external.frame <- newXMLNode("FrameHeight", frame.height, parent = external)

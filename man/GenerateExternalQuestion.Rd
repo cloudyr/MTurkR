@@ -3,7 +3,7 @@
 \title{Generate ExternalQuestion}
 \description{Generate an ExternalQuestion data structure for use in the \sQuote{Question} parameter of the \code{\link{CreateHIT}} operation.}
 \usage{
-GenerateExternalQuestion(url, frame.height)
+GenerateExternalQuestion(url, frame.height = 400)
 }
 \arguments{
   \item{url}{A character string containing the URL (served over HTTPS) of a HIT file stored anywhere other than the MTurk server.}
