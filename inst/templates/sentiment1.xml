@@ -17,7 +17,7 @@
   <p>From negative (-10) to positive (+10), how would you rate the sentiment of the following tweet?</p>
   <p>${tweettext}</p>
   <p>
-    -10 <input type="range" value="0" min="-10" max="10" step="1" 
+    -10 <input type="range" name="sentiment" value="0" min="-10" max="10" step="1" 
            oninput="showVal(this.value)" onchange="showVal(this.value)" /> +10
   </p>
   <p>

@@ -22,7 +22,7 @@ To use the link and code, the HIT must contain the following:
     \item Optionally, javascript to dynamically display the link and/or entry field
 }
 
-MTurkR includes an XML file that could be used to create an HTMLQuestion \dQuote{link and code} HIT. You can find it in \code{system.file("templates/htmlquestion1.xml", package = "MTurkR")}. You can also create a HIT of this kind on the MTurk requester user interface (RUI) website.
+MTurkR includes an XML file that could be used to create an HTMLQuestion \dQuote{link and code} HIT. You can find it in \code{system.file("templates/htmlquestion1.xml", package = "MTurkR")}. A more robust example of an HTMLQuestion showing a survey link that is dynamically displayed once the HIT is accepted is included as \code{system.file("templates/surveylink.xml", package = "MTurkR")}. You can also create a HIT of this kind on the MTurk requester user interface (RUI) website.
 
 
 
@@ -36,11 +36,11 @@ Creating the HIT itself is quite simple. It simply requires registering a HITTyp
 
 \code{
 newhittype <- 
-RegisterHITType(title="10 Question Survey",
-                description="Complete a 10-question survey about news coverage and your opinions",
-                reward=".20", 
-                duration=seconds(hours=1), 
-                keywords="survey, questionnaire, politics")
+RegisterHITType(title = "10 Question Survey",
+                description = "Complete a 10-question survey about news coverage and your opinions",
+                reward = ".20", 
+                duration = seconds(hours=1), 
+                keywords = "survey, questionnaire, politics")
 eq <- GenerateExternalQuestion(url="https://www.example.com/myhit.html",frame.height="400")
 CreateHIT(hit.type = newhittype$HITTypeId, 
           question = eq$string, 
@@ -65,16 +65,16 @@ To make this work with a Qualtrics survey URL, do the following:
 The viability of MTurk as a platform for implementing social science experiments is well-understood, but the platform's comparative advantage for implementing complicated panel data collection is underappreciated, in part for technological reasons. The ability to recontact and pay large numbers of workers falls outside the functionality of the RUI. In this use case, the objective is to implement a three-wave panel experiment, where respondents are randomly assigned to a condition at time 1, recontacted to participate in a follow-up survey at time 2, and finally a second follow-up wave at time 3. The first stages of the workflow here are relatively easy. First, an experimental survey instrument is constructed with any tool (e.g., Qualtrics or one's own HTML). Second, a single HIT is created (without a qualification test) to which workers respond by completing the survey-experiment. Note that when only one HIT is needed, the parameters normally assigned with \code{\link{RegisterHITType}} can be specified in \code{\link{CreateHIT}}.
 
 \code{
-newhit <- CreateHIT(question=GenerateExternalQuestion("http://www.test.com/surveylink", 400)$string,
-                    title="20-Question Survey",
-                    description="Take a five-question survey about your political opinions.",
-                    reward=".25",
-                    duration=seconds(hours=4),
-                    expiration=seconds(days=7),
-                    assignments=1000,
-                    keywords="survey, question, answers, research, politics, opinion",
-                    auto.approval.delay=seconds(days=15),
-                    qual.req=GenerateQualificationRequirement("Location","==","US",preview=TRUE))
+newhit <- CreateHIT(question = GenerateExternalQuestion("http://www.test.com/surveylink", 400)$string,
+                    title = "5-Question Survey",
+                    description = "Take a five-question survey about your political opinions.",
+                    reward = ".25",
+                    duration = seconds(hours=4),
+                    expiration = seconds(days=7),
+                    assignments = 1000,
+                    keywords = "survey, question, answers, research, politics, opinion",
+                    auto.approval.delay = seconds(days=2),
+                    qual.req = GenerateQualificationRequirement("Location","==","US",preview=TRUE))
 }
 
 Once a sufficient number of responses are collected (i.e., assignments completed), assignments can be reviewed such that only those who pass an attention check are approved and the remainder rejected:
@@ -82,8 +82,8 @@ Once a sufficient number of responses are collected (i.e., assignments completed
 \code{
 review <- GetAssignments(hit=newhit$HITId)
 correctcheck <- "7"
-approve <- approve(assignments=review$AssignmentId[review$check==correct])
-reject <- reject(assignments=review$AssignmentId[!review$check==correct])
+approve <- approve(assignments = review$AssignmentId[review$check==correct])
+reject <- reject(assignments = review$AssignmentId[!review$check==correct])
 }
 
 After reviewing these assignments, MTurkR can be used to Bonus, Contact, and Qualify workers. To implement a panel, workers who completed the original HIT (the time 1 survey) are either granted a QualificationRequirement that gives them access to the second and third waves or they are simply contacted directly with a link to an off-site tool. If using the latter approach, the workers can be paid a bonus if they complete the follow-up surveys.
@@ -109,7 +109,7 @@ AssignQualification(
     value = 1)
 }
 
-This will return a dataframe specifying the scores assigned to each worker, so you don't need to store the result.
+This will return a data.frame specifying the scores assigned to each worker, so you don't need to store the result.
 
 Finally, when we create the new HIT (for time 2 or time 3 surveys), we simply need to specify the QualificationType you created as a Qualification Requirement (using \code{\link{GenerateQualificationRequirement}}:
 
@@ -138,8 +138,9 @@ If we wanted to instead simply host the time 2 and time 3 surveys on an external
 \code{
 b1 <- "If you complete a follow-up survey, you will receive a $.50 bonus.\n
        You can complete the survey at the following link: http://www.test.com/link1?WorkerId="
-t2 <- ContactWorkers(subjects="Complete follow-up survey for $.50 bonus",
-                     msgs=sapply(approve$WorkerId, FUN=function(worker) paste(b1, worker)), workers=approve$WorkerId)
+t2 <- ContactWorkers(subjects = "Complete follow-up survey for $.50 bonus",
+                     msgs = sapply(approve$WorkerId, FUN=function(worker) paste(b1, worker)), 
+                     workers = approve$WorkerId)
 }
 
 Once we have tracked completions, we can then pay bonuses by supplying a vector of workers and their corresponding \samp{AssignmentId} (from the time 1 survey). This makes using \code{\link{GrantBonus}} a little clunky to use, but it works:
@@ -147,24 +148,29 @@ Once we have tracked completions, we can then pay bonuses by supplying a vector 
 \code{
 bonus <- GrantBonus(workers = review$WorkerId[review$WorkerId %in% approve$WorkerId],
                     assignments = review$AssignmentId[review$WorkerId %in% approve$WorkerId],
-                    amounts="1.00", reasons="Thanks for completing the follow-up survey!")
+                    amounts = "1.00", 
+                    reasons = "Thanks for completing the follow-up survey!")
 }
 
 We can then repeat the process for the time 3 survey, using \code{ContactWorkers} and \code{GrantBonus} to invite and pay workers completing follow-up waves. The use of these tools, along with QualificationTypes, enables the maintenance of complex panels of workers with specific demographics or skills.
 }
 %\section{Randomization}{}
-%\examples{\dontrun{}}
-\author{Thomas J. Leeper}
 \seealso{
-\code{\link{CreateHIT}}
-
-\code{\link{GetAssignments}}
-
-\code{\link{ContactWorkers}}
-
-\code{\link{GrantBonus}}
-
-\code{\link{CreateQualificationType}}
+For guidance on some of the functions used in this tutorial, see:
+\itemize {
+    \item \code{\link{CreateHIT}}
+    \item \code{\link{GetAssignments}}
+    \item \code{\link{ContactWorkers}}
+    \item \code{\link{GrantBonus}}
+    \item \code{\link{CreateQualificationType}}
 }
-\keyword{HITs}
+
+For some other tutorials on how to use MTurkR for specific use cases, see the following:
+\itemize{
+    %\item \link{survey}, for collecting survey(-experimental) data
+    \item \link{categorization}, for doing large-scale categorization (e.g., photo moderation or developing a training set)
+    \item \link{sentiment}, for doing sentiment coding
+    \item \link{webscraping}, for manual scraping of web data
+}
+}
 \keyword{Use Cases}
