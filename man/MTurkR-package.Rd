@@ -4,7 +4,7 @@
 \docType{package}
 \title{R Client for the MTurk Requester API}
 \description{
-This package provides access to the Amazon Mechanical Turk (MTurk) Requester API. The package provides users of the MTurk Requester User Interface  with access to a variety of functions currently unavailable to them (the creation and maintenance of worker Qualifications, email notifications to workers through \code{\link{ContactWorker}}, automated reviewing of assignments using Review Policies, and streamlined bonus payments through \code{\link{GrantBonus}}). It also provides users with all functions available in the RUI directly in R as well as a large number of other functions, and a simple, interactive command-line tool for performing many operations. A relatively fully featured, cross-platform graphical user interface is available in a separate add-on package called \href{https://github.com/leeper/MTurkRGUI}{MTurkRGUI}.
+This package provides access to the Amazon Mechanical Turk (MTurk) Requester API. The package provides users of the MTurk Requester User Interface  with access to a variety of functions currently unavailable to them (the creation and maintenance of worker Qualifications, email notifications to workers through \code{\link{ContactWorker}}, automated reviewing of assignments using Review Policies, and streamlined bonus payments through \code{\link{GrantBonus}}). It also provides users with all functions available in the RUI directly in R as well as a large number of other functions, and a simple, interactive command-line tool for performing many operations. A relatively fully featured, cross-platform graphical user interface is available in a separate add-on package called \href{https://cran.r-project.org/package=MTurkRGUI}{MTurkRGUI}.
 
 Most users will find themselves using three principal functions: \code{\link{CreateHIT}}, \code{\link{GetAssignments}}, and \code{\link{ApproveAssignments}}, to create one or more HITs on the MTurk server, to retrieve completed assignments, and to approve assignments (and thus pay workers), respectively. As task complexity increases, additional functions are provided to handle worker qualifications, bonuses, emails to workers, automated review policies, bulk creation of HITs, and so forth.
 
@@ -34,7 +34,7 @@ Maintainer: Thomas J. Leeper <thosjleeper@gmail.com>
 
 \href{https://github.com/leeper/MTurkR/wiki}{The MTurkR Wiki}, which contains numerous code examples and tutorials.
 
-\href{https://cran.r-project.org/web/packages/MTurkRGUI/index.html}{The MTurkRGUI Package}, which provides a graphical user interface for MTurkR.
+\href{https://cran.r-project.org/package=MTurkRGUI}{The MTurkRGUI Package}, which provides a graphical user interface for MTurkR.
 
 \href{http://aws.amazon.com/documentation/mturk/}{Amazon Mechanical Turk API Documentation}
 }
