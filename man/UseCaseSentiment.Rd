@@ -15,7 +15,7 @@ The template works well with the \code{\link{BulkCreateFromTemplate}} function, 
 
 To begin, we need to define some HITType parameters that regulate what workers can complete the task, how much they will be paid, and what the task will look like when workers search for it on the MTurk worker interface. 
 
-\code{
+\verb{
 newhittype <- 
 RegisterHITType(title = "Sentiment Analysis Task",
                 description = "Score a tweet for positive or negative sentiment.",
@@ -33,7 +33,7 @@ With the HITType created, we can now create the HITs. The HIT template we are us
 
 We can then use \code{BulkCreateFromTemplate} to process the data.frame and produce the HITs. (In this example, the task contains very limited instructions, so in an applied case you may want to provide further details to workers about how to successfully complete the task.)
 
-\code{
+\verb{
 # template file
 f <- system.file("templates/sentiment1.xml", package = "MTurkR")
 
@@ -58,13 +58,13 @@ Here we process the template using an input data.frame and create a HIT for each
 \section{Monitoring Project}{
 Once the HITs are live, they will likely be completed very quickly. If you have a very large project, however, it may take some time. To monitor the status of a project, you can use:
 
-\code{
+\verb{
 HITStatus(annotation = paste("Twitter Sentiment Project", Sys.Date())
 }
 
 or
 
-\code{
+\verb{
 HITStatus(hit.type = newhittype$HITTypeId)
 }
 
@@ -75,13 +75,13 @@ You may find a need to cancel HITs or change them in some way and there are nume
 \section{Retrieving Results}{
 The final step of a sentiment analysis project is simply to retrieve the results and analyze them. Because we used a HITType and \code{\link{BulkCreateFromTemplate}}, retrieving the data for every assignment for every HIT in the project is very simple, but may be somewhat time consuming depending on the number of assignments involved. All we have to do is:
 
-\code{
+\verb{
 a <- GetAssignments(hit.type = newhittype$HITTypeId, return.all = TRUE)
 }
 
 If you have multiple projects under the same HITType (e.g., posted on different days), you can also retrieve assignments using the \code{annotation} field:
 
-\code{
+\verb{
 a <- GetAssignments(annotation = paste("Twitter Sentiment Project", Sys.Date()), return.all = TRUE)
 }
 

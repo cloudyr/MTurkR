@@ -34,7 +34,7 @@ The trade-off is that this method requires a somewhat sophisticated survey tool 
 
 Creating the HIT itself is quite simple. It simply requires registering a HITType, building the ExternalQuestion structure (in which you can specify the height of the iframe in pixels), and using it in \code{\link{CreateHIT}}:
 
-\code{
+\verb{
 newhittype <- 
 RegisterHITType(title = "10 Question Survey",
                 description = "Complete a 10-question survey about news coverage and your opinions",
@@ -64,7 +64,7 @@ To make this work with a Qualtrics survey URL, do the following:
 
 The viability of MTurk as a platform for implementing social science experiments is well-understood, but the platform's comparative advantage for implementing complicated panel data collection is underappreciated, in part for technological reasons. The ability to recontact and pay large numbers of workers falls outside the functionality of the RUI. In this use case, the objective is to implement a three-wave panel experiment, where respondents are randomly assigned to a condition at time 1, recontacted to participate in a follow-up survey at time 2, and finally a second follow-up wave at time 3. The first stages of the workflow here are relatively easy. First, an experimental survey instrument is constructed with any tool (e.g., Qualtrics or one's own HTML). Second, a single HIT is created (without a qualification test) to which workers respond by completing the survey-experiment. Note that when only one HIT is needed, the parameters normally assigned with \code{\link{RegisterHITType}} can be specified in \code{\link{CreateHIT}}.
 
-\code{
+\verb{
 newhit <- CreateHIT(question = GenerateExternalQuestion("http://www.test.com/surveylink", 400)$string,
                     title = "5-Question Survey",
                     description = "Take a five-question survey about your political opinions.",
@@ -79,7 +79,7 @@ newhit <- CreateHIT(question = GenerateExternalQuestion("http://www.test.com/sur
 
 Once a sufficient number of responses are collected (i.e., assignments completed), assignments can be reviewed such that only those who pass an attention check are approved and the remainder rejected:
 
-\code{
+\verb{
 review <- GetAssignments(hit=newhit$HITId)
 correctcheck <- "7"
 approve <- approve(assignments = review$AssignmentId[review$check==correct])
@@ -90,7 +90,7 @@ After reviewing these assignments, MTurkR can be used to Bonus, Contact, and Qua
 
 Using the first method, if we want to post the time 2 or time 3 surveys as new HITs but limit participation to those who have completed before, we would create a QualificationType using \code{\link{CreateQualificationType}}:
 
-\code{
+\verb{
 thenewqual <-
 CreateQualificationType(
     name = "Completed Wave 1",
@@ -102,7 +102,7 @@ CreateQualificationType(
 
 Next, we can use \code{\link{AssignQualification}} to give all workers from your previous HIT a score above the threshold you'll use on the new HIT. So we'll set a score of 50 here, but you could use anything.
 
-\code{
+\verb{
 AssignQualification(
     qual = thenewqual$QualificationTypeId,
     workers = approve$WorkerId,
@@ -113,7 +113,7 @@ This will return a data.frame specifying the scores assigned to each worker, so 
 
 Finally, when we create the new HIT (for time 2 or time 3 surveys), we simply need to specify the QualificationType you created as a Qualification Requirement (using \code{\link{GenerateQualificationRequirement}}:
 
-\code{
+\verb{
 # generate a QualificationRequirement object
 req <- GenerateQualificationRequirement(thenewqual$QualificationTypeId, "==", "1")
 
@@ -135,7 +135,7 @@ This restricts the survey to only be available to workers with the Qualification
 
 If we wanted to instead simply host the time 2 and time 3 surveys on an external site, we could invite workers from time 1 using \code{\link{ContactWorkers}} and then pay those who complete the survey using \code{\link{GrantBonus}}. We simply need to record which workers complete the survey. In the below example, we'll pass their WorkerId in the survey link, to record this automatically:
 
-\code{
+\verb{
 b1 <- "If you complete a follow-up survey, you will receive a $.50 bonus.\n
        You can complete the survey at the following link: http://www.test.com/link1?WorkerId="
 t2 <- ContactWorkers(subjects = "Complete follow-up survey for $.50 bonus",
@@ -145,7 +145,7 @@ t2 <- ContactWorkers(subjects = "Complete follow-up survey for $.50 bonus",
 
 Once we have tracked completions, we can then pay bonuses by supplying a vector of workers and their corresponding \samp{AssignmentId} (from the time 1 survey). This makes using \code{\link{GrantBonus}} a little clunky to use, but it works:
 
-\code{
+\verb{
 bonus <- GrantBonus(workers = review$WorkerId[review$WorkerId %in% approve$WorkerId],
                     assignments = review$AssignmentId[review$WorkerId %in% approve$WorkerId],
                     amounts = "1.00", 

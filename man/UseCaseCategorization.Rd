@@ -26,7 +26,7 @@ For your own project, you may want to add additional elements such as instructio
 \section{Setting up the Project}{
 Once the template is ready to go, we should think about who we want to complete the categorization task. By default, all HITs are available to all workers regardless of geography, language, experience, or quality. A standard practice is to limit HITs geographically and based on their past approval rating. We can specify this using \code{\link{GenerateQualificationRequirement}}:
 
-\code{
+\verb{
 q1 <- GenerateQualificationRequirement(c("Locale","Approved"), 
                                        c("==",">"), 
                                        c("US",90), 
@@ -43,7 +43,7 @@ To leverage the automatic scoring of a qualification test also requires creating
 
 To use these as QualificationRequirements for a task, we need to first create an MTurk QualificationType using the test and AnswerKey:
 
-\code{
+\verb{
 qf <- paste0(readLines(system.file("qualificationtest1.xml", package = "MTurkR")), collapse="")
 qa <- paste0(readLines(system.file("answerkey1.xml", package = "MTurkR")), collapse="")
 qual1 <- CreateQualificationType(name = "Qualification with Test",
@@ -56,7 +56,7 @@ qual1 <- CreateQualificationType(name = "Qualification with Test",
 
 The QualificationType is now registered in the MTurk system and we can use it to create a QualificationRequirement to attach to our categorization HITs (e.g., to only include workers scoring above 50\% on the test:
 
-\code{
+\verb{
 q2 <- GenerateQualificationRequirement(c("Locale","Approved",qual1$QualificationTypeId), 
                                        c("==", ">", ">"), 
                                        c("US", 90, 50), 
@@ -67,7 +67,7 @@ q2 <- GenerateQualificationRequirement(c("Locale","Approved",qual1$Qualification
 \section{Creating the HITs}{
 To actually create the HITs, we need to define some \dQuote{HITType} parameters that regulate what workers can complete the task, how much they will be paid, and what the task will look like when workers search for it on the MTurk worker interface. 
 
-\code{
+\verb{
 newhittype <- 
 RegisterHITType(title = "Categorize an Image",
                 description = "Categorize an image according to its content",
@@ -84,7 +84,7 @@ With the HITType created, we can now create the HITs. The HIT template we are us
 
 We can then use \code{BulkCreateFromTemplate} to process the data.frame and produce the HITs. (In this example, the task contains very limited instructions, so in an applied case you may want to provide further details to workers about how to successfully complete the task.)
 
-\code{
+\verb{
 # template file
 f <- system.file("templates/categorization1.xml", package = "MTurkR")
 
@@ -110,13 +110,13 @@ The code above processes the template using an input data.frame and creates a HI
 \section{Monitoring Project}{
 Once the HITs are live, they will likely be completed very quickly. If you have a very large project, however, it may take some time. To monitor the status of a project, you can use:
 
-\code{
+\verb{
 HITStatus(annotation = paste("Image Categorization", Sys.Date())
 }
 
 or
 
-\code{
+\verb{
 HITStatus(hit.type = newhittype$HITTypeId)
 }
 
@@ -127,13 +127,13 @@ You may find a need to cancel HITs or change them in some way and there are nume
 \section{Retrieving Results}{
 The final step of a categorization project is simply to retrieve the results and analyze them. Because we used a HITType and \code{\link{BulkCreateFromTemplate}}, retrieving the data for every assignment for every HIT in the project is very simple, but may be somewhat time consuming depending on the number of assignments involved. All we have to do is:
 
-\code{
+\verb{
 a <- GetAssignments(hit.type = newhittype$HITTypeId, return.all = TRUE)
 }
 
 If you have multiple projects under the same HITType (e.g., posted on different days), you can also retrieve assignments using the \code{annotation} field:
 
-\code{
+\verb{
 a <- GetAssignments(annotation = paste("Image Categorization", Sys.Date()), return.all = TRUE)
 }
 
