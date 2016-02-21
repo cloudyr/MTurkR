@@ -28,7 +28,8 @@ If you experience problems using MTurkR, you can:
 [![CRAN Version](http://www.r-pkg.org/badges/version/MTurkR)](http://cran.r-project.org/package=MTurkR)
 ![Downloads](http://cranlogs.r-pkg.org/badges/MTurkR)
 [![Travis-CI Build Status](https://travis-ci.org/leeper/MTurkR.png?branch=master)](https://travis-ci.org/leeper/MTurkR)
-[![Build status](https://ci.appveyor.com/api/projects/status/432l8e6qycnfi8ci?svg=true)](https://ci.appveyor.com/project/leeper/mturkr)
+[![Appveyor Build status](https://ci.appveyor.com/api/projects/status/432l8e6qycnfi8ci?svg=true)](https://ci.appveyor.com/project/leeper/mturkr)
+[![codecov.io](http://codecov.io/github/leeper/MTurkR/coverage.svg?branch=master)](http://codecov.io/github/leeper/MTurkR?branch=master)
 
 To install the latest version from CRAN, simply use:
 

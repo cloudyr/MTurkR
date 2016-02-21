@@ -2,7 +2,7 @@
 
 ## SIGNIFICANT USER-VISIBLE CHANGES ##
 
-* `GenerateExternalQuestion()` now sets a default value of `frame.height = 400`.
+* `GenerateExternalQuestion` now sets a default value of `frame.height = 400`.
 * The AWS Access Key ID used for requests is now redacted from the error message printing when an API request fails to reduce the risk of accidentally disclosing the credential. (#105)
 * AWS removed the Categorization and Photo Moderation QualificationTypes on December 18th, 2015. Use of these QualificationTypeIds will trigger warnings in some cases and the "generic" Masters QualificationTypeId will be substituted automatically. Users should not need to update any code, though they may be receive warnings. These have also been removed from `ListQualificationTypes()`. (#104)
 * The use of `credentials()`, and `options("MTurkR.keypair")` are completely deprecated. A warning will now be issued if trying to supply credentials in this way. AWS credentials should be specified in environment variables `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY`. Messages are triggered on package load if environment variables are not set. (#102)
@@ -20,6 +20,7 @@
 
 ## DOCUMENTATION ##
 
+* A small test suite has been added to help ensure correct package functionality. It is only executed in the sandbox in the presence of valid AWS credentials. (#100)
 * The package now includes pages describing common use cases for MTurk (surveys, categorization, sentiment analysis, and webscraping). (#98)
 * Descriptions of global package options have been added to MTurkR-package.Rd. (#103)
 * The package now includes additional HTMLQuestion templates including examples for image categorization and sentiment rating. (#94)

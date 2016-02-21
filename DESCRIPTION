@@ -1,5 +1,5 @@
 Package: MTurkR
-Version: 0.6.26
+Version: 0.6.27
 Date: 2016-02-21
 Title: R Client for the MTurk Requester API
 Authors@R: c(person("Thomas J.", "Leeper", role = c("aut", "cre"),
@@ -9,6 +9,7 @@ Authors@R: c(person("Thomas J.", "Leeper", role = c("aut", "cre"),
              person("Jonathan", "Chang", role = "ctb"))
 Maintainer: Thomas J. Leeper <thosjleeper@gmail.com>
 Imports: utils, stats, curl, digest, base64enc, XML
+Suggests: testthat
 Description: Provides programmatic access to the Amazon Mechanical Turk (MTurk) Requester API.
 License: GPL-2
 URL: https://github.com/leeper/MTurkR
