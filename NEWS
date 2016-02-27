@@ -1,3 +1,9 @@
+# CHANGES TO MTurkR 0.8 #
+
+## DOCUMENTATION ##
+
+* Documentation now indicates that `GrantBonus()` allows the `reason` argument to contain newlines and tabs. (#109)
+
 # CHANGES TO MTurkR 0.7 #
 
 ## SIGNIFICANT USER-VISIBLE CHANGES ##

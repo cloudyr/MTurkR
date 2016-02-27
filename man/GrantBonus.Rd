@@ -13,7 +13,7 @@ GrantBonus(workers, assignments, amounts, reasons,
   \item{workers}{A character string containing a WorkerId, or a vector of character strings containing multiple WorkerIds.}
   \item{assignments}{A character string containing an AssignmentId for an assignment performed by that worker, or a vector of character strings containing the AssignmentId for an assignment performed by each of the workers specified in \code{workers}.}
   \item{amounts}{A character string containing an amount (in U.S. Dollars) to bonus the worker(s), or a vector (of length equal to the number of workers) of character strings containing the amount to be paid to each worker.}
-  \item{reasons}{A character string containing a reason for bonusing the worker(s), or a vector (of length equal to the number of workers) of character strings containing the reason to bonus each worker. The reason is visible to each worker.}
+  \item{reasons}{A character string containing a reason for bonusing the worker(s), or a vector (of length equal to the number of workers) of character strings containing the reason to bonus each worker. The reason is visible to each worker and is sent via email. Newlines can be specified with \code{\\n} and tabs can be specified with \code{\\t} in the message body.}
   \item{unique.request.token}{An optional character string, included only for advanced users. It can be used to prevent resending a bonus. A bonus will not be granted if a bonus was previously granted (within a short time window) using the same \code{unique.request.token}.}
   \item{verbose}{Optionally print the results of the API request to the standard output. Default is taken from \code{getOption('MTurkR.verbose', TRUE)}.}
   \item{...}{Additional arguments passed to \code{\link{request}}.}
@@ -38,7 +38,7 @@ A simple function to grant a bonus to one or more workers. The function is somew
 a <- "A1RO9UEXAMPLE"
 b <- "26XXH0JPPSI23H54YVG7BKLEXAMPLE"
 c <- ".50"
-d <- "Thanks for your great work on my HITs!"
+d <- "Thanks for your great work on my HITs!\nHope to work with you, again!"
 GrantBonus(workers=a, assignments=b, amounts=c, reasons=d)
 }
 \dontrun{
