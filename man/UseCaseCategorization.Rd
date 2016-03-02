@@ -6,11 +6,11 @@
 \concept{photo moderation}
 \title{Use Case: Categorization}
 \description{This page describes how to use MTurkR to collect categorization data}
-\details{This page describes how to use MTurkR to collect categorization data (perhaps for photo moderation or developing a training set) on Amazon Mechanical Turk. The workflow here is very similar to that for sentiment analyis (see \link{sentiment}).
+\details{This page describes how to use MTurkR to collect categorization data (perhaps for photo moderation or developing a training set) on Amazon Mechanical Turk. The workflow here is very similar to that for sentiment analysis (see \link{sentiment}).
 
 The basic workflow for categorization is as follows:
 \enumerate{
-    \item Develope an HTML form template to display and record data
+    \item Develop an HTML form template to display and record data
     \item Optionally, develop a Qualification Test to select high-quality workers
     \item Create a HITType (a display group) to organize the HITs you will produce
     \item Create the HITs from the template and an input data.frame
@@ -37,7 +37,7 @@ We can use this QualificationRequirement structure to limit our tasks to U.S.-ba
 
 An alternative approach is actually to create our own Qualification with a test that assesses workers' ability to correctly categorize, possibly while training them to do. A nice feature of such tests is that they can be automatically scored by the MTurk system so there is no need for you to actively manage the pool of eligible workers. This can be combined with the location and other QualificationRequirements just mentioned.
 
-To create a Qualification test requires using some proprietary XML markup called \href{http://docs.aws.amazon.com/AWSMechTurk/latest/AWSMturkAPI/ApiReference_QuestionFormDataStructureArticle.html}{\dQuote{QuestionForm}}. This is basically an HTML-like form that specifies different kinds of questions and answer options, which will be displayed to workers interested in obtaining the qualification. An example form is included with MTurkR as \code{system.file("templates/qualificationtest1.xml", package = "MTurkR")}. I will leave it as an exercise to readers to understand the particularlities of the format.
+To create a Qualification test requires using some proprietary XML markup called \href{http://docs.aws.amazon.com/AWSMechTurk/latest/AWSMturkAPI/ApiReference_QuestionFormDataStructureArticle.html}{\dQuote{QuestionForm}}. This is basically an HTML-like form that specifies different kinds of questions and answer options, which will be displayed to workers interested in obtaining the qualification. An example form is included with MTurkR as \code{system.file("templates/qualificationtest1.xml", package = "MTurkR")}. I will leave it as an exercise to readers to understand the particularities of the format.
 
 To leverage the automatic scoring of a qualification test also requires creating an \href{http://docs.aws.amazon.com/AWSMechTurk/latest/AWSMturkAPI/ApiReference_AnswerKeyDataStructureArticle.html}{AnswerKey} that maps answers in the Qualification test to an overall score. A possible AnswerKey for the Qualification test just mentioned is installed as: \code{system.file("templates/answerkey1.xml", package = "MTurkR")}.
 

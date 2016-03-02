@@ -22,7 +22,7 @@ Additionally, the \code{increment} parameter allows you to increase (or decrease
 
 \code{updatequalscore()} is an alias.
 }
-\value{A dataframe containing the QualificationTypeId, WorkerId, Qualification score, and whether the request to update each was valid.}
+\value{A data frame containing the QualificationTypeId, WorkerId, Qualification score, and whether the request to update each was valid.}
 \references{
 \href{http://docs.amazonwebservices.com/AWSMechTurk/latest/AWSMturkAPI/ApiReference_UpdateQualificationScoreOperation.html}{API Reference}
 }

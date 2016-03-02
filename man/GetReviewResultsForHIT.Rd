@@ -25,7 +25,7 @@ GetReviewResultsForHIT(hit, assignment = NULL, policy.level = NULL,
 
 \code{reviewresults} is an alias.
 }
-\value{A four-element list containing up to four named dataframes, depending on what ReviewPolicy (or ReviewPolicies) were attached to the HIT and whether results or actions are requested: \code{AssignmentReviewResult}, \code{AssignmentReviewAction}, \code{HITReviewResult}, and/or \code{HITReviewAction}.}
+\value{A four-element list containing up to four named data frames, depending on what ReviewPolicy (or ReviewPolicies) were attached to the HIT and whether results or actions are requested: \code{AssignmentReviewResult}, \code{AssignmentReviewAction}, \code{HITReviewResult}, and/or \code{HITReviewAction}.}
 \references{
 \href{http://docs.amazonwebservices.com/AWSMechTurk/latest/AWSMturkAPI/ApiReference_GetReviewResultsForHitOperation.html}{API Reference}
 

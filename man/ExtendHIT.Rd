@@ -12,7 +12,7 @@ ExtendHIT(hit = NULL, hit.type = NULL, annotation = NULL,
   \item{hit}{An optional character string containing a HITId or a vector of character strings containing multiple HITIds. Must specify \code{hit} xor \code{hit.type} xor \code{annotation}.}
   \item{hit.type}{An optional character string containing a HITTypeId (or a vector of HITTypeIds). Must specify \code{hit} xor \code{hit.type} xor \code{annotation}.}
   \item{annotation}{An optional character string specifying the value of the \code{RequesterAnnotation} field for a batch of HITs. This can be used to extend all HITs from a \dQuote{batch} created in the online Requester User Interface (RUI). To use a batch ID, the batch must be written in a character string of the form \dQuote{BatchId:78382;}, where \dQuote{73832} is the batch ID shown in the RUI. Must specify \code{hit} xor \code{hit.type} xor \code{annotation}.}
-  \item{add.assignments}{An optional character string containing the number of assignmetns to add to the HIT. Must be between 1 and 1000000000.}
+  \item{add.assignments}{An optional character string containing the number of assignments to add to the HIT. Must be between 1 and 1000000000.}
   \item{add.seconds}{An optional character string containing the amount of time to extend the HIT, in seconds (for example, returned by \code{\link{seconds}}). Must be between 1 hour (3600 seconds) and 365 days.}
   \item{unique.request.token}{An optional character string, included only for advanced users.}
   \item{verbose}{Optionally print the results of the API request to the standard output. Default is taken from \code{getOption('MTurkR.verbose', TRUE)}.}
@@ -23,7 +23,7 @@ A useful function for adding time and/or additional assignments to a HIT. If the
 
 \code{extend()} is an alias.
 }
-\value{A dataframe containing the HITId, assignment increment, time increment, and whether each extension request was valid.}
+\value{A data frame containing the HITId, assignment increment, time increment, and whether each extension request was valid.}
 \references{
 \href{http://docs.amazonwebservices.com/AWSMechTurk/latest/AWSMturkAPI/ApiReference_ExtendHITOperation.html}{API Reference}
 }

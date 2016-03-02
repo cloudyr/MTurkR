@@ -16,7 +16,7 @@ A function to dispose of a QualificationType that is no longer needed. All infor
 
 \code{disposequal()} is an alias.
 }
-\value{A dataframe containing the QualificationTypeId and whether the request to dispose was valid.}
+\value{A data frame containing the QualificationTypeId and whether the request to dispose was valid.}
 \references{
 \href{http://docs.amazonwebservices.com/AWSMechTurk/latest/AWSMturkAPI/ApiReference_DisposeQualificationTypeOperation.html}{API Reference}
 }

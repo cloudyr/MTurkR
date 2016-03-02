@@ -32,7 +32,7 @@ A function to create a QualificationType. Active QualificationTypes are visible 
 
 \code{createqual()} is an alias.
 }
-\value{A dataframe containing the QualificationTypeId and other details of the newly created QualificationType.}
+\value{A data frame containing the QualificationTypeId and other details of the newly created QualificationType.}
 \references{
 \href{http://docs.amazonwebservices.com/AWSMechTurk/latest/AWSMturkAPI/ApiReference_CreateQualificationTypeOperation.html}{API Reference}
 }

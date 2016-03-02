@@ -11,7 +11,7 @@ GetFileUpload(assignment, questionIdentifier, download = FALSE,
 }
 \arguments{
   \item{assignment}{A character string containing an AssignmentId, or a vector of character strings each containing an AssignmentId.}
-  \item{questionIdentifier}{A question identifer for a file upload question, as specified in the \code{question} parameter of \code{CreateHIT} or in the placeholder of a HIT template created in the RUI.}
+  \item{questionIdentifier}{A question identifier for a file upload question, as specified in the \code{question} parameter of \code{CreateHIT} or in the placeholder of a HIT template created in the RUI.}
   \item{download}{A logical specifying whether the file(s) should be downloaded and saved in the working directory. Default is \code{FALSE}.}
   \item{open.file.in.browser}{A logical specifying whether the file should be opened in the user's default web browser.}
   \item{verbose}{Optionally print the results of the API request to the standard output. Default is taken from \code{getOption('MTurkR.verbose', TRUE)}.}
@@ -24,7 +24,7 @@ If downloaded, files are saved in the local directory with names of the form \dQ
 
 \code{geturls()} is an alias.
 }
-\value{A dataframe containing the AssignmentId, questionIdenifier, temporary file URL, and an indicator of whether each request was valid.}
+\value{A data frame containing the AssignmentId, questionIdenifier, temporary file URL, and an indicator of whether each request was valid.}
 \references{
 \href{http://docs.amazonwebservices.com/AWSMechTurk/latest/AWSMturkAPI/ApiReference_GetFileUploadURLOperation.html}{API Reference}
 }

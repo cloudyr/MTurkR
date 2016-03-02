@@ -20,7 +20,7 @@ A simple function to revoke a Qualification assigned to one or more workers.
 
 \code{RevokeQualifications()} and \code{revokequal()} are aliases.
 }
-\value{A dataframe containing the QualificationTypeId, WorkerId, reason (if applicable), and whether each request was valid.}
+\value{A data frame containing the QualificationTypeId, WorkerId, reason (if applicable), and whether each request was valid.}
 \references{
 \href{http://docs.amazonwebservices.com/AWSMechTurk/latest/AWSMturkAPI/ApiReference_RevokeQualificationOperation.html}{API Reference}
 }

@@ -33,9 +33,9 @@ GetBlockedWorkers(pagenumber = NULL, pagesize = NULL,
 \code{BlockWorkers()} and \code{block()} are aliases for \code{BlockWorker}. \code{UnblockWorkers()} and \code{unblock()} are aliases for \code{UnblockWorker}. \code{blockedworkers()} is an alias for \code{GetBlockedWorkers}.
 }
 \value{
-\code{BlockWorker} and \code{UnblockWorker} return a dataframe containing the list of workers, reasons (for blocking/unblocking them), and whether the request to block/unblock each of them was valid.
+\code{BlockWorker} and \code{UnblockWorker} return a data frame containing the list of workers, reasons (for blocking/unblocking them), and whether the request to block/unblock each of them was valid.
 
-\code{GetBlockedWorkers} returns a dataframe containing the list of blocked workers and the recorded reason for the block.
+\code{GetBlockedWorkers} returns a data frame containing the list of blocked workers and the recorded reason for the block.
 }
 \references{
 \href{http://docs.amazonwebservices.com/AWSMechTurk/latest/AWSMturkAPI/ApiReference_BlockWorkerOperation.html}{API Reference: Block}

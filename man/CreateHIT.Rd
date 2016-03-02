@@ -46,7 +46,7 @@ When creating a ExternalQuestion HITs, the \code{\link{GenerateHITsFromTemplate}
 
 \code{createhit()} and \code{create()} are aliases. \code{\link{BulkCreate}} can be used to create multiple HITs in a single call.
 }
-\value{A dataframe containing the HITId and other details of the newly created HIT.}
+\value{A data frame containing the HITId and other details of the newly created HIT.}
 \references{
 \href{http://docs.amazonwebservices.com/AWSMechTurk/latest/AWSMturkAPI/ApiReference_CreateHITOperation.html}{API Reference}
 }

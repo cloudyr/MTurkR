@@ -15,7 +15,7 @@ An interactive, menu-based wizard (with optionally graphical menus) to perform m
 
 The wizard remains under development, but detailed documentation can be found at \url{https://github.com/leeper/MTurkR/wiki/Wizard-Text-Based}.
 
-A more fully featured, interactive graphical wizard, which was previously available as part of MTurkR, has been refactored into a separate package called MTurkRGUI, available from CRAN. Please install and load that package for full documentation, or visit \url{https://github.com/leeper/MTurkR/wiki/Wizard\%20Graphical} for more deatils.
+A more fully featured, interactive graphical wizard, which was previously available as part of MTurkR, has been refactored into a separate package called MTurkRGUI, available from CRAN. Please install and load that package for full documentation, or visit \url{https://github.com/leeper/MTurkR/wiki/Wizard\%20Graphical} for more details.
 }
 \value{Currently returns nothing.}
 %\references{}

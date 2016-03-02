@@ -16,7 +16,7 @@ ApproveAllAssignments(hit = NULL, hit.type = NULL, annotation = NULL,
 }
 \arguments{
   \item{assignments}{A character string containing an AssignmentId, or a vector of multiple character strings containing multiple AssignmentIds, to approve.}
-  \item{hit}{A character string containing a HITId all of whom's assignments are to be approved. Must specify \code{hit} xor \code{hit.type} xor \code{annotation}.}
+  \item{hit}{A character string containing a HITId all of whose assignments are to be approved. Must specify \code{hit} xor \code{hit.type} xor \code{annotation}.}
   \item{hit.type}{A character string containing a HITTypeId (or a vector of HITTypeIds) all of whose HITs' assignments are to be approved. Must specify \code{hit} xor \code{hit.type} xor \code{annotation}.}
   \item{annotation}{An optional character string specifying the value of the \code{RequesterAnnotation} field for a batch of HITs. This can be used to approve all assignments for all HITs from a \dQuote{batch} created in the online Requester User Interface (RUI). To use a batch ID, the batch must be written in a character string of the form \dQuote{BatchId:78382;}, where \dQuote{73832} is the batch ID shown in the RUI. Must specify \code{hit} xor \code{hit.type} xor \code{annotation}.}
   \item{feedback}{An optional character string containing any feedback for a worker. This must have length 1 or length equal to the number of workers. Maximum of 1024 characters. For \code{ApproveAllAssignments}, must be length 1.}
@@ -29,7 +29,7 @@ Approve assignments, by AssignmentId (as returned by \code{\link{GetAssignment}}
 
 \code{ApproveAssignments()} and \code{approve()} are aliases for \code{ApproveAssignment}. \code{approveall()} is an alias for \code{ApproveAllAssignments}.
 }
-\value{A dataframe containing the list of AssignmentIds, feedback (if any), and whether or not each approval request was valid.}
+\value{A data frame containing the list of AssignmentIds, feedback (if any), and whether or not each approval request was valid.}
 \references{
 \href{http://docs.amazonwebservices.com/AWSMechTurk/latest/AWSMturkAPI/ApiReference_ApproveAssignmentOperation.html}{API Reference: Approve Assignment}
 

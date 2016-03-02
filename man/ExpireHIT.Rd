@@ -15,11 +15,11 @@ ExpireHIT(hit = NULL, hit.type = NULL, annotation = NULL,
   \item{...}{Additional arguments passed to \code{\link{request}}.}
 }
 \details{
-A function to (prematurely) expire a HIT (or multiple HITs), thereby preventing any additional assignments from being completed. Pending assignments can still be submitted. An expired HIT can be reactived by adding additional time to its expiration using \code{\link{ExtendHIT}}.
+A function to (prematurely) expire a HIT (or multiple HITs), thereby preventing any additional assignments from being completed. Pending assignments can still be submitted. An expired HIT can be reactivated by adding additional time to its expiration using \code{\link{ExtendHIT}}.
 
 \code{expire()} is an alias.
 }
-\value{A dataframe containing the HITId(s) and whether each expiration request was valid.}
+\value{A data frame containing the HITId(s) and whether each expiration request was valid.}
 \references{
 \href{http://docs.amazonwebservices.com/AWSMechTurk/latest/AWSMturkAPI/ApiReference_ForceExpireHITOperation.html}{API Reference}
 }

@@ -18,7 +18,7 @@ Test a Notification configuration. The test mimics whatever the Notification con
 
 \code{notificationtest} is an alias.
 }
-\value{A dataframe containing the notification, the event type, and details on whether the request was valid. As a side effect, a notification will be sent to the configured destination (either an email or an SQS queue).}
+\value{A data frame containing the notification, the event type, and details on whether the request was valid. As a side effect, a notification will be sent to the configured destination (either an email or an SQS queue).}
 \references{
 \href{http://docs.amazonwebservices.com/AWSMechTurk/latest/AWSMturkAPI/ApiReference_SendTestEventNotificationOperation.html}{API Reference}
 }

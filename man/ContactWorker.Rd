@@ -25,7 +25,7 @@ Note: It is only possible to contact workers who have performed work for you pre
 
 \code{ContactWorkers()} and \code{contact()} are aliases.
 }
-\value{A dataframe containing the list of workers, subjects, and messages, and whether the request to contact each of them was valid.}
+\value{A data frame containing the list of workers, subjects, and messages, and whether the request to contact each of them was valid.}
 \references{
 \href{http://docs.amazonwebservices.com/AWSMechTurk/latest/AWSMturkAPI/ApiReference_NotifyWorkersOperation.html}{API Reference}
 }

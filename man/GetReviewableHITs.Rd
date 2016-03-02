@@ -25,7 +25,7 @@ GetReviewableHITs(hit.type = NULL, status = NULL, response.group = "Minimal",
 
 \code{reviewable()} is an alias.
 }
-\value{A dataframe containing only a column of HITIds.}
+\value{A data frame containing only a column of HITIds.}
 \references{
 \href{http://docs.amazonwebservices.com/AWSMechTurk/latest/AWSMturkAPI/ApiReference_GetReviewableHITsOperation.html}{API Reference}
 }

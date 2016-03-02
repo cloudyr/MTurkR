@@ -21,7 +21,7 @@ Dispose of a HIT (and its assignment data) when it is no longer needed. Must spe
 
 \code{disposehit()} is an alias.
 }
-\value{A dataframe containing a list of HITs and whether the request to dispose of each of them was valid.}
+\value{A data frame containing a list of HITs and whether the request to dispose of each of them was valid.}
 \references{
 \href{http://docs.amazonwebservices.com/AWSMechTurk/latest/AWSMturkAPI/ApiReference_DisposeHITOperation.html}{API Reference}
 }

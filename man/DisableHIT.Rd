@@ -21,7 +21,7 @@ Disable a HIT (and its assignment data). This is a somewhat risky function becau
 
 \code{disable()} is an alias.
 }
-\value{A dataframe containing a list of HITs and whether the request to disable each of them was valid.}
+\value{A data frame containing a list of HITs and whether the request to disable each of them was valid.}
 \references{
 \href{http://docs.amazonwebservices.com/AWSMechTurk/latest/AWSMturkAPI/ApiReference_DisableHITOperation.html}{API Reference}
 }

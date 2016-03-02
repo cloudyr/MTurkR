@@ -31,7 +31,7 @@ This function changes the HITType of a specified HIT (or multiple specific HITs 
 
 \code{changehittype()} is an alias.
 }
-\value{A dataframe listing the HITId of each HIT who HITType was changed, its old HITTypeId and new HITTypeId, and whether the request for each HIT was valid.}
+\value{A data frame listing the HITId of each HIT who HITType was changed, its old HITTypeId and new HITTypeId, and whether the request for each HIT was valid.}
 \references{
 \href{http://docs.amazonwebservices.com/AWSMechTurk/latest/AWSMturkAPI/ApiReference_ChangeHITTypeOfHITOperation.html}{API Reference}
 }

@@ -17,7 +17,7 @@ GetQualificationRequests(qual = NULL, return.all = TRUE,
   \item{pagesize}{An optional character string indicating how many search results should be returned by each request, between 1 and 100. Most users can ignore this.}
   \item{sortproperty}{Either \dQuote{SubmitTime} or \dQuote{QualificationTypeId}. Ignored if \code{return.all=TRUE}. Most users can ignore this.}
   \item{sortdirection}{Either \dQuote{Ascending} or \dQuote{Descending}. Ignored if \code{return.all=TRUE}. Most users can ignore this.}
-  \item{return.qual.dataframe}{A logical indicating whether the QualificationTypes should be returned as a dataframe. Default is \code{TRUE}.}
+  \item{return.qual.dataframe}{A logical indicating whether the QualificationTypes should be returned as a data frame. Default is \code{TRUE}.}
   \item{verbose}{Optionally print the results of the API request to the standard output. Default is taken from \code{getOption('MTurkR.verbose', TRUE)}.}
   \item{...}{Additional arguments passed to \code{\link{request}}.}
 }
@@ -26,7 +26,7 @@ A function to retrieve pending Qualification Requests made by workers, either fo
 
 \code{qualrequests()} is an alias.
 }
-\value{A dataframe containing the QualificationRequestId, WorkerId, and other information (e.g., Qualification Test results) for each request.}
+\value{A data frame containing the QualificationRequestId, WorkerId, and other information (e.g., Qualification Test results) for each request.}
 \references{
 \href{http://docs.amazonwebservices.com/AWSMechTurk/latest/AWSMturkAPI/ApiReference_GetQualificationRequestsOperation.html}{API Reference}
 }

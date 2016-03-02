@@ -20,11 +20,11 @@ GetQualifications(qual, status = NULL, return.all = TRUE,
 \details{
 A function to retrieve Qualifications granted for the specified QualificationType. To retrieve a specific Qualification score (e.g., for one worker), use \code{\link{GetQualificationScore}}.
 
-A practical use for this is with automatically granted QualificationTypes. After workers request and recieve an automatically granted Qualification that is tied to one or more HITs, \code{GetQualifications} can be used to retrieve the WorkerId's for workers that are actively working on those HITs (even before they have submitted an assignment).
+A practical use for this is with automatically granted QualificationTypes. After workers request and receive an automatically granted Qualification that is tied to one or more HITs, \code{GetQualifications} can be used to retrieve the WorkerId's for workers that are actively working on those HITs (even before they have submitted an assignment).
 
 \code{getquals()} is an alias.
 }
-\value{A dataframe containing the QualificationTypeId, WorkerId, and Qualification scores of workers assigned the Qualification.}
+\value{A data frame containing the QualificationTypeId, WorkerId, and Qualification scores of workers assigned the Qualification.}
 \references{
 \href{http://docs.amazonwebservices.com/AWSMechTurk/latest/AWSMturkAPI/ApiReference_GetQualificationsForQualificationTypeOperation.html}{API Reference}
 }

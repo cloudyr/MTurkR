@@ -23,7 +23,7 @@ A simple function to grant a bonus to one or more workers. The function is somew
 
 \code{bonus()} and \code{paybonus()} are aliases.
 }
-\value{A dataframe containing the WorkerId, AssignmentId, amount, reason, and whether each request to bonus was valid.}
+\value{A data frame containing the WorkerId, AssignmentId, amount, reason, and whether each request to bonus was valid.}
 \references{
 \href{http://docs.amazonwebservices.com/AWSMechTurk/latest/AWSMturkAPI/ApiReference_GrantBonusOperation.html}{API Reference}
 }

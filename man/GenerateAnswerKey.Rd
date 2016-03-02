@@ -8,7 +8,7 @@ GenerateAnswerKey(questions, scoring = NULL)
 AnswerKeyTemplate(xml.parsed = NULL)
 }
 \arguments{
-  \item{questions}{A dataframe containing QuestionIdentifiers, AnswerOptions, AnswerScores, and DefaultScores. See MTurk API Documentation.}
+  \item{questions}{A data frame containing QuestionIdentifiers, AnswerOptions, AnswerScores, and DefaultScores. See MTurk API Documentation.}
   \item{scoring}{An optional list containing QualificationValueMapping information. See MTurk API Documentation.}
   \item{xml.parsed}{A complete QuestionForm data structure parsed by \code{xmlParse}. Must specify this or the \code{xml} parameter.}
 }

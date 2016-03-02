@@ -24,7 +24,7 @@ Retrieve bonuses previously paid to a specified HIT, Assignment, or HITType.
 
 \code{bonuses()} is an alias.
 }
-\value{A dataframe containing the details of each bonus, specifically: AssignmentId, WorkerId, Amount, CurrencyCode, FormattedPrice, Reason, and GrantTime.}
+\value{A data frame containing the details of each bonus, specifically: AssignmentId, WorkerId, Amount, CurrencyCode, FormattedPrice, Reason, and GrantTime.}
 \references{
 \href{http://docs.amazonwebservices.com/AWSMechTurk/latest/AWSMturkAPI/ApiReference_GetBonusPaymentsOperation.html}{API Reference}
 }

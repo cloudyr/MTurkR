@@ -30,7 +30,7 @@ Similarly, rejecting a qualification is not the same as revoking a worker's Qual
 
 \code{GrantQualifications()} and \code{grantqual()} are aliases; \code{RejectQualifications()} and \code{rejectrequest()} are aliases.
 }
-\value{A dataframe containing the QualificationRequestId, reason for rejection (if applicable; only for \code{RejectQualification}), and whether each request was valid.}
+\value{A data frame containing the QualificationRequestId, reason for rejection (if applicable; only for \code{RejectQualification}), and whether each request was valid.}
 \references{
 \href{http://docs.amazonwebservices.com/AWSMechTurk/latest/AWSMturkAPI/ApiReference_GrantQualificationOperation.html}{API Reference: GrantQualification}
 

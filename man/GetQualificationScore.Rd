@@ -13,11 +13,11 @@ GetQualificationScore(qual, workers, verbose = getOption('MTurkR.verbose', TRUE)
   \item{...}{Additional arguments passed to \code{\link{request}}.}
 }
 \details{
-A function to retrive one or more scores for a specified QualificationType. To retrieve all Qualifications of a given QualificationType, use \code{\link{GetQualifications}} instead. Both \code{qual} and \code{workers} can be vectors. If \code{qual} is not length 1 or the same length as \code{workers}, an error will occur.
+A function to retrieve one or more scores for a specified QualificationType. To retrieve all Qualifications of a given QualificationType, use \code{\link{GetQualifications}} instead. Both \code{qual} and \code{workers} can be vectors. If \code{qual} is not length 1 or the same length as \code{workers}, an error will occur.
 
 \code{qualscore()} is an alias.
 }
-\value{A dataframe containing the QualificationTypeId, WorkerId, time the qualification was granted, the Qualification score, a column indicating the status of the qualification, and a column indicating whether the API request was valid.}
+\value{A data frame containing the QualificationTypeId, WorkerId, time the qualification was granted, the Qualification score, a column indicating the status of the qualification, and a column indicating whether the API request was valid.}
 \references{
 \href{http://docs.amazonwebservices.com/AWSMechTurk/latest/AWSMturkAPI/ApiReference_GetQualificationScoreOperation.html}{API Reference}
 }

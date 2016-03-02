@@ -14,7 +14,7 @@
 \alias{as.data.frame.QuestionForm}
 \alias{as.data.frame.ReviewResults}
 \alias{as.data.frame.WorkerBlock}
-\title{Parse MTurk XML to Dataframe}
+\title{Parse MTurk XML to Data Frame}
 \description{Parse MTurk XML Responses to R data.frames.}
 \usage{
 as.data.frame.AnswerKey(xml.parsed)
@@ -49,8 +49,8 @@ as.data.frame.WorkerBlock(xml.parsed)
   \item{hit.number}{An optional parameter included for advanced users, to return only one of the specified HITs.}
   \item{sandbox}{A logical indicating whether GetQualificationType, called internally, should query the sandbox for user-defined QualificationTypes.}
 }
-\details{Mostly internal functions to convert XML-formatted MTurk responses into more useful R dataframes. These are mostly internal to the extent that most users will never call them directly, but they may be useful if one needs to examine information stored in the MTurkR log file, or if \code{\link{request}} is used directly.}
-\value{A dataframe (or list of dataframes, in some cases) containing the request data.}
+\details{Mostly internal functions to convert XML-formatted MTurk responses into more useful R data frames. These are mostly internal to the extent that most users will never call them directly, but they may be useful if one needs to examine information stored in the MTurkR log file, or if \code{\link{request}} is used directly.}
+\value{A data frame (or list of data frames, in some cases) containing the request data.}
 \references{
 \href{http://docs.amazonwebservices.com/AWSMechTurk/latest/AWSMturkAPI/ApiReference_DataStructuresArticle.html}{API Reference: Data Structures}
 }

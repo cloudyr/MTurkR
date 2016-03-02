@@ -10,7 +10,7 @@
 MTurk is widely used as a platform for social research, due to its low costs, ease of use, and quick access to participants. This use case tutorial walks through how to create MTurk HITs using MTurkR. It also describes some advanced features, such as managing panels of MTurk participants, and randomizing content.
 }
 \section{Creating a survey HIT}{
-Because a HIT is simply an HTML form, it is possible to design an entire survey(-experimental) questionnaire directly in MTurk. This could be done using an HTMLQuestion HIT. That would require, however, an extensive knowledge of HTML, likely a fair amount of javascript to display questions and validate worker responses, and a large amount of CSS styling. An alternative approach is to use an off-site survey tool (such as SurveyMonkey, Qualtrics, Google Spreadsheet Forms, etc.) to design a questionnaire and then simply use a HIT to direct workers to that task. There are two ways to do this in MTurkR. One is to create a \dQuote{link and code} HIT that includes a link to an off-site tool and a text entry field for a worker to enter a completion code. The other is to embed the questionnaire directly as an ExternalQuestion HIT. The following two sections describe these approaches.
+Because a HIT is simply an HTML form, it is possible to design an entire survey(-experimental) questionnaire directly in MTurk. This could be done using an HTMLQuestion HIT. That would require, however, an extensive knowledge of HTML, likely a fair amount of JavaScript to display questions and validate worker responses, and a large amount of CSS styling. An alternative approach is to use an off-site survey tool (such as SurveyMonkey, Qualtrics, Google Spreadsheet Forms, etc.) to design a questionnaire and then simply use a HIT to direct workers to that task. There are two ways to do this in MTurkR. One is to create a \dQuote{link and code} HIT that includes a link to an off-site tool and a text entry field for a worker to enter a completion code. The other is to embed the questionnaire directly as an ExternalQuestion HIT. The following two sections describe these approaches.
 
 \subsection{Link and code}{
 To use the link and code, the HIT must contain the following:
@@ -19,7 +19,7 @@ To use the link and code, the HIT must contain the following:
     \item A link to the off-site survey
     \item A text entry form field into which the worker will enter a completion code
     \item Instructions to the worker about how to complete the HIT
-    \item Optionally, javascript to dynamically display the link and/or entry field
+    \item Optionally, JavaScript to dynamically display the link and/or entry field
 }
 
 MTurkR includes an XML file that could be used to create an HTMLQuestion \dQuote{link and code} HIT. You can find it in \code{system.file("templates/htmlquestion1.xml", package = "MTurkR")}. A more robust example of an HTMLQuestion showing a survey link that is dynamically displayed once the HIT is accepted is included as \code{system.file("templates/surveylink.xml", package = "MTurkR")}. You can also create a HIT of this kind on the MTurk requester user interface (RUI) website.

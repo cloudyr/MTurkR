@@ -43,7 +43,7 @@ A very robust function to assign a Qualification to one or more workers. The sim
 
 \code{AssignQualifications()} and \code{assignqual()} are aliases.
 }
-\value{A dataframe containing the list of workers, the QualificationTypeId, the value each worker was assigned, whether they were notified of their QualificationType assignment, and whether the request was valid.}
+\value{A data frame containing the list of workers, the QualificationTypeId, the value each worker was assigned, whether they were notified of their QualificationType assignment, and whether the request was valid.}
 \references{
 \href{http://docs.amazonwebservices.com/AWSMechTurk/latest/AWSMturkAPI/ApiReference_AssignQualificationOperation.html}{API Reference}
 }

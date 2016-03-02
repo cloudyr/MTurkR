@@ -31,7 +31,7 @@ A function to update the characteristics of a QualificationType. Name and keywor
 
 \code{updatequal()} is an alias.
 }
-\value{A dataframe containing the QualificationTypeId of the newly created QualificationType and other details as specified in the request.}
+\value{A data frame containing the QualificationTypeId of the newly created QualificationType and other details as specified in the request.}
 \references{
 \href{http://docs.amazonwebservices.com/AWSMechTurk/latest/AWSMturkAPI/ApiReference_UpdateQualificationTypeOperation.html}{API Reference}
 }

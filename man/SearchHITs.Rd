@@ -17,8 +17,8 @@ SearchHITs(response.group = NULL, return.all = TRUE,
   \item{pagesize}{An optional character string indicating how many search results should be returned by each request, between 1 and 100. Most users can ignore this.}
   \item{sortproperty}{One of \dQuote{Title}, \dQuote{Reward}, \dQuote{Expiration}, \dQuote{CreationTime}, \dQuote{Enumeration}. Ignored if \code{return.all=TRUE}. Most users can ignore this.}
   \item{sortdirection}{Either \dQuote{Ascending} or \dQuote{Descending}. Ignored if \code{return.all=TRUE}. Most users can ignore this.}
-  \item{return.hit.dataframe}{A logical indicating whether the dataframe of HITs should be returned. Default is \code{TRUE}.}
-  \item{return.qual.dataframe}{A logical indicating whether the list of each HIT's QualificationRequirements (stored as dataframes in that list) should be returned. Default is \code{TRUE}.}
+  \item{return.hit.dataframe}{A logical indicating whether the data frame of HITs should be returned. Default is \code{TRUE}.}
+  \item{return.qual.dataframe}{A logical indicating whether the list of each HIT's QualificationRequirements (stored as data frames in that list) should be returned. Default is \code{TRUE}.}
   \item{verbose}{Optionally print the results of the API request to the standard output. Default is taken from \code{getOption('MTurkR.verbose', TRUE)}.}
   \item{...}{Additional arguments passed to \code{\link{request}}.}
 }
@@ -27,7 +27,7 @@ Retrieve your current HITs (and, optionally, characteristics thereof). To view H
 
 \code{searchhits()} is an alias.
 }
-\value{A list one- or two-element list containing a dataframe of HIT details and, optionally (if `return.qual.dataframe = TRUE`), a list of each HIT's QualificationRequirements (stored as dataframes in that list).}
+\value{A list one- or two-element list containing a data frame of HIT details and, optionally (if `return.qual.dataframe = TRUE`), a list of each HIT's QualificationRequirements (stored as data frames in that list).}
 \references{
 \href{http://docs.amazonwebservices.com/AWSMechTurk/latest/AWSMturkAPI/ApiReference_SearchHITsOperation.html}{API Reference}
 }

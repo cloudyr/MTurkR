@@ -18,7 +18,7 @@ RejectAssignment(assignments, feedback = NULL,
 
 \code{RejectAssignments()} and \code{reject()} are aliases.
 }
-\value{A dataframe containing the list of AssignmentIds, feedback (if any), and whether or not each rejection request was valid.}
+\value{A data frame containing the list of AssignmentIds, feedback (if any), and whether or not each rejection request was valid.}
 \references{
 \href{http://docs.amazonwebservices.com/AWSMechTurk/latest/AWSMturkAPI/ApiReference_RejectAssignmentOperation.html}{API Reference}
 }

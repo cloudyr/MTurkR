@@ -19,7 +19,7 @@ SearchQualificationTypes(query = NULL, only.mine = TRUE, only.requestable = FALS
   \item{pagesize}{An optional character string indicating how many search results should be returned by each request, between 1 and 100. Most users can ignore this.}
   \item{sortproperty}{API currently only supports \dQuote{Name}. Most users can ignore this.}
   \item{sortdirection}{Either \dQuote{Ascending} or \dQuote{Descending}. Ignored if \code{return.all=TRUE}. Most users can ignore this.}
-  \item{return.qual.dataframe}{A logical indicating whether the QualificationTypes should be returned as a dataframe. Default is \code{TRUE}.}
+  \item{return.qual.dataframe}{A logical indicating whether the QualificationTypes should be returned as a data frame. Default is \code{TRUE}.}
   \item{verbose}{Optionally print the results of the API request to the standard output. Default is taken from \code{getOption('MTurkR.verbose', TRUE)}.}
   \item{...}{Additional arguments passed to \code{\link{request}}.}
 }
@@ -28,7 +28,7 @@ Retrieve available QualificationTypes, optionally only those QualificationTypes 
 
 \code{searchquals()} is an alias.
 }
-\value{A dataframe containing the QualificationTypeId of the newly created QualificationType and other details as specified in the request.}
+\value{A data frame containing the QualificationTypeId of the newly created QualificationType and other details as specified in the request.}
 \references{
 \href{http://docs.amazonwebservices.com/AWSMechTurk/latest/AWSMturkAPI/ApiReference_SearchQualificationTypesOperation.html}{API Reference}
 }

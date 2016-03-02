@@ -39,7 +39,7 @@ OpenQualificationPage()
   \item{download}{For \code{OpenDownloadPage}: a logical indicating whether the HIT results should be downloaded directly or whether the Requester User Interface (RUI) ManageHIT page should be opened (the default).}
 }
 \details{A set of convenience functions to either display various information about MTurk semantics or open specified parts of the Requester User Interface (RUI).}
-\value{Either a dataframe containing the requested information (in the case of \code{ListOperations}, \code{ListQualificationTypes}, \code{ListStatistics}) or nothing internal to R, but the specified webpage is opened in the user's default web browser (in the case of \code{OpenWorkerPage}, \code{OpenManageHITPage}, \code{OpenDownloadPage}, or \code{OpenQualificationPage}).}
+\value{Either a data frame containing the requested information (in the case of \code{ListOperations}, \code{ListQualificationTypes}, \code{ListStatistics}) or nothing internal to R, but the specified webpage is opened in the user's default web browser (in the case of \code{OpenWorkerPage}, \code{OpenManageHITPage}, \code{OpenDownloadPage}, or \code{OpenQualificationPage}).}
 %\references{}
 \author{Thomas J. Leeper}
 %\note{}

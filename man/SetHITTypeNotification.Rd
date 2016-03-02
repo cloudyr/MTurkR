@@ -20,7 +20,7 @@ Email notifications are useful for small projects, but configuring notifications
 
 \code{setnotification()} is an alias.
 }
-\value{A dataframe containing details of the Notification and whether or not the request was successfully executed by MTurk.
+\value{A data frame containing details of the Notification and whether or not the request was successfully executed by MTurk.
 
 Once configured, events will trigger a side effect in the form of a notification sent to the specified transport (either an email address or SQS queue). That notification will contain the following details: \code{EventType}, \code{EventTime}, \code{HITTypeId}, \code{HITId}, and (if applicable) \code{AssignmentId}.}
 \references{
