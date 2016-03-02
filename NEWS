@@ -102,7 +102,7 @@
 
 ## SIGNIFICANT USER-VISIBLE CHANGES ##
 
-* `GenerateReviewPolicy` is removed in lieu of two new functions: `GenerateHITReviewPolicy` and `GenerateAssignmentReviewPolicy`, both of which have a simplified function API and include extensive examples in the documentaiton. The previous code never worked correctly, so this change should be unimportant. The use of `CreateHIT` remains unchanged. (#47)
+* `GenerateReviewPolicy` is removed in lieu of two new functions: `GenerateHITReviewPolicy` and `GenerateAssignmentReviewPolicy`, both of which have a simplified function API and include extensive examples in the documentation. The previous code never worked correctly, so this change should be unimportant. The use of `CreateHIT` remains unchanged. (#47)
 * `HITStatus`, `ApproveAllAssignments`, `ChangeHITType`, `DisposeHIT`, `DisableHIT`, `ExpireHIT`, `ExtendHIT`, `GetAssignment`, `GetBonuses`, `SetHITAsReviewing` now include an optional `annotation` argument that can be used to apply the function to all HITs of a given "batch" created in the online Requester User Interface. (#51)
 * `GetFileUpload` no longer has a `file.ext` argument. Instead the file extension is taken from the uploaded file itself. The format of the filename for the downloaded file has also been clarified. (#45)
 
@@ -133,10 +133,10 @@
 * `GetBonuses` no longer supports the `return.bonus.dataframe` logical. All bonuses are automatically returned. To just retrieve details on number of bonuses per HIT, request only the first page with `page.number=1` and `verbose=TRUE`.
 * `MTurkR.Wizard` now allows batch emails using `ContactWorkers`. WorkerIds can be specified as a comma-separated list. (#4)
 * The `credentials` function has now been changed to create and/or retrieve a global option `MTurkR.keypair`. This is a backwards compatible change that allows users to specify `options(MTurkR.keypair=c(accesskey, secretkey))` directly without using `credentials`. All functions now point directly to the global option, so that `credentials` can be deprecated in a future release.
-* In many functions that return a dataframe with a `Valid` column (e.g., `ContactWorkers`, etc.), `Valid` is now a factor. (#28)
-* Using `ContactWorkers` in batch mode now returns a dataframe identical in structure to using it in regular mode, with one row per worker. (#32)
+* In many functions that return a data frame with a `Valid` column (e.g., `ContactWorkers`, etc.), `Valid` is now a factor. (#28)
+* Using `ContactWorkers` in batch mode now returns a data frame identical in structure to using it in regular mode, with one row per worker. (#32)
 * The `signature` argument to `request` now defaults to `NULL` and is generated automatically.
-* `HITsToDataFrame` (now `as.data.frame.HITs`) now returns, for the QualificationRequirements list element, an empty dataframe rather a single `NA` missing value if a given HIT does not have any QualificationRequirements attached to it.
+* `HITsToDataFrame` (now `as.data.frame.HITs`) now returns, for the QualificationRequirements list element, an empty data frame rather a single `NA` missing value if a given HIT does not have any QualificationRequirements attached to it.
 * `request` now generates the API authentication signature automatically, eliminating the need for `authenticate`, which is deprecated. `request` no longer accepts `signature` or `timestamp` arguments and has a new argument order. Arguments can be passed to `request` via a new `...` argument in all functions.
 * `request` now uses `curlPerform` instead of `getURL` to gain finer control over API requests.
 * `request` now attempts to `tryCatch` any errors on writing the MTurkR log file. (#9)
@@ -187,7 +187,7 @@
 * In `HITStatus` and `HITsToDataFrame` the correct capitalization of "Of" (from lower to upper) has been corrected throughout.
 * A series of related changes were made to `GetAssignment`, `AssignmentsToDataFrame` and `QuestionFormAnswersToDataFrame` to handle Answer data structures with differing QuestionIdentifiers. (h/t Robert Vesco and Solomon Messing)
 * Eliminated several `response.group` options from `GetHITsForQualificationType` due to personal communication with AWS.
-* Fixed bug in `GetReviewableHITs` that correctly queried the API but returned an incomplete dataframe. (h/t Eric Lin)
+* Fixed bug in `GetReviewableHITs` that correctly queried the API but returned an incomplete data frame. (h/t Eric Lin)
 * Fixed bug in `CreateHIT`, saying `type` was not defined, that occurred when `hit.type` was non-NULL. (h/t Eric Lin)
 * Fixed bug in `GetHIT`, which trickled down through `HITsToDataFrame` and `QualificationRequirementsToDataFrame` that caused error when retrieving HITs from the sandbox with user-defined qualifications. (h/t Eric Lin)
 * Fixed bug in `GenerateHTMLQuestion` related to XML encoding. (h/t Alex Neustädter)
@@ -205,7 +205,7 @@
 * `CreateHIT` now provides an option to validate the 'question' parameter for HTMLQuestion, ExternalQuestion, and QuestionForm HIT structures.
 * `CreateQualificationType` now provides options to validate the 'test' and/or 'answerkey' parameters for QuestionForm and AnswerKey structures, respectively.
 * `GenerateAnswerKey` was modified to accept slightly different inputs for the 'questions' parameter. A new function, `AnswerKeyTemplate`, produces a user-modifiable template (as a list) for that parameter based on a QuestionForm data structure for which an AnswerKey is desired.
-* When internal functions (described in the documentation of `XMLToDataFrame`) that normally return named lists have nothing to translate to a dataframe, they now return named lists with NULL values rather than simply a single NULL.
+* When internal functions (described in the documentation of `XMLToDataFrame`) that normally return named lists have nothing to translate to a data frame, they now return named lists with NULL values rather than simply a single NULL.
 
 ## BUG FIXES ##
 * Fixed bug in `GetAssignments` that prevented the return of assignments for an entire HITType or for multiple HITs. Specifically, previous version was retrieving assignments via the API but not returning them to the user. (h/t Robert Vesco)
@@ -247,7 +247,7 @@
 
 ## BUG FIXES ##
 * A number of bug fixes have been corrected throughout the package. Most were minor and related to output, but some like the 'return.all' parameter in `GetAssignments`, were producing unintended behavior.
-* Various mislabelled function parameters (used within functions) have been corrected (some were creating notes on R CMD check).
+* Various mislabeled function parameters (used within functions) have been corrected (some were creating notes on R CMD check).
 * `request` was modified to remove problematic whitespace characters when writing log entries (which made reading the log file into R problematic).
 
 ## DOCUMENTATION ##
