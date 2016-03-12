@@ -1,5 +1,9 @@
 # CHANGES TO MTurkR 0.8 #
 
+## SIGNIFICANT USER-VISIBLE CHANGES ##
+
+* `GetAssignments()` now attempts to convert non-character variables to an appropriate R vector type via `type.convert(, as.is = TRUE)`.
+
 ## DOCUMENTATION ##
 
 * Documentation now indicates that `GrantBonus()` allows the `reason` argument to contain newlines and tabs. (#109)

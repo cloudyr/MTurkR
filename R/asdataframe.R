@@ -414,7 +414,9 @@ as.data.frame.QuestionFormAnswers <- function(xml.parsed) {
         }
         return(out)
     }
-    return(setRownames(do.call(rbind,lapply(answers,FUN=convertxml))))
+    out <- do.call(rbind,lapply(answers,FUN=convertxml))
+    out[] <- lapply(out, type.convert, as.is = TRUE)
+    return(setRownames(out))
 }
 
 

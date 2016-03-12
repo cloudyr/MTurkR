@@ -125,9 +125,9 @@ function (response.group = NULL, return.all = TRUE, pagenumber = "1",
         }
         if(return.hit.dataframe==TRUE){
             return.list <- list(HITs = setRownames(request$HITs),
-                                QualificationRequirements = setRownames(request$QualificationRequirements))
+                                QualificationRequirements = request$QualificationRequirements)
         } else {
-            return.list <- list(QualificationRequirements = setRownames(request$QualificationRequirements))
+            return.list <- list(QualificationRequirements = request$QualificationRequirements)
         }
     } else {
         if (return.hit.dataframe == TRUE) {
