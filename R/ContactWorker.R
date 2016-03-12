@@ -24,8 +24,7 @@ function (subjects, msgs, workers, batch = FALSE,
         else if(nchar(curl_escape(msgs)) > 4096) 
             stop("Message Text Too Long (4096 char max)")
 
-        Notifications <- setNames(data.frame(matrix(nrow = length(workers), ncol = 4)),
-                    c("WorkerId", "Subject", "Message", "Valid"))
+        Notifications <- emptydf(length(workers), 4, c("WorkerId", "Subject", "Message", "Valid"))
         Notifications$WorkerId <- workers
         Notifications$Subject <- subjects
         Notifications$Message <- msgs
@@ -76,8 +75,7 @@ function (subjects, msgs, workers, batch = FALSE,
             msgs <- rep(msgs[1], length(workers))
         else if(!length(msgs) == length(workers)) 
             stop("Number of messages is not 1 nor length(workers)")
-        Notifications <- setNames(data.frame(matrix(nrow = length(workers), ncol = 4)),
-                            c("WorkerId", "Subject", "Message", "Valid"))
+        Notifications <- emptydf(length(workers), 4, c("WorkerId", "Subject", "Message", "Valid"))
         for (i in 1:length(workers)) {
             GETparameters <- paste("&Subject=", curl_escape(subjects[i]), 
                                    "&MessageText=", curl_escape(msgs[i]),

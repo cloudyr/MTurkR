@@ -8,8 +8,7 @@ function (notification, test.event.type = "HITExpired",
         stop("Inappropriate TestEventType specified")
     GETparameters <- notification
     GETparameters <- paste(GETparameters, "&TestEventType=", test.event.type, sep = "")
-    TestEvent <- setNames(data.frame(matrix(ncol=3, nrow=1)),
-                    c("TestEventType", "Notification", "Valid"))
+    TestEvent <- emptydf(1, 3, c("TestEventType", "Notification", "Valid"))
     request <- request(operation, GETparameters = GETparameters, ...)
     if(is.null(request$valid))
         return(request)

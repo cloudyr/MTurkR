@@ -15,8 +15,7 @@ function (workers, reasons = NULL, verbose = getOption('MTurkR.verbose', TRUE), 
                 stop("length(reason) must equal length(workers) or 1")
         }
     }
-    Workers <- data.frame(matrix(ncol = 3))
-    names(Workers) <- c("WorkerId", "Reason", "Valid")
+    Workers <- emptydf(0, 3, c("WorkerId", "Reason", "Valid"))
     for (i in 1:length(workers)) {
         GETparameters <- paste("&WorkerId=", workers[i], sep = "")
         if (!is.null(reasons[i])) 

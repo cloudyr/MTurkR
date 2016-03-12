@@ -112,20 +112,10 @@ function(assignment = NULL,
                 batch$assignments <- as.data.frame.Assignments(xml.parsed = xmlParse(batch$xml))$assignments
                 batch$assignments$Answer <- NULL
             } else { 
-                batch$assignments <- 
-                setNames(data.frame(matrix(nrow=0, ncol=12)),
-                c("AssignmentId",
-                  "WorkerId",
-                  "HITId",
-                  "AssignmentStatus",
-                  "AutoApprovalTime",
-                  "AcceptTime",
-                  "SubmitTime",
-                  "ApprovalTime",
-                  "RejectionTime",
-                  "RequesterFeedback",
-                  "ApprovalRejectionTime",
-                  "SecondsOnHIT"))
+                batch$assignments <- emptydf(0, 12, c("AssignmentId", "WorkerId", "HITId", "AssignmentStatus",
+                                                      "AutoApprovalTime", "AcceptTime", "SubmitTime",
+                                                      "ApprovalTime",  "RejectionTime", "RequesterFeedback",
+                                                      "ApprovalRejectionTime", "SecondsOnHIT"))
             }
             return(batch)
         }

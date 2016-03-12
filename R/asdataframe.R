@@ -8,8 +8,7 @@ function(xml.parsed,
     hit.xml <- xpathApply(xml.parsed, "//HIT")
     if(!is.null(length(hit.xml))) {
         quals <- list()
-        HITs <- setNames(data.frame(matrix(nrow = length(hit.xml), ncol = 19)),
-          c("HITId", "HITTypeId", "CreationTime", 
+        HITs <- emptydf(length(hit.xml), 19, c("HITId", "HITTypeId", "CreationTime", 
             "Title", "Description", "Keywords", "HITStatus", 
             "MaxAssignments", "Amount", "AutoApprovalDelayInSeconds", 
             "Expiration", "AssignmentDurationInSeconds", "NumberOfSimilarHITs", 
@@ -50,18 +49,13 @@ function(xml.parsed,
                         quals[[i]]$HITId <- HITs$HITId[i]
                     }
                 } else {
-                    quals[[i]] <- setNames(data.frame(matrix(ncol=6, nrow=0)),
-                                           c('HITId', 'QualificationTypeId',
-                                             'Name', 'Comparator',
-                                             'Value', 'RequiredToPreview'))
+                    quals[[i]] <- emptydf(0, 6, c('HITId', 'QualificationTypeId', 'Name', 'Comparator', 'Value', 'RequiredToPreview'))
                 }
             }
         }
         return(list(HITs = HITs, QualificationRequirements = quals))
     } else {
-        return(list(HITs =
-                    setNames(data.frame(matrix(nrow = 0, ncol = 19)),
-                             c("HITId", "HITTypeId", "CreationTime", 
+        return(list(HITs = emptydf(0, 19, c("HITId", "HITTypeId", "CreationTime", 
                                "Title", "Description", "Keywords", "HITStatus", 
                                "MaxAssignments", "Amount", 
                                "AutoApprovalDelayInSeconds", "Expiration", 
@@ -129,9 +123,8 @@ function(xml.parsed = NULL,
     if(is.null(xmlnodeset) & is.null(xml.parsed)) 
         stop("Must supply XML (parsed or unparsed) xor XMLNodeSet")
     batch <- function(xmlnodeset) {
-        quals <- setNames(data.frame(matrix(nrow = length(xmlnodeset), ncol = 6)),
-                          c("HITId", "QualificationTypeId", "Name",
-                            "Comparator", "Value", "RequiredToPreview"))
+        quals <- emptydf(nrow = length(xmlnodeset), ncol = 6,
+                         c("HITId", "QualificationTypeId", "Name", "Comparator", "Value", "RequiredToPreview"))
         for(i in 1:length(xmlnodeset)) {
             quals$QualificationTypeId[i] <- xmlValue(xmlChildren(xmlnodeset[[i]])$QualificationTypeId)
             if(quals$QualificationTypeId[i] %in% ListQualificationTypes()$QualificationTypeId) {
@@ -168,14 +161,10 @@ function(xml.parsed = NULL,
         if(!is.null(xmlnodeset)) {
             return(batch(xmlnodeset))
         } else {
-            return(setNames(data.frame(matrix(ncol=6, nrow=0)),
-                   c('HITId', 'QualificationTypeId', 'Name',
-                     'Comparator', 'Value', 'RequiredToPreview')))
+            return(emptydf(0, 6, c('HITId', 'QualificationTypeId', 'Name', 'Comparator', 'Value', 'RequiredToPreview')))
         }
     } else {
-        return(setNames(data.frame(matrix(ncol=6, nrow=0)),
-                        c('HITId', 'QualificationTypeId', 'Name',
-                          'Comparator', 'Value', 'RequiredToPreview')))
+        return(emptydf(0, 6, c('HITId', 'QualificationTypeId', 'Name', 'Comparator', 'Value', 'RequiredToPreview')))
     }
 }
 
@@ -200,20 +189,9 @@ as.data.frame.QualificationTypes <- function(xml.parsed) {
         ))
     })
     if(!length(out)){
-        return(setNames(data.frame(matrix(nrow=0, ncol=13)),
-                        c("QualificationTypeId",
-                          "CreationTime",
-                         "Name",
-                         "Description",
-                         "Keywords",
-                         "QualificationTypeStatus",
-                         "AutoGranted",
-                         "AutoGrantedValue",
-                         "IsRequestable",
-                         "RetryDelayInSeconds",
-                         "TestDurationInSeconds",
-                         "Test",
-                         "AnswerKey")))
+        return(emptydf(0, 13, c("QualificationTypeId", "CreationTime", "Name", "Description", "Keywords",
+                                "QualificationTypeStatus", "AutoGranted", "AutoGrantedValue", "IsRequestable",
+                                "RetryDelayInSeconds", "TestDurationInSeconds", "Test", "AnswerKey")))
     } else
         return(do.call(rbind.data.frame, out))
 }
@@ -230,12 +208,7 @@ as.data.frame.QualificationRequests <- function(xml.parsed){
         ))
     })
     if(!length(out)) {
-        return(setNames(data.frame(matrix(nrow=0, ncol=5)),
-                        c("QualificationRequestId",
-                          "QualificationTypeId",
-                          "SubjectId",
-                          "SubmitTime",
-                          "Answer")))
+        return(emptydf(0, 5, c("QualificationRequestId","QualificationTypeId","SubjectId","SubmitTime","Answer")))
     } else
         return(do.call("rbind.data.frame", out))
 }
@@ -243,8 +216,7 @@ as.data.frame.QualificationRequests <- function(xml.parsed){
 as.data.frame.Qualifications <- function(xml.parsed) {
     quals.xml <- xpathApply(xml.parsed, "//Qualification")
     if(length(quals.xml) > 0) {
-        quals <- setNames(data.frame(matrix(nrow = length(quals.xml), ncol = 5)),
-                    c("QualificationTypeId", "WorkerId", "GrantTime", "Value", "Status"))
+        quals <- emptydf(length(quals.xml), 5, c("QualificationTypeId", "WorkerId", "GrantTime", "Value", "Status"))
         for(i in 1:length(quals.xml)) {
             if("IntegerValue" %in% names(xmlChildren(quals.xml[[1]]))) 
                 value.type <- "IntegerValue"
@@ -327,9 +299,8 @@ as.data.frame.ExternalQuestion <- function(xml.parsed) {
 as.data.frame.AnswerKey <- function(xml.parsed) {
     nodes <- xmlChildren(xmlChildren(xml.parsed)$AnswerKey)
     # need to change this to an xpath expression:
-    answerkey <- data.frame(matrix(nrow = length(strsplit(toString.XMLNode(xml.parsed),'/AnswerOption')[[1]])-1,
-                                   ncol = 3))
-    names(answerkey) <- c("QuestionIdentifier", "SelectionIdentifier", "AnswerScore")
+    answerkey <- emptydf(nrow = length(strsplit(toString.XMLNode(xml.parsed),'/AnswerOption')[[1]])-1,
+                         ncol = 3, c("QuestionIdentifier", "SelectionIdentifier", "AnswerScore"))
     k <- 1
     for(i in 1:length(nodes[names(nodes) == "Question"])) {
         question <- xmlChildren(nodes[names(nodes) == "Question"][[i]])
@@ -357,9 +328,7 @@ as.data.frame.AnswerKey <- function(xml.parsed) {
             mapping$Type <- "RangeMapping"
             ranges.xml <- xmlChildren(map$RangeMapping)
             scoreranges <- ranges.xml[names(ranges.xml) == "SummedScoreRange"]
-            mapping$Ranges <- data.frame(matrix(nrow=length(scoreranges), ncol=3))
-            names(mapping$Ranges) <- c("InclusiveLowerBound", 
-                "InclusiveUpperBound", "QualificationValue")
+            mapping$Ranges <- emptydf(length(scoreranges), 3, c("InclusiveLowerBound", "InclusiveUpperBound", "QualificationValue"))
             for(i in 1:length(scoreranges)) {
                 mapping$Ranges[i, ] <- c(xmlValue(xmlChildren(scoreranges[[i]])$InclusiveLowerBound), 
                   xmlValue(xmlChildren(scoreranges[[i]])$InclusiveUpperBound), 
@@ -386,14 +355,12 @@ as.data.frame.QuestionFormAnswers <- function(xml.parsed) {
     questions <- xmlChildren(z)
     iterations <- total * length(questions)
     # create dataframe
-    values <- as.data.frame(matrix(nrow = iterations, ncol = 10))
-    names(values) <- c("AssignmentId", "WorkerId", "HITId", "QuestionIdentifier", 
-                       "FreeText", "SelectionIdentifier", "OtherSelectionField", 
-                       "UploadedFileKey", "UploadedFileSizeInBytes", "Combined.Answers")
+    values <- emptydf(iterations, 10, c("AssignmentId", "WorkerId", "HITId", "QuestionIdentifier", 
+                                        "FreeText", "SelectionIdentifier", "OtherSelectionField", 
+                                        "UploadedFileKey", "UploadedFileSizeInBytes", "Combined.Answers"))
     convertxml <- function(node){
         questions <- xmlChildren(extractQuestionFormAnswersElement(node))
-        out <- as.data.frame(matrix(nrow = length(questions), ncol = 10))
-        names(out) <- names(values)
+        out <- emptydf(length(questions), 10, names(values))
         out$AssignmentId <- xmlValue(xpathApply(node, "../AssignmentId")[[1]])
         out$WorkerId <- xmlValue(xpathApply(node, "../WorkerId")[[1]])
         out$HITId <- xmlValue(xpathApply(node, "../HITId")[[1]])
@@ -472,14 +439,12 @@ as.data.frame.ReviewResults <- function(xml.parsed) {
             assignment.report <- 
               xmlChildren(xpathApply(xml.parsed, "//AssignmentReviewReport")[[1]])
             if(!is.null(assignment.report) && length(assignment.report) >= 1) {
-                AssignmentReviewResult <- setNames(data.frame(matrix(
-                    nrow = sum(names(assignment.report) == "ReviewResult"), ncol=7)),
-                    c("AssignmentReviewPolicy", "ActionId", "SubjectId",
-                    "ObjectType", "QuestionId", "Key", "Value"))
-                AssignmentReviewAction <- setNames(data.frame(matrix(
-                    nrow = sum(names(assignment.report) == "ReviewAction"), ncol = 9)),
-                    c("AssignmentReviewPolicy", "ActionId", "ActionName", "ObjectId",
-                    "ObjectType", "Status", "CompleteTime", "Result", "ErrorCode"))
+                AssignmentReviewResult <- emptydf(nrow = sum(names(assignment.report) == "ReviewResult"), ncol=7,
+                                                  c("AssignmentReviewPolicy", "ActionId", "SubjectId",
+                                                    "ObjectType", "QuestionId", "Key", "Value"))
+                AssignmentReviewAction <- emptydf(nrow = sum(names(assignment.report) == "ReviewAction"), ncol = 9,
+                                                  c("AssignmentReviewPolicy", "ActionId", "ActionName", "ObjectId",
+                                                    "ObjectType", "Status", "CompleteTime", "Result", "ErrorCode"))
                 r <- 1
                 a <- 1
                 for(i in 1:length(assignment.report)) {
@@ -508,26 +473,22 @@ as.data.frame.ReviewResults <- function(xml.parsed) {
                 out$AssignmentReviewResult <- AssignmentReviewResult
                 out$AssignmentReviewAction <- AssignmentReviewResult
             } else {
-                out$AssignmentReviewResult <- setNames(data.frame(matrix(nrow = 0, ncol=7)),
-                    c("AssignmentReviewPolicy", "ActionId", "SubjectId",
-                    "ObjectType", "QuestionId", "Key", "Value"))
-                out$AssignmentReviewAction <- setNames(data.frame(matrix(nrow = 0, ncol = 9)),
-                    c("AssignmentReviewPolicy", "ActionId", "ActionName", "ObjectId",
-                    "ObjectType", "Status", "CompleteTime", "Result", "ErrorCode"))
+                out$AssignmentReviewResult <- emptydf(0, 7, c("AssignmentReviewPolicy", "ActionId", "SubjectId",
+                                                              "ObjectType", "QuestionId", "Key", "Value"))
+                out$AssignmentReviewAction <- emptydf(0, 9, c("AssignmentReviewPolicy", "ActionId", "ActionName", "ObjectId",
+                                                              "ObjectType", "Status", "CompleteTime", "Result", "ErrorCode"))
             }
         }
         if(!is.na(hit.policy)) {
             hit.report <- 
               xmlChildren(xpathApply(xml.parsed, "//HITReviewReport")[[1]])
             if(!is.null(hit.report) && length(hit.report) >= 1) {
-                HITReviewResult <- setNames(data.frame(matrix(
-                    nrow = sum(names(hit.report) == "ReviewResult"), ncol = 7)),
-                    c("HITReviewPolicy", "ActionId", "SubjectId", "ObjectType",
-                    "QuestionId", "Key", "Value"))
-                HITReviewAction <- setNames(data.frame(matrix(
-                    nrow = sum(names(hit.report) == "ReviewAction"), ncol = 9)),
-                    c("HITReviewPolicy", "ActionId", "ActionName", "ObjectId",
-                    "ObjectType", "Status", "CompleteTime", "Result", "ErrorCode"))
+                HITReviewResult <- emptydf(nrow = sum(names(hit.report) == "ReviewResult"), ncol = 7,  
+                                           c("HITReviewPolicy", "ActionId", "SubjectId", "ObjectType",
+                                             "QuestionId", "Key", "Value"))
+                HITReviewAction <- emptydf(nrow = sum(names(hit.report) == "ReviewAction"), ncol = 9,
+                                           c("HITReviewPolicy", "ActionId", "ActionName", "ObjectId",
+                                             "ObjectType", "Status", "CompleteTime", "Result", "ErrorCode"))
                 r <- 1
                 a <- 1
                 for(i in 1:length(hit.report)) {
@@ -556,12 +517,9 @@ as.data.frame.ReviewResults <- function(xml.parsed) {
                 out$HITReviewResult <- HITReviewResult
                 out$HITReviewAction <- HITReviewAction
             } else {
-                out$HITReviewResult <- setNames(data.frame(matrix(nrow = 0, ncol = 7)),
-                    c("HITReviewPolicy", "ActionId", "SubjectId", "ObjectType",
-                    "QuestionId", "Key", "Value"))
-                out$HITReviewAction <- setNames(data.frame(matrix(nrow = 0, ncol = 9)),
-                    c("HITReviewPolicy", "ActionId", "ActionName", "ObjectId",
-                    "ObjectType", "Status", "CompleteTime", "Result", "ErrorCode"))
+                out$HITReviewResult <- emptydf(0, 7, c("HITReviewPolicy", "ActionId", "SubjectId", "ObjectType","QuestionId", "Key", "Value"))
+                out$HITReviewAction <- emptydf(0, 9, c("HITReviewPolicy", "ActionId", "ActionName", "ObjectId",
+                                                       "ObjectType", "Status", "CompleteTime", "Result", "ErrorCode"))
             }
         }
     }
@@ -586,14 +544,7 @@ as.data.frame.BonusPayments <- function(xml.parsed){
         ))
     })
     if(!length(out)){
-        return(setNames(data.frame(matrix(nrow=0, ncol=7)),
-            c("AssignmentId",
-              "WorkerId",
-              "Amount",
-              "CurrencyCode",
-              "FormattedPrice",
-              "Reason",
-              "GrantTime")))
+        return(emptydf(0, 7, c("AssignmentId","WorkerId","Amount","CurrencyCode","FormattedPrice","Reason","GrantTime")))
     } else
         return(do.call(rbind.data.frame,out))
 }
@@ -607,9 +558,7 @@ as.data.frame.WorkerBlock <- function(xml.parsed) {
         ))
     })
     if(!length(out)){
-        return(setNames(data.frame(matrix(nrow=0, ncol=2)),
-            c("WorkerId",
-              "Reason")))
+        return(emptydf(0, 2, c("WorkerId", "Reason")))
     } else
         return(do.call(rbind.data.frame,out))
 }

@@ -9,8 +9,7 @@ function (qual, verbose = getOption('MTurkR.verbose', TRUE), ...) {
             qual <- as.character(qual)
         GETparameters <- paste("&QualificationTypeId=", qual, sep = "")
     }
-    QualificationTypes <- setNames(data.frame(matrix(ncol = 2)),
-                            c("QualificationTypeId", "Valid"))
+    QualificationTypes <- emptydf(0, 2, c("QualificationTypeId", "Valid"))
     request <- request(operation, GETparameters = GETparameters, ...)
     if(is.null(request$valid))
         return(request)

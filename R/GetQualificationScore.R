@@ -10,10 +10,7 @@ function (qual, workers, verbose = getOption('MTurkR.verbose', TRUE), ...) {
         stop("length(qual) != length(workers)")
     if(is.factor(workers))
         workers <- as.character(workers)
-    Qualifications <- 
-        setNames(data.frame(matrix(nrow = length(workers), ncol = 6)),
-                 c("QualificationTypeId", "WorkerId", "GrantTime",
-                   "Value", "Status", "Valid"))
+    Qualifications <- emptydf(length(workers), 6, c("QualificationTypeId", "WorkerId", "GrantTime", "Value", "Status", "Valid"))
     for(i in 1:length(workers)) {
         GETparameters <- paste("&QualificationTypeId=", qual[i], 
             "&SubjectId=", workers[i], sep = "")

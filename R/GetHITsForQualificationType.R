@@ -43,8 +43,7 @@ function (qual, response.group = NULL, return.all = TRUE, pagenumber = 1,
             batch$HITs <- hitlist$HITs
             batch$QualificationRequirements <- hitlist$QualificationRequirements
         } else {
-            batch$HITs <- setNames(data.frame(matrix(nrow = 0, ncol = 19)),
-                                   c("HITId", "HITTypeId", "CreationTime", 
+            batch$HITs <- emptydf(0, 19, c("HITId", "HITTypeId", "CreationTime", 
                                      "Title", "Description", "Keywords", "HITStatus", 
                                      "MaxAssignments", "Amount", 
                                      "AutoApprovalDelayInSeconds", "Expiration", 

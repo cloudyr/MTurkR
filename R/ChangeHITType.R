@@ -46,8 +46,7 @@ function (hit = NULL, old.hit.type = NULL, new.hit.type = NULL,
     } 
     if(length(hitlist) == 0) 
         stop("No HITs found for HITType")
-    HITs <- setNames(data.frame(matrix(ncol = 4, nrow=length(hitlist))),
-                c("HITId", "oldHITTypeId", "newHITTypeId", "Valid"))
+    HITs <- emptydf(length(hitlist), 4, c("HITId", "oldHITTypeId", "newHITTypeId", "Valid"))
     for(i in 1:length(hitlist)) {
         GETparameters <- paste("&HITId=", hitlist[i],
                                "&HITTypeId=", new.hit.type, sep = "")

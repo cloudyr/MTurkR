@@ -18,8 +18,7 @@ function(qual.requests, values, verbose = getOption('MTurkR.verbose', TRUE), ...
             warning("Non-numeric Qualification Value requested for request ", 
                 qual.requests[i], "\n", sep = "")
     }
-    QualificationRequests <- setNames(data.frame(matrix(ncol=3, nrow=length(qual.requests))),
-                                c("QualificationRequestId", "Value", "Valid"))
+    QualificationRequests <- emptydf(length(qual.requests), 3, c("QualificationRequestId", "Value", "Valid"))
     for (i in 1:length(qual.requests)) {
         GETparameters <- paste("&QualificationRequestId=", qual.requests[i], 
             "&IntegerValue=", values[i], sep = "")

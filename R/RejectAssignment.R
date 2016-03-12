@@ -17,8 +17,7 @@ function (assignments, feedback = NULL, verbose = getOption('MTurkR.verbose', TR
         else if(!length(feedback) == length(assignments)) 
             stop("Number of feedback is not 1 nor length(assignmetns)")
     }
-    Assignments <- setNames(data.frame(matrix(nrow = length(assignments), ncol = 3)),
-                    c("AssignmentId", "Feedback", "Valid"))
+    Assignments <- emptydf(length(assignments), 3, c("AssignmentId", "Feedback", "Valid"))
     for(i in 1:length(assignments)) {
         GETparameters <- paste("&AssignmentId=", assignments[i], sep = "")
         if(!is.null(feedback[i])) 

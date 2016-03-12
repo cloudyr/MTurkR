@@ -31,8 +31,7 @@ function(hit = NULL,
     if(length(hitlist) == 0) 
         stop("No HITs found for HITType")
     GETparameters <- paste("&Revert=", revert, sep = "")
-    HITs <- data.frame(matrix(ncol = 3, nrow=length(hitlist)))
-    names(HITs) <- c("HITId", "Status", "Valid")
+    HITs <- emptydf(length(hitlist), 3, c("HITId", "Status", "Valid"))
     for(i in 1:length(hitlist)) {
         GETiteration <- paste(GETparameters, "&HITId=", hitlist[i], sep = "")        
         request <- request(operation, GETparameters = GETiteration, ...)

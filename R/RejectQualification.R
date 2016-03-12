@@ -15,8 +15,7 @@ function (qual.requests, reason = NULL, verbose = getOption('MTurkR.verbose', TR
                 stop("Number of QualificationRequests is not 1 or number of Reasons")
         }
     }
-    QualificationRequests <- setNames(data.frame(matrix(ncol=3, nrow=length(qual.requests))),
-                                c("QualificationRequestId", "Reason", "Valid"))
+    QualificationRequests <- emptydf(length(qual.requests), 3, c("QualificationRequestId", "Reason", "Valid"))
     for(i in 1:length(qual.requests)) {
         GETparameters <- paste("&QualificationRequestId=", qual.requests[i], 
             "&Reason=", curl_escape(reason[i]), sep = "")        

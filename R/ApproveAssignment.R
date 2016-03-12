@@ -38,8 +38,7 @@ function (assignments, feedback = NULL, rejected = FALSE,
         }
         return(request)
     }
-    Assignments <- setNames(data.frame(matrix(nrow=length(assignments), ncol=3)),
-                    c("AssignmentId", "Feedback", "Valid"))
+    Assignments <- emptydf(length(assignments), 3, c("AssignmentId", "Feedback", "Valid"))
     for(i in 1:length(assignments)) {
         x <- batch(assignments[i], feedback[i])
         if (!is.null(feedback)) 

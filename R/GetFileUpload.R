@@ -6,8 +6,7 @@ function(assignment,
          open.file.in.browser = FALSE, 
          verbose = getOption('MTurkR.verbose', TRUE), ...) {
     operation <- "GetFileUploadURL"
-    FileUploadURL <- setNames(data.frame(matrix(nrow = length(assignment), ncol = 4)),
-                        c("Assignment", "questionIdenfier", "RequestURL", "Valid"))
+    FileUploadURL <- emptydf(length(assignment), 4, c("Assignment", "questionIdenfier", "RequestURL", "Valid"))
     for(i in 1:length(assignment)) {
         GETparameters <- paste("&AssignmentId=", curl_escape(assignment), 
                                "&QuestionIdentifier=", curl_escape(questionIdentifier), 

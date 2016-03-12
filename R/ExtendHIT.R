@@ -57,8 +57,7 @@ function(hit = NULL,
     }
     if(length(hitlist) == 0 || is.null(hitlist))
         stop("No HITs found for HITType")
-    HITs <- setNames(data.frame(matrix(ncol=4, nrow=length(hitlist))), 
-                c("HITId", "AssignmentsIncrement", "ExpirationIncrement", "Valid"))
+    HITs <- emptydf(length(hitlist), 4, c("HITId", "AssignmentsIncrement", "ExpirationIncrement", "Valid"))
     for(i in 1:length(hitlist)) {
         GETiteration <- paste(GETparameters, "&HITId=", hitlist[i], sep = "")
         request <- request(operation, GETparameters = GETiteration, ...)

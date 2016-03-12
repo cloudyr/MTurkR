@@ -33,7 +33,7 @@ function (statistic, period = "LifeToDate", count = NULL, response.group = NULL,
     request$period <- period
     if(request$valid == TRUE) {
         if(period == "OneDay" && !is.null(count)) {
-            request$value <- setNames(data.frame(matrix(nrow = count, ncol = 3)), c("Date", "Value", "Statistic"))
+            request$value <- emptydf(count, 3, c("Date", "Value", "Statistic"))
             request$value$Statistic <- statistic
             for (i in 1:count) {
                 request$value[i, 1] <- strsplit(strsplit(request$xml, "<Date>")[[1]][2], "</Date>")[[1]][1]
@@ -52,7 +52,7 @@ function (statistic, period = "LifeToDate", count = NULL, response.group = NULL,
                     message("Statistic (", statistic, ", past ", count, " days) Retrieved")
             }
         } else {
-            request$value <- setNames(data.frame(matrix(nrow = 1, ncol = 3)), c("Date", "Value", "Statistic"))
+            request$value <- emptydf(1, 3, c("Date", "Value", "Statistic"))
             request$value$Statistic <- statistic
             request$value$Date <- strsplit(strsplit(request$xml, "<Date>")[[1]][2], "</Date>")[[1]][1]
             if(statistic %in% value.long) {
@@ -67,6 +67,6 @@ function (statistic, period = "LifeToDate", count = NULL, response.group = NULL,
     } else {
         if(verbose)
             warning("Invalid Request")
-        return(setNames(data.frame(matrix(nrow = 0, ncol = 3)), c("Date", "Value", "Statistic")))
+        return(emptydf(0, 3, c("Date", "Value", "Statistic")))
     }
 }

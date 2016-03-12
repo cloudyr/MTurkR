@@ -103,7 +103,7 @@ function (hit.type = NULL, question = NULL, validate.question = FALSE,
     if(is.null(request$valid))
         return(request)
     if(request$valid) {
-        HITs <- setNames(data.frame(matrix(ncol=3, nrow=1)), c("HITTypeId", "HITId", "Valid"))
+        HITs <- emptydf(1, 3, c("HITTypeId", "HITId", "Valid"))
         hit <- strsplit(strsplit(request$xml, "<HITId>")[[1]][2], "</HITId>")[[1]][1]
         if(is.null(hit.type)) 
             hit.type <- strsplit(strsplit(request$xml, "<HITTypeId>")[[1]][2], "</HITTypeId>")[[1]][1]

@@ -20,8 +20,7 @@ function (qual, worker, reason = NULL, verbose = getOption('MTurkR.verbose', TRU
             return(request)
         return(request)
     }
-    Qualifications <- setNames(data.frame(matrix(ncol=4)),
-                        c("WorkerId", "QualificationTypeId", "Reason", "Valid"))
+    Qualifications <- emptydf(0, 4, c("WorkerId", "QualificationTypeId", "Reason", "Valid"))
     if(length(qual) == 1 & length(worker) == 1) {
         x <- batch(qual[1], worker[1], reason)
         Qualifications[1, ] <- c(worker[1], qual[1], if(!is.null(reason)) reason else "", x$valid)

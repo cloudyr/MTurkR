@@ -60,8 +60,7 @@ function (qual = NULL, workers, value = "1", notify = FALSE, name = NULL,
         qual <- as.character(type$QualificationTypeId)
     }
     qual.value <- value
-    Qualifications <- setNames(data.frame(matrix(ncol=5, nrow=length(workers))),
-        c("WorkerId", "QualificationTypeId", "Value", "Notified", "Valid"))
+    Qualifications <- emptydf(length(workers), 5, c("WorkerId", "QualificationTypeId", "Value", "Notified", "Valid"))
     if(is.null(conditional.statistic)) {
         for(i in 1:length(workers)) {
             x <- batch(workers[i], value)

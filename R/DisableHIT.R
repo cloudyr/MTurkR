@@ -33,7 +33,7 @@ function(hit = NULL,
     }
     if(length(hitlist) == 0) 
         stop("No HITs found for HITType")
-    HITs <- setNames(data.frame(matrix(ncol=2, nrow=length(hitlist))), c("HITId", "Valid"))
+    HITs <- emptydf(length(hitlist), 2, c("HITId", "Valid"))
     for(i in 1:length(hitlist)) {
         GETiteration <- paste("&HITId=", hitlist[i], sep = "")
         if(!is.null(response.group)) {

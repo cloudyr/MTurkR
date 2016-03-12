@@ -11,8 +11,7 @@ function (period = "LifeToDate", verbose = getOption('MTurkR.verbose', TRUE), ..
         "TotalRewardFeePayout", "TotalFeePayout", "TotalRewardAndFeePayout", 
         "TotalBonusPayout", "TotalBonusFeePayout", "EstimatedRewardLiability", 
         "EstimatedFeeLiability", "EstimatedTotalLiability")
-    z <- setNames(data.frame(matrix(nrow = length(statistics), ncol = 2)),
-            c("Statistic", "Value"))
+    z <- emptydf(length(statistics), 2, c("Statistic", "Value"))
     z[, 1] <- statistics
     for(i in 1:20)
         z[i, 2] <- GetStatistic(statistics[i], period = period, ...)

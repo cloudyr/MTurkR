@@ -29,8 +29,7 @@ function (worker, statistic, period = "LifeToDate", count = NULL,
     request$period <- period
     if(request$valid == TRUE) {
         if(!is.null(count) & period == "OneDay") {
-            request$value <- setNames(data.frame(matrix(nrow = count, ncol = 2)),
-                                c("Date", "Value"))
+            request$value <- emptydf(count, 2, c("Date", "Value"))
             for(i in 1:count) {
                 request$value[i, 1] <- strsplit(strsplit(request$xml, 
                     "<Date>")[[1]][2], "</Date>")[[1]][1]

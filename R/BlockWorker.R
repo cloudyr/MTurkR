@@ -15,8 +15,7 @@ function (workers, reasons, verbose = getOption('MTurkR.verbose', TRUE), ...){
         else if(!length(workers) == length(reasons)) 
             stop("length(reasons) must equal length(workers) or 1")
     }
-    Workers <- setNames(data.frame(matrix(ncol = 3, nrow=length(workers))),
-                        c("WorkerId", "Reason", "Valid"))
+    Workers <- emptydf(length(workers), 3, c("WorkerId", "Reason", "Valid"))
     for(i in 1:length(workers)) {
         GETparameters <- paste("&WorkerId=", workers[i],
                                "&Reason=", curl_escape(reasons[i]), sep = "")

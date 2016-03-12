@@ -40,8 +40,7 @@ function(hit = NULL,
                        })
     }
     if(length(assignments)==0){
-        return(setNames(data.frame(matrix(nrow=0, ncol=3)),
-                        c("AssignmentId","Feedback","Valid")))
+        return(emptydf(0, 3, c("AssignmentId","Feedback","Valid")))
     } else {
         request <- ApproveAssignments(assignments,
                                       feedback = feedback, 

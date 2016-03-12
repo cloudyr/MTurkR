@@ -32,8 +32,7 @@ function (title, description, reward, duration, keywords = NULL,
     if(!is.null(qual.req)) 
         GETparameters <- paste(GETparameters, qual.req, sep = "")
     
-    HITType <- setNames(data.frame(matrix(ncol=2,nrow=1)),
-                c("HITTypeId", "Valid"))
+    HITType <- emptydf(1, 2, c("HITTypeId", "Valid"))
     request <- request(operation, GETparameters = GETparameters, ...)
     if(is.null(request$valid))
         return(request)

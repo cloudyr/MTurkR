@@ -35,8 +35,7 @@ function(workers, assignments, amounts, reasons,
         if(any(duplicated(unique.request.token)))
             stop("'unique.request.token' values must be unique")
     }
-    Bonuses <- setNames(data.frame(matrix(nrow = length(workers), ncol = 5)),
-                    c("WorkerId", "AssignmentId", "Amount", "Reason", "Valid"))
+    Bonuses <- emptydf(length(workers), 5, c("WorkerId", "AssignmentId", "Amount", "Reason", "Valid"))
     for(i in 1:length(workers)) {
         GETparameters <- paste("&WorkerId=", workers[i], "&AssignmentId=", 
             assignments[i], "&BonusAmount.1.Amount=", amounts[i], 

@@ -69,11 +69,6 @@ function (qual = NULL, return.all = TRUE, pagenumber = "1", pagesize = "10",
     if(request$total > 0) {
         return(request$QualificationRequests)
     } else {
-        return(setNames(data.frame(matrix(nrow=0, ncol=5)), 
-               c("QualificationRequestId",
-                 "QualificationTypeId",
-                 "SubjectId",
-                 "SubmitTime",
-                 "Answer")))
+        return(emptydf(0, 5, c("QualificationRequestId", "QualificationTypeId", "SubjectId", "SubmitTime", "Answer")))
     }
 }

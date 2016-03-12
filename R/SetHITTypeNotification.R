@@ -14,8 +14,7 @@ function (hit.type, notification = NULL, active = NULL,
         GETparameters <- paste(GETparameters, "&Active=true", sep = "")
     if(!is.null(active) && active == FALSE) 
         GETparameters <- paste(GETparameters, "&Active=false", sep = "")
-    Notification <- setNames(data.frame(matrix(ncol=4, nrow=1)),
-                    c("HITTypeId", "Notification", "Active", "Valid"))
+    Notification <- emptydf(1, 4, c("HITTypeId", "Notification", "Active", "Valid"))
     request <- request(operation, GETparameters = GETparameters, ...)
     if(is.null(request$valid))
         return(request)

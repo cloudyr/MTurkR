@@ -147,8 +147,7 @@ function(operation, GETparameters = NULL,
                 }
                 ParseErrorCodes <- function(xml) {
                     xml.errors <- xpathApply(xmlParse(xml), "//Error")
-                    errors <- setNames(data.frame(matrix(nrow = length(xml.errors), ncol = 2)),
-                                       c("Code", "Message"))
+                    errors <- emptydf(nrow = length(xml.errors), ncol = 2, c("Code", "Message"))
                     for(i in 1:length(xml.errors)) {
                         errors[i,] <- c(xmlValue(xpathApply(xml.errors[[i]], "//Code")[[1]]),
                                         xmlValue(xpathApply(xml.errors[[i]], "//Message")[[1]]))

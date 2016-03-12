@@ -17,7 +17,7 @@ function(qual, verbose = getOption('MTurkR.verbose', TRUE), ...) {
             message("QualificationType Retrieved: ", qual)
     } else if(!request$valid) {
         Qualifications <-
-        setNames(data.frame(matrix(nrow=0, ncol=13)),
+        emptydf(nrow=0, ncol=13,
                  c("QualificationTypeId",
                    "CreationTime",
                    "Name",
@@ -31,8 +31,9 @@ function(qual, verbose = getOption('MTurkR.verbose', TRUE), ...) {
                    "TestDurationInSeconds",
                    "Test",
                    "AnswerKey"))
-        if(verbose)
+        if (verbose) {
             warning("Invalid Request")
+        }
     }
     return(Qualifications)
 }

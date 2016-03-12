@@ -29,8 +29,7 @@ function (qual, workers, values = NULL, increment = NULL,
     }
     else
         stop("Value(s) is/are missing")
-    Qualifications <- data.frame(matrix(nrow = length(workers), ncol = 4))
-    names(Qualifications) <- c("QualificationTypeId", "WorkerId", "Value", "Valid")
+    Qualifications <- emptydf(length(workers), 4, c("QualificationTypeId", "WorkerId", "Value", "Valid"))
     for(i in 1:length(workers)) {
         GETparameters <- paste("&QualificationTypeId=", qual, 
             "&SubjectId=", workers[i], "&IntegerValue=", values[i], sep = "")
