@@ -4,6 +4,11 @@
 
 * Documentation now indicates that `GrantBonus()` allows the `reason` argument to contain newlines and tabs. (#109)
 
+## BUG FIXES ##
+
+* Functions should now all return data.frames with character class columns (unless otherwise noted) with sequentially numbered rownames. This corrects potentially some confusing behavior introduced during XML parsing. (#112)
+
+
 # CHANGES TO MTurkR 0.7 #
 
 ## SIGNIFICANT USER-VISIBLE CHANGES ##
