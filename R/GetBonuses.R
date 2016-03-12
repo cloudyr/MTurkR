@@ -61,7 +61,7 @@ function(assignment = NULL,
                 if (verbose) {
                     message(runningtotal, " Bonuses Retrieved")
                 }
-                return(do.call('rbind',Bonuses))
+                return(setRownames(do.call('rbind',Bonuses)))
             } else {
                 if (verbose) {
                     message(runningtotal, " Bonuses Retrieved")

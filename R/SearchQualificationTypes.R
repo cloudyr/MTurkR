@@ -88,5 +88,5 @@ function (query = NULL, only.mine = TRUE, only.requestable = FALSE,
     } else if (!request$valid[1] & verbose) {
         warning("Invalid Request")
     }
-    return(request$quals)
+    return(setRownames(request$quals))
 }

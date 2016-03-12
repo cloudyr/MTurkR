@@ -77,7 +77,7 @@ function (qual = NULL, return.all = TRUE, pagenumber = "1", pagesize = "10",
         message(request$total, " Requests Retrieved")
     }
     if (request$total > 0) {
-        return(request$QualificationRequests)
+        return(setRownames(request$QualificationRequests))
     } else {
         return(emptydf(0, 5, c("QualificationRequestId", "QualificationTypeId", "SubjectId", "SubmitTime", "Answer")))
     }

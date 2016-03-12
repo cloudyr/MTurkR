@@ -107,7 +107,8 @@ as.data.frame.Assignments <- function(xml.parsed, return.assignment.xml = FALSE)
                             "OtherSelectionField","UploadedFileKey","UploadedFileSizeInBytes"))
     names(values) <- gsub("Combined.Answers.","",names(values),fixed=TRUE)
     assignments <- merge(assignments,values,by="AssignmentId",all=TRUE)
-    return(list(assignments = assignments, answers = answers))
+    return(list(assignments = setRownames(assignments), 
+                answers = answers))
 }
 
 
@@ -194,7 +195,7 @@ as.data.frame.QualificationTypes <- function(xml.parsed) {
                                 "QualificationTypeStatus", "AutoGranted", "AutoGrantedValue", "IsRequestable",
                                 "RetryDelayInSeconds", "TestDurationInSeconds", "Test", "AnswerKey")))
     } else {
-        return(do.call(rbind.data.frame, out))
+        return(setRownames(do.call(rbind.data.frame, out)))
     }
 }
 
@@ -212,7 +213,7 @@ as.data.frame.QualificationRequests <- function(xml.parsed){
     if (!length(out)) {
         return(emptydf(0, 5, c("QualificationRequestId","QualificationTypeId","SubjectId","SubmitTime","Answer")))
     } else {
-        return(do.call("rbind.data.frame", out))
+        return(setRownames(do.call("rbind.data.frame", out)))
     }
 }
 
@@ -413,8 +414,7 @@ as.data.frame.QuestionFormAnswers <- function(xml.parsed) {
         }
         return(out)
     }
-    values <- do.call(rbind,lapply(answers,FUN=convertxml))
-    return(values)
+    return(setRownames(do.call(rbind,lapply(answers,FUN=convertxml))))
 }
 
 
@@ -555,7 +555,7 @@ as.data.frame.BonusPayments <- function(xml.parsed){
     if (!length(out)) {
         return(emptydf(0, 7, c("AssignmentId","WorkerId","Amount","CurrencyCode","FormattedPrice","Reason","GrantTime")))
     } else {
-        return(do.call(rbind.data.frame,out))
+        return(setRownames(do.call(rbind.data.frame,out)))
     }
 }
 
@@ -570,7 +570,7 @@ as.data.frame.WorkerBlock <- function(xml.parsed) {
     if (!length(out)) {
         return(emptydf(0, 2, c("WorkerId", "Reason")))
     } else {
-        return(do.call(rbind.data.frame,out))
+        return(setRownames(do.call(rbind.data.frame,out)))
     }
 }
 

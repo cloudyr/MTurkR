@@ -2,6 +2,14 @@ context("Sandbox Tests")
 
 test_that("Account Balance Check", {
     expect_true(as.numeric(AccountBalance()$balance) == 10000)
+    expect_true(is.numeric(SufficientFunds()$Total))
+})
+
+test_that("RequesterReport", {
+    expect_true(is.data.frame(RequesterReport()))
+})
+test_that("RequesterReport", {
+    expect_true(is.data.frame(WorkerReport("A1RO9UJNWXMU65")))
 })
 
 r <- RegisterHITType(title = "Example HITType",
@@ -50,6 +58,10 @@ test_that("ChangeHITType", {
     expect_true(nrow(ch) == 1)
 })
 
+test_that("SearchHITs", {
+    expect_true(is.data.frame(SearchHITs()$HITs))
+})
+
 test_that("GetAssignments", {
     a <- GetAssignments(hit = h$HITId, sandbox = TRUE)
     expect_true(nrow(a) == 0)
@@ -81,4 +93,8 @@ test_that("UpdateQualificationType", {
 test_that("DisposeQualificationType", {
     dis <- DisposeQualificationType(q1$QualificationTypeId, sandbox = TRUE)
     expect_true(nrow(dis) == 1)
+})
+
+test_that("SearchQualificationTypes", {
+    expect_true(is.data.frame(SearchQualificationTypes()))
 })

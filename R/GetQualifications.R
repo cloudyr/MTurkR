@@ -63,7 +63,7 @@ function (qual, status = NULL, return.all = TRUE, pagenumber = 1,
         message(request$total, " Qualifications Retrieved")
     }
     if (request$total > 0) {
-        return(request$Qualifications)
+        return(setRownames(request$Qualifications))
     } else {
         return(emptydf(0, 5, c("QualificationTypeId", "WorkerId", "GrantTime", "Value", "Status")))
     }

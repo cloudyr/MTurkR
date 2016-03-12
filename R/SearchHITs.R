@@ -124,14 +124,14 @@ function (response.group = NULL, return.all = TRUE, pagenumber = "1",
             }
         }
         if(return.hit.dataframe==TRUE){
-            return.list <- list(HITs = request$HITs,
-                                QualificationRequirements = request$QualificationRequirements)
+            return.list <- list(HITs = setRownames(request$HITs),
+                                QualificationRequirements = setRownames(request$QualificationRequirements))
         } else {
-            return.list <- list(QualificationRequirements = request$QualificationRequirements)
+            return.list <- list(QualificationRequirements = setRownames(request$QualificationRequirements))
         }
     } else {
         if (return.hit.dataframe == TRUE) {
-            return.list <- list(HITs = request$HITs)        
+            return.list <- list(HITs = setRownames(request$HITs))
         } else {
             return.list <- NULL
         }
