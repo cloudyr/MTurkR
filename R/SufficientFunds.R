@@ -12,23 +12,30 @@ function (amount = NULL, assignments = NULL, hits = NULL, bonus.ct = NULL,
     amount <- as.numeric(amount)
     if (!is.null(assignments)) {
         assignments <- as.numeric(assignments)
-        if(assignments >= 10)
+        if (assignments >= 10) {
             turkfee <- .40
+        }
     }
-    if (!is.null(hits)) 
+    if (!is.null(hits)) {
         hits <- as.numeric(hits)
-    if (!is.null(bonus.ct)) 
+    }
+    if (!is.null(bonus.ct)) {
         bonus.ct <- as.numeric(bonus.ct)
-    if (!is.null(bonus.amount)) 
+    }
+    if (!is.null(bonus.amount)) {
         bonus.amount <- as.numeric(bonus.amount)
+    }
     if (!is.null(assignments)) {
-        if (is.null(hits)) 
+        if (is.null(hits)) {
             hits <- 1
+        }
         assign.total <- hits * assignments
         payments <- assign.total * amount
-        if ((turkfee * amount) < turkmin) 
+        if ((turkfee * amount) < turkmin) {
             payment.fee <- turkmin * assign.total
-        else payment.fee <- turkfee * payments
+        } else {
+            payment.fee <- turkfee * payments
+        }
         total <- payments + payment.fee
         if (!is.null(masters) && masters == TRUE) {
             masters.fee <- mastersfee * payments
@@ -36,12 +43,15 @@ function (amount = NULL, assignments = NULL, hits = NULL, bonus.ct = NULL,
         }
     }
     if (!is.null(bonus.amount)) {
-        if (is.null(bonus.ct)) 
+        if (is.null(bonus.ct)) {
             stop("Must supply both 'bonus.amount' and 'bonus.ct'")
+        }
         bonuses <- bonus.ct * bonus.amount
-        if ((turkfee * bonus.amount) < turkmin) 
+        if ((turkfee * bonus.amount) < turkmin) {
             bonus.fee <- turkmin * bonus.ct
-        else bonus.fee <- turkfee * bonuses
+        } else {
+            bonus.fee <- turkfee * bonuses
+        }
         total <- total + bonuses + bonus.fee
     }
     request <- AccountBalance(verbose = FALSE, ...)

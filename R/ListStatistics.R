@@ -37,14 +37,18 @@ function (stat = NULL, value.type = NULL, type = NULL) {
         c("PercentKnownAnswersCorrect", "Double", "GetRequesterWorkerStatistic"), 
         c("PercentPluralityAnswersCorrect", "Double", "GetRequesterWorkerStatistic")),
             stringsAsFactors = FALSE), c("Statistic", "ValueType", "Type"))
-    if(!is.null(stat) & is.null(type) & is.null(value.type)) 
+    if (!is.null(stat) & is.null(type) & is.null(value.type)) {
         return(stats[stat, ])
-    if(is.null(stat) & !is.null(type) & is.null(value.type)) 
+    }
+    if (is.null(stat) & !is.null(type) & is.null(value.type)) {
         return(stats[stats$Type == type,])
-    if(is.null(stat) & is.null(type) & !is.null(value.type)) 
+    }
+    if (is.null(stat) & is.null(type) & !is.null(value.type)) {
         return(stats[stats$ValueType == value.type,])
-    if(is.null(stat) & (!is.null(type) & !is.null(value.type))) 
+    }
+    if (is.null(stat) & (!is.null(type) & !is.null(value.type))) {
         return(stats[stats$Type == type & stats$ValueType == value.type,])
-    else
+    } else {
         return(stats)
+    }
 }

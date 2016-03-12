@@ -8,5 +8,5 @@ function (url, frame.height = 400) {
     return(structure(list(xml.parsed = external, 
                           string = string, 
                           url.encoded = curl_escape(string)),
-                     class='ExternalQuestion'))
+                     class = 'ExternalQuestion'))
 }

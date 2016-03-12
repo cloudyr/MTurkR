@@ -12,8 +12,9 @@ function (qual = NULL) {
         c("Masters (Sandbox)","2ARFPLSP75KLA8M8DH1HTEQVJT3SY6"),
         c("Masters (Production)","2F1QJWKUDD8XADTFD2Q0G6UTO95ALH")
         ), stringsAsFactors = FALSE), c("Qualification", "QualificationTypeId"))
-    if(!is.null(qual)) 
+    if (!is.null(qual)) {
         return(as.character(quals[quals$Qualification == qual, 2]))
-    else
+    } else {
         return(quals)
+    }
 }

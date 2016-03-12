@@ -10,7 +10,7 @@ function(operation, GETparameters = NULL,
     service = "AWSMechanicalTurkRequester",
     version = NULL)
 {
-    if(sandbox) {
+    if (sandbox) {
         host <- "https://mechanicalturk.sandbox.amazonaws.com/"
     } else {
         host <- "https://mechanicalturk.amazonaws.com/"

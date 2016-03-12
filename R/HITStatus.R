@@ -9,11 +9,13 @@ function (hit = NULL,
                             return.all = TRUE,
                             return.qual.dataframe = FALSE, ...)
     HITs <- hitsearch$HITs
-    if(is.null(HITs))
+    if (is.null(HITs)) {
         return(HITs) # return if NULL
-    if(!is.null(hit)){
-        if(is.factor(hit))
+    }
+    if (!is.null(hit)) {
+        if (is.factor(hit)) {
             hit <- as.character(hit)
+        }
         HITs <- HITs[grep(hit, HITs$HITId), ]
         toprint <- HITs[, c("HITId", "HITReviewStatus", "NumberOfAssignmentsPending", 
                             "NumberOfAssignmentsAvailable", "NumberOfAssignmentsCompleted", 
@@ -22,16 +24,18 @@ function (hit = NULL,
         names(toprint) <- c("HITId", "ReviewStatus", "Pending", 
                             "Available", "Completed", "Expiration", "Annotation")
     } else {
-        if(!is.null(hit.type)) {
-            if(is.factor(hit.type))
+        if (!is.null(hit.type)) {
+            if (is.factor(hit.type)) {
                 hit <- as.character(hit.type)
+            }
             HITs <- HITs[HITs$HITTypeId %in% hit.type, ]
-        } else if(!is.null(annotation)){
-            if(is.factor(annotation))
+        } else if (!is.null(annotation)) {
+            if (is.factor(annotation)) {
                 hit <- as.character(annotation)
+            }
             HITs <- HITs[HITs$RequesterAnnotation %in% annotation, ]
         }
-        if(dim(HITs)[1] == 0) {
+        if (dim(HITs)[1] == 0) {
             warning("No HITs found!")
             toprint <- data.frame(HITId = character(),
                                   ReviewStatus = character(),
@@ -45,7 +49,7 @@ function (hit = NULL,
                            "NumberOfAssignmentsAvailable", "NumberOfAssignmentsCompleted",
                            "Expiration", "RequesterAnnotation")]
         toprint$RequesterAnnotation <- ifelse(is.na(toprint$RequesterAnnotation), "", toprint$RequesterAnnotation)
-        if(dim(HITs)[1] > 1) {
+        if (dim(HITs)[1] > 1) {
             totals <- data.frame(HITId = c("------------------------------", "Totals"),
                                  HITReviewStatus = c("------------",""),
                                  NumberOfAssignmentsPending = c("-------",

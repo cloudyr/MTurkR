@@ -15,8 +15,9 @@ function (op = NULL) {
         "SearchHITs", "SearchQualificationTypes", "SendTestEventNotification", 
         "SetHITAsReviewing", "SetHITTypeNotification", "UnblockWorker", 
         "UpdateQualificationScore", "UpdateQualificationType")
-    if(!is.null(op)) 
+    if (!is.null(op)) {
         return(ops[op])
-    else
+    } else {
         return(ops)
+    }
 }
