@@ -101,10 +101,10 @@ as.data.frame.Assignments <- function(xml.parsed, return.assignment.xml = FALSE)
 
     # return answers and merge
     answers <- as.data.frame.QuestionFormAnswers(xml.parsed = xml.parsed)
-    values <- reshape(answers, timevar="QuestionIdentifier",
-                    direction="wide", idvar="AssignmentId",
-                    drop=c( "WorkerId","HITId","FreeText","SelectionIdentifier",
-                            "OtherSelectionField","UploadedFileKey","UploadedFileSizeInBytes"))
+    values <- reshape(answers, timevar = "QuestionIdentifier",
+                      direction = "wide", idvar = "AssignmentId",
+                      drop=c("WorkerId","HITId","FreeText","SelectionIdentifier",
+                             "OtherSelectionField","UploadedFileKey","UploadedFileSizeInBytes"))
     names(values) <- gsub("Combined.Answers.","",names(values),fixed=TRUE)
     assignments <- merge(assignments,values,by="AssignmentId",all=TRUE)
     return(list(assignments = setRownames(assignments), 

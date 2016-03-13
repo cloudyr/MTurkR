@@ -98,10 +98,10 @@ function(assignment = NULL,
             b <- GetBonuses(hit = hitlist[i], return.all = return.all, ...)
             Bonuses[[i]] <- as.data.frame.BonusPayments(xml.parsed = xmlParse(b$xml))
         }
-        out <- do.call('rbind',Bonuses)
+        out <- do.call('rbind.data.frame',Bonuses)
         if (verbose) {
             message(nrow(Bonuses), " Bonuses Retrieved")
         }
-        return(out)
+        return(setRownames(out))
     }
 }

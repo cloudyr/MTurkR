@@ -133,7 +133,7 @@ function (response.group = NULL, return.all = TRUE, pagenumber = "1",
         if (return.hit.dataframe == TRUE) {
             return.list <- list(HITs = setRownames(request$HITs))
         } else {
-            return.list <- NULL
+            return.list <- list()
         }
     }
     if (verbose) {

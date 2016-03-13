@@ -44,13 +44,13 @@ function(hit, response.group = NULL,
         } else if (return.hit.dataframe == FALSE & return.qual.dataframe == TRUE) {
             return.list <- list(QualificationRequirements = z$QualificationRequirements)
         } else {
-            return.list <- NULL
+            return.list <- list()
         }
     } else {
         if (verbose) {
             message("No HITs Retrieved")
         }
-        return.list <- NULL
+        return.list <- list()
     }
     return(return.list)
 }

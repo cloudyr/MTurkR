@@ -83,6 +83,8 @@ function (name, description, status, keywords = NULL, retry.delay = NULL,
         if (verbose) {
             warning("Invalid request")
         }
-        return(NULL)
+        return(emptydf(0, 13, c("QualificationTypeId", "CreationTime", "Name", "Description", "Keywords",
+                                "QualificationTypeStatus", "AutoGranted", "AutoGrantedValue", "IsRequestable",
+                                "RetryDelayInSeconds", "TestDurationInSeconds", "Test", "AnswerKey")))
     }
 }

@@ -144,6 +144,10 @@ if (!inherits(h, "try-error")) {
 
 context("QualificationTypes")
 
+sqt <- SearchQualificationTypes(return.all = TRUE, sandbox = TRUE)
+if ("Example Qualification for Tests" %in% sqt$Name) {
+    DisposeQualificationType(sqt$QualificationTypeId[which(sqt$Name == "Example Qualification for Tests")], sandbox = TRUE)
+}
 q1 <- try(CreateQualificationType(name = "Example Qualification for Tests",
                               description = "empty",
                               status = "Active",
@@ -164,7 +168,7 @@ if (!inherits(q1, "try-error")) {
         u <- UpdateQualificationType(q1$QualificationTypeId, 
                                      description = "new", 
                                      sandbox = TRUE)
-        expect_true(nrow(u) == 1)
+        expect_true(is.data.frame(u))
         g <- GetQualificationType(q1$QualificationTypeId, sandbox = TRUE)
         expect_true(g$Description[1] == "new")
         expect_error(GetQualificationType(sandbox = TRUE))
@@ -184,8 +188,7 @@ if (!inherits(q1, "try-error")) {
     })
 
     test_that("SearchQualificationTypes", {
-        s <- SearchQualificationTypes(sandbox = TRUE)
-        expect_true(is.data.frame(s))
+        expect_true(is.data.frame(SearchQualificationTypes(sandbox = TRUE)))
     })
 
     test_that("DisposeQualificationType", {

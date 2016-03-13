@@ -26,6 +26,6 @@ function (qual, verbose = getOption('MTurkR.verbose', TRUE), ...) {
         if (verbose) {
             warning("Invalid Request\n")
         }
-        return(NULL)
+        return(emptydf(0, 2, c("QualificationTypeId", "Valid")))
     }
 }

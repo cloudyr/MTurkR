@@ -78,8 +78,10 @@ print.SufficientFunds <- function(x, ...){
     cat("-------------------------\n")
     cat("  Old Balance:   ", sprintf('$%0.2f', x$OldBalance), '\n')
     cat("  Total Cost:    ", sprintf('$%0.2f', x$Total), '\n')
-    if (x$NewBalance >= 0)
+    if (x$NewBalance >= 0) {
         cat("  New Balance:   ", sprintf('$%0.2f', x$NewBalance), " < SUFFICIENT FUNDS\n\n")
-    else
+    } else {
         cat("  New Balance:   ", sprintf('$%0.2f', x$NewBalance), " < INSUFFICIENT FUNDS!\n\n")
+    }
+    invisible(x)
 }

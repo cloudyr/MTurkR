@@ -90,9 +90,11 @@ function (qual, description = NULL, status = NULL, retry.delay = NULL,
         if (verbose) {
             message("QualificationType ", QualificationType$QualificationTypeId[1], " Updated")
         }
-        return(QualificationType)
+        return(setRownames(QualificationType))
     } else if (!request$valid & verbose) {
         warning("Invalid Request")
     }
-    return(NULL)
+    return(emptydf(0, 13, c("QualificationTypeId", "CreationTime", "Name", "Description", "Keywords",
+                            "QualificationTypeStatus", "AutoGranted", "AutoGrantedValue", "IsRequestable",
+                            "RetryDelayInSeconds", "TestDurationInSeconds", "Test", "AnswerKey")))
 }

@@ -12,8 +12,9 @@ function(qual, verbose = getOption('MTurkR.verbose', TRUE), ...) {
     }
     if (request$valid) {
         Qualifications <- as.data.frame.QualificationTypes(xml.parsed = xmlParse(request$xml))
-        if(verbose) 
+        if (verbose) {
             message("QualificationType Retrieved: ", qual)
+        }
     } else if (!request$valid) {
         Qualifications <-
         emptydf(nrow=0, ncol=13, c("QualificationTypeId", "CreationTime", "Name", "Description",
