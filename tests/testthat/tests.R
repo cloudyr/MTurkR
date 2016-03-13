@@ -44,146 +44,153 @@ test_that("Question Formats", {
 })
 
 
-r <- RegisterHITType(title = "Example HITType",
+r <- try(RegisterHITType(title = "Example HITType",
                      description = "empty",
                      reward = "0.01", 
                      duration = seconds(seconds = 30), 
                      keywords = "empty", 
-                     sandbox = TRUE)
-test_that("RegisterHITType", {
-    expect_true(nrow(r) == 1)
-})
+                     sandbox = TRUE), silent = TRUE)
 
-test_that("SetHITTypeNotification", {
-    n1 <- GenerateNotification("requester@example.com", event.type = "HITExpired")
-    n2 <- GenerateNotification("https://sqs.us-east-1.amazonaws.com/123456789/Example", 
-                               transport = "SQS", 
-                               event.type = "HITExpired")
-    expect_true(is.character(n1))
-    expect_true(is.character(n2))
-    s1 <- SetHITTypeNotification(hit.type = r$HITTypeId, notification = n1, active = TRUE, sandbox = TRUE)
-    s2 <- SetHITTypeNotification(hit.type = r$HITTypeId, notification = n2, active = TRUE, sandbox = TRUE)
-    expect_true(is.data.frame(s1))
-    expect_true(is.data.frame(s2))
-    s3 <- SetHITTypeNotification(hit.type = r$HITTypeId, notification = n1, active = FALSE, sandbox = TRUE)
-    s4 <- SetHITTypeNotification(hit.type = r$HITTypeId, notification = n2, active = FALSE, sandbox = TRUE)
-    expect_true(is.data.frame(s3))
-    expect_true(is.data.frame(s4))
-    rm(n1)
-    rm(n2)
-    rm(s1)
-    rm(s2)
-    rm(s3)
-    rm(s4)
-})
+if (!inherits(r, "try-error")) {
+    test_that("RegisterHITType", {
+        expect_true(nrow(r) == 1)
+    })
 
-h <- CreateHIT(hit.type = r$HITTypeId,
+    test_that("SetHITTypeNotification", {
+        n1 <- GenerateNotification("requester@example.com", event.type = "HITExpired")
+        n2 <- GenerateNotification("https://sqs.us-east-1.amazonaws.com/123456789/Example", 
+                                   transport = "SQS", 
+                                   event.type = "HITExpired")
+        expect_true(is.character(n1))
+        expect_true(is.character(n2))
+        s1 <- SetHITTypeNotification(hit.type = r$HITTypeId, notification = n1, active = TRUE, sandbox = TRUE)
+        s2 <- SetHITTypeNotification(hit.type = r$HITTypeId, notification = n2, active = TRUE, sandbox = TRUE)
+        expect_true(is.data.frame(s1))
+        expect_true(is.data.frame(s2))
+        s3 <- SetHITTypeNotification(hit.type = r$HITTypeId, notification = n1, active = FALSE, sandbox = TRUE)
+        s4 <- SetHITTypeNotification(hit.type = r$HITTypeId, notification = n2, active = FALSE, sandbox = TRUE)
+        expect_true(is.data.frame(s3))
+        expect_true(is.data.frame(s4))
+        rm(n1)
+        rm(n2)
+        rm(s1)
+        rm(s2)
+        rm(s3)
+        rm(s4)
+    })
+}
+
+h <- try(CreateHIT(hit.type = r$HITTypeId,
                question = GenerateExternalQuestion("https://www.example.com"),
                assignments = 1,
                expiration = seconds(seconds = 30), 
-               sandbox = TRUE)
-test_that("CreateHIT", {
-    expect_true(nrow(h) == 1)
-    expect_true(as.character(r$HITTypeId[1]) == as.character(h$HITTypeId[1]))
-})
+               sandbox = TRUE), silent = TRUE)
 
-test_that("ExtendHIT (assignments)", {
-    e1 <- ExtendHIT(hit = h$HITId, add.assignments = 1, sandbox = TRUE)
-    expect_true(nrow(e1) == 1)
-})
+if (!inherits(h, "try-error")) {
+    test_that("CreateHIT", {
+        expect_true(nrow(h) == 1)
+        expect_true(as.character(r$HITTypeId[1]) == as.character(h$HITTypeId[1]))
+    })
 
-test_that("ExtendHIT (seconds)", {
-    e1 <- ExtendHIT(hit = h$HITId, add.seconds = 3600, sandbox = TRUE)
-    expect_true(nrow(e1) == 1)
-})
+    test_that("ExtendHIT (assignments)", {
+        e1 <- ExtendHIT(hit = h$HITId, add.assignments = 1, sandbox = TRUE)
+        expect_true(nrow(e1) == 1)
+    })
 
-test_that("ExpireHIT", {
-    e2 <- ExpireHIT(hit = h$HITId, sandbox = TRUE)
-    expect_true(nrow(e2) == 1)
-})
+    test_that("ExtendHIT (seconds)", {
+        e1 <- ExtendHIT(hit = h$HITId, add.seconds = 3600, sandbox = TRUE)
+        expect_true(nrow(e1) == 1)
+    })
 
-test_that("ChangeHITType", {
-    r2 <- RegisterHITType(title = "Example HITType 2",
-                          description = "empty",
-                          reward = "0.01", 
-                          duration = seconds(seconds = 30), 
-                          keywords = "empty", 
-                          sandbox = TRUE)
-    ch <- ChangeHITType(hit = h$HITId, new.hit.type = r2$HITTypeId, sandbox = TRUE)
-    expect_true(nrow(ch) == 1)
-})
+    test_that("ExpireHIT", {
+        e2 <- ExpireHIT(hit = h$HITId, sandbox = TRUE)
+        expect_true(nrow(e2) == 1)
+    })
 
-test_that("SearchHITs", {
-    expect_true(is.data.frame(SearchHITs(sandbox = TRUE)$HITs))
-})
+    test_that("ChangeHITType", {
+        r2 <- RegisterHITType(title = "Example HITType 2",
+                              description = "empty",
+                              reward = "0.01", 
+                              duration = seconds(seconds = 30), 
+                              keywords = "empty", 
+                              sandbox = TRUE)
+        ch <- ChangeHITType(hit = h$HITId, new.hit.type = r2$HITTypeId, sandbox = TRUE)
+        expect_true(nrow(ch) == 1)
+    })
 
-test_that("GetReviewableHITs", {
-    expect_true(is.data.frame(GetReviewableHITs(sandbox = TRUE)))
-})
+    test_that("SearchHITs", {
+        expect_true(is.data.frame(SearchHITs(sandbox = TRUE)$HITs))
+    })
 
-test_that("GetAssignments", {
-    a <- GetAssignments(hit = h$HITId, sandbox = TRUE)
-    expect_true(nrow(a) == 0)
-})
+    test_that("GetReviewableHITs", {
+        expect_true(is.data.frame(GetReviewableHITs(sandbox = TRUE)))
+    })
 
-test_that("GetHIT", {
-    expect_true(is.data.frame(GetHIT(hit = h$HITId, sandbox = TRUE)$HITs))
-})
+    test_that("GetAssignments", {
+        a <- GetAssignments(hit = h$HITId, sandbox = TRUE)
+        expect_true(nrow(a) == 0)
+    })
 
-test_that("DisposeHIT", {
-    d <- DisposeHIT(hit = h$HITId, sandbox = TRUE)
-    expect_true(nrow(d) == 1)
-})
+    test_that("GetHIT", {
+        expect_true(is.data.frame(GetHIT(hit = h$HITId, sandbox = TRUE)$HITs))
+    })
 
+    test_that("DisposeHIT", {
+        d <- DisposeHIT(hit = h$HITId, sandbox = TRUE)
+        expect_true(nrow(d) == 1)
+    })
+}
 
 
 context("QualificationTypes")
 
-q1 <- CreateQualificationType(name = "Example Qualification for Tests",
+q1 <- try(CreateQualificationType(name = "Example Qualification for Tests",
                               description = "empty",
                               status = "Active",
                               keywords = "none", 
-                              sandbox = TRUE)
-test_that("CreateQualificationType", {
-    expect_true(nrow(q1) == 1)
-})
+                              sandbox = TRUE), silent = TRUE)
 
-test_that("GetHITsForQualificationType", {
-    expect_true(is.data.frame(GetHITsForQualificationType(qual = q1$QualificationTypeId, sandbox = TRUE)$HITs))
-    expect_error(GetHITsForQualificationType(sandbox = TRUE))
-})
+if (!inherits(q1, "try-error")) {
+    test_that("CreateQualificationType", {
+        expect_true(nrow(q1) == 1)
+    })
 
-test_that("UpdateQualificationType", {
-    u <- UpdateQualificationType(q1$QualificationTypeId, 
-                                 description = "new", 
-                                 sandbox = TRUE)
-    expect_true(nrow(u) == 1)
-    g <- GetQualificationType(q1$QualificationTypeId, sandbox = TRUE)
-    expect_true(g$Description[1] == "new")
-    expect_error(GetQualificationType(sandbox = TRUE))
-})
+    test_that("GetHITsForQualificationType", {
+        expect_true(is.data.frame(GetHITsForQualificationType(qual = q1$QualificationTypeId, sandbox = TRUE)$HITs))
+        expect_error(GetHITsForQualificationType(sandbox = TRUE))
+    })
 
-test_that("AssignQualification", {
-    expect_true(is.data.frame(AssignQualification(q1$QualificationTypeId, workers = "A1RO9UJNWXMU65", sandbox = TRUE)))
-})
+    test_that("UpdateQualificationType", {
+        u <- UpdateQualificationType(q1$QualificationTypeId, 
+                                     description = "new", 
+                                     sandbox = TRUE)
+        expect_true(nrow(u) == 1)
+        g <- GetQualificationType(q1$QualificationTypeId, sandbox = TRUE)
+        expect_true(g$Description[1] == "new")
+        expect_error(GetQualificationType(sandbox = TRUE))
+    })
 
-test_that("UpdateQualificationScore", {
-    expect_true(is.data.frame(UpdateQualificationScore(q1$QualificationTypeId, workers = "A1RO9UJNWXMU65", values = 2, sandbox = TRUE)))
-    expect_true(is.data.frame(UpdateQualificationScore(q1$QualificationTypeId, workers = "A1RO9UJNWXMU65", increment = 1, sandbox = TRUE)))
-})
+    test_that("AssignQualification", {
+        expect_true(is.data.frame(AssignQualification(q1$QualificationTypeId, workers = "A1RO9UJNWXMU65", sandbox = TRUE)))
+    })
 
-test_that("RevokeQualification", {
-    expect_true(is.data.frame(RevokeQualification(q1$QualificationTypeId, worker = "A1RO9UJNWXMU65", sandbox = TRUE)))
-})
+    test_that("UpdateQualificationScore", {
+        expect_true(is.data.frame(UpdateQualificationScore(q1$QualificationTypeId, workers = "A1RO9UJNWXMU65", values = 2, sandbox = TRUE)))
+        expect_true(is.data.frame(UpdateQualificationScore(q1$QualificationTypeId, workers = "A1RO9UJNWXMU65", increment = 1, sandbox = TRUE)))
+    })
 
-test_that("SearchQualificationTypes", {
-    s <- SearchQualificationTypes(sandbox = TRUE)
-    expect_true(is.data.frame(s))
-})
+    test_that("RevokeQualification", {
+        expect_true(is.data.frame(RevokeQualification(q1$QualificationTypeId, worker = "A1RO9UJNWXMU65", sandbox = TRUE)))
+    })
 
-test_that("DisposeQualificationType", {
-    dis <- DisposeQualificationType(q1$QualificationTypeId, sandbox = TRUE)
-    expect_true(nrow(dis) == 1)
-    expect_error(DisposeQualificationType(sandbox = TRUE))
-})
+    test_that("SearchQualificationTypes", {
+        s <- SearchQualificationTypes(sandbox = TRUE)
+        expect_true(is.data.frame(s))
+    })
 
+    test_that("DisposeQualificationType", {
+        dis <- DisposeQualificationType(q1$QualificationTypeId, sandbox = TRUE)
+        expect_true(nrow(dis) == 1)
+        expect_error(DisposeQualificationType(sandbox = TRUE))
+    })
+}
