@@ -84,5 +84,5 @@ function (qual, response.group = NULL, return.all = TRUE, pagenumber = 1,
         message(request$total, " HITs Retrieved")
     }
     return(list(HITs = setRownames(request$HITs),
-                QualificationRequirements = setRownames(request$QualificationRequirements)))
+                QualificationRequirements = request$QualificationRequirements))
 }
