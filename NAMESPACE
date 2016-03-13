@@ -184,7 +184,7 @@ export("BulkCreateFromHITLayout")
 
 # imports
 importFrom(utils, browseURL, download.file, menu, tail, read.delim,
-                  write.table, write.csv, packageDescription)
+                  write.table, write.csv, packageDescription, type.convert)
 importFrom(stats, setNames, reshape)
 importFrom(digest, hmac)
 importFrom(base64enc, base64encode)
