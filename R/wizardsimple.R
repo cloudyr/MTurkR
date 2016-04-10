@@ -7,24 +7,35 @@ function (graphics = FALSE, sandbox = NULL, ...)
     if (class(internet.test) == "try-error") {
         message("An internet connection does not appear to be available!\n")
     }
-    keypair <- getOption('MTurkR.keypair')
-    if (is.null(keypair)) {
+    setKeypair <- function() {
         message("Retrieve your AWS access keys from https://aws-portal.amazon.com/gp/aws/securityCredentials")
         accesskey <- readline(prompt = "AWS/MTurk Access Key ID: ")
         secretkey <- readline(prompt = "AWS/MTurk Secret Access Key: ")
-        keypair <- c(accesskey, secretkey)
-        credentials(keypair)
+        Sys.setenv("AWS_ACCESS_KEY_ID" = accesskey)
+        Sys.setenv("AWS_SECRET_ACCESS_KEY" = secretkey)
+        return(NULL)
+    }
+    accesskey <- Sys.getenv("AWS_ACCESS_KEY_ID")
+    secretkey <- Sys.getenv("AWS_SECRET_ACCESS_KEY")
+    if (accesskey == "") {
+        setKeypair()
     }
     else {
-        message("Your current MTurk Credentials are: ",
-                paste(keypair, collapse = "\n"))
+        message("Your AWS/MTurk Access Key ID is: ", accesskey)
+        message("Your AWS/MTurk Secret Access Key is: ", secretkey)
+        resetkeys <- readline(prompt = "Set new credentials? (Y/N): ")
+        if (tolower(resetkeys) %in% c("y", "ye", "yes", "true", "1", TRUE)) {
+            setKeypair()
+        } 
     }
-    if (is.null(sandbox)) 
+    if (is.null(sandbox)) {
         sandbox <- readline(prompt = "Use Sandbox? (Y/N): ")
-    if (sandbox %in% c("Yes", "YES", "yes", "TRUE", "true", "True", "1", TRUE)) 
+    }
+    if (tolower(sandbox) %in% c("y", "ye", "yes", "true", "1", TRUE)) {
         options(MTurkR.sandbox = TRUE)
-    else
+    } else {
         options(MTurkR.sandbox = FALSE)
+    }
     wizard.menu <- function() {
         menu.opts <- c("Check Account Balance", "Check Sufficient Funds", 
             "Create HIT", "Check HIT Status", "Get Assignment(s)", 

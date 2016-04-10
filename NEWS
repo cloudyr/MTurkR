@@ -10,6 +10,7 @@
 
 ## BUG FIXES ##
 
+* The simple wizard now correctly respects AWS credentials specified as environment variables instead of the deprecated `credentials()` function. (h/t Kim Gross)
 * Functions should now all return data.frames with character class columns (unless otherwise noted) with sequentially numbered rownames. This corrects potentially some confusing behavior introduced during XML parsing. (#112)
 
 
