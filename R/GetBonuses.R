@@ -95,8 +95,7 @@ function(assignment = NULL,
         }
         Bonuses <- list()
         for (i in 1:length(hitlist)) {
-            b <- GetBonuses(hit = hitlist[i], return.all = return.all, ...)
-            Bonuses[[i]] <- as.data.frame.BonusPayments(xml.parsed = xmlParse(b$xml))
+          Bonuses[[i]] <- GetBonuses(hit = hitlist[i], return.all = return.all, ...)
         }
         out <- do.call('rbind.data.frame',Bonuses)
         if (verbose) {
