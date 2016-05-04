@@ -6,6 +6,7 @@
 
 ## DOCUMENTATION ##
 
+* Added two papers (one from *The Political Methodologist* and one from *The R Journal*) as supplemental PDF documentation, accessible via `? MTurkR`. (#93)
 * Documentation now indicates that `GrantBonus()` allows the `reason` argument to contain newlines and tabs. (#109)
 
 ## BUG FIXES ##
