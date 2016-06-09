@@ -12,23 +12,23 @@ Possible applications of the package include:
  * Audio and video transcription
  * Preprocessing of "messy" data prior to statistical procedures
 
-The MTurkR documentation files contain minimal examples for all functions. Further examples of how to use MTurkR are provided in [the MTurkR GitHub wiki](https://github.com/leeper/MTurkR/wiki). Users can contribute their own examples or further documentation there, or via pull requests to the GitHub repository.
+The MTurkR documentation files contain minimal examples for all functions. Further examples of how to use MTurkR are provided in [the MTurkR GitHub wiki](https://github.com/cloudyr/MTurkR/wiki). Users can contribute their own examples or further documentation there, or via pull requests to the GitHub repository.
 
 Using MTurkR requires setting two environment variables: `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY`. Specify them on the command-line before initializing the R session, or use `Sys.setenv()` within R, or place these values in an `.Renviron` or `Rprofile.site` file. (Note: Environment variables are more secure than the `credentials()` function or `options("MTurkR.keypair")` from earlier versions of MTurkR.)
 
-As a supplemental feature to MTurkR, there is also a graphical user interface available for the package. A simple, command-line version of this is available using the `wizard.simple()` function in MTurkR. A more advanced GUI, built using Tcl/Tk, is available in [**MTurkRGUI**](https://github.com/leeper/MTurkRGUI) package.
+As a supplemental feature to MTurkR, there is also a graphical user interface available for the package. A simple, command-line version of this is available using the `wizard.simple()` function in MTurkR. A more advanced GUI, built using Tcl/Tk, is available in [**MTurkRGUI**](https://github.com/cloudyr/MTurkRGUI) package.
 
 If you experience problems using MTurkR, you can:
   
-  - [Report issues on GitHub](https://github.com/leeper/MTurkR/issues)
+  - [Report issues on GitHub](https://github.com/cloudyr/MTurkR/issues)
   - Contact the package maintainer [via email](mailto:thosjleeper@gmail.com) or on [Twitter](https://twitter.com/thosjleeper)
 
 ## Installation ##
 
 [![CRAN Version](http://www.r-pkg.org/badges/version/MTurkR)](http://cran.r-project.org/package=MTurkR)
 ![Downloads](http://cranlogs.r-pkg.org/badges/MTurkR)
-[![Travis-CI Build Status](https://travis-ci.org/leeper/MTurkR.png?branch=master)](https://travis-ci.org/leeper/MTurkR)
-[![codecov.io](http://codecov.io/github/leeper/MTurkR/coverage.svg?branch=master)](http://codecov.io/github/leeper/MTurkR?branch=master)
+[![Travis-CI Build Status](https://travis-ci.org/cloudyr/MTurkR.png?branch=master)](https://travis-ci.org/cloudyr/MTurkR)
+[![codecov.io](http://codecov.io/github/cloudyr/MTurkR/coverage.svg?branch=master)](http://codecov.io/github/cloudyr/MTurkR?branch=master)
 
 To install the latest version from CRAN, simply use:
 
@@ -46,7 +46,7 @@ install.packages("MTurkR", repos = c(getOption("repos"), "http://cloudyr.github.
 if(!require("ghit")){
     install.packages("ghit")
 }
-ghit::install_github("leeper/MTurkR")
+ghit::install_github("cloudyr/MTurkR")
 ```
 
 
