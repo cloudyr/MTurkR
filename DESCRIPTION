@@ -13,5 +13,5 @@ Imports: utils, stats, curl, digest, base64enc, XML
 Suggests: testthat
 Description: Provides programmatic access to the Amazon Mechanical Turk (MTurk) Requester API.
 License: GPL-2
-URL: https://github.com/leeper/MTurkR
-BugReports: https://github.com/leeper/MTurkR/issues
+URL: https://github.com/cloudyr/MTurkR
+BugReports: https://github.com/cloudyr/MTurkR/issues
