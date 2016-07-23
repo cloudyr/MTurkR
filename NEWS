@@ -11,6 +11,7 @@
 
 ## BUG FIXES ##
 
+* Fixed a bug in `BulkCreateFromHITLayout()` that caused the function to fail. (#114, h/t Tyler Scott)
 * Fixed a bug in trying to parse already parsed response for `GetBonuses()`. (#113, h/t Andrew Brown)
 * The simple wizard now correctly respects AWS credentials specified as environment variables instead of the deprecated `credentials()` function. (h/t Kim Gross)
 * Functions should now all return data.frames with character class columns (unless otherwise noted) with sequentially numbered rownames. This corrects potentially some confusing behavior introduced during XML parsing. (#112)

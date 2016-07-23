@@ -77,14 +77,14 @@ BulkCreateFromHITLayout <- function(hitlayoutid, input, annotation, verbose = FA
         if (!"hit.type" %in% names(a)) {
             HITs[[i]] <- CreateHIT(hitlayoutid = hitlayoutid, 
                                hitlayoutparameters = 
-                                 GenerateHITLayoutParameter(names = NULL, 
+                                 GenerateHITLayoutParameter(names = names(input), 
                                                             values = unlist(input[i,,drop=TRUE])), 
                                annotation = annotation[i], 
                                hit.type = register$HITTypeId, verbose = verbose, ...)
         } else {
             HITs[[i]] <- CreateHIT(hitlayoutid = hitlayoutid, 
                                hitlayoutparameters = 
-                                 GenerateHITLayoutParameter(names = NULL, 
+                                 GenerateHITLayoutParameter(names = names(input), 
                                                             values = unlist(input[i,,drop=TRUE])), 
                                annotation = annotation[i], verbose = verbose, ...)
         }
