@@ -1,6 +1,6 @@
 Package: MTurkR
-Version: 0.7.10
-Date: 2016-07-23
+Version: 0.7.11
+Date: 2016-07-26
 Title: R Client for the MTurk Requester API
 Authors@R: c(person("Thomas J.", "Leeper", role = c("aut", "cre"),
                     email = "thosjleeper@gmail.com"),

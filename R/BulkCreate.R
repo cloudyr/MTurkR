@@ -49,7 +49,7 @@ BulkCreateFromTemplate <- function(template, input, annotation, type = "HTMLQues
 }
 
 BulkCreateFromURLs <- function(url, frame.height = 450, annotation, verbose = FALSE, ...) {
-    if (length(annotation) != 1) {
+    if (length(annotation) == 1) {
         annotation <- rep(annotation[1], length(url))
     }
     questions <- lapply(url, GenerateExternalQuestion, frame.height = frame.height)
@@ -59,7 +59,7 @@ BulkCreateFromURLs <- function(url, frame.height = 450, annotation, verbose = FA
 
 BulkCreateFromHITLayout <- function(hitlayoutid, input, annotation, verbose = FALSE, ...) {
     HITs <- list()
-    if (length(annotation) != 1) {
+    if (length(annotation) == 1) {
         annotation <- rep(annotation[1], nrow(input))
     }
     a <- list(...)
