@@ -1,6 +1,7 @@
 language: r
+r_github_packages:
+- cloudyr/travisci
 r_packages:
-- travisci
 - covr
 - drat
 after_success:
