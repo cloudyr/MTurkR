@@ -1,9 +1,8 @@
 language: r
-sudo: required
-r_github_packages:
-- cloudyr/travisci
-- jimhester/covr
-- eddelbuettel/drat
+r_packages:
+- travisci
+- covr
+- drat
 after_success:
 - test $TRAVIS_PULL_REQUEST == "false" && test $TRAVIS_BRANCH == "master" && bash drat.sh
 - Rscript -e "covr::codecov()"
