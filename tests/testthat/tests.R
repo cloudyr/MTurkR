@@ -23,11 +23,11 @@ test_that("RequesterReport", {
 Sys.sleep(1)
 
 
-context("Workers")
+#context("Workers")
 
-test_that("GetBlockedWorkers", {
-    expect_true(is.data.frame(GetBlockedWorkers(sandbox = TRUE)))
-})
+#test_that("GetBlockedWorkers", {
+#    expect_true(is.data.frame(GetBlockedWorkers(sandbox = TRUE)))
+#})
 
 
 Sys.sleep(1)
