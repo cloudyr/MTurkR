@@ -40,14 +40,14 @@ function (name, description, status, keywords = NULL, retry.delay = NULL,
                     warning("'answerkey' object does not validate against MTurk schema")
                     return(validation)
                 }
-            }
-            t.temp <- as.character(unique(as.data.frame.QuestionForm(xmlParse(test))$Question$QuestionIdentifier))
-            a.temp <- as.character(unique(as.data.frame.AnswerKey(xmlParse(answerkey))$Questions$QuestionIdentifier))
-            if (!sum(a.temp %in% t.temp) == length(a.temp)) {
-                stop("One or more QuestionIdentifiers in AnswerKey not in QuestionForm")
-            }
-            if (!sum(t.temp %in% a.temp) == length(t.temp)) {
-                stop("One or more QuestionIdentifiers in QuestionForm not in AnswerKey")
+                t.temp <- as.character(unique(as.data.frame.QuestionForm(xmlParse(test))$Question$QuestionIdentifier))
+                a.temp <- as.character(unique(as.data.frame.AnswerKey(xmlParse(answerkey))$Questions$QuestionIdentifier))
+                if (!sum(a.temp %in% t.temp) == length(a.temp)) {
+                    stop("One or more QuestionIdentifiers in AnswerKey not in QuestionForm")
+                }
+                if (!sum(t.temp %in% a.temp) == length(t.temp)) {
+                    stop("One or more QuestionIdentifiers in QuestionForm not in AnswerKey")
+                }
             }
             GETparameters <- paste(GETparameters, "&AnswerKey=", 
                                    curl_escape(answerkey), sep = "")
