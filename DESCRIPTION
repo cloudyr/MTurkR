@@ -11,7 +11,7 @@ Authors@R: c(person("Thomas J.", "Leeper", role = c("aut", "cre"),
 Maintainer: Thomas J. Leeper <thosjleeper@gmail.com>
 Imports: utils, stats, curl, digest, base64enc, XML
 Suggests: testthat
-Description: Provides programmatic access to the Amazon Mechanical Turk (MTurk) Requester API.
+Description: Provides programmatic access to the Amazon Mechanical Turk (MTurk) <https://www.mturk.com/mturk/welcome> Requester API.
 License: GPL-2
 URL: https://github.com/cloudyr/MTurkR
 BugReports: https://github.com/cloudyr/MTurkR/issues
