@@ -25,10 +25,10 @@ If you experience problems using MTurkR, you can:
 
 ## Installation ##
 
-[![CRAN Version](http://www.r-pkg.org/badges/version/MTurkR)](http://cran.r-project.org/package=MTurkR)
-![Downloads](http://cranlogs.r-pkg.org/badges/MTurkR)
+[![CRAN Version](https://www.r-pkg.org/badges/version/MTurkR)](https://cran.r-project.org/package=MTurkR)
+![Downloads](https://cranlogs.r-pkg.org/badges/MTurkR)
 [![Travis-CI Build Status](https://travis-ci.org/cloudyr/MTurkR.png?branch=master)](https://travis-ci.org/cloudyr/MTurkR)
-[![codecov.io](http://codecov.io/github/cloudyr/MTurkR/coverage.svg?branch=master)](http://codecov.io/github/cloudyr/MTurkR?branch=master)
+[![codecov.io](https://codecov.io/github/cloudyr/MTurkR/coverage.svg?branch=master)](https://codecov.io/github/cloudyr/MTurkR?branch=master)
 
 To install the latest version from CRAN, simply use:
 
@@ -43,7 +43,7 @@ To install the latest development version of **MTurkR** from GitHub:
 install.packages("MTurkR", repos = c(getOption("repos"), "http://cloudyr.github.io/drat"))
 
 # latest (unstable) version from GitHub
-if(!require("ghit")){
+if (!require("ghit")) {
     install.packages("ghit")
 }
 ghit::install_github("cloudyr/MTurkR")

@@ -3,15 +3,14 @@ statistic <-
 function (statistic, period = "LifeToDate", count = NULL, response.group = NULL, 
     verbose = getOption('MTurkR.verbose', TRUE), ...) {
     operation <- "GetRequesterStatistic"
-    value.long <- c("NumberAssignmentsAvailable", "NumberAssignmentsAccepted", 
-                    "NumberAssignmentsPending", "NumberAssignmentsApproved", 
-                    "NumberAssignmentsRejected", "NumberAssignmentsReturned", 
-                    "NumberAssignmentsAbandoned", "NumberHITsCreated", "NumberHITsCompleted", 
+    value.long <- c("NumberAssignmentsPending", "NumberAssignmentsApproved", 
+                    "NumberAssignmentsRejected", "NumberAssignmentsAbandoned", 
+                    "NumberHITsCreated", "NumberHITsCompleted", 
                     "NumberHITsAssignable", "NumberHITsReviewable")
     value.double <- c("PercentAssignmentsApproved", "PercentAssignmentsRejected", 
                       "TotalRewardPayout", "AverageRewardAmount", "TotalRewardFeePayout", 
-                      "TotalFeePayout", "TotalRewardAndFeePayout", "TotalBonusPayout", 
-                      "TotalBonusFeePayout", "EstimatedRewardLiability", "EstimatedFeeLiability", 
+                      "TotalBonusPayout", "TotalBonusFeePayout", 
+                      "EstimatedRewardLiability", "EstimatedFeeLiability", 
                       "EstimatedTotalLiability")
     if (!statistic %in% value.long & !statistic %in% value.double) {
         stop("Statistic not valid")

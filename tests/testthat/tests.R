@@ -9,13 +9,13 @@ test_that("Account Balance Check", {
 Sys.sleep(1)
 
 test_that("RequesterReport", {
-    expect_true(is.data.frame(RequesterReport()))
-    expect_true(is.data.frame(WorkerReport("A1RO9UJNWXMU65", period = "OneDay", sandbox = TRUE)))
+    expect_true(is.data.frame(RequesterReport(sandbox = TRUE)))
+    expect_true(is.data.frame(RequesterReport(period = "OneDay", sandbox = TRUE)))
 })
 
 Sys.sleep(1)
 
-test_that("RequesterReport", {
+test_that("WorkerReport", {
     expect_true(is.data.frame(WorkerReport("A1RO9UJNWXMU65", sandbox = TRUE)))
     expect_true(is.data.frame(WorkerReport("A1RO9UJNWXMU65", period = "OneDay", sandbox = TRUE)))
 })

@@ -1,12 +1,9 @@
 ListStatistics <-
 function (stat = NULL, value.type = NULL, type = NULL) {
     stats <- setNames(as.data.frame(rbind(
-        c("NumberAssignmentsAvailable", "Long", "GetRequesterStatistic"),
-        c("NumberAssignmentsAccepted", "Long", "GetRequesterStatistic"),
         c("NumberAssignmentsPending", "Long", "GetRequesterStatistic"),
         c("NumberAssignmentsApproved", "Long", "GetRequesterStatistic"),
         c("NumberAssignmentsRejected", "Long", "GetRequesterStatistic"),
-        c("NumberAssignmentsReturned", "Long", "GetRequesterStatistic"),
         c("NumberAssignmentsAbandoned", "Long", "GetRequesterStatistic"),
         c("NumberHITsCreated", "Long", "GetRequesterStatistic"),
         c("NumberHITsCompleted", "Long", "GetRequesterStatistic"),
@@ -17,8 +14,6 @@ function (stat = NULL, value.type = NULL, type = NULL) {
         c("TotalRewardPayout", "Double", "GetRequesterStatistic"),
         c("AverageRewardAmount", "Double", "GetRequesterStatistic"),
         c("TotalRewardFeePayout", "Double", "GetRequesterStatistic"),
-        c("TotalFeePayout", "Double", "GetRequesterStatistic"), 
-        c("TotalRewardAndFeePayout", "Double", "GetRequesterStatistic"), 
         c("TotalBonusPayout", "Double", "GetRequesterStatistic"), 
         c("TotalBonusFeePayout", "Double", "GetRequesterStatistic"), 
         c("EstimatedRewardLiability", "Double", "GetRequesterStatistic"), 

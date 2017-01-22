@@ -47,7 +47,7 @@ Retrieve a specific requester or worker statistic. The list of available statist
 }
 \examples{
 \dontrun{
-GetStatistic("NumberHITsSubmitted","OneDay")
+GetStatistic("NumberHITsCompleted","OneDay")
 RequesterReport("ThirtyDays")
 GetWorkerStatistic("A1RO9UJNWXMU65","PercentHITsApproved","LifeToDate")
 WorkerReport("A1RO9UJNWXMU65","SevenDays")
