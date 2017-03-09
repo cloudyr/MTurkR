@@ -60,16 +60,17 @@ function(assignment = NULL,
             if (request$valid) {
                 a <- as.data.frame.Assignments(xml.parsed = xmlParse(request$xml))$assignments
                 a$Answer <- NULL
-                if(i == 1)
+                if (i == 1) {
                     Assignments <- a
-                else
+                } else {
                     Assignments <- merge(Assignments, a, all=TRUE)
-                if(verbose) 
+                }
+                if (isTRUE(verbose)) {
                     message(i, ": Assignment ", assignment[i], " Retrieved")
+                }
             }
         }
-        return(Assignments)#, HITs = HITs, 
-            #QualificationRequirements = QualificationRequirements))
+        return(Assignments)
     } else {
         operation <- "GetAssignmentsForHIT"
         if (!is.null(hit)) {
@@ -147,12 +148,12 @@ function(assignment = NULL,
                 request$total <- request$total + nextrequest$total
                 if (return.assignment.dataframe == TRUE) {
                     request$assignments <- merge(request$assignments, 
-                                                 nextrequest$assignments, all=TRUE)
+                                                 nextrequest$assignments, all = TRUE)
                 }
                 request$pages.returned <- pagenumber
                 runningtotal <- nextrequest$batch.total
             }
-            if (return.all == TRUE) {
+            if (isTRUE(return.all)) {
                 pagenumber <- 2
                 while (request$total > runningtotal) {
                     nextbatch <- batch(hitlist[i], pagenumber)
@@ -161,7 +162,7 @@ function(assignment = NULL,
                     }
                     if (return.assignment.dataframe == TRUE) {
                          request$assignments <- merge(request$assignments, 
-                                                      nextbatch$assignments, all=TRUE)
+                                                      nextbatch$assignments, all = TRUE)
                     }
                     request$pages.returned <- pagenumber
                     runningtotal <- runningtotal + nextbatch$batch.total
@@ -170,10 +171,16 @@ function(assignment = NULL,
             }
             cumulative <- cumulative + runningtotal
             request$batch.total <- NULL
-            if(!is.null(hit.type))
-                 request$assignments["HITTypeId"] <- hit.type
         }
-        if (verbose) {
+        if (nrow(request$assignments) > 0) {
+            if (!is.null(hit.type)) {
+                request$assignments["HITTypeId"] <- hit.type
+            }
+            if (!is.null(annotation)) {
+                request$assignments["RequesterAnnotation"] <- annotation
+            }
+        }
+        if (isTRUE(verbose)) {
             message(cumulative, " of ", request$total, " Assignments Retrieved")
         }
         return(request$assignments)

@@ -1,3 +1,9 @@
+# CHANGES TO MTurkR 0.9
+
+## BUG FIXES
+
+* Fixed a bug wherein `GetAssignments()` would error when requesting HITs by HITTypeId and one of the HITs had no assignments. (h/t Tobias Heinrich)
+
 # CHANGES TO MTurkR 0.8
 
 ## SIGNIFICANT USER-VISIBLE CHANGES
