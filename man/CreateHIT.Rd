@@ -72,7 +72,7 @@ When creating a ExternalQuestion HITs, the \code{\link{GenerateHITsFromTemplate}
 \examples{
 \dontrun{
 ## CreateHIT using HITLayout from MTurk Requester User Interface ##
-a <- GenerateLayoutParameter("message","Text to display in HIT")
+a <- GenerateHITLayoutParameter("message","Text to display in HIT")
 hit1 <- CreateHIT(hit.type = "2FFNCWYB49F9BBJWA4SJUNST5OFSOW",
                   hitlayoutid = "23ZGOOGQSCM61T1H5H9U0U00OQWFFU", 
                   expiration = seconds(days = 4),
