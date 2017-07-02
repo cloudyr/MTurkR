@@ -10,7 +10,7 @@ after_success:
 - test $TRAVIS_PULL_REQUEST == "false" && test $TRAVIS_BRANCH == "master" && bash
   drat.sh
 - Rscript -e "covr::codecov()"
-- Rscript -e "travisci::restart_last_build('leeper/MTurkRGUI')"
+- Rscript -e "travisci::restart_last_build('cloudyr/MTurkRGUI')"
 env:
   global:
   - secure: Lgb6SLbbSWBaHiBHsdrRbq3MgvMbu/5Iv1VCjDqLu4vw9wzBmFHryYy6kBCHwTWjopYu7h8lDrb2U45SZxWgHX9cL0ubn3z6HW5UzWIRcpRDQ1H5oEeKzlCrEiG9CxsELXame2yq5+46GLpLrUZyEA4aLXvXlhKx9ds2uxxpAlA=
