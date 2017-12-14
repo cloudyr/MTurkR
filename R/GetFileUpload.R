@@ -8,7 +8,7 @@ function(assignment,
     operation <- "GetFileUploadURL"
     FileUploadURL <- emptydf(length(assignment), 4, c("Assignment", "questionIdenfier", "RequestURL", "Valid"))
     for (i in 1:length(assignment)) {
-        GETparameters <- paste("&AssignmentId=", curl_escape(assignment), 
+        GETparameters <- paste("&AssignmentId=", curl_escape(assignment[i]), 
                                "&QuestionIdentifier=", curl_escape(questionIdentifier), 
                                sep = "")        
         request <- request(operation, GETparameters = GETparameters, ...)
@@ -24,9 +24,7 @@ function(assignment,
             if (isTRUE(open.file.in.browser)) {
                 browseURL(u)
             } else if (isTRUE(download)) {
-                download.file(u, paste(questionIdentifier, "_", 
-                                       assignment, "_", basename(u), 
-                                       sep = ""), mode = "wb")
+                download.file(u, paste(assignment[i], "_", questionIdentifier, sep = ""), mode = "wb")
             }
         } else if (isTRUE(verbose)) {
             message("Request for Assignment ", assignment[i], " failed")
