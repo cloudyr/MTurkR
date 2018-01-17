@@ -8,8 +8,8 @@ function(xml.parsed,
     hit.xml <- xpathApply(xml.parsed, "//HIT")
     if (!is.null(length(hit.xml))) {
         quals <- list()
-        HITs <- emptydf(length(hit.xml), 19, c("HITId", "HITTypeId", "CreationTime", 
-            "Title", "Description", "Keywords", "HITStatus", 
+        HITs <- emptydf(length(hit.xml), 20, c("HITId", "HITTypeId", "HITGroupId", 
+            "CreationTime", "Title", "Description", "Keywords", "HITStatus", 
             "MaxAssignments", "Amount", "AutoApprovalDelayInSeconds", 
             "Expiration", "AssignmentDurationInSeconds", "NumberOfSimilarHITs", 
             "HITReviewStatus", "RequesterAnnotation", "NumberOfAssignmentsPending", 
@@ -19,25 +19,26 @@ function(xml.parsed,
             q <- xpathApply(xml.parsed, "//HIT")[[i]]
             HITs[i, 1] <- xmlValue(xmlChildren(q)$HITId)
             HITs[i, 2] <- xmlValue(xmlChildren(q)$HITTypeId)
-            HITs[i, 3] <- xmlValue(xmlChildren(q)$CreationTime)
-            HITs[i, 4] <- xmlValue(xmlChildren(q)$Title)
-            HITs[i, 5] <- xmlValue(xmlChildren(q)$Description)
-            HITs[i, 6] <- xmlValue(xmlChildren(q)$Keywords)
-            HITs[i, 7] <- xmlValue(xmlChildren(q)$HITStatus)
-            HITs[i, 8] <- xmlValue(xmlChildren(q)$MaxAssignments)
+            HITs[i, 3] <- xmlValue(xmlChildren(q)$HITGroupId)
+            HITs[i, 4] <- xmlValue(xmlChildren(q)$CreationTime)
+            HITs[i, 5] <- xmlValue(xmlChildren(q)$Title)
+            HITs[i, 6] <- xmlValue(xmlChildren(q)$Description)
+            HITs[i, 7] <- xmlValue(xmlChildren(q)$Keywords)
+            HITs[i, 8] <- xmlValue(xmlChildren(q)$HITStatus)
+            HITs[i, 9] <- xmlValue(xmlChildren(q)$MaxAssignments)
             if (!is.null(xmlChildren(q)$Reward)) {
-                HITs[i, 9] <- xmlValue(xmlChildren(xmlChildren(q)$Reward)$Amount)
+                HITs[i, 10] <- xmlValue(xmlChildren(xmlChildren(q)$Reward)$Amount)
             }
-            HITs[i, 10] <- xmlValue(xmlChildren(q)$AutoApprovalDelayInSeconds)
-            HITs[i, 11] <- xmlValue(xmlChildren(q)$Expiration)
-            HITs[i, 12] <- xmlValue(xmlChildren(q)$AssignmentDurationInSeconds)
-            HITs[i, 13] <- xmlValue(xmlChildren(q)$NumberOfSimilarHITs)
-            HITs[i, 14] <- xmlValue(xmlChildren(q)$HITReviewStatus)
-            HITs[i, 15] <- xmlValue(xmlChildren(q)$RequesterAnnotation)
-            HITs[i, 16] <- xmlValue(xmlChildren(q)$NumberOfAssignmentsPending)
-            HITs[i, 17] <- xmlValue(xmlChildren(q)$NumberOfAssignmentsAvailable)
-            HITs[i, 18] <- xmlValue(xmlChildren(q)$NumberOfAssignmentsCompleted)
-            HITs[i, 19] <- xmlValue(xmlChildren(q)$Question)
+            HITs[i, 11] <- xmlValue(xmlChildren(q)$AutoApprovalDelayInSeconds) 
+            HITs[i, 12] <- xmlValue(xmlChildren(q)$Expiration) 
+            HITs[i, 13] <- xmlValue(xmlChildren(q)$AssignmentDurationInSeconds) 
+            HITs[i, 14] <- xmlValue(xmlChildren(q)$NumberOfSimilarHITs) 
+            HITs[i, 15] <- xmlValue(xmlChildren(q)$HITReviewStatus) 
+            HITs[i, 16] <- xmlValue(xmlChildren(q)$RequesterAnnotation) 
+            HITs[i, 17] <- xmlValue(xmlChildren(q)$NumberOfAssignmentsPending) 
+            HITs[i, 18] <- xmlValue(xmlChildren(q)$NumberOfAssignmentsAvailable) 
+            HITs[i, 19] <- xmlValue(xmlChildren(q)$NumberOfAssignmentsCompleted) 
+            HITs[i, 20] <- xmlValue(xmlChildren(q)$Question) 
             if (return.qual.list == TRUE) {
                 quals.nodeset <- xpathApply(xml.parsed, paste("//HIT[", i,
                     "]/QualificationRequirement", sep = ""))
