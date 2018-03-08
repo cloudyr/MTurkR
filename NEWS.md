@@ -3,6 +3,7 @@
 ## BUG FIXES
 
 * Fixed a bug wherein `GetAssignments()` would error when requesting HITs by HITTypeId and one of the HITs had no assignments. (h/t Tobias Heinrich)
+* Fixed a bug in `GetBonuses()` that created weird behavior when `pagenumber` was specified along with `return.all = TRUE`. (#123)
 
 # CHANGES TO MTurkR 0.8
 

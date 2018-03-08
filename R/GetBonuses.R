@@ -38,23 +38,27 @@ function(assignment = NULL,
             obj <- assignment
             type <- 'assign'
         }
-        request <- batch(type, obj, pagenumber)
+        if (return.all) {
+            request <- batch(type, obj, page = 1)
+        } else {
+            request <- batch(type, obj, pagenumber)
+        }
         if (is.null(request$valid)) {
             return(request)
         }
         if (request$valid) {
-            runningtotal <- strsplit(strsplit(request$xml, 
-                    "<NumResults>")[[1]][2], "</NumResults>")[[1]][1]
+            runningtotal <- as.numeric(strsplit(strsplit(request$xml, 
+                    "<NumResults>")[[1]][2], "</NumResults>")[[1]][1])
             if (return.all) {
-                total <- strsplit(strsplit(request$xml, "<TotalNumResults>")[[1]][2], "</TotalNumResults>")[[1]][1]
+                total <- as.numeric(strsplit(strsplit(request$xml, "<TotalNumResults>")[[1]][2], "</TotalNumResults>")[[1]][1])
                 Bonuses <- list()
                 Bonuses[[1]] <- as.data.frame.BonusPayments(xml.parsed = xmlParse(request$xml))
                 pagenumber <- 2
-                while (total > runningtotal){
+                while (total > 0 && total > runningtotal){
                     nextbatch <- batch(type, obj, pagenumber)
                     Bonuses[[pagenumber]] <- as.data.frame.BonusPayments(xml.parsed = xmlParse(nextbatch$xml))
-                    batch_total <- strsplit(strsplit(nextbatch$xml, 
-                        "<NumResults>")[[1]][2], "</NumResults>")[[1]][1]
+                    batch_total <- as.numeric(strsplit(strsplit(nextbatch$xml, 
+                        "<NumResults>")[[1]][2], "</NumResults>")[[1]][1])
                     runningtotal <- runningtotal + batch_total
                     pagenumber <- pagenumber + 1
                 }
