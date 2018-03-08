@@ -78,9 +78,6 @@ export("ExtendHIT")
 export("GetAssignment")
 export("GetAssignments")
 
-export("geturls")
-export("GetFileUpload")
-
 export("hit")
 export("gethit")
 export("GetHIT")

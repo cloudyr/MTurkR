@@ -5,7 +5,7 @@ function (op = NULL) {
         "CreateHIT", "CreateQualificationType", "DisableHIT", 
         "DisposeHIT", "DisposeQualificationType", "ExtendHIT", 
         "ForceExpireHIT", "GetAccountBalance", "GetAssignmentsForHIT", 
-        "GetBlockedWorkers", "GetBonusPayments", "GetFileUploadURL", 
+        "GetBlockedWorkers", "GetBonusPayments", 
         "GetHIT", "GetHITsForQualificationType", "GetQualificationsForQualificationType", 
         "GetQualificationRequests", "GetQualificationScore", 
         "GetQualificationType", "GetRequesterStatistic", "GetRequesterWorkerStatistic", 

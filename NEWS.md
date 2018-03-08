@@ -1,5 +1,9 @@
 # CHANGES TO MTurkR 0.9
 
+## SIGNIFICANT USER-VISIBLE CHANGES
+
+* The `GetFileUploadUrls` API endpoint was removed. As such the `GetFileUpload()` function has been removed. (#125)
+
 ## BUG FIXES
 
 * Fixed a bug wherein `GetAssignments()` would error when requesting HITs by HITTypeId and one of the HITs had no assignments. (h/t Tobias Heinrich)
