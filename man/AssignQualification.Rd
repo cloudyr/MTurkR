@@ -39,7 +39,7 @@ AssignQualification(qual, workers, value = "1", notify = FALSE,
   \item{...}{Additional arguments passed to \code{\link{request}}.}
 }
 \details{
-A very robust function to assign a Qualification to one or more workers. The simplest use of the function is to assign a Qualification of the specified value to one worker, but assignment to multiple workers is possible. Workers can be assigned a Qualification previously created by \code{\link{CreateQualificationType}} or with the characteristics of a new QualificationType specified atomically. Qualifications can also be assigned conditional on each worker's value of a specified statistic (including assigning the value of the specified statistic as the worker's score for the Qualification).
+A very robust function to assign a Qualification to one or more workers. The simplest use of the function is to assign a Qualification of the specified value to one worker, but assignment to multiple workers is possible. Workers can be assigned a Qualification previously created by \code{\link{CreateQualificationType}}, with the characteristics of a new QualificationType specified atomically, or a QualificationTypeID for a qualification created in the MTurk RUI. Qualifications can also be assigned conditional on each worker's value of a specified statistic (including assigning the value of the specified statistic as the worker's score for the Qualification).
 
 \code{AssignQualifications()} and \code{assignqual()} are aliases.
 }
