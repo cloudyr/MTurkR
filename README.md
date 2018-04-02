@@ -43,10 +43,10 @@ To install the latest development version of **MTurkR** from GitHub:
 install.packages("MTurkR", repos = c(getOption("repos"), "http://cloudyr.github.io/drat"))
 
 # latest (unstable) version from GitHub
-if (!require("ghit")) {
-    install.packages("ghit")
+if (!require("remotes")) {
+    install.packages("remotes")
 }
-ghit::install_github("cloudyr/MTurkR")
+remotes::install_github("cloudyr/MTurkR")
 ```
 
 
